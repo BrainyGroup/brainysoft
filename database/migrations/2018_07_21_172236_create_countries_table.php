@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStatutoryTypesTable extends Migration
+class CreateCountriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateStatutoryTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('statutory_types', function (Blueprint $table) {
+        Schema::create('countries', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
+            $table->string('name');          
         });
     }
 
@@ -26,6 +26,6 @@ class CreateStatutoryTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('statutory_types');
+        Schema::dropIfExists('countries');
     }
 }

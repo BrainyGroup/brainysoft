@@ -27,7 +27,7 @@ class CreateUsersTable extends Migration
             $table->string('lastnanme');
             $table->string('photo');
             $table->date('dob');
-            $table->string('mobile');
+            $table->string('mobile')->unique();;
             $table->rememberToken();
             $table->timestamps();
         });

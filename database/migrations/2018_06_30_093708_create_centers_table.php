@@ -18,8 +18,7 @@ class CreateCentersTable extends Migration
             $table->integer('company_id')->unsigned()->foreign()->references('id')->on('companies');
             $table->string('name');
             $table->string('number');
-            $table->text('description');
-            $table->integer('user_id')->unsigned()->foreign()->references('id')->on('users');
+            $table->text('description');          
             $table->timestamps();
         });
     }

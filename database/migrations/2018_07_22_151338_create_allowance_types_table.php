@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAllowancesTable extends Migration
+class CreateAllowanceTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateAllowancesTable extends Migration
      */
     public function up()
     {
-        Schema::create('allowances', function (Blueprint $table) {
+        Schema::create('allowance_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->decimal('amount',11,2);
-            $table->integer('employee_id')->unsigned()->foreign()->references('id')->on('employees');
-            $table->integer('allowance_type_id')->unsigned()->foreign()->references('id')->on('allowance_types');
+            $table->string('name');
+            $table->string('description');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateAllowancesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('allowances');
+        Schema::dropIfExists('allowance_types');
     }
 }

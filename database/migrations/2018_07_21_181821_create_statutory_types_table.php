@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAllowanceEmployeesTable extends Migration
+class CreateStatutoryTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateAllowanceEmployeesTable extends Migration
      */
     public function up()
     {
-        Schema::create('allowance__employees', function (Blueprint $table) {
+        Schema::create('statutory_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('employee_id');
-            $table->decimal('amount',9,2);
-            $table->timestamps();
+            $table->string('name');
+            $table->string('description');          
         });
     }
 
@@ -28,6 +27,6 @@ class CreateAllowanceEmployeesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('allowance__employees');
+        Schema::dropIfExists('statutory_types');
     }
 }

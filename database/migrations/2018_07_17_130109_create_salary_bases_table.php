@@ -16,7 +16,7 @@ class CreateSalaryBasesTable extends Migration
         Schema::create('salary_bases', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('description')
+            $table->string('description');
             $table->timestamps();
         });
     }

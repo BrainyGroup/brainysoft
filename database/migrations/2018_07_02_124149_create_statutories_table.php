@@ -23,8 +23,8 @@ class CreateStatutoriesTable extends Migration
             $table->decimal('employer',4,3); //Employer ratio
             $table->decimal('total',4,3); //Total ratio
             $table->date('date_required'); //Date to be filled
-            $table->integer('statutory_type_id')->unsigned()->foreign()->references('id')->on('organizations');  //HI,WCF or NSF
-            $table->integer('base_id')->unsigned()->foreign()->references('id')->on('organizations');
+            $table->integer('statutory_type_id')->unsigned()->foreign()->references('id')->on('statutory_types');  //HI,WCF or NSF
+            $table->integer('base_id')->unsigned()->foreign()->references('id')->on('salary_bases');
             $table->timestamps();
         });
     }
