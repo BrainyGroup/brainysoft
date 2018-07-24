@@ -17,12 +17,10 @@ class CreateSalariesTable extends Migration
             $table->increments('id');
             $table->integer('company_id')->unsigned()->foreign()->references('id')->on('companies');
             $table->integer('scale_id')->unsigned()->foreign()->references('id')->on('scales');
-            $table->integer('center_id')->unsigned()->foreign()->references('id')->on('centers'); 
+            $table->integer('center_id')->unsigned()->foreign()->references('id')->on('centers');
             $table->integer('user_id')->unsigned()->foreign()->references('id')->on('users');
             $table->integer('employee_id')->unsigned()->foreign()->references('id')->on('employees');
-            $table->decimal('amount',9,2);
-            $table->string('accountnumber');
-            $table->integer('bank_id')->unsigned()->foreign()->references('id')->on('banks');
+            $table->decimal('amount',9,2);            
             $table->timestamps();
         });
     }

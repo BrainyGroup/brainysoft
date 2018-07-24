@@ -22,6 +22,8 @@ class EmployeesTableSeeder extends Seeder
               'scales_id' => 1,
               'startdate' => '2011-01-01',
               'enddate' => '2080-01-01',
+              'accountnumber' => '1111111',
+              'bank_id' => 2,
               'created_at' =>now(),
               'updated_at' =>now(),
           ]);
@@ -35,6 +37,8 @@ class EmployeesTableSeeder extends Seeder
               'scales_id' => 1,
               'startdate' => '2011-01-01',
               'enddate' => '2080-01-01',
+              'accountnumber' => '53379113731',
+              'bank_id' => 1,
               'created_at' =>now(),
               'updated_at' =>now(),
           ]);
@@ -48,6 +52,8 @@ class EmployeesTableSeeder extends Seeder
               'scales_id' => 1,
               'startdate' => '2011-01-01',
               'enddate' => '2080-01-01',
+              'accountnumber' => '53379113731',
+              'bank_id' => 1,
               'created_at' =>now(),
               'updated_at' =>now(),
           ]);
@@ -61,6 +67,8 @@ class EmployeesTableSeeder extends Seeder
               'scales_id' => 1,
               'startdate' => '2011-01-01',
               'enddate' => '2080-01-01',
+              'accountnumber' => '53379113731',
+              'bank_id' => 1,
               'created_at' =>now(),
               'updated_at' =>now(),
             ]);
@@ -74,6 +82,8 @@ class EmployeesTableSeeder extends Seeder
               'scales_id' => 1,
               'startdate' => '2011-01-01',
               'enddate' => '2080-01-01',
+              'accountnumber' => '53379113731',
+              'bank_id' => 1,
               'created_at' =>now(),
               'updated_at' =>now(),
             ]);
@@ -87,6 +97,8 @@ class EmployeesTableSeeder extends Seeder
           'scales_id' => 1,
           'startdate' => '2011-01-01',
           'enddate' => '2080-01-01',
+          'accountnumber' => '53379113731',
+          'bank_id' => 1,
           'created_at' =>now(),
           'updated_at' =>now(),
             ]);
@@ -100,6 +112,8 @@ class EmployeesTableSeeder extends Seeder
           'scales_id' => 1,
           'startdate' => '2011-01-01',
           'enddate' => '2080-01-01',
+          'accountnumber' => '53379113731',
+          'bank_id' => 1,
           'created_at' =>now(),
           'updated_at' =>now(),
             ]);
@@ -114,6 +128,8 @@ class EmployeesTableSeeder extends Seeder
           'scales_id' => 1,
           'startdate' => '2011-01-01',
           'enddate' => '2080-01-01',
+          'accountnumber' => '53379113731',
+          'bank_id' => 1,
           'created_at' =>now(),
           'updated_at' =>now(),
             ]);
@@ -127,10 +143,12 @@ class EmployeesTableSeeder extends Seeder
           'scales_id' => 1,
           'startdate' => '2011-01-01',
           'enddate' => '2080-01-01',
+          'accountnumber' => '53379113731',
+          'bank_id' => 1,
           'created_at' =>now(),
           'updated_at' =>now(),
             ]);
 
-        
+
     }
 }

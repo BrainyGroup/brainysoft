@@ -21,6 +21,8 @@ class CreateEmployeesTable extends Migration
             $table->integer('company_id')->unsigned()->foreign()->references('id')->on('companies');
             $table->integer('center_id')->unsigned()->foreign()->references('id')->on('centers');
             $table->integer('scales_id')->unsigned()->foreign()->references('id')->on('scales');
+            $table->string('accountnumber');
+            $table->integer('bank_id')->unsigned()->foreign()->references('id')->on('banks');
             $table->date('startdate');
             $table->date('enddate');
             $table->timestamps();

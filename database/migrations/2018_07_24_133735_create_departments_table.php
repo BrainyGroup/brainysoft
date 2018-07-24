@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePayesTable extends Migration
+class CreateDepartmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,9 @@ class CreatePayesTable extends Migration
      */
     public function up()
     {
-        Schema::create('payes', function (Blueprint $table) {
+        Schema::create('departments', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('country_id')->unsigned()->foreign()->references('id')->on('countries');
-            $table->decimal('minimum',12,2);
-            $table->decimal('maximum',12,2);
-            $table->decimal('ratio',4,3);
-            $table->decimal('offset',9,2);
             $table->timestamps();
-
         });
     }
 
@@ -32,6 +26,6 @@ class CreatePayesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payes');
+        Schema::dropIfExists('departments');
     }
 }

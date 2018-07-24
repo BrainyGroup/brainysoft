@@ -10,8 +10,25 @@ class Salary extends Model
       'amount',
     ];
 
+
     public  function employee()
     {
-		    return $this->belongsTo('App\Employee');
+
+		    return $this->belongsTo(Employee:class);
+
 	   }
+
+     public  function scale()
+     {
+
+ 		    return $this->belongsTo(Scale:class);
+
+ 	   }
+
+     public  function center()
+     {
+
+ 		    return $this->belongsTo(Center:class);
+
+ 	   }
 }
