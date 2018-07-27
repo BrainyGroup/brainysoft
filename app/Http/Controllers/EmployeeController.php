@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 Use App\Employee;
 Use App\User;
+use DB;
 
 class EmployeeController extends Controller
 {
@@ -16,7 +17,10 @@ class EmployeeController extends Controller
     public function index()
     {
 
-        $employees = Employee::all();
+       $employees= DB::table('users','employees','departments')
+       ->join('employees', 'users.id', '=', 'employees.user_id')
+       ->join('salaries', 'users.id', '=','salaries.user_id')      
+       ->where('employees.company_id',1)->get();
 
         return view('employees.index')->with('employees', $employees);
     }

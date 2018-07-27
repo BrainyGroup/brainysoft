@@ -16,11 +16,13 @@ class BanksTableSeeder extends Seeder
       DB::table('banks')->insert([
               'name' => 'Exim Bank',
               'description' => 'Exim Bank',
+              'company_id' => 1,
           ]);
 
       DB::table('banks')->insert([
               'name' => 'CRDB Bank',
-              'description' => 'CRDB Bank',
+              'description' => 'CRDB Bank',            
+              'company_id' => 1,
           ]);
     }
 }

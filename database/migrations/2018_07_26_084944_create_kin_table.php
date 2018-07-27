@@ -17,6 +17,9 @@ class CreateKinTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('description');
+            $table->integer('user_id')->unsigned()->foreign()->references('id')->on('users');
+            $table->integer('employee_id')->unsigned()->foreign()->references('id')->on('employees');
+            $table->integer('company_id')->unsigned()->foreign()->references('id')->on('companies');
             $table->timestamps();
         });
     }

@@ -18,6 +18,8 @@ class CreateDeductionsTable extends Migration
             $table->decimal('amount',11,2);
             $table->integer('employee_id')->unsigned()->foreign()->references('id')->on('employees');
             $table->integer('deduction_type_id')->unsigned()->foreign()->references('id')->on('deduction_types');
+            $table->integer('user_id')->unsigned()->foreign()->references('id')->on('users');
+            $table->integer('company_id')->unsigned()->foreign()->references('id')->on('companies');
             $table->timestamps();
         });
     }

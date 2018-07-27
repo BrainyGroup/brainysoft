@@ -15,7 +15,7 @@ class CreatePayesTable extends Migration
     {
         Schema::create('payes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('country_id')->unsigned()->foreign()->references('id')->on('countries');
+            $table->integer('country_id')->unsigned()->foreign()->references('id')->on('countries');          
             $table->decimal('minimum',12,2);
             $table->decimal('maximum',12,2);
             $table->decimal('ratio',4,3);

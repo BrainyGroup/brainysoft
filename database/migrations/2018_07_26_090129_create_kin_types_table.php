@@ -16,7 +16,8 @@ class CreateKinTypesTable extends Migration
         Schema::create('kin_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('description');
+            $table->string('description');          
+            $table->integer('company_id')->unsigned()->foreign()->references('id')->on('companies');
             $table->timestamps();
         });
     }

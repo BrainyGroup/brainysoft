@@ -15,8 +15,10 @@ class CreateContributionsTable extends Migration
     {
         Schema::create('contributions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');          
+            $table->string('name');
             $table->integer('employee_id')->unsigned()->foreign()->references('id')->on('employees');
+            $table->integer('user_id')->unsigned()->foreign()->references('id')->on('users');
+            $table->integer('company_id')->unsigned()->foreign()->references('id')->on('companies');
             $table->decimal('employee',4,3); //Employee ratio
             $table->decimal('employer',4,3); //Employer ratio
             $table->decimal('total',4,3); //Total ratio

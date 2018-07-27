@@ -16,23 +16,27 @@ class Statutory_typesTableSeeder extends Seeder
       DB::table('statutory_types')->insert([
               'name' => 'SSF',
               'description' => 'Social Security Fund',
+              'company_id' => 1,
           ]);
 
       DB::table('statutory_types')->insert([
               'name' => 'HI',
               'description' => 'Health Insurance',
+              'company_id' => 1,
           ]);
 
 
       DB::table('statutory_types')->insert([
               'name' => 'WCF',
               'description' => 'Worker Compasation Fund',
+              'company_id' => 1,
           ]);
 
 
       DB::table('statutory_types')->insert([
               'name' => 'SDL',
               'description' => 'School Development Levy',              
+              'company_id' => 1,
           ]);
     }
 }
