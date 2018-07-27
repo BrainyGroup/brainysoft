@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Kin_type;
 use Illuminate\Http\Request;
-Use App\Employee;
-Use App\User;
 
-class EmployeeController extends Controller
+class KinTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,10 +14,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-
-        $employees = Employee::all();
-
-        return view('employees.index')->with('employees', $employees);
+        //
     }
 
     /**
@@ -28,7 +24,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        return view('employees.create');
+        //
     }
 
     /**
@@ -45,10 +41,10 @@ class EmployeeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Kin_type  $kin_type
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Kin_type $kin_type)
     {
         //
     }
@@ -56,10 +52,10 @@ class EmployeeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Kin_type  $kin_type
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Kin_type $kin_type)
     {
         //
     }
@@ -68,10 +64,10 @@ class EmployeeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Kin_type  $kin_type
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Kin_type $kin_type)
     {
         //
     }
@@ -79,10 +75,10 @@ class EmployeeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Kin_type  $kin_type
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Kin_type $kin_type)
     {
         //
     }

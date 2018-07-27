@@ -17,8 +17,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//Employee routes
+Route::get('/employees', 'EmployeeController@index');
+
+Route::get('/employees/create', 'EmployeeController@create');
+
+Route::post('/employees', 'EmployeeController@store');
+
 
 Route::get('/pay', 'PayController@store');
+
+Route::get('/employee', 'EmployeeController@create');
 
 
 

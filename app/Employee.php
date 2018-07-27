@@ -69,4 +69,25 @@ class Employee extends Model
  		     return $this->hasMany(Deduction::class);
 
  	   }
+
+     public function kins()
+      {
+
+          return $this->hasMany(Kin::class);
+
+      }
+
+     public function level()
+     {
+
+       return $this->belongsTo(Level::class);
+
+     }
+
+     public function department()
+     {
+
+       return $this->belongsTo(Department::class);
+
+     }
 }

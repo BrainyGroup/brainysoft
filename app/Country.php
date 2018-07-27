@@ -31,10 +31,10 @@ class Country extends Model
     }
 
 
-    public function country()
+    public function employees()
     {
 
-      return $this->belongsTo(Country::class);
+      return $this->hasMany(Employee::class);
 
     }
 }

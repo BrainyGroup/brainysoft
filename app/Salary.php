@@ -31,4 +31,11 @@ class Salary extends Model
  		    return $this->belongsTo(Center:class);
 
  	   }
+
+     public  function company()
+     {
+
+         return $this->belongsTo(Company:class);
+
+      }
 }

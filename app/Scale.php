@@ -21,4 +21,11 @@ class Scale extends Model
 
   }
 
+  public function employee()
+  {
+
+    return $this->hasMany(Employee::class);
+
+  }
+
 }

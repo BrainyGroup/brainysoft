@@ -43,6 +43,23 @@ class User extends Authenticatable
 
     }
 
+    public function employee()
+    {
+
+      return $this->hasOne(Employee::class);
+
+    }
+
+
+    public function country()
+    {
+
+      return $this->belongsTo(Country::class);
+
+    }
+
+
+
 
 
 }

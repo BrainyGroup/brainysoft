@@ -38,6 +38,13 @@ class Company extends Model
 
     }
 
+    public function salaries()
+    {
+
+      return $this->hasMany(Salary::class);
+
+    }
+
     public function statutory_types()
     {
 
