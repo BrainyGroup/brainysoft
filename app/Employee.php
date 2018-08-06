@@ -70,6 +70,18 @@ class Employee extends Model
 
  	   }
 
+     public function statutories()
+ 	   {
+
+ 		     return $this->belongsToMany(Statutory::class)
+
+         ->withPivot('company_id')
+
+    	   ->withTimestamps();
+
+ 	   }
+
+
      public function kins()
       {
 

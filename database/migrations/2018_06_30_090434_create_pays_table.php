@@ -16,8 +16,7 @@ class CreatePaysTable extends Migration
         Schema::create('pays', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('company_id')->unsigned()->foreign()->references('id')->on('companies');
-            $table->integer('employee_id')->unsigned()->foreign()->references('id')->on('employees');
-            $table->integer('user_id')->unsigned()->foreign()->references('id')->on('users');
+            $table->integer('employee_id')->unsigned()->foreign()->references('id')->on('employees');            
             $table->date('run_date');
             $table->decimal('salary',11,2);
             $table->decimal('nsf_employee',11,2);

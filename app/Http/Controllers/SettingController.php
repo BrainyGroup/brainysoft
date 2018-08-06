@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Setting;
+
+use App\Company;
+
 class SettingController extends Controller
 {
     /**
@@ -13,7 +17,12 @@ class SettingController extends Controller
      */
     public function index()
     {
-        //
+
+        $company = Company::find(1);
+
+        $settings = Setting::where('company_id', $company->id)->get();
+
+        return view('settings.home', compact('settings'));
     }
 
     /**
@@ -23,7 +32,7 @@ class SettingController extends Controller
      */
     public function create()
     {
-        //
+        return view('settings.create');
     }
 
     /**
@@ -34,7 +43,20 @@ class SettingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+      $employee = Employee::find(auth()->user()->id);
+
+      $setting = new Setting;
+
+      $setting->name = request('name');
+
+      $setting->description = request('description');
+
+      $setting->company_id = $employee->company_id;
+
+      $setting->save();
+
+      return back();
     }
 
     /**

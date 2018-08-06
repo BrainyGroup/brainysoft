@@ -3,7 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Organization;
+
 use Illuminate\Http\Request;
+
+use App\Company;
+
+use App\Employee;
+
+use App\Bank;
+
+use App\Statutory_type;
 
 class OrganizationController extends Controller
 {
@@ -14,7 +23,27 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        //
+          $employee = Employee::find(auth()->user()->id);
+
+          $organizations = Organization::where('organizations.company_id', $employee->company_id)
+
+          ->join('banks', 'banks.id', 'organizations.bank_id')
+
+          ->join('statutory_types', 'statutory_types.id', 'organizations.statutory_type_id')
+
+          ->select(
+
+            'organizations.*',
+
+            'statutory_types.name as statutory_name',
+
+            'banks.name as bank_name'
+
+            )
+
+          ->get();
+
+          return view('organizations.index', compact('organizations'));
     }
 
     /**
@@ -24,7 +53,11 @@ class OrganizationController extends Controller
      */
     public function create()
     {
-        //
+        $banks = Bank::all();
+
+        $statutory_types = Statutory_type::all();
+
+        return view('organizations.create', compact('banks', 'statutory_types'));
     }
 
     /**
@@ -35,7 +68,27 @@ class OrganizationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+      $employee = Employee::find(auth()->user()->id);
+
+      $organization = new Organization;
+
+      $organization->name = request('name');
+
+      $organization->description = request('description');
+
+      $organization->statutory_type_id = request('statutory_type_id');
+
+      $organization->bank_id = request('bank_id');
+
+      $organization->account_number = request('account_number');
+
+      $organization->company_id = $employee->company_id;
+
+      $organization->save();
+
+      return redirect('organizations');
+
     }
 
     /**

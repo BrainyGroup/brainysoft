@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Kin;
 use Illuminate\Http\Request;
 
+use App\Company;
+
+
 class KinController extends Controller
 {
     /**
@@ -14,7 +17,11 @@ class KinController extends Controller
      */
     public function index()
     {
-        //
+          $company = Company::find(1);
+
+          $kins = Kin::where('company_id', $company->id)->get();
+
+          return view('kins.index', compact('kins'));
     }
 
     /**
@@ -24,7 +31,9 @@ class KinController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('kins.create');
+
     }
 
     /**
@@ -35,7 +44,25 @@ class KinController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+      $employee = Employee::find(auth()->user()->id);
+
+      $kin = new Kin;
+
+      $kin->name = request('name');
+
+      $kin->description = request('description');
+
+      $kin->description = request('kin_type_id');
+
+      $kin->description = request('employee_id');
+
+      $kin->company_id = $employee->company_id;
+
+      $kin->save();
+
+      return back();
+
     }
 
     /**

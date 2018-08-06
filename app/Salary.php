@@ -14,28 +14,28 @@ class Salary extends Model
     public  function employee()
     {
 
-		    return $this->belongsTo(Employee:class);
+		    return $this->belongsTo(Employee::class);
 
 	   }
 
      public  function scale()
      {
 
- 		    return $this->belongsTo(Scale:class);
+ 		    return $this->belongsTo(Scale::class);
 
  	   }
 
      public  function center()
      {
 
- 		    return $this->belongsTo(Center:class);
+ 		    return $this->belongsTo(Center::class);
 
  	   }
 
      public  function company()
      {
 
-         return $this->belongsTo(Company:class);
+         return $this->belongsTo(Company::class);
 
       }
 }

@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Company;
+
+use App\Center;
+
+use App\Employee;
+
 class CenterController extends Controller
 {
     /**
@@ -13,7 +19,11 @@ class CenterController extends Controller
      */
     public function index()
     {
-        //
+          $company = Company::find(1);
+
+          $centers = Center::where('company_id', $company->id)->get();
+
+          return view('centers.index', compact('centers'));
     }
 
     /**
@@ -23,7 +33,9 @@ class CenterController extends Controller
      */
     public function create()
     {
-        //
+
+         return view('centers.create');
+
     }
 
     /**
@@ -34,7 +46,25 @@ class CenterController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+      $id = auth()->user()->id;
+
+      $employee = Employee::find($id);
+
+      $center = new Center;
+
+      $center->name = request('name');
+
+      $center->number = request('number');
+
+      $center->description = request('description');
+
+      $center->company_id = $employee->company_id;
+
+      $center->save();
+
+      return redirect('centers');
+      
     }
 
     /**

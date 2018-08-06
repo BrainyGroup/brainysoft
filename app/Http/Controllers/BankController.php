@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Bank;
+
+use App\Company;
+
+use App\Employee;
+
 class BankController extends Controller
 {
     /**
@@ -13,7 +19,12 @@ class BankController extends Controller
      */
     public function index()
     {
-        //
+
+          $company = Company::find(1);
+
+          $banks = Bank::where('company_id', $company->id)->get();
+
+          return view('banks.index', compact('banks'));
     }
 
     /**
@@ -23,7 +34,9 @@ class BankController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('banks.create');
+
     }
 
     /**
@@ -34,7 +47,22 @@ class BankController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+      $id = auth()->user()->id;
+
+      $employee = Employee::find($id);
+
+      $bank = new Bank;
+
+      $bank->name = request('name');
+
+      $bank->description = request('description');
+
+      $bank->company_id = $employee->company_id;
+
+      $bank->save();
+
+      return redirect('banks');
     }
 
     /**

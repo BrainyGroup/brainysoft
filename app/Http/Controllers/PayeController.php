@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Paye;
 use Illuminate\Http\Request;
 
+use App\Country;
+
 class PayeController extends Controller
 {
     /**
@@ -14,7 +16,11 @@ class PayeController extends Controller
      */
     public function index()
     {
-        //
+          $country = Country::find(1);
+
+          $payes = Paye::where('country_id', $country->id)->get();
+
+          return view('payes.index', compact('payes'));
     }
 
     /**
@@ -24,7 +30,11 @@ class PayeController extends Controller
      */
     public function create()
     {
-        //
+
+        $countries = Country::all();
+
+        return view('payes.create', compact('countries'));
+
     }
 
     /**
@@ -35,7 +45,26 @@ class PayeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+
+      $paye = new Paye;
+
+      $paye->country_id = request('name');
+
+      $paye->minimum = request('minimum');
+
+      $paye->maximum = request('maximum');
+
+      $paye->ratio = request('ratio');
+
+      $paye->offset = request('offset');
+
+      $paye->country_id = request('country_id');
+
+      $paye->save();
+
+      return redirect('payes');
+
     }
 
     /**

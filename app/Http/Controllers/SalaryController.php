@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Salary;
+
+use App\Company;
+
+use App\Employee;
+
 class SalaryController extends Controller
 {
     /**
@@ -13,7 +19,17 @@ class SalaryController extends Controller
      */
     public function index()
     {
-        //
+          $employee = Employee::find(auth()->user()->id);
+
+          $salaries = Salary::where('salaries.company_id', $employee->company_id)
+
+          ->join('employees', 'employees.id', 'salaries.employee_id')
+
+          ->join('users', 'users.id', 'employees.user_id')
+
+          ->get();
+
+          return view('salaries.index', compact('salaries'));
     }
 
     /**
@@ -23,7 +39,8 @@ class SalaryController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('salaries.create');
     }
 
     /**
@@ -34,7 +51,22 @@ class SalaryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+      $employee = Employee::find(request('employee_id'));
+
+      $salary = new Salary;
+
+      $salary->employee_id = request('employee_id');
+
+      $salary->company_id = $employee->company_id;
+
+      $salary->salary_type_id = request('salary_type_id');
+
+      $salary->amount = request('salary_amount');
+
+      $salary->save();
+
+      return redirect('employees');
     }
 
     /**

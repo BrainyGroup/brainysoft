@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Designation;
+
 use Illuminate\Http\Request;
+
+use App\Company;
+
+use App\Employee;
 
 class DesignationController extends Controller
 {
@@ -14,7 +19,11 @@ class DesignationController extends Controller
      */
     public function index()
     {
-        //
+          $employee = Employee::find(auth()->user()->id);
+
+          $designations = Designation::where('company_id', $employee->company_id)->get();
+
+          return view('designations.index', compact('designations'));
     }
 
     /**
@@ -24,7 +33,9 @@ class DesignationController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('designations.create');
+
     }
 
     /**
@@ -35,7 +46,21 @@ class DesignationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+      $employee = Employee::find(auth()->user()->id);
+
+      $designation = new Designation;
+
+      $designation->name = request('name');
+
+      $designation->description = request('description');
+
+      $designation->company_id = $employee->company_id;
+
+      $designation->save();
+
+      return redirect('designations');
+
     }
 
     /**

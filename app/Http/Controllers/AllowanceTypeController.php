@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Allowance_type;
 use Illuminate\Http\Request;
 
+use App\Company;
+
+use App\Employee;
+
 class AllowanceTypeController extends Controller
 {
     /**
@@ -14,7 +18,11 @@ class AllowanceTypeController extends Controller
      */
     public function index()
     {
-        //
+        $company = Company::find(1);
+
+        $allowance_types = Allowance_type::where('company_id', $company->id)->get();
+
+        return view('allowance_types.index', compact('allowance_types'));
     }
 
     /**
@@ -24,7 +32,9 @@ class AllowanceTypeController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('allowance_types.create');
+
     }
 
     /**
@@ -35,7 +45,23 @@ class AllowanceTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+      $id = auth()->user()->id;
+
+      $employee = Employee::find($id);
+
+      $allowance_type = new Allowance_type;
+
+      $allowance_type->name = request('name');
+
+      $allowance_type->description = request('description');
+
+      $allowance_type->company_id = $employee->company_id;
+
+      $allowance_type->save();
+
+      return redirect('allowance_types');
+
     }
 
     /**

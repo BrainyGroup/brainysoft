@@ -14,6 +14,13 @@ class Statutory extends Model
 
   }
 
+  public function employee()
+  {
+
+    return $this->belongsToMany(Employee::class);
+
+  }
+
   public  function statutory_type()
   {
 

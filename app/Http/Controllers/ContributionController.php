@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Contribution;
+
+use App\Company;
+
+
+
 class ContributionController extends Controller
 {
     /**
@@ -13,7 +19,12 @@ class ContributionController extends Controller
      */
     public function index()
     {
-        //
+
+          $company = Company::find(1);
+
+          $contributions = Contribution::where('company_id', $company->id)->get();
+
+          return view('contributions.index', compact('contributions'));
     }
 
     /**

@@ -20,7 +20,7 @@ class CreateEmployeesTable extends Migration
             $table->integer('user_id')->unsigned()->foreign()->references('id')->on('users');
             $table->integer('company_id')->unsigned()->foreign()->references('id')->on('companies');
             $table->integer('center_id')->unsigned()->foreign()->references('id')->on('centers');
-            $table->integer('scales_id')->unsigned()->foreign()->references('id')->on('scales');
+            $table->integer('scale_id')->unsigned()->foreign()->references('id')->on('scales');
             $table->integer('level_id')->unsigned()->foreign()->references('id')->on('levels');
             $table->integer('department_id')->unsigned()->foreign()->references('id')->on('departments');
             $table->string('accountnumber');

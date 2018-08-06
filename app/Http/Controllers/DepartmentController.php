@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Department;
 use Illuminate\Http\Request;
 
+use App\Company;
+
+use App\Employee;
+
 class DepartmentController extends Controller
 {
     /**
@@ -14,7 +18,11 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        //
+          $employee = Employee::find(auth()->user()->id);
+
+          $departments = Department::where('company_id', $employee->company_id)->get();
+
+          return view('departments.index', compact('departments'));
     }
 
     /**
@@ -24,7 +32,9 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('departments.create');
+
     }
 
     /**
@@ -35,7 +45,19 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $employee = Employee::find(auth()->user()->id);
+
+      $department = new Department;
+
+      $department->name = request('name');
+
+      $department->description = request('description');
+
+      $department->company_id = $employee->company_id;
+
+      $department->save();
+
+      return redirect('departments');
     }
 
     /**

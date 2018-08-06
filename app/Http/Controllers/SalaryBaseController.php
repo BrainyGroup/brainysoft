@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Salary_base;
+
 use Illuminate\Http\Request;
+
+use App\Company;
+
+use App\Employee;
 
 class SalaryBaseController extends Controller
 {
@@ -14,7 +19,12 @@ class SalaryBaseController extends Controller
      */
     public function index()
     {
-        //
+
+          $employee = Employee::find(auth()->user()->id);
+
+          $salary_bases = Salary_base::where('company_id', $employee->company_id)->get();
+
+          return view('salary_bases.index', compact('salary_bases'));
     }
 
     /**
@@ -24,7 +34,7 @@ class SalaryBaseController extends Controller
      */
     public function create()
     {
-        //
+        return view('salary_bases.create');
     }
 
     /**
@@ -35,7 +45,20 @@ class SalaryBaseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+      $employee = Employee::find(auth()->user()->id);
+
+      $salary_base = new Salary_base;
+
+      $salary_base->name = request('name');
+
+      $salary_base->description = request('description');
+
+      $salary_base->company_id = $employee->company_id;
+
+      $salary_base->save();
+
+      return redirect('salary_types');
     }
 
     /**

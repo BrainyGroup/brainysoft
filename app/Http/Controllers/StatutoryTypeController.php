@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Statutory_type;
 use Illuminate\Http\Request;
 
+use App\Company;
+
 class StatutoryTypeController extends Controller
 {
     /**
@@ -14,7 +16,11 @@ class StatutoryTypeController extends Controller
      */
     public function index()
     {
-        //
+          $company = Company::find(1);
+
+          $statutory_types = Statutory_type::where('company_id', $company->id)->get();
+
+          return view('statutory_types.index', compact('statutory_types'));
     }
 
     /**
@@ -24,7 +30,8 @@ class StatutoryTypeController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('statutory_types.create');
     }
 
     /**
@@ -35,7 +42,21 @@ class StatutoryTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+      $employee = Employee::find(auth()->user()->id);
+
+      $statutory_type = new Statutory_type;
+
+      $statutory_type->name = request('name');
+
+      $statutory_type->description = request('description');
+
+      $statutory_type->company_id = $employee->company_id;
+
+      $statutory_type->save();
+
+      return back();
+
     }
 
     /**

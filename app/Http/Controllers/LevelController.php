@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Level;
+
 use Illuminate\Http\Request;
+
+use App\Company;
+
+use App\Employee;
 
 class LevelController extends Controller
 {
@@ -14,7 +19,11 @@ class LevelController extends Controller
      */
     public function index()
     {
-        //
+          $employee = Employee::find(auth()->user()->id);
+
+          $levels = Level::where('company_id', $employee->company_id)->get();
+
+          return view('levels.index', compact('levels'));
     }
 
     /**
@@ -24,7 +33,7 @@ class LevelController extends Controller
      */
     public function create()
     {
-        //
+        return view('levels.create');
     }
 
     /**
@@ -35,7 +44,21 @@ class LevelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+      $employee = Employee::find(auth()->user()->id);
+
+      $level = new Level;
+
+      $level->name = request('name');
+
+      $level->description = request('description');
+
+      $level->company_id = $employee->company_id;
+
+      $level->save();
+
+      return redirect('levels');
+
     }
 
     /**

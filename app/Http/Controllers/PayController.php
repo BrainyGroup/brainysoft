@@ -7,70 +7,73 @@ use App\Payee;
 use App\Pay;
 use App\Salary;
 use App\Employee;
-use App\Contribution;
+use App\Statutory;
 use Carbon\Carbon;
 use App\Company;
 
 class PayController extends Controller
 {
 
+
+
   private function nsfEmployee($employee_id = null, $company_id = null)
   {
-     $contribution = Contribution::where('type','=','NSF')->where('company_id','=', $company_id)->first();
+     $statutories = Statutory::where('type','=','SSF')->where('company_id','=', $company_id)->first();
+
      $salary = Employee::find($employee_id)->salary;
-     //dd($contribution);
-     return $salary->amount * $contribution->employee;
+
+     return $salary->amount * $statutories->employee;
   }
 
   private function nsfEmployer($employee_id = null,$company_id = null)
   {
-     $contribution = Contribution::where('type','=','NSF')->where('company_id','=', $company_id)->first();
+     $statutories = Statutory::where('type','=','SSF')->where('company_id','=', $company_id)->first();
      $salary = Employee::find($employee_id)->salary;
-      return $salary->amount * $contribution->employer;
+      return $salary->amount * $statutories->employer;
   }
 
   private function nsfTotal($employee_id = null,$company_id = null)
   {
-     $contribution = Contribution::where('type','=','NSF')->where('company_id','=', $company_id)->first();
+     $statutories = Statutory::where('type','=','SSF')->where('company_id','=', $company_id)->first();
      $salary = Employee::find($employee_id)->salary;
-      return $salary->amount * $contribution->total;
+      return $salary->amount * $statutories->total;
   }
 
 
   private function hiEmployee($employee_id = null,$company_id = null)
   {
-     $contribution = Contribution::where('type','=','HI')->where('company_id','=', $company_id)->first();
+     $statutories = Statutory::where('type','=','HI')->where('company_id','=', $company_id)->first();
      $salary = Employee::find($employee_id)->salary;
-     return $salary->amount * $contribution->employee;
+     return $salary->amount * $statutories->employee;
   }
 
   private function hiEmployer($employee_id = null,$company_id = null)
   {
-      $contribution = Contribution::where('type','=','HI')->where('company_id','=', $company_id)->first();
+      $statutories = Statutory::where('type','=','HI')->where('company_id','=', $company_id)->first();
       $salary = Employee::find($employee_id)->salary;
-      return $salary->amount * $contribution->employer;
+      return $salary->amount * $statutories->employer;
   }
 
   private function hiTotal($employee_id = null,$company_id = null)
   {
-      $contribution = Contribution::where('type','=','HI')->where('company_id','=', $company_id)->first();
+      $statutories = Statutory::where('type','=','HI')->where('company_id','=', $company_id)->first();
       $salary = Employee::find($employee_id)->salary;
-      return $salary->amount * $contribution->total;
+      return $salary->amount * $statutories->total;
 
   }
 
   private function sdl($employee_id = null,$company_id = null)
   {
-      $contribution = Contribution::where('type','=','SDL')->where('company_id','=', $company_id)->first();
+      $statutories = Statutory::where('type','=','SDL')->where('company_id','=', $company_id)->first();
       $salary = Employee::find($employee_id)->salary;
-      return $salary->amount * $contribution->total;
+      return $salary->amount * $statutories->total;
   }
 
   private function wcf($employee_id = null,$company_id = null)
   {
-      $contribution = Contribution::where('type','=','WCF')->where('company_id','=', $company_id)->first();
+      $statutories = Statutory::where('type','=','WCF')->where('company_id','=', $company_id)->first();
       $salary = Employee::find($employee_id)->salary;
-      return $salary->amount * $contribution->total;
+      return $salary->amount * $statutories->total;
   }
 
 
@@ -121,7 +124,11 @@ class PayController extends Controller
     public function index()
     {
 
-        return $this->nsfEmployee(1);
+          $company = Company::find(1);
+
+          $pays = Pay::where('company_id', $company->id)->get();
+
+          return view('pays.index', compact('pays'));
     }
 
     /**
@@ -191,7 +198,7 @@ class PayController extends Controller
 
         $pay->loan = $loan = 0.0;
 
-        $pay->contribution = $contribution = 0.0;
+        $pay->statutories = $statutories = 0.0;
 
         $pay->other = $other_deduction = 0.0;
 

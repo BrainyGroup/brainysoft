@@ -4,6 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Country;
+
+use App\Company;
+
+use App\employee;
+
+
 class CompanyController extends Controller
 {
     /**
@@ -13,7 +20,12 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
+      $country = Country::find(1);
+
+      $companies = Company::where('country_id', $country->id)->get();
+
+      return view('companies.index', compact('companies'));
+
     }
 
     /**
@@ -23,7 +35,11 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        //
+
+        $countries = Country::all();
+
+        return view('companies.create', compact('countries'));
+
     }
 
     /**
@@ -34,7 +50,36 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+      $employee = Employee::find(auth()->user()->id);
+
+      $company = new Company;
+
+      $company->name = request('name');
+
+      $company->description = request('description');
+
+      $company->logo = request('logo');
+
+      $company->website = request('website');
+
+      $company->tin = request('tin');
+
+      $company->vrn = request('vrn');
+
+      $company->regno = request('regno');
+
+      $company->slogan = request('slogan');
+
+      $company->mission = request('mission');
+
+      $company->vision = request('vision');
+
+      $company->country_id = request('country_id');
+
+      $company->save();
+
+      return redirect('companies');
     }
 
     /**

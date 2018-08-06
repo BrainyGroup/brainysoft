@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Scale;
+
+use App\Company;
+
+use App\Employee;
+
 class ScaleController extends Controller
 {
     /**
@@ -13,7 +19,12 @@ class ScaleController extends Controller
      */
     public function index()
     {
-        //
+
+          $employee = Employee::find(auth()->user()->id);
+
+          $scales = Scale::where('company_id', $employee->company_id)->get();
+
+          return view('scales.index', compact('scales'));
     }
 
     /**
@@ -23,7 +34,7 @@ class ScaleController extends Controller
      */
     public function create()
     {
-        //
+        return view('scales.create');
     }
 
     /**
@@ -34,7 +45,26 @@ class ScaleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+      $employee = Employee::find(auth()->user()->id);
+
+      $scale = new Scale;
+
+      $scale->name = request('name');
+
+      $scale->description = request('description');
+
+      $scale->minimum = request('minimum');
+
+      $scale->maximum = request('maximum');
+
+      $scale->schedule = request('schedule');
+
+      $scale->company_id = $employee->company_id;
+
+      $scale->save();
+
+      return redirect('scales');
     }
 
     /**

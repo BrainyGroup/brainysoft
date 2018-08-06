@@ -16,8 +16,9 @@ class CreateAllowancesTable extends Migration
         Schema::create('allowances', function (Blueprint $table) {
             $table->increments('id');
             $table->decimal('amount',11,2);
+            $table->date('start_date');
+            $table->date('end_date');
             $table->integer('employee_id')->unsigned()->foreign()->references('id')->on('employees');
-            $table->integer('user_id')->unsigned()->foreign()->references('id')->on('users');
             $table->integer('company_id')->unsigned()->foreign()->references('id')->on('companies');
             $table->integer('allowance_type_id')->unsigned()->foreign()->references('id')->on('allowance_types');
             $table->timestamps();
