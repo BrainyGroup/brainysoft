@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Log;
+
 use App\Bank;
 
 use App\Company;
@@ -12,6 +14,12 @@ use App\Employee;
 
 class BankController extends Controller
 {
+    public function __construct()
+    {
+
+        $this->middleware('auth');
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -19,6 +27,8 @@ class BankController extends Controller
      */
     public function index()
     {
+
+          Log::debug('Showing user profile for user: ');
 
           $company = Company::find(1);
 
@@ -47,6 +57,17 @@ class BankController extends Controller
      */
     public function store(Request $request)
     {
+
+      //Validation
+      $this->validate(request(),[
+
+        'name' =>'required|string',
+
+        'description' => 'required|string',
+
+      ]);
+
+      //get user id
 
       $id = auth()->user()->id;
 

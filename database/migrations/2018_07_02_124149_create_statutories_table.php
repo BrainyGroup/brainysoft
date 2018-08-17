@@ -24,6 +24,7 @@ class CreateStatutoriesTable extends Migration
             $table->decimal('total',4,3); //Total ratio
             $table->date('date_required'); //Date to be filled
             $table->integer('statutory_type_id')->unsigned()->foreign()->references('id')->on('statutory_types');  //HI,WCF or NSF
+            $table->boolean('before_paye')->defualt('false');          
             $table->integer('base_id')->unsigned()->foreign()->references('id')->on('salary_bases');
             $table->timestamps();
         });

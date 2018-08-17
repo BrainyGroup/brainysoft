@@ -20,9 +20,16 @@
 
                     {{ Form::bsText('allowance_amount','',['placeholder' => 'Enter Allowance Amount']) }}
 
+                    @if($errors->has('allowance_amount'))
+
+                      {{ $errors->first('allowance_amount')}}
+
+                    @endif
+
+
                     {{ Form::bsHidden('user_id', request('user_id')) }}
 
-                    <!-- {{ Form::bsSelect('allowance_name', ['1' => 'Leave', '2' => 'House'],'') }} -->
+                
 
                     <div class="form-group">
 

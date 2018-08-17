@@ -12,6 +12,13 @@ use App\Employee;
 
 class SalaryController extends Controller
 {
+    public function __construct()
+    {
+
+        $this->middleware('auth');
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -51,6 +58,18 @@ class SalaryController extends Controller
      */
     public function store(Request $request)
     {
+
+      //Validation
+      $this->validate(request(),[
+
+        'employee_id' =>'required|numeric',
+
+        'salary_type_id' => 'required|numeric',
+
+        'salary_amount' =>'required|numeric',
+
+      ]);
+
 
       $employee = Employee::find(request('employee_id'));
 

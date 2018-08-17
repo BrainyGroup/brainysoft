@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class CountryController extends Controller
 {
+    public function __construct()
+    {
+
+        $this->middleware('auth');
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -41,6 +47,15 @@ class CountryController extends Controller
      */
     public function store(Request $request)
     {
+
+      //Validation
+      $this->validate(request(),[
+
+        'name' =>'required|string'
+
+      ]);
+
+
 
       $country = new Country;
 

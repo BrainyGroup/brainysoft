@@ -17,8 +17,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/logout', function()
+	{
+		Auth::logout();
+	// Session::flush();
+		return Redirect('welcome');
+	});
+
 
 //Allowance routes
+
+
 
 Route::resource('allowances', 'AllowanceController');
 
@@ -92,6 +101,9 @@ Route::resource('statutory_types', 'StatutoryTypeController');
 
 //statutory
 Route::resource('statutories', 'StatutoryController');
+
+//users
+Route::resource('users', 'UserController');
 
 
 

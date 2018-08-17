@@ -8,10 +8,24 @@ use App\Company;
 
 use App\Statutory;
 
+use App\Employee;
+
+use App\Organization;
+
+use App\Statutory_type;
+
+use App\Salary_base;
+
 use DB;
 
 class StatutoryController extends Controller
 {
+    public function __construct()
+    {
+
+        $this->middleware('auth');
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -58,7 +72,13 @@ class StatutoryController extends Controller
     public function create()
     {
 
-        return view('statutories.create');
+        $organizations = Organization::all();
+
+        $salary_bases = Salary_base::all();
+
+        $statutory_types = Statutory_type::all();
+
+        return view('statutories.create', compact('organizations', 'salary_bases', 'statutory_types'));
 
     }
 
@@ -71,6 +91,27 @@ class StatutoryController extends Controller
     public function store(Request $request)
     {
 
+      //Validation
+      $this->validate(request(),[
+
+        'name' =>'required|string',
+
+        'description' => 'required|string',
+
+        'organization_id' =>'required|numeric',
+
+        'statutory_type_id' => 'required|numeric',
+
+        'salary_base_id' =>'required|numeric',
+
+        'employee_ratio' => 'required|numeric',
+
+        'employer_ratio' =>'required|numeric',
+
+        'due_date' =>'required|date',
+
+      ]);
+
       $employee = Employee::find(auth()->user()->id);
 
       $statutory = new Statutory;
@@ -81,9 +122,15 @@ class StatutoryController extends Controller
 
       $statutory->organization_id = request('organization_id');
 
-      $statutory->employee = request('employee');
+      $statutory->statutory_type_id = request('statutory_type_id');
 
-      $statutory->employer = request('employer');
+      $statutory->base_id = request('salary_base_id');
+
+      $statutory->employee = request('employee_ratio');
+
+      $statutory->employer = request('employer_ratio');
+
+      $statutory->date_required = request('due_date');
 
       $statutory->total = $statutory->employee + $statutory->employer;
 
@@ -91,7 +138,7 @@ class StatutoryController extends Controller
 
       $statutory->save();
 
-      return back();
+      return redirect('statutories');
 
     }
 

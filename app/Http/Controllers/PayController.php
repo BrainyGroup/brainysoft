@@ -10,110 +10,168 @@ use App\Employee;
 use App\Statutory;
 use Carbon\Carbon;
 use App\Company;
+use App\Deduction;
 
 class PayController extends Controller
 {
 
+    public function __construct()
+    {
 
+        $this->middleware('auth');
 
-  private function nsfEmployee($employee_id = null, $company_id = null)
-  {
-     $statutories = Statutory::where('type','=','SSF')->where('company_id','=', $company_id)->first();
+    }
 
-     $salary = Employee::find($employee_id)->salary;
+//1 Basic Salary
+private function basicSalary($employee_id = null, $company_id = null){
 
-     return $salary->amount * $statutories->employee;
+  $salary = Employee::find(1)->salary()->where('salaries.company_id', $company_id)->get();
+
+  return $salary->amount;
+}
+
+//2 Sum of $allowanceSum
+private function allowanceSum($employee_id = null, $company_id = null){
+
+    return Allowance::where('employee_id',$employee_id)->sum('amount');
+
+}
+
+//3 Gloss Salary
+private function glossSalary($employee_id = null, $company_id = null){
+  return $this->basicSalary($employee_id,$company_id) + $this->allowanceSum($employee_id,$company_id)
+}
+
+// 4.1 Calculate statutory
+private function statutoryBeforePaye($employee_id = null, $company_id = null, $pay_id = null){
+  $statutories = Employee::find($employee_id)->statutories()
+  ->where('statutories.before_paye', true)
+  ->where('statutories.company_id', $company_id)
+  ->get();
+
+  foreach($statutories as $statutory){
+
+    $pay_statutory = new Pay_statutory;
+
+    $pay_statutory->employee_id = $employee_id;
+
+    $pay_statutory->pay_number = 1;
+
+    $pay_statutory_before['employee'] = 0;
+
+    $pay_statutory_before['employer'] = 0;
+
+    $pay_statutory->employee = $statutory->employee * $this->basicSalary($employee_id, $company_id);
+
+    $pay_statutory->employer = $statutory->employer * $this->basicSalary($employee_id, $company_id);
+
+    $pay_statutory_before['employee'] = $pay_statutory->employee + $pay_statutory_before['employee'];
+
+    $pay_statutory_before['employer'] = $pay_statutory->employer + $pay_statutory_before['employer'];
+
+    $pay_statutory->save();
+
   }
 
-  private function nsfEmployer($employee_id = null,$company_id = null)
-  {
-     $statutories = Statutory::where('type','=','SSF')->where('company_id','=', $company_id)->first();
-     $salary = Employee::find($employee_id)->salary;
-      return $salary->amount * $statutories->employer;
-  }
+  return $pay_statutory_before;;
+}
 
-  private function nsfTotal($employee_id = null,$company_id = null)
-  {
-     $statutories = Statutory::where('type','=','SSF')->where('company_id','=', $company_id)->first();
-     $salary = Employee::find($employee_id)->salary;
-      return $salary->amount * $statutories->total;
-  }
+// 4.2 Calculate statutory
+private function statutoryAfterPaye($employee_id = null, $company_id = null){
+  $statutories = Employee::find($employee_id)->statutories()
+  ->where('statutories.before_paye', false)
+  ->where('statutories.company_id', $company_id)
+  ->get();
 
+  foreach($statutories as $statutory){
 
-  private function hiEmployee($employee_id = null,$company_id = null)
-  {
-     $statutories = Statutory::where('type','=','HI')->where('company_id','=', $company_id)->first();
-     $salary = Employee::find($employee_id)->salary;
-     return $salary->amount * $statutories->employee;
-  }
+    $pay_statutory = new Pay_statutory;
 
-  private function hiEmployer($employee_id = null,$company_id = null)
-  {
-      $statutories = Statutory::where('type','=','HI')->where('company_id','=', $company_id)->first();
-      $salary = Employee::find($employee_id)->salary;
-      return $salary->amount * $statutories->employer;
-  }
+    $pay_statutory->employee_id = $employee_id;
 
-  private function hiTotal($employee_id = null,$company_id = null)
-  {
-      $statutories = Statutory::where('type','=','HI')->where('company_id','=', $company_id)->first();
-      $salary = Employee::find($employee_id)->salary;
-      return $salary->amount * $statutories->total;
+    $pay_statutory->pay_number = 1;
+
+    $pay_statutory->employee = $statutory->employee * $this->basicSalary($employee_id, $company_id);
+
+    $pay_statutory->employer = $statutory->employer * $this->basicSalary($employee_id, $company_id);
+
+    $statutoryAmount = $pay_statutory->employee + $pay_statutory->employer;
+
+    $pay_statutory_before;['employee'] = $pay_statutory->employee;
+
+    $pay_statutory_before;['employer'] = $pay_statutory->employer;
+
+    // $pay_statutory->save();
+
 
   }
 
-  private function sdl($employee_id = null,$company_id = null)
-  {
-      $statutories = Statutory::where('type','=','SDL')->where('company_id','=', $company_id)->first();
-      $salary = Employee::find($employee_id)->salary;
-      return $salary->amount * $statutories->total;
-  }
+  return $statutoryAmount;
+}
 
-  private function wcf($employee_id = null,$company_id = null)
-  {
-      $statutories = Statutory::where('type','=','WCF')->where('company_id','=', $company_id)->first();
-      $salary = Employee::find($employee_id)->salary;
-      return $salary->amount * $statutories->total;
-  }
+//5 Salary after statutory deducted before payes
 
+private function salaryAfterStatutoryBeforePaye($employee_id = null, $company_id = null){
 
+  return basicSalary($employee_id, $company_id) - statutoryBeforePaye($employee_id, $company_id);
 
-  private function paye($taxable_pay = null,$company_id = null)
-  {
+}
 
-    //$salary= Employee::find($employee_id)->salary;
-    $payees  = Payee::where('company_id','=',$company_id)->get();
+//6 Taxable Salary
 
-    //   foreach ($payees as $payee) {
-    //     if(($salary->amount >= $payee->minimum) && ($salary->amount <= $payee->maximum)){
-    //       if($payee->minimum == 0){
-    //         return ($salary->amount * $payee->ratio) + $payee->offset;
-    //       }else {
-    //         return (($salary->amount - ($payee->minimum - 1)) * $payee->ratio) + $payee->offset;
-    //       }
-    //     }
-    //   }
-    //
-    // }
+private function taxableSalary($employee_id = null, $company_id = null){
 
+  return salaryAfterStatutoryBeforePaye($employee_id, $company_id) + allowanceSum($employee_id, $company_id);
 
-    // foreach ($payees as $payee) {
-    //   if(($salary->amount > $payee->minimum) && ($salary->amount <= $payee->maximum)){
-    //       return (($salary->amount - $payee->minimum) * $payee->ratio) + $payee->offset;
-    //     }
-    //   }
-    // }
+}
+
+//7 Paye
+private function paye($employee_id = null,$company_id = null)
+{
+
+  $taxable_pay = taxableSalary($employee_id, $company_id);
+
+  $payees  = Payee::where('company_id','=',$company_id)->get();
 
 
 
-      foreach ($payees as $payee) {
-        if(($taxable_pay > $payee->minimum) && ($taxable_pay <= $payee->maximum)){
-            return (($taxable_pay - $payee->minimum) * $payee->ratio) + $payee->offset;
-          }
+    foreach ($payees as $payee) {
+
+      if(($taxable_pay > $payee->minimum) && ($taxable_pay <= $payee->maximum)){
+
+          return (($taxable_pay - $payee->minimum) * $payee->ratio) + $payee->offset;
+
         }
+
       }
 
+    }
 
+//8 Monthly earning before statutory after 4.2 and deduction
+private function beforeDeduction($employee_id = null,$company_id = null){
+
+  return taxableSalary($employee_id, $company_id) - paye($employee_id, $company_id)
+
+}
+
+//9 deduction
+private function deductionSum($employee_id = null,$company_id = null){
+
+      return Deduction::where('employee_id',$employee_id)->sum('amount');
+
+}
+
+//10 net earning
+private fucntion netEarning($employee_id = null,$company_id = null){
+
+  return beforeDeduction($employee_id, $company_id) -
+
+          deductionSum($employee_id, $company_id) -
+
+          statutoryAfterPaye($employee_id, $company_id)
+
+
+}
 
 
     /**
@@ -123,10 +181,9 @@ class PayController extends Controller
      */
     public function index()
     {
+          $login_user = Employee::where('user_id', auth()->user()->id)->first();
 
-          $company = Company::find(1);
-
-          $pays = Pay::where('company_id', $company->id)->get();
+          $pays = Pay::where('company_id', $login_user->company_id)->get();
 
           return view('pays.index', compact('pays'));
     }
@@ -147,12 +204,18 @@ class PayController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Company $company)
+    public function store(Request $request)
     {
 
         //$pay= new Pay;
 
-        $salaries = Salary::where('company_id',1)->get();
+        $login_user = Employee::where('user_id', auth()->user()->id)->first();
+
+        $company_id = $login_user->company_id;
+
+        $salaries = Salary::where('company_id', $company_id)->get();
+
+        $statutory_before_paye = $this.statutoryBeforePaye($employee_id, $company_id, $pay_number)
 
 
 
@@ -161,56 +224,46 @@ class PayController extends Controller
 
         $pay= new Pay;
 
+        $employee_id = $salary->employee_id;
 
-        $pay->company_id = $company_id = $salary->company_id;
-
-        $pay->employee_id = $employee_id = $salary->employee_id;
-
+        $employee = Employee::find($employee_id);
 
 
-        $pay->user_id =  1;
+        $pay->company_id = $salary->company_id;
+
+        $pay->employee_id = $employee_id;
 
         $pay->run_date = Carbon::now();
 
+        $pay->basic_salary = $salary->amount;
 
 
-        $pay->salary = $salary->amount;
+        //
+        // $pay->statutory_employee = $statutory_before_paye['employee'];
+        //
+        // $pay->statutory_employer = $statutory_before_paye['employer'];
+        //
+        // $pay->statutory_total = $pay->statutory_employee + $pay->statutory_employer;
+        //
+        // $pay->deduction_employee ;
+        //
+        // $pay->deduction_employer ;
+        //
+        // $pay->deduction_total = $pay->deduction_employee + $pay->deduction_employer;
 
+        $pay->allowance = $this->allowanceSum($employee_id, $company_id);
 
-        $pay->nsf_employee = $nsf_employee = $this->nsfEmployee($employee_id, $company_id);
+        $pay->gloss = $this->glossSalary($employee_id, $company_id);
 
-        $pay->nsf_employer = $nsf_employee =$this->nsfEmployer($employee_id, $company_id);
+        $pay->taxable = $this->taxableSalary($employee_id, $company_id);
 
-        $pay->nsf_total = $this->nsfTotal($employee_id, $company_id);
+        $pay->paye = $this->paye($employee_id,$company_id);
 
+        $pay->net = $this->netEarning($employee_id, $company_id);
 
-        $pay->hi_employee = $hi_employee = $this->hiEmployee($employee_id, $company_id);
+        $pay->mothly_earning = $this->beforeDeduction($employee_id = null,$company_id = null);
 
-        $pay->hi_employer = $this->hiEmployer($employee_id, $company_id);
-
-        $pay->hi_total = $this->hiTotal($employee_id, $company_id);
-
-
-        $pay->sdl = $this->sdl($employee_id, $company_id);
-        $pay->wcf = $this->wcf($employee_id, $company_id);
-
-        $pay->allowance = $allowance = 0.0;
-
-        $pay->loan = $loan = 0.0;
-
-        $pay->statutories = $statutories = 0.0;
-
-        $pay->other = $other_deduction = 0.0;
-
-        $pay->gloss = $gloss = $salary->amount + $allowance;
-
-        $pay->taxable = $taxable_pay = $gloss - $nsf_employee;
-
-        $pay->paye = $this->paye($taxable_pay, $company_id);
-
-
-
-        $pay->net = $gloss - $nsf_employee - $hi_employee - $loan - $other_deduction;
+        $pay->after_statutory_before = $this->salaryAfterStatutoryBeforePaye($employee_id, $company_id);
 
       $pay->save();
 

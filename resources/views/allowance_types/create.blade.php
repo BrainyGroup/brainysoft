@@ -19,8 +19,14 @@
                     {!! Form::open(['action' => 'AllowanceTypeController@store','method' => 'POST']) !!}
 
                     {{ Form::bsText('name','',['placeholder' => 'Enter Allowance name']) }}
+                    @if($errors->has('name'))
+                      {{ $errors->first('name')}}
+                    @endif
 
                     {{ Form::bsText('description','',['placeholder' => 'Enter Allowance description']) }}
+                    @if($errors->has('description'))
+                      {{ $errors->first('description')}}
+                    @endif
 
                     {{ Form::bsSubmit('Submit',['class' => 'btn btn-primary']) }}
 

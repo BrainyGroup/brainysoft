@@ -9,6 +9,12 @@ use App\Country;
 
 class PayeController extends Controller
 {
+    public function __construct()
+    {
+
+        $this->middleware('auth');
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -45,11 +51,26 @@ class PayeController extends Controller
      */
     public function store(Request $request)
     {
+      // TODO: check more on validatition
+
+      //Validation
+      $this->validate(request(),[
+
+        'minimum' =>'required|numeric',
+
+        'maximum' => 'required|numeric',
+
+        'ratio' =>'required|numeric|between:0.001,0.999',
+
+        'offset' => 'required|numeric',
+
+        'country_id' =>'required|numeric',
+
+      ]);
 
 
       $paye = new Paye;
 
-      $paye->country_id = request('name');
 
       $paye->minimum = request('minimum');
 

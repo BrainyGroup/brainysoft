@@ -16,6 +16,12 @@ use App\Statutory_type;
 
 class OrganizationController extends Controller
 {
+    public function __construct()
+    {
+
+        $this->middleware('auth');
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -68,6 +74,22 @@ class OrganizationController extends Controller
      */
     public function store(Request $request)
     {
+
+      //Validation
+      $this->validate(request(),[        
+
+        'name' =>'required|string',
+
+        'description' => 'required|string',
+
+        'statutory_type_id' =>'required|numeric',
+
+        'bank_id' => 'required|numeric',
+
+        'account_number' =>'required|numeric',
+
+      ]);
+
 
       $employee = Employee::find(auth()->user()->id);
 

@@ -24,6 +24,7 @@ class StatutoriesTableSeeder extends Seeder
               'date_required' => '2018-08-07',
               'statutory_type_id' => 1,
               'base_id' => 1,
+              'before_paye' => true
           ]);
 
       DB::table('statutories')->insert([
@@ -37,6 +38,7 @@ class StatutoriesTableSeeder extends Seeder
               'date_required' => '2018-08-07',
               'statutory_type_id' => 1,
               'base_id' => 1,
+              'before_paye' => true
           ]);
 
       DB::table('statutories')->insert([
@@ -50,6 +52,7 @@ class StatutoriesTableSeeder extends Seeder
               'date_required' => '2018-08-07',
               'statutory_type_id' => 2,
               'base_id' => 1,
+              'before_paye' => false
           ]);
 
       DB::table('statutories')->insert([
@@ -63,6 +66,7 @@ class StatutoriesTableSeeder extends Seeder
               'date_required' => '2018-08-07',
               'statutory_type_id' => 3,
               'base_id' => 2,
+              'before_paye' => false
           ]);
 
       DB::table('statutories')->insert([
@@ -76,6 +80,7 @@ class StatutoriesTableSeeder extends Seeder
               'date_required' => '2018-08-07',
               'statutory_type_id' => 3,
               'base_id' => 2,
+              'before_paye' => false
           ]);
     }
 }

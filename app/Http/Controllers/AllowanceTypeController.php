@@ -11,6 +11,13 @@ use App\Employee;
 
 class AllowanceTypeController extends Controller
 {
+
+    public function __construct()
+    {
+
+        $this->middleware('auth');
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -46,9 +53,24 @@ class AllowanceTypeController extends Controller
     public function store(Request $request)
     {
 
+      //Validation
+      $this->validate(request(),[
+
+        'name' =>'required|string',
+
+        'description' => 'required|string',
+
+      ]);
+
+      //get user id
+
       $id = auth()->user()->id;
 
+      //get employee with that user id
+
       $employee = Employee::find($id);
+
+      //save records
 
       $allowance_type = new Allowance_type;
 
@@ -59,6 +81,8 @@ class AllowanceTypeController extends Controller
       $allowance_type->company_id = $employee->company_id;
 
       $allowance_type->save();
+
+      //redirect to allowance types
 
       return redirect('allowance_types');
 

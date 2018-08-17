@@ -15,18 +15,18 @@ class CreateEmployeesTable extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('designation');
-            $table->string('identity');
+            $table->integer('designation_id')->unsigned()->foreign()->references('id')->on('designations');
+            $table->integer('identity')->unsigned()->unique();
             $table->integer('user_id')->unsigned()->foreign()->references('id')->on('users');
             $table->integer('company_id')->unsigned()->foreign()->references('id')->on('companies');
             $table->integer('center_id')->unsigned()->foreign()->references('id')->on('centers');
             $table->integer('scale_id')->unsigned()->foreign()->references('id')->on('scales');
             $table->integer('level_id')->unsigned()->foreign()->references('id')->on('levels');
             $table->integer('department_id')->unsigned()->foreign()->references('id')->on('departments');
-            $table->string('accountnumber');
+            $table->string('account_number');
             $table->integer('bank_id')->unsigned()->foreign()->references('id')->on('banks');
-            $table->date('startdate');
-            $table->date('enddate');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->timestamps();
         });
     }

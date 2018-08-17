@@ -12,7 +12,13 @@ use App\Employee;
 
 class CenterController extends Controller
 {
-    /**
+    public function __construct()
+    {
+
+        $this->middleware('auth');
+
+    }
+  /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -47,6 +53,17 @@ class CenterController extends Controller
     public function store(Request $request)
     {
 
+      //Validation
+      $this->validate(request(),[
+
+        'name' =>'required|string',
+
+        'description' => 'required|string',
+
+      ]);
+
+      //get user id
+
       $id = auth()->user()->id;
 
       $employee = Employee::find($id);
@@ -64,7 +81,7 @@ class CenterController extends Controller
       $center->save();
 
       return redirect('centers');
-      
+
     }
 
     /**

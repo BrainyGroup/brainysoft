@@ -15,7 +15,7 @@ class CreateAllowancesTable extends Migration
     {
         Schema::create('allowances', function (Blueprint $table) {
             $table->increments('id');
-            $table->decimal('amount',11,2);
+            $table->decimal('amount',11,2);          
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('employee_id')->unsigned()->foreign()->references('id')->on('employees');

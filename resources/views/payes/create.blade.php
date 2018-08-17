@@ -34,13 +34,19 @@
 
                     </div>
 
-                    {{ Form::bsText('minimum','',['placeholder' => 'Enter minimum salary']) }}
+                    {{ Form::bsNumber('minimum','',['placeholder' => 'Enter minimum salary','required' => 'true','step' => '0.01','min' => '0.00']) }}
 
-                    {{ Form::bsText('maximum','',['placeholder' => 'Enter maximum salary']) }}
+                    {{ Form::bsNumber('maximum','',['placeholder' => 'Enter maximum salary','required' => 'true','step' => '0.01','min' => '0.00']) }}
 
-                    {{ Form::bsText('ratio','',['placeholder' => 'Enter ratio', 'required' => 'true']) }}
+                    {{ Form::bsNumber('ratio','',['placeholder' => 'Enter ratio', 'required' => 'true','step' => '0.001','max' => '0.999']) }}
 
-                    {{ Form::bsText('offset','',['placeholder' => 'Enter offset']) }}
+                    @if($errors->has('ratio'))
+
+                      {{ $errors->first('ratio')}}
+
+                    @endif
+
+                    {{ Form::bsNumber('offset','',['placeholder' => 'Enter offset', 'required' => 'true','step' => '0.01','min' => '0.00']) }}
 
                     {{ Form::bsSubmit('Submit',['class' => 'btn btn-primary']) }}
 

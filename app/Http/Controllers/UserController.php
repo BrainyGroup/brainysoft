@@ -4,14 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Contribution;
+use App\User;
 
 use App\Company;
 
-
-
-class ContributionController extends Controller
+class UserController extends Controller
 {
+    public function __construct()
+    {
+
+        $this->middleware('auth');
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -20,11 +24,13 @@ class ContributionController extends Controller
     public function index()
     {
 
-          $company = Company::find(1);
+        $user = User::find(auth()->user()->id);
 
-          $contributions = Contribution::where('company_id', $company->id)->get();
+        $users = User::find($user->company_id)->get();
 
-          return view('contributions.index', compact('contributions'));
+        $company = Company::find($user->company_id)->first();
+
+        return view('users.index', compact('users','company'));
     }
 
     /**

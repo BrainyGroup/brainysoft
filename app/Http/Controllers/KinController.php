@@ -10,6 +10,12 @@ use App\Company;
 
 class KinController extends Controller
 {
+    public function __construct()
+    {
+
+        $this->middleware('auth');
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -44,6 +50,19 @@ class KinController extends Controller
      */
     public function store(Request $request)
     {
+
+      //Validation
+      $this->validate(request(),[
+
+        'name' =>'required|string',
+
+        'description' => 'required|string',
+
+        'kin_type_id' =>'required|numeric',
+
+        'employee_id' => 'required|numeric',
+
+      ]);
 
       $employee = Employee::find(auth()->user()->id);
 

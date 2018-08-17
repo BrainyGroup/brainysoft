@@ -22,8 +22,7 @@
                       <th scope="col">Designation</th>
                       <th scope="col">Mobile</th>
                       <th scope="col">salary</th>
-                      <th scope="col">Allowance</th>
-                      <th scope="col">Statutory</th>
+                      <th scope="col">Allowance</th>                    
                       <th scope="col">Deduction</th>
 
                     </tr>
@@ -48,7 +47,7 @@
 
                     <td><a href="/deductions">{{  number_format($employee->deduction_amount, 2) }}</a></td>
 
-                    <td>{{  number_format($employee->salary, 2) }}</td>
+
 
                     </tr>
 

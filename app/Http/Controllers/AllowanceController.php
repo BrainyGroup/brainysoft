@@ -18,34 +18,19 @@ use DB;
 
 class AllowanceController extends Controller
 {
-    /**
+
+    public function __construct()
+    {
+
+        $this->middleware('auth');
+
+    }
+      /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index1()
-    {
 
-          $company = Company::find(1);
-
-
-        $allowances = DB::table('allowances')
-        ->select(
-          'employee_id',
-          DB::raw('SUM(amount) as allowance_amount'))
-          ->where('allowances.company_id',1)
-          ->groupBy('employee_id');
-
-          $employees_allowances=DB::table('employees')
-          ->join('users','users.id','employees.user_id')
-            ->joinSub($allowances,'allowances', function($join){
-              $join->on('employees.id','allowances.employee_id');
-            })
-              ->select('allowances.*','employees.*','users.*')
-              ->get();
-
-          return view('allowances.index', compact('employees_allowances'));
-    }
 
 
     public function index()
@@ -102,7 +87,7 @@ class AllowanceController extends Controller
      */
     public function create(Request $request)
     {
-        $employee = Employee::find(request('employee_id'));
+        $employee = Employee::find(request('user_id'));
 
         $user = User::where('users.id', $employee->user_id)->first();
 
@@ -121,11 +106,25 @@ class AllowanceController extends Controller
     public function store(Request $request)
     {
 
-        $employee = Employee::find(request('employee_id'));
+        //Validation
+        $this->validate(request(),[
+
+          'allowance_type_id' => 'required',
+
+          'allowance_amount' =>'required|numeric',
+
+          'start_date' => 'required|date',
+
+          'end_date' => 'required|date',
+
+        ]);
+
+
+        $employee = Employee::find(request('user_id'));
 
         $allowance = new Allowance;
 
-        $allowance->employee_id = request('employee_id');
+        $allowance->employee_id = $employee->id;
 
         $allowance->company_id = $employee->company_id;
 

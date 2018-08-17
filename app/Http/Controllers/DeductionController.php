@@ -18,6 +18,12 @@ use DB;
 
 class DeductionController extends Controller
 {
+    public function __construct()
+    {
+
+        $this->middleware('auth');
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -148,6 +154,21 @@ public function deductionDetails()
      */
     public function store(Request $request)
     {
+
+      //Validation
+      $this->validate(request(),[
+
+        'deduction_type_id' => 'required',
+
+        'amount' =>'required|numeric',
+
+        'start_date' => 'required|date',
+
+        'end_date' => 'required|date',
+
+      ]);
+
+      // TODO: check deduction to see if it is working
 
       $employee = Employee::find(auth()->user()->id);
 

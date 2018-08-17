@@ -29,9 +29,9 @@
 
                     <tr>
 
-                      <th scope="row">{{ $allowance->user_id }}</th>
+                      <th scope="row">{{ $allowance->employee_id }}</th>
 
-                      <td><a href="/allowances/create?employee_id={{$allowance->employee_id}}">{{ $allowance->title.'. '.$allowance->firstname.' '.$allowance->middlename.' '.$allowance->lastname }}</a></td>
+                      <td><a href="/allowances/create?user_id={{$allowance->user_id}}">{{ $allowance->title.'. '.$allowance->firstname.' '.$allowance->middlename.' '.$allowance->lastname }}</a></td>
 
                       <td>{{ $allowance->allowance_name }}  </td>
 

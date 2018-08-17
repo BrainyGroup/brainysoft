@@ -12,6 +12,12 @@ use App\Employee;
 
 class KinTypeController extends Controller
 {
+    public function __construct()
+    {
+
+        $this->middleware('auth');
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -44,6 +50,15 @@ class KinTypeController extends Controller
      */
     public function store(Request $request)
     {
+
+      //Validation
+      $this->validate(request(),[
+
+        'name' =>'required|string',
+
+        'description' => 'required|string',
+
+      ]);
 
       $employee = Employee::find(auth()->user()->id);
 

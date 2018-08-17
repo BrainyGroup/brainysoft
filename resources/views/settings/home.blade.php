@@ -19,33 +19,33 @@
 
                     <tr>
                       <td><a href="/allowances">Allowances</a></td>
-                      <td><a href="/allowances">Designation</a></td>
-                      <td><a href="/allowances">Paye</a></td>
+                      <td><a href="/designations">Designations</a></td>
+                      <td><a href="/payes">Payes</a></td>
                     </tr>
 
                     <tr>
-                      <td><a href="/allowances_Types">Allowance Types</a></td>
-                      <td><a href="/allowances">Kin Types</a></td>
-                      <td><a href="/allowances">Salary types</a></td>
+                      <td><a href="/allowance_types">Allowance Types</a></td>
+                      <td><a href="/kin_types">Kin Types</a></td>
+                      <td><a href="/salary_types">Salary types</a></td>
                     </tr>
 
                     <tr>
-                      <td><a href="/bankss">Banks</a></td>
-                      <td><a href="/allowances">Levels</a></td>
-                      <td><a href="/allowances">Scales</a></td>
+                      <td><a href="/banks">Banks</a></td>
+                      <td><a href="/levels">Levels</a></td>
+                      <td><a href="/scales">Scales</a></td>
                     </tr>
 
                     <tr>
-                      <td><a href="/centers">Center</a></td>
-                      <td><a href="/allowances">Organization</a></td>
-                      <td><a href="/allowances">Statutory Types</a></td>
+                      <td><a href="/centers">Centers</a></td>
+                      <td><a href="/organizations">Organizations</a></td>
+                      <td><a href="/statutory_types">Statutory Types</a></td>
 
                     </tr>
 
                     <tr>
-                      <td><a href="/companies">Company</a></td>
-                      <td><a href="/allowances">Statutories</a></td>
-                        <td><a href="/allowances">Variables</a></td>
+                      <td><a href="/companies">Companies</a></td>
+                      <td><a href="/statutories">Statutories</a></td>
+                        <td><a href="/variables">Variables</a></td>
 
                     </tr>
 

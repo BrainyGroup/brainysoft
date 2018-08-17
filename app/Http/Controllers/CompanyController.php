@@ -13,6 +13,12 @@ use App\employee;
 
 class CompanyController extends Controller
 {
+    public function __construct()
+    {
+
+        $this->middleware('auth');
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -50,6 +56,17 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
+
+      //Validation
+      $this->validate(request(),[
+
+        'name' =>'required|string',
+
+        'description' => 'required|string',
+
+      ]);
+
+      //get user id
 
       $employee = Employee::find(auth()->user()->id);
 
