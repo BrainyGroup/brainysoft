@@ -89,6 +89,8 @@ class EmployeeController extends Controller
 
     ->join('centers', 'employees.center_id', '=', 'centers.id')
 
+    ->join('designations', 'employees.designation_id', '=', 'designations.id')
+
     ->joinSub($allowances, 'allowances', function($join) {
 
       $join->on('employees.id','allowances.employee_id');
@@ -112,6 +114,8 @@ class EmployeeController extends Controller
         'deductions.*',
 
         'centers.name as center_name',
+
+        'designations.name as designation',
 
         'centers.description as center_description'
 

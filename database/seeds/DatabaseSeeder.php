@@ -32,6 +32,8 @@ class DatabaseSeeder extends Seeder
            LevelsTableSeeder::class,
            DesignationsTableSeeder::class,
            Employee_statutoryTableSeeder::class,
+           PaysTableSeeder::class,
+           Pay_statutoriesTableSeeder::class,
          ]);
     }
 }

@@ -8,7 +8,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12">
 
 
-        @if(count ($pays) )> 0)
+        @if(count($pays) > 0)
       <div class="table-responsive">
 
               <table class="table table-hover table-striped table-bordered">
@@ -21,65 +21,65 @@
 
                       <th scope="col">Run Date</th>
 
-                      <th scope="col">Year</th>
+                      <th scope="col">Pay number</th>
 
-                      <th scope="col">month</th>
+
 
                       <th scope="col">Basic Salary</th>
 
                       <th scope="col">Allowances</th>
 
-                      <th scope="col">SSF</th>
+                      <th scope="col">Gloss</th>
+
+
 
                       <th scope="col">Taxable Pay</th>
 
-                      <th scope="col">$paye</th>
 
-                      <th scope="col">Net</th>
 
-                      <th scope="col">HI</th>
+                      <th scope="col">paye</th>
 
-                      <th scope="col">WCF</th>
+                      <th scope="col">Monthly Earn</th>
 
-                      <th scope="col">SDL</th>
+
 
                       <th scope="col">Deductions</th>
 
                       <th scope="col">Net Earning</th>
 
-                      <th scope="col">Details</th>
+
 
 
                     </tr>
                   </thead>
                   <tbody>
-        @foreach($$pays as $pay)
+        @foreach($pays as $pay)
 
                     <tr>
 
-                      <td>{{ $pay->name }}</td>
+                      <td>{{ $pay->title.'. '.$pay->firstname.' '.$pay->middlename.' '.$pay->lastname }}</td>
 
                       <td>{{ $pay->run_date }}</td>
 
-                      <td>{{ $pay->year }}</td>
 
-                      <td>{{ $pay->month }}</td>
 
-                      <td>{{ $pay->name }}</td>
+                      <td>{{ $pay->pay_number }}</td>
 
-                      <td>{{ $pay->description }}</td>
+                      <td>{{ $pay->basic_salary }}</td>
 
-                      <td>{{ $pay->name }}</td>
+                      <td>{{ $pay->allowance }}</td>
 
-                      <td>{{ $pay->description }}</td>
+                      <td>{{ $pay->gloss }}</td>
 
-                      <td>{{ $pay->name }}</td>
+                      <td>{{ $pay->taxable }}</td>
 
-                      <td>{{ $pay->description }}</td>
+                      <td>{{ $pay->paye }}</td>
 
-                      <td>{{ $pay->name }}</td>
+                      <td>{{ $pay->monthly_earning }}</td>
 
-                      <td>{{ $pay->description }}</td>
+                      <td>{{ $pay->deduction }}</td>
+
+                      <td>{{ $pay->net }}</td>
 
 
 
