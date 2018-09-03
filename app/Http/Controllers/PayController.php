@@ -1,30 +1,42 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace BrainySoft\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Log;
+
+use Exception;
+
 use DB;
 
-use App\Paye;
+use Mail;
 
-use App\Pay;
+use Exception;
 
-use App\Salary;
+use BrainySoft\Paye;
 
-use App\Employee;
+use BrainySoft\Pay;
 
-use App\Statutory;
+use BrainySoft\Salary;
+
+use BrainySoft\Employee;
+
+use BrainySoft\Statutory;
 
 use Carbon\Carbon;
 
-use App\Company;
+use BrainySoft\Company;
 
-use App\Deduction;
+use BrainySoft\User;
 
-use App\Allowance;
+use BrainySoft\Deduction;
 
-use App\Pay_statutory;
+use BrainySoft\Allowance;
+
+use BrainySoft\Pay_statutory;
+
+use Illuminate\Support\Facades\Log;
 
 class PayController extends Controller
 {
@@ -35,6 +47,48 @@ class PayController extends Controller
         $this->middleware('auth');
 
     }
+
+    private function company()
+    {
+      $employee = Employee::find(auth()->user()->id);
+
+      return Company::find($employee->company_id);
+    }
+
+    private function sendSalarySlipEmail($id,$company,$fromPaySlipEmail,$fromPaySlipName,$paySlipSubject,$lastPayId)
+    {
+
+          try{
+
+            $user = User::findOrFail(200);
+
+            $pay = Pay::findOrFail($lastPayId);
+
+            $data = [
+
+              'email' => $fromPaySlipEmail,
+              'sender' => $fromPaySlipName,
+              'subject' => $paySlipSubject
+
+            ];
+
+            Mail::send('emails.salary_slip', ['user' => $user,'pay'=>$pay,'company'=>$company], function ($message) use ($user,$data) {
+
+                $message->from($data['email'], $data['sender']);
+
+                $message->to($user->email, $user->firstname)->subject($data['subject']);
+
+                // $message->attach($pathToFile, ['as' => $display, 'mime' => $mime]);
+            });
+          }catch(Exception $e){
+
+            report($e);
+
+            return false;
+
+
+          }
+        }
 
 
 //2 Sum of $allowanceSum
@@ -187,6 +241,13 @@ private function deductionSum($employee_id = null,$company_id = null){
 
         DB::transaction( function(){
 
+          // TODO: below item should be company variable or setting
+          $fromPaySlipEmail = 'payroll@datahousetza.com';
+          $fromPaySlipName = 'Payroll Datahouse';
+          $paySlipSubject = 'Pay Slip';
+
+          //end of todo
+
           $year = request('year');
 
           $month = request('month');
@@ -202,6 +263,14 @@ private function deductionSum($employee_id = null,$company_id = null){
           $login_user = Employee::where('user_id', auth()->user()->id)->first();
 
           $company_id = $login_user->company_id;
+
+          $company = Company::findOrFail($company_id);
+
+          $company_name = $company->name;
+
+          $company_logo = $company->logo;
+
+          $company_domain = $company->website;
 
           $salaries = Salary::where('company_id', $company_id)->get();
 
@@ -234,6 +303,13 @@ private function deductionSum($employee_id = null,$company_id = null){
       foreach($salaries as $salary){
 
         $employee_id = $salary->employee_id;
+
+
+        $employee = Employee::select('user_id')
+                    ->where('id',$employee_id)
+                    ->where('company_id',$company_id)
+                    ->first();
+
 
         $company_id = $salary->company_id;
 
@@ -329,10 +405,14 @@ foreach($statutories as $statutory){
 
 
 
+$this->sendSalarySlipEmail($employee->user_id,$company,$fromPaySlipEmail,$fromPaySlipName,$paySlipSubject,$lastPayId);
+
 }
 }
 
 });
+
+
 
 return redirect('pays');
 
@@ -349,9 +429,9 @@ return redirect('pays');
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Pay $pay)
     {
-        //
+        return view('pays.show',compact('pay'));
     }
 
     /**
@@ -362,7 +442,7 @@ return redirect('pays');
      */
     public function edit($id)
     {
-        //
+        //return view('pays.edit');
     }
 
     /**
@@ -375,12 +455,13 @@ return redirect('pays');
     public function update($id,$pay_number)
     {
 
+       $pay = Pay::find($id);
 
-        $pay = Pay::find($id);
+       $salary = Salary::where('employee_id', $pay->employee_id)
 
+       ->where('company_id',$pay->company_id)
 
-
-       $salary = Salary::where('employee_id', $pay->employee_id)->first();
+       ->first();
 
        $employee_id = $salary->employee_id;
 
@@ -410,7 +491,13 @@ return redirect('pays');
 
 
 
-       DB::table('pays')->where('id',$id)->update([
+       DB::table('pays')
+
+       ->where('id',$id)
+
+       ->where('company_id',$company_id)
+
+       ->update([
 
 
          'run_date' => Carbon::now(),
@@ -441,27 +528,26 @@ return redirect('pays');
       ->where('statutories.company_id', $company_id)
       ->get();
 
-foreach($statutories as $statutory){
+              foreach($statutories as $statutory){
 
-if($statutory->base_id == 1){
-$statutory_employee = $statutory->employee * $basic_salary;
-$statutory_employer = $statutory->employer * $basic_salary;
-}else {
-$statutory_employee = $statutory->employee * $gloss;
-$statutory_employer = $statutory->employer * $gloss;
-}
-      DB::table('pay_statutories')->insert([
-              'company_id' => $company_id,
-              'employee_id' => $employee_id,
-              'pay_id' => $lastPayId,
-              'pay_number' => $pay_number,
-              'employee' =>   $statutory_employee,
-              'employer' =>   $statutory_employer,
+              if($statutory->base_id == 1){
+              $statutory_employee = $statutory->employee * $basic_salary;
+              $statutory_employer = $statutory->employer * $basic_salary;
+              }else {
+              $statutory_employee = $statutory->employee * $gloss;
+              $statutory_employer = $statutory->employer * $gloss;
+              }
+                    DB::table('pay_statutories')->where('pay_id',$id)
+                    ->where('employee_id', $employee_id)
+                    ->where('company_id', $company_id)
+                    ->where('statutory_type_id',$statutory->statutory_type_id)
+                    ->update([
 
-              'statutory_type_id' => $statutory->statutory_type_id,
-              'created_at' =>now(),
-              'updated_at' =>now(),
-          ]);
+                            'employee' =>   $statutory_employee,
+                            'employer' =>   $statutory_employer,
+
+                            'updated_at' =>now(),
+                        ]);
     }
 
 
@@ -476,8 +562,21 @@ $statutory_employer = $statutory->employer * $gloss;
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Pay $pay)
     {
-        //
+      // TODO: delete with its statutory, allowance and deductions
+      $pay = Pay::find($pay->id);
+
+      if ($pay->delete()){
+
+        return redirect('pays.index')
+
+        ->with('success','Pay deleted successfully');
+
+      }else{
+
+        return back()->withInput()->with('error','Pay could not be deleted');
+
+      }
     }
 }

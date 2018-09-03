@@ -1,18 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace BrainySoft\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Allowance;
+use Illuminate\Support\Facades\Log;
 
-use App\Company;
+use Exception;
 
-use App\Employee;
+use BrainySoft\Allowance;
 
-use App\User;
+use BrainySoft\Company;
 
-use App\Allowance_type;
+use BrainySoft\Employee;
+
+use BrainySoft\User;
+
+use BrainySoft\Allowance_type;
 
 use DB;
 
@@ -30,15 +34,24 @@ class AllowanceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    private function company()
+    {
+      $employee = Employee::find(auth()->user()->id);
+
+      return Company::find($employee->company_id);
+    }
 
 
 
     public function index()
     {
 
-        $employee = Employee::find(auth()->user()->id);
+      try{
 
-        $company = Company::find($employee->company_id);
+        $company = $this->company();
+
+        Log::debug($company->name.': Start allowance index');
+
 
         $allowance = DB::table('allowances')
 
@@ -77,7 +90,22 @@ class AllowanceController extends Controller
 
             ->get();
 
+          Log::debug($company->name.': End allowance index');
+
           return view('allowances.index', compact('employees_allowances'));
+
+      }catch(Exception $e){
+
+          $company = $this->company();
+
+          Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+          Log::debug($company->name.': End allowance index');
+      }
+
+
+
+
     }
 
     /**
@@ -148,9 +176,10 @@ class AllowanceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Allowance $allowance)
     {
-        //
+        $allowance = Allowance::find($allowance->id);
+        return view('allowances.show',compact('allowance'));
     }
 
     /**
@@ -161,7 +190,8 @@ class AllowanceController extends Controller
      */
     public function edit($id)
     {
-        //
+        $allowance = Allowance::find($allowance->id);
+        return view('allowances.edit',compact('allowance'));
     }
 
     /**
@@ -171,9 +201,25 @@ class AllowanceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Allowance $allowance)
     {
-        //
+            //save data
+        $allowanceUpdate = Allowance::where('id', $allowance->id)
+
+        ->update([
+
+            'name'			=> $request->input('name'),
+
+            'description'	=> $request->input('description'),
+
+        ]);
+
+        if($allowanceUpdate)
+
+          return redirect()->route('allowances.show',['Allowance'=>$allowance->id])
+
+          ->with('success','Allowance updated successfully');
+          //redirect
     }
 
     /**
@@ -182,8 +228,22 @@ class AllowanceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Allowance $allowance)
     {
-        //
+
+        $allowance = Allowance::find($allowance->id);
+
+        if ($allowance->delete()){
+
+          return redirect('allowances.index')
+
+          ->with('success','Allowance deleted successfully');
+
+        }else{
+
+          return back()->withInput()->with('error','Allowance could not be deleted');
+
+        }
+
     }
 }

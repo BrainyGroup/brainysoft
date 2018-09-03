@@ -1,10 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace BrainySoft\Http\Controllers;
 
-use App\Country;
+use BrainySoft\Country;
 
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Log;
+
+use Exception;
 
 class CountryController extends Controller
 {
@@ -14,6 +18,13 @@ class CountryController extends Controller
         $this->middleware('auth');
 
     }
+
+    private function company()
+    {
+      $employee = Employee::find(auth()->user()->id);
+
+      return Company::find($employee->company_id);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -21,10 +32,27 @@ class CountryController extends Controller
      */
     public function index()
     {
+      try{
 
-          $countries = Country::all();
+        $company = $this->company();
 
-          return view('countries.index', compact('countries'));
+        Log::debug($company->name.': Start country index');
+
+        $countries = Country::all();
+
+        return view('countries.index', compact('countries'));
+
+      }catch(Exception $e){
+
+        $company = $this->company();
+
+        Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+        Log::debug($company->name.': End country index');
+
+      }
+
+
     }
 
     /**
@@ -70,30 +98,30 @@ class CountryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Country  $country
+     * @param  \BrainySoft\Country  $country
      * @return \Illuminate\Http\Response
      */
     public function show(Country $country)
     {
-        //
+        return view('countries.show',compact('country'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Country  $country
+     * @param  \BrainySoft\Country  $country
      * @return \Illuminate\Http\Response
      */
     public function edit(Country $country)
     {
-        //
+        return view('countries.edit');
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Country  $country
+     * @param  \BrainySoft\Country  $country
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Country $country)
@@ -104,11 +132,23 @@ class CountryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Country  $country
+     * @param  \BrainySoft\Country  $country
      * @return \Illuminate\Http\Response
      */
     public function destroy(Country $country)
     {
-        //
+      $country = Country::find($country->id);
+
+      if ($country->delete()){
+
+        return redirect('countries.index')
+
+        ->with('success','Country deleted successfully');
+
+      }else{
+
+        return back()->withInput()->with('error','Country could not be deleted');
+
+      }
     }
 }

@@ -1,12 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace BrainySoft\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\User;
+use Illuminate\Support\Facades\Log;
 
-use App\Company;
+use Exception;
+
+use BrainySoft\User;
+
+use BrainySoft\Company;
 
 class UserController extends Controller
 {
@@ -16,6 +20,13 @@ class UserController extends Controller
         $this->middleware('auth');
 
     }
+
+    private function company()
+    {
+      $employee = Employee::find(auth()->user()->id);
+
+      return Company::find($employee->company_id);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -24,6 +35,12 @@ class UserController extends Controller
     public function index()
     {
 
+      try{
+
+        $company = $this->company();
+
+        Log::debug($company->name.': Start user index');
+
         $user = User::find(auth()->user()->id);
 
         $users = User::find($user->company_id)->get();
@@ -31,6 +48,18 @@ class UserController extends Controller
         $company = Company::find($user->company_id)->first();
 
         return view('users.index', compact('users','company'));
+
+      }catch(Exception $e){
+
+        $company = $this->company();
+
+        Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+        Log::debug($company->name.': End user index');
+
+      }
+
+
     }
 
     /**
@@ -60,9 +89,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        //
+        return view('users.show',compact('user'));
     }
 
     /**
@@ -73,7 +102,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('users.edit');
     }
 
     /**
@@ -94,8 +123,22 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        // TODO: do not delete user unless does not have any pay and delete cascade
+
+        $user = User::find($user->id);
+
+        if ($user->delete()){
+
+          return redirect('users.index')
+
+          ->with('success','User deleted successfully');
+
+        }else{
+
+          return back()->withInput()->with('error','User could not be deleted');
+
+        }
     }
 }

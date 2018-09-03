@@ -1,14 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace BrainySoft\Http\Controllers;
 
-use App\Level;
+use BrainySoft\Level;
 
 use Illuminate\Http\Request;
 
-use App\Company;
+use Illuminate\Support\Facades\Log;
 
-use App\Employee;
+use Exception;
+
+use BrainySoft\Company;
+
+use BrainySoft\Employee;
 
 class LevelController extends Controller
 {
@@ -18,6 +22,13 @@ class LevelController extends Controller
         $this->middleware('auth');
 
     }
+
+    private function company()
+    {
+      $employee = Employee::find(auth()->user()->id);
+
+      return Company::find($employee->company_id);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -25,11 +36,28 @@ class LevelController extends Controller
      */
     public function index()
     {
-          $employee = Employee::find(auth()->user()->id);
+      try{
 
-          $levels = Level::where('company_id', $employee->company_id)->get();
+        $company = $this->company();
 
-          return view('levels.index', compact('levels'));
+        Log::debug($company->name.': Start level index');
+
+        $employee = Employee::find(auth()->user()->id);
+
+        $levels = Level::where('company_id', $employee->company_id)->get();
+
+        return view('levels.index', compact('levels'));
+
+      }catch(Exception $e){
+
+        $company = $this->company();
+
+        Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+        Log::debug($company->name.': End level index');
+
+      }
+
     }
 
     /**
@@ -79,30 +107,30 @@ class LevelController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Level  $level
+     * @param  \BrainySoft\Level  $level
      * @return \Illuminate\Http\Response
      */
     public function show(Level $level)
     {
-        //
+        return view('levels.show',compact('level'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Level  $level
+     * @param  \BrainySoft\Level  $level
      * @return \Illuminate\Http\Response
      */
     public function edit(Level $level)
     {
-        //
+        return view('levels.edit');
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Level  $level
+     * @param  \BrainySoft\Level  $level
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Level $level)
@@ -113,11 +141,23 @@ class LevelController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Level  $level
+     * @param  \BrainySoft\Level  $level
      * @return \Illuminate\Http\Response
      */
     public function destroy(Level $level)
     {
-        //
+      $level = Level::find($level->id);
+
+      if ($level->delete()){
+
+        return redirect('levels.index')
+
+        ->with('success','Level deleted successfully');
+
+      }else{
+
+        return back()->withInput()->with('error','Level could not be deleted');
+
+      }
     }
 }

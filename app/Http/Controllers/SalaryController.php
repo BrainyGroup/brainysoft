@@ -1,14 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace BrainySoft\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Salary;
+use Illuminate\Support\Facades\Log;
 
-use App\Company;
+use Exception;
 
-use App\Employee;
+use BrainySoft\Salary;
+
+use BrainySoft\Company;
+
+use BrainySoft\Employee;
 
 class SalaryController extends Controller
 {
@@ -19,6 +23,13 @@ class SalaryController extends Controller
 
     }
 
+    private function company()
+    {
+      $employee = Employee::find(auth()->user()->id);
+
+      return Company::find($employee->company_id);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -26,17 +37,35 @@ class SalaryController extends Controller
      */
     public function index()
     {
-          $employee = Employee::find(auth()->user()->id);
 
-          $salaries = Salary::where('salaries.company_id', $employee->company_id)
+      try{
 
-          ->join('employees', 'employees.id', 'salaries.employee_id')
+        $company = $this->company();
 
-          ->join('users', 'users.id', 'employees.user_id')
+        Log::debug($company->name.': Start salary index');
 
-          ->get();
+        $employee = Employee::find(auth()->user()->id);
 
-          return view('salaries.index', compact('salaries'));
+        $salaries = Salary::where('salaries.company_id', $employee->company_id)
+
+        ->join('employees', 'employees.id', 'salaries.employee_id')
+
+        ->join('users', 'users.id', 'employees.user_id')
+
+        ->get();
+
+        return view('salaries.index', compact('salaries'));
+
+      }catch(Exception $e){
+
+        $company = $this->company();
+
+        Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+        Log::debug($company->name.': End salary index');
+
+      }
+
     }
 
     /**
@@ -94,9 +123,9 @@ class SalaryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Salary $salary)
     {
-        //
+        return view('salaries.show',compact('Salary'));
     }
 
     /**
@@ -107,7 +136,7 @@ class SalaryController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('salaries.edit');
     }
 
     /**
@@ -128,8 +157,20 @@ class SalaryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Salary $salary)
     {
-        //
+      $salary = Salary::find($salary->id);
+
+      if ($salary->delete()){
+
+        return redirect('Salarys.index')
+
+        ->with('success','Salary deleted successfully');
+
+      }else{
+
+        return back()->withInput()->with('error','Salary could not be deleted');
+
+      }
     }
 }

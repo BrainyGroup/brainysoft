@@ -1,13 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace BrainySoft\Http\Controllers;
 
-use App\Department;
+use Illuminate\Support\Facades\Log;
+
 use Illuminate\Http\Request;
 
-use App\Company;
+use BrainySoft\Department;
 
-use App\Employee;
+use BrainySoft\Employee;
+
+use BrainySoft\Company;
+
+use Exception;
+
 
 class DepartmentController extends Controller
 {
@@ -17,6 +23,13 @@ class DepartmentController extends Controller
         $this->middleware('auth');
 
     }
+
+    private function company()
+    {
+      $employee = Employee::find(auth()->user()->id);
+
+      return Company::find($employee->company_id);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -24,11 +37,29 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-          $employee = Employee::find(auth()->user()->id);
 
-          $departments = Department::where('company_id', $employee->company_id)->get();
+      try{
 
-          return view('departments.index', compact('departments'));
+        $company = $this->company();
+
+        Log::debug($company->name.': Start department index');
+
+        $employee = Employee::find(auth()->user()->id);
+
+        $departments = Department::where('company_id', $employee->company_id)->get();
+
+        return view('departments.index', compact('departments'));
+
+      }catch(Exception $e){
+
+        $company = $this->company();
+
+        Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+        Log::debug($company->name.': End department index');
+
+      }
+
     }
 
     /**
@@ -78,30 +109,30 @@ class DepartmentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Department  $department
+     * @param  \BrainySoft\Department  $department
      * @return \Illuminate\Http\Response
      */
     public function show(Department $department)
     {
-        //
+        return view('departments.show',compact('department'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Department  $department
+     * @param  \BrainySoft\Department  $department
      * @return \Illuminate\Http\Response
      */
     public function edit(Department $department)
     {
-        //
+        return view('departments.edit');
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Department  $department
+     * @param  \BrainySoft\Department  $department
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Department $department)
@@ -112,11 +143,23 @@ class DepartmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Department  $department
+     * @param  \BrainySoft\Department  $department
      * @return \Illuminate\Http\Response
      */
     public function destroy(Department $department)
     {
-        //
+      $department = Department::find($department->id);
+
+      if ($department->delete()){
+
+        return redirect('departments.index')
+
+        ->with('success','Department deleted successfully');
+
+      }else{
+
+        return back()->withInput()->with('error','Department could not be deleted');
+
+      }
     }
 }

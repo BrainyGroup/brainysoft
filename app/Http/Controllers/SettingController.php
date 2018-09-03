@@ -1,12 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace BrainySoft\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Setting;
+use Illuminate\Support\Facades\Log;
 
-use App\Company;
+use Exception;
+
+use BrainySoft\Setting;
+
+use BrainySoft\Company;
 
 class SettingController extends Controller
 {
@@ -16,6 +20,13 @@ class SettingController extends Controller
         $this->middleware('auth');
 
     }
+
+    private function company()
+    {
+      $employee = Employee::find(auth()->user()->id);
+
+      return Company::find($employee->company_id);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -24,11 +35,29 @@ class SettingController extends Controller
     public function index()
     {
 
-        $company = Company::find(1);
+      try{
 
-        $settings = Setting::where('company_id', $company->id)->get();
+        $company = $this->company();
+
+        Log::debug($company->name.': Start setting index');
+
+        $employee = Employee::find(auth()->user()->id);
+
+        $settings = Setting::where('company_id', $employee->company_id)->get();
 
         return view('settings.home', compact('settings'));
+
+      }catch(Exception $e){
+
+        $company = $this->company();
+
+        Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+        Log::debug($company->name.': End setting index');
+
+      }
+
+
     }
 
     /**
@@ -55,7 +84,7 @@ class SettingController extends Controller
 
         'name' =>'required|string',
 
-        'description' => 'required|string',        
+        'description' => 'required|string',
 
       ]);
 
@@ -81,9 +110,9 @@ class SettingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Setting $setting)
     {
-        //
+        return view('settings.show',compact('setting'));
     }
 
     /**
@@ -94,7 +123,7 @@ class SettingController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('settings.edit');
     }
 
     /**
@@ -115,8 +144,20 @@ class SettingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Setting $setting)
     {
-        //
+      $setting = Setting::find($setting->id);
+
+      if ($setting->delete()){
+
+        return redirect('settings.index')
+
+        ->with('success','Setting deleted successfully');
+
+      }else{
+
+        return back()->withInput()->with('error','Setting could not be deleted');
+
+      }
     }
 }

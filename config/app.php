@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => env('APP_DEBUG', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -149,7 +149,7 @@ return [
 
         //Form collection
         Collective\Html\HtmlServiceProvider::class,
-        App\Providers\FormServiceProvider::class,
+        BrainySoft\Providers\FormServiceProvider::class,
         //End form collection
 
         /*
@@ -159,11 +159,11 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        BrainySoft\Providers\AppServiceProvider::class,
+        BrainySoft\Providers\AuthServiceProvider::class,
+        // BrainySoft\Providers\BroadcastServiceProvider::class,
+        BrainySoft\Providers\EventServiceProvider::class,
+        BrainySoft\Providers\RouteServiceProvider::class,
 
     ],
 

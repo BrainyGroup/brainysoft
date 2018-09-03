@@ -1,13 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace BrainySoft\Http\Controllers;
 
-use App\Allowance_type;
+
 use Illuminate\Http\Request;
 
-use App\Company;
+use Illuminate\Support\Facades\Log;
 
-use App\Employee;
+use Exception;
+
+use BrainySoft\Allowance_type;
+
+
+
+use BrainySoft\Company;
+
+use BrainySoft\Employee;
 
 class AllowanceTypeController extends Controller
 {
@@ -18,6 +26,13 @@ class AllowanceTypeController extends Controller
         $this->middleware('auth');
 
     }
+
+    private function company()
+    {
+      $employee = Employee::find(auth()->user()->id);
+
+      return Company::find($employee->company_id);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -25,11 +40,29 @@ class AllowanceTypeController extends Controller
      */
     public function index()
     {
-        $company = Company::find(1);
 
-        $allowance_types = Allowance_type::where('company_id', $company->id)->get();
+      try{
+
+        $company = $this->company();
+
+        Log::debug($company->name.': Start allowance index');
+
+        $employee = Employee::find(auth()->user()->id);
+
+        $allowance_types = Allowance_type::where('company_id', $employee->company_id)->get();
 
         return view('allowance_types.index', compact('allowance_types'));
+
+      }catch(Exception $e){
+
+          $company = $this->company();
+
+          Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+          Log::debug($company->name.': End allowance types index');
+      }
+
+
     }
 
     /**
@@ -91,45 +124,72 @@ class AllowanceTypeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Allowance_type  $allowance_type
+     * @param  \BrainySoft\Allowance_type  $allowance_type
      * @return \Illuminate\Http\Response
      */
     public function show(Allowance_type $allowance_type)
     {
-        //
+        return view('allowance_types.show',compact('allowance_type'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Allowance_type  $allowance_type
+     * @param  \BrainySoft\Allowance_type  $allowance_type
      * @return \Illuminate\Http\Response
      */
     public function edit(Allowance_type $allowance_type)
     {
-        //
+        return view('allowance_types.edit');
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Allowance_type  $allowance_type
+     * @param  \BrainySoft\Allowance_type  $allowance_type
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Allowance_type $allowance_type)
     {
-        //
+      $allowanceTypeUpdate = Allowance::where('id', $allowance_type->id)
+
+      ->update([
+
+          'name'			=>$request->input('name'),
+
+          'description'	=>$request->input('description'),
+
+      ]);
+
+      if($allowanceTypeUpdate)
+
+        return redirect()->route('allowances.show',['Allowance'=>$allowance->id])
+
+        ->with('success','Allowance updated successfully');
+        //redirect
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Allowance_type  $allowance_type
+     * @param  \BrainySoft\Allowance_type  $allowance_type
      * @return \Illuminate\Http\Response
      */
     public function destroy(Allowance_type $allowance_type)
     {
-        //
+      $allowance_type = Allowance_type::find($allowance_type->id);
+
+      if ($allowance_type->delete()){
+
+        return redirect('allowance_types.index')
+
+        ->with('success','Allowance type deleted successfully');
+
+      }else{
+
+        return back()->withInput()->with('error','Allowance type could not be deleted');
+
+      }
     }
 }

@@ -1,20 +1,24 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace BrainySoft\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Company;
+use Illuminate\Support\Facades\Log;
 
-use App\Statutory;
+use Exception;
 
-use App\Employee;
+use BrainySoft\Company;
 
-use App\Organization;
+use BrainySoft\Statutory;
 
-use App\Statutory_type;
+use BrainySoft\Employee;
 
-use App\Salary_base;
+use BrainySoft\Organization;
+
+use BrainySoft\Statutory_type;
+
+use BrainySoft\Salary_base;
 
 use DB;
 
@@ -26,6 +30,13 @@ class StatutoryController extends Controller
         $this->middleware('auth');
 
     }
+
+    private function company()
+    {
+      $employee = Employee::find(auth()->user()->id);
+
+      return Company::find($employee->company_id);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -34,34 +45,52 @@ class StatutoryController extends Controller
     public function index()
     {
 
-          $employee = Employee::find(auth()->user()->id);
+      try{
+
+        $company = $this->company();
+
+        Log::debug($company->name.': Start statutory index');
+
+        $employee = Employee::find(auth()->user()->id);
 
 
-          $statutories = DB::table('statutories')
+        $statutories = DB::table('statutories')
 
-          ->where('statutories.company_id', $employee->company_id)
+        ->where('statutories.company_id', $employee->company_id)
 
-          ->join('organizations', 'organizations.id','statutories.organization_id')
+        ->join('organizations', 'organizations.id','statutories.organization_id')
 
-          ->join('salary_bases','salary_bases.id', 'statutories.base_id')
+        ->join('salary_bases','salary_bases.id', 'statutories.base_id')
 
-          ->join('statutory_types', 'statutory_types.id', '=', 'statutories.statutory_type_id')
+        ->join('statutory_types', 'statutory_types.id', '=', 'statutories.statutory_type_id')
 
-          ->select(
+        ->select(
 
-            'statutories.*',
+          'statutories.*',
 
-            'organizations.name as organization_name',
+          'organizations.name as organization_name',
 
-            'salary_bases.name as salary_base',
+          'salary_bases.name as salary_base',
 
-            'statutory_types.name as statutory_type_name'
+          'statutory_types.name as statutory_type_name'
 
-            )
+          )
 
-          ->get();
+        ->get();
 
-          return view('statutories.index', compact('statutories'));
+        return view('statutories.index', compact('statutories'));
+
+      }catch(Exception $e){
+
+        $company = $this->company();
+
+        Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+        Log::debug($company->name.': End statutory index');
+
+      }
+
+
     }
 
     /**
@@ -148,9 +177,9 @@ class StatutoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Statutory $statutory)
     {
-        //
+        return view('statutories.show',compact('statutory'));
     }
 
     /**
@@ -161,7 +190,7 @@ class StatutoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('statutories.edit');
     }
 
     /**

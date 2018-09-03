@@ -1,18 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace BrainySoft\Http\Controllers;
 
-use App\Deduction;
+use BrainySoft\Deduction;
 
 use Illuminate\Http\Request;
 
-use App\Company;
+use Illuminate\Support\Facades\Log;
 
-use App\Employee;
+use Exception;
 
-use App\User;
+use BrainySoft\Company;
 
-use App\Deduction_type;
+use BrainySoft\Employee;
+
+use BrainySoft\User;
+
+use BrainySoft\Deduction_type;
 
 use DB;
 
@@ -24,6 +28,13 @@ class DeductionController extends Controller
         $this->middleware('auth');
 
     }
+
+    private function company()
+    {
+      $employee = Employee::find(auth()->user()->id);
+
+      return Company::find($employee->company_id);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -31,51 +42,66 @@ class DeductionController extends Controller
      */
     public function index()
     {
+      try{
 
-          $employee = Employee::find(auth()->user()->id);
+        $company = $this->company();
 
-          $company = Company::find($employee->company_id);
+        Log::debug($company->name.': Start deduction index');
 
-          $deduction = DB::table('deductions')
+        $employee = Employee::find(auth()->user()->id);
 
-          ->select('employee_id','deduction_type_id',
+        $deduction = DB::table('deductions')
 
-          DB::raw('SUM(amount) as deduction_amount'))
+        ->select('employee_id','deduction_type_id',
 
-          ->where('deductions.company_id',1)
+        DB::raw('SUM(amount) as deduction_amount'))
 
-          ->groupBy('employee_id')
+        ->where('deductions.company_id',1)
 
-          ->groupBy('deduction_type_id');
+        ->groupBy('employee_id')
+
+        ->groupBy('deduction_type_id');
 
 
-            $employees_deductions=DB::table('employees')
+          $employees_deductions=DB::table('employees')
 
-            ->join('users','users.id','employees.user_id')
+          ->join('users','users.id','employees.user_id')
 
-            ->joinSub($deduction,'deduction', function($join){
+          ->joinSub($deduction,'deduction', function($join){
 
-              $join->on('employees.id','deduction.employee_id');
+            $join->on('employees.id','deduction.employee_id');
 
-            })->join('deduction_types','deduction_types.id','deduction.deduction_type_id')
+          })->join('deduction_types','deduction_types.id','deduction.deduction_type_id')
 
-              ->select(
+            ->select(
 
-                'employees.*',
+              'employees.*',
 
-                'users.*',
+              'users.*',
 
-                'deduction.*',
+              'deduction.*',
 
-                'deduction_types.name as deduction_name'
+              'deduction_types.name as deduction_name'
 
-                )
+              )
 
-              ->orderBy('employee_id')
+            ->orderBy('employee_id')
 
-              ->get();
+            ->get();
 
-            return view('deductions.index', compact('employees_deductions'));
+          return view('deductions.index', compact('employees_deductions'));
+
+      }catch(Exception $e){
+
+        $company = $this->company();
+
+        Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+        Log::debug($company->name.': End deduction index');
+
+      }
+
+
 }
 
 
@@ -195,30 +221,30 @@ public function deductionDetails()
     /**
      * Display the specified resource.
      *
-     * @param  \App\deduction  $deduction
+     * @param  \BrainySoft\deduction  $deduction
      * @return \Illuminate\Http\Response
      */
     public function show(deduction $deduction)
     {
-        //
+        return view('deductions.show',compact('deduction'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\deduction  $deduction
+     * @param  \BrainySoft\deduction  $deduction
      * @return \Illuminate\Http\Response
      */
     public function edit(deduction $deduction)
     {
-        //
+        return view('deductions.edit');
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\deduction  $deduction
+     * @param  \BrainySoft\deduction  $deduction
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, deduction $deduction)
@@ -229,11 +255,23 @@ public function deductionDetails()
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\deduction  $deduction
+     * @param  \BrainySoft\deduction  $deduction
      * @return \Illuminate\Http\Response
      */
     public function destroy(deduction $deduction)
     {
-        //
+      $deduction = Deduction::find($deduction->id);
+
+      if ($deduction->delete()){
+
+        return redirect('deductions.index')
+
+        ->with('success','Deduction deleted successfully');
+
+      }else{
+
+        return back()->withInput()->with('error','Deduction could not be deleted');
+
+      }
     }
 }

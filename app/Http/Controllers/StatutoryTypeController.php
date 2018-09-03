@@ -1,11 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace BrainySoft\Http\Controllers;
 
-use App\Statutory_type;
+use BrainySoft\Statutory_type;
+
 use Illuminate\Http\Request;
 
-use App\Company;
+use Illuminate\Support\Facades\Log;
+
+use Exception;
+
+use BrainySoft\Company;
 
 class StatutoryTypeController extends Controller
 {
@@ -15,6 +20,13 @@ class StatutoryTypeController extends Controller
         $this->middleware('auth');
 
     }
+
+    private function company()
+    {
+      $employee = Employee::find(auth()->user()->id);
+
+      return Company::find($employee->company_id);
+    }
       /**
      * Display a listing of the resource.
      *
@@ -22,11 +34,29 @@ class StatutoryTypeController extends Controller
      */
     public function index()
     {
-          $company = Company::find(1);
 
-          $statutory_types = Statutory_type::where('company_id', $company->id)->get();
+      try{
 
-          return view('statutory_types.index', compact('statutory_types'));
+        $company = $this->company();
+
+        Log::debug($company->name.': Start statutory type index');
+
+        $employee = Employee::find(auth()->user()->id);
+
+        $statutory_types = Statutory_type::where('company_id', $employee->company_id)->get();
+
+        return view('statutory_types.index', compact('statutory_types'));
+
+      }catch(Exception $e){
+
+        $company = $this->company();
+
+        Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+        Log::debug($company->name.': End statutory type index');
+
+      }
+
     }
 
     /**
@@ -77,30 +107,30 @@ class StatutoryTypeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Statutory_type  $statutory_type
+     * @param  \BrainySoft\Statutory_type  $statutory_type
      * @return \Illuminate\Http\Response
      */
     public function show(Statutory_type $statutory_type)
     {
-        //
+        return view('statutory_types.show',compact('Statutory_type'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Statutory_type  $statutory_type
+     * @param  \BrainySoft\Statutory_type  $statutory_type
      * @return \Illuminate\Http\Response
      */
     public function edit(Statutory_type $statutory_type)
     {
-        //
+        return view('statutory_types.edit');
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Statutory_type  $statutory_type
+     * @param  \BrainySoft\Statutory_type  $statutory_type
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Statutory_type $statutory_type)
@@ -111,11 +141,25 @@ class StatutoryTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Statutory_type  $statutory_type
+     * @param  \BrainySoft\Statutory_type  $statutory_type
      * @return \Illuminate\Http\Response
      */
     public function destroy(Statutory_type $statutory_type)
     {
-        //
+
+      $statutory_type = Statutory_type::find($statutory_type->id);
+
+      if ($statutory_type->delete()){
+
+        return redirect('statutory_types.index')
+
+        ->with('success','Statutory type deleted successfully');
+
+      }else{
+
+        return back()->withInput()->with('error','Statutory type could not be deleted');
+
+      }
+
     }
 }

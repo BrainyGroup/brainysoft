@@ -1,11 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace BrainySoft\Http\Controllers;
 
-use App\Kin;
+use BrainySoft\Kin;
+
 use Illuminate\Http\Request;
 
-use App\Company;
+use Illuminate\Support\Facades\Log;
+
+use Exception;
+
+use BrainySoft\Company;
 
 
 class KinController extends Controller
@@ -16,6 +21,13 @@ class KinController extends Controller
         $this->middleware('auth');
 
     }
+
+    private function company()
+    {
+      $employee = Employee::find(auth()->user()->id);
+
+      return Company::find($employee->company_id);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -23,11 +35,28 @@ class KinController extends Controller
      */
     public function index()
     {
-          $company = Company::find(1);
+      try{
 
-          $kins = Kin::where('company_id', $company->id)->get();
+        $company = $this->company();
 
-          return view('kins.index', compact('kins'));
+        Log::debug($company->name.': Start kin index');
+
+        $employee = Employee::find(auth()->user()->id);
+
+        $kins = Kin::where('company_id', $employee->company_id)->get();
+
+        return view('kins.index', compact('kins'));
+
+      }catch(Exception $e){
+
+        $company = $this->company();
+
+        Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+        Log::debug($company->name.': End kin index');
+
+      }
+
     }
 
     /**
@@ -87,30 +116,30 @@ class KinController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Kin  $kin
+     * @param  \BrainySoft\Kin  $kin
      * @return \Illuminate\Http\Response
      */
     public function show(Kin $kin)
     {
-        //
+        return view('kins.show',compact('kin'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Kin  $kin
+     * @param  \BrainySoft\Kin  $kin
      * @return \Illuminate\Http\Response
      */
     public function edit(Kin $kin)
     {
-        //
+        return view('kins.edit');
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Kin  $kin
+     * @param  \BrainySoft\Kin  $kin
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Kin $kin)
@@ -121,11 +150,23 @@ class KinController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Kin  $kin
+     * @param  \BrainySoft\Kin  $kin
      * @return \Illuminate\Http\Response
      */
     public function destroy(Kin $kin)
     {
-        //
+      $kin = Kin::find($kin->id);
+
+      if ($kin->delete()){
+
+        return redirect('kins.index')
+
+        ->with('success','Kin deleted successfully');
+
+      }else{
+
+        return back()->withInput()->with('error','Kin could not be deleted');
+
+      }
     }
 }

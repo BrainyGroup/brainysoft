@@ -1,16 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace BrainySoft\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use BrainySoft\Http\Controllers\Controller;
+
 use Illuminate\Support\Facades\Log;
 
-use App\Bank;
+use Exception;
 
-use App\Company;
+use BrainySoft\Bank;
 
-use App\Employee;
+use BrainySoft\Company;
+
+use BrainySoft\Employee;
 
 class BankController extends Controller
 {
@@ -20,6 +24,14 @@ class BankController extends Controller
         $this->middleware('auth');
 
     }
+
+
+    private function company()
+    {
+      $employee = Employee::find(auth()->user()->id);
+
+      return Company::find($employee->company_id);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -28,13 +40,31 @@ class BankController extends Controller
     public function index()
     {
 
-          Log::debug('Showing user profile for user: ');
+    try{
 
-          $company = Company::find(1);
+          $company = $this->company();
 
-          $banks = Bank::where('company_id', $company->id)->get();
+          Log::debug($company->name.': Start bank index');
+
+          $employee = Employee::find(auth()->user()->id);
+
+          $banks = Bank::where('company_id', $employee->company_id)->get();
 
           return view('banks.index', compact('banks'));
+
+        }catch(Exception $e){
+
+          $company = $this->company();
+
+          Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+          Log::debug($company->name.': End bank index');
+
+          //return false;
+        }
+
+
+
     }
 
     /**
@@ -94,7 +124,7 @@ class BankController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('banks.show',compact('bank'));
     }
 
     /**
@@ -105,7 +135,7 @@ class BankController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('banks.edit');
     }
 
     /**
@@ -126,8 +156,20 @@ class BankController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Bank $bank)
     {
-        //
+      $bank = Bank::find($bank->id);
+
+      if ($bank->delete()){
+
+        return redirect('banks.index')
+
+        ->with('success','Bank deleted successfully');
+
+      }else{
+
+        return back()->withInput()->with('error','Bank could not be deleted');
+
+      }
     }
 }

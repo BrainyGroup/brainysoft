@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace BrainySoft\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Form;

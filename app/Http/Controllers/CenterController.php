@@ -1,14 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace BrainySoft\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Company;
+use Illuminate\Support\Facades\Log;
 
-use App\Center;
+use Exception;
 
-use App\Employee;
+use BrainySoft\Company;
+
+use BrainySoft\Center;
+
+use BrainySoft\Employee;
 
 class CenterController extends Controller
 {
@@ -18,6 +22,13 @@ class CenterController extends Controller
         $this->middleware('auth');
 
     }
+
+    private function company()
+    {
+      $employee = Employee::find(auth()->user()->id);
+
+      return Company::find($employee->company_id);
+    }
   /**
      * Display a listing of the resource.
      *
@@ -25,11 +36,26 @@ class CenterController extends Controller
      */
     public function index()
     {
-          $company = Company::find(1);
+          try{
 
-          $centers = Center::where('company_id', $company->id)->get();
+            $company = $this->company();
 
-          return view('centers.index', compact('centers'));
+            Log::debug($company->name.': Start center index');
+
+            $employee = Employee::find(auth()->user()->id);
+
+            $centers = Center::where('company_id', $employee->company_id)->get();
+
+            return view('centers.index', compact('centers'));
+
+          }catch(Exception $e){
+
+            $company = $this->company();
+
+            Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+            Log::debug($company->name.': End center index');
+          }
     }
 
     /**
@@ -64,23 +90,43 @@ class CenterController extends Controller
 
       //get user id
 
-      $id = auth()->user()->id;
+      try{
 
-      $employee = Employee::find($id);
+        $company = $this->company();
 
-      $center = new Center;
+        Log::debug($company->name.': Serving center model');
 
-      $center->name = request('name');
+        $id = auth()->user()->id;
 
-      $center->number = request('number');
+        $employee = Employee::find($id);
 
-      $center->description = request('description');
+        $center = new Center;
 
-      $center->company_id = $employee->company_id;
+        $center->name = request('name');
 
-      $center->save();
+        $center->number = request('number');
 
-      return redirect('centers');
+        $center->description = request('description');
+
+        $center->company_id = $employee->company_id;
+
+        $center->save();
+
+        Log::debug($company->name.': Center model served');
+
+        return redirect('centers')->with('success','Center added successfully');
+
+      }catch(Exception $e){
+
+        $company = $this->company();
+
+        Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+        return back()->withInput()->with('error','Center could not be added '.$e->getMessage());
+
+      }
+
+
 
     }
 
@@ -90,9 +136,9 @@ class CenterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Center $center)
     {
-        //
+        return view('centers.show',compact('center'));
     }
 
     /**
@@ -101,9 +147,9 @@ class CenterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Center $center)
     {
-        //
+        return view('centers.edit');
     }
 
     /**
@@ -113,9 +159,59 @@ class CenterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Center $center)
     {
-        //
+      //Validation
+      $this->validate(request(),[
+
+        'name' =>'required|string',
+
+        'description' => 'required|string',
+
+      ]);
+
+      //get user id
+
+      try{
+
+        $company = $this->company();
+
+        Log::debug($company->name.': Updating center model');
+
+        $id = auth()->user()->id;
+
+        $employee = Employee::find($id);
+
+        $center = Center::where('id',$center->id)
+
+                        ->where('company_id', $company->id)
+
+                        ->first();
+
+        $center->name = request('name');
+
+        $center->number = request('number');
+
+        $center->description = request('description');
+
+        $center->company_id = $employee->company_id;
+
+        $center->save();
+
+        Log::debug($company->name.': Center model served');
+
+        return redirect('centers')->with('success','Center updated successfully');
+
+      }catch(Exception $e){
+
+        $company = $this->company();
+
+        Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+        return back()->withInput()->with('error','Center could not be updated '.$e->getMessage());
+
+      }
+
     }
 
     /**
@@ -124,8 +220,20 @@ class CenterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Center $center)
     {
-        //
+      $center = Center::find($center->id);
+
+      if ($center->delete()){
+
+        return redirect('centers.index')
+
+        ->with('success','Center deleted successfully');
+
+      }else{
+
+        return back()->withInput()->with('error','Center could not be deleted');
+
+      }
     }
 }

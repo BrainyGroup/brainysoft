@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace BrainySoft\Console\Commands;
 
 use Illuminate\Console\Command;
 

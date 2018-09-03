@@ -1,14 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace BrainySoft\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Scale;
+use Illuminate\Support\Facades\Log;
 
-use App\Company;
+use Exception;
 
-use App\Employee;
+use BrainySoft\Scale;
+
+use BrainySoft\Company;
+
+use BrainySoft\Employee;
 
 class ScaleController extends Controller
 {
@@ -18,6 +22,13 @@ class ScaleController extends Controller
         $this->middleware('auth');
 
     }
+
+    private function company()
+    {
+      $employee = Employee::find(auth()->user()->id);
+
+      return Company::find($employee->company_id);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -26,11 +37,29 @@ class ScaleController extends Controller
     public function index()
     {
 
-          $employee = Employee::find(auth()->user()->id);
+      try{
 
-          $scales = Scale::where('company_id', $employee->company_id)->get();
+        $company = $this->company();
 
-          return view('scales.index', compact('scales'));
+        Log::debug($company->name.': Start scale index');
+
+        $employee = Employee::find(auth()->user()->id);
+
+        $scales = Scale::where('company_id', $employee->company_id)->get();
+
+        return view('scales.index', compact('scales'));
+
+      }catch(Exception $e){
+
+        $company = $this->company();
+
+        Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+        Log::debug($company->name.': End scale index');
+
+      }
+
+
     }
 
     /**
@@ -57,7 +86,7 @@ class ScaleController extends Controller
 
         'name' =>'required|string',
 
-        'description' => 'required|string',      
+        'description' => 'required|string',
 
       ]);
 
@@ -89,9 +118,9 @@ class ScaleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Scale $scale)
     {
-        //
+        return view('scales.show',compact('scale'));
     }
 
     /**
@@ -100,9 +129,9 @@ class ScaleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Scale $scale)
     {
-        //
+        return view('scales.edit');
     }
 
     /**
@@ -123,8 +152,20 @@ class ScaleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Scale $scale)
     {
-        //
+      $scale = Scale::find($scale->id);
+
+      if ($scale->delete()){
+
+        return redirect('scales.index')
+
+        ->with('success','Scale deleted successfully');
+
+      }else{
+
+        return back()->withInput()->with('error','Scale could not be deleted');
+
+      }
     }
 }

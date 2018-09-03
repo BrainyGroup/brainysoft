@@ -1,18 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace BrainySoft\Http\Controllers;
 
-use App\Organization;
+use BrainySoft\Organization;
 
 use Illuminate\Http\Request;
 
-use App\Company;
+use Illuminate\Support\Facades\Log;
 
-use App\Employee;
+use Exception;
 
-use App\Bank;
+use BrainySoft\Company;
 
-use App\Statutory_type;
+use BrainySoft\Employee;
+
+use BrainySoft\Bank;
+
+use BrainySoft\Statutory_type;
 
 class OrganizationController extends Controller
 {
@@ -22,6 +26,13 @@ class OrganizationController extends Controller
         $this->middleware('auth');
 
     }
+
+    private function company()
+    {
+      $employee = Employee::find(auth()->user()->id);
+
+      return Company::find($employee->company_id);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -29,27 +40,44 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-          $employee = Employee::find(auth()->user()->id);
+      try{
 
-          $organizations = Organization::where('organizations.company_id', $employee->company_id)
+        $company = $this->company();
 
-          ->join('banks', 'banks.id', 'organizations.bank_id')
+        Log::debug($company->name.': Start organization index');
 
-          ->join('statutory_types', 'statutory_types.id', 'organizations.statutory_type_id')
+        $employee = Employee::find(auth()->user()->id);
 
-          ->select(
+        $organizations = Organization::where('organizations.company_id', $employee->company_id)
 
-            'organizations.*',
+        ->join('banks', 'banks.id', 'organizations.bank_id')
 
-            'statutory_types.name as statutory_name',
+        ->join('statutory_types', 'statutory_types.id', 'organizations.statutory_type_id')
 
-            'banks.name as bank_name'
+        ->select(
 
-            )
+          'organizations.*',
 
-          ->get();
+          'statutory_types.name as statutory_name',
 
-          return view('organizations.index', compact('organizations'));
+          'banks.name as bank_name'
+
+          )
+
+        ->get();
+
+        return view('organizations.index', compact('organizations'));
+
+      }catch(Exception $e){
+
+        $company = $this->company();
+
+        Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+        Log::debug($company->name.': End organizations index');
+
+      }
+
     }
 
     /**
@@ -76,7 +104,7 @@ class OrganizationController extends Controller
     {
 
       //Validation
-      $this->validate(request(),[        
+      $this->validate(request(),[
 
         'name' =>'required|string',
 
@@ -116,30 +144,30 @@ class OrganizationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Organization  $organization
+     * @param  \BrainySoft\Organization  $organization
      * @return \Illuminate\Http\Response
      */
     public function show(Organization $organization)
     {
-        //
+        return view('organizations.show',compact('organization'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Organization  $organization
+     * @param  \BrainySoft\Organization  $organization
      * @return \Illuminate\Http\Response
      */
     public function edit(Organization $organization)
     {
-        //
+        return view('organizations.edit');
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Organization  $organization
+     * @param  \BrainySoft\Organization  $organization
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Organization $organization)
@@ -150,11 +178,23 @@ class OrganizationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Organization  $organization
+     * @param  \BrainySoft\Organization  $organization
      * @return \Illuminate\Http\Response
      */
     public function destroy(Organization $organization)
     {
-        //
+      $organization = Organization::find($organization->id);
+
+      if ($organization->delete()){
+
+        return redirect('organizations.index')
+
+        ->with('success','Organization deleted successfully');
+
+      }else{
+
+        return back()->withInput()->with('error','Organization could not be deleted');
+
+      }
     }
 }

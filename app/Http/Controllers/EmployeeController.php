@@ -1,38 +1,40 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace BrainySoft\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Log;
+
+use Exception;
+
 use DB;
-
-
 
 use Carbon\Carbon;
 
-use App\Company;
+use BrainySoft\Company;
 
-use App\Statutory;
+use BrainySoft\Statutory;
 
-use App\User;
+use BrainySoft\User;
 
-use App\Level;
+use BrainySoft\Level;
 
-use App\Scale;
+use BrainySoft\Scale;
 
-use App\Center;
+use BrainySoft\Center;
 
-use App\Bank;
+use BrainySoft\Bank;
 
-use App\Department;
+use BrainySoft\Department;
 
-use App\Designation;
+use BrainySoft\Designation;
 
-use App\Employee;
+use BrainySoft\Employee;
 
-use App\Allowance;
+use BrainySoft\Employee;
 
-use App\Deduction;
+use BrainySoft\Deduction;
 
 
 class EmployeeController extends Controller
@@ -43,6 +45,13 @@ class EmployeeController extends Controller
         $this->middleware('auth');
 
     }
+
+    private function company()
+    {
+      $employee = Employee::find(auth()->user()->id);
+
+      return Company::find($employee->company_id);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -50,82 +59,99 @@ class EmployeeController extends Controller
      */
     public function index()
     {
+      try{
 
-      // TODO: here you must fetch from user and use user id to fetch from employees see on user controller
+        $company = $this->company();
 
-      $employee = Employee::where('user_id', auth()->user()->id)->first();
+        Log::debug($company->name.': Start employee index');
 
-      $allowances = DB::table('allowances')
+        // TODO: here you must fetch from user and use user id to fetch from employees see on user controller
 
-      ->select(
+        $employee = Employee::where('user_id', auth()->user()->id)->first();
 
-        'employee_id',
+        $employees = DB::table('employees')
 
-        DB::raw('SUM(amount) as allowance_amount'))
+        ->select(
 
-        ->where('allowances.company_id', $employee->company_id)
+          'employee_id',
 
-        ->groupBy('employee_id');
+          DB::raw('SUM(amount) as employee_amount'))
 
+          ->where('employees.company_id', $employee->company_id)
 
-      $deductions = DB::table('deductions')
-
-      ->select(
-
-        'employee_id',
-
-        DB::raw('SUM(amount) as deduction_amount'))
-
-        ->where('deductions.company_id', $employee->company_id)
-
-        ->groupBy('employee_id');
+          ->groupBy('employee_id');
 
 
-    $employees = DB::table('employees')
+        $deductions = DB::table('deductions')
 
-    ->join('users', 'users.id','employees.user_id')
+        ->select(
 
-    ->join('salaries','employees.id', 'salaries.employee_id')
+          'employee_id',
 
-    ->join('centers', 'employees.center_id', '=', 'centers.id')
+          DB::raw('SUM(amount) as deduction_amount'))
 
-    ->join('designations', 'employees.designation_id', '=', 'designations.id')
+          ->where('deductions.company_id', $employee->company_id)
 
-    ->joinSub($allowances, 'allowances', function($join) {
+          ->groupBy('employee_id');
 
-      $join->on('employees.id','allowances.employee_id');
 
-    })
+      $employees = DB::table('employees')
 
-    ->joinSub($deductions, 'deductions', function($join) {
+      ->join('users', 'users.id','employees.user_id')
 
-      $join->on('employees.id', '=', 'deductions.employee_id');})
+      ->join('salaries','employees.id', 'salaries.employee_id')
 
-      ->select(
+      ->join('centers', 'employees.center_id', '=', 'centers.id')
 
-        'users.*',
+      ->join('designations', 'employees.designation_id', '=', 'designations.id')
 
-        'employees.*',
+      ->joinSub($employees, 'employees', function($join) {
 
-        'salaries.amount as salary',
+        $join->on('employees.id','employees.employee_id');
 
-        'allowances.*',
+      })
 
-        'deductions.*',
+      ->joinSub($deductions, 'deductions', function($join) {
 
-        'centers.name as center_name',
+        $join->on('employees.id', '=', 'deductions.employee_id');})
 
-        'designations.name as designation',
+        ->select(
 
-        'centers.description as center_description'
+          'users.*',
 
-        )
+          'employees.*',
 
-        ->get();
+          'salaries.amount as salary',
 
-        return view('employees.index', compact('employees'));
+          'employees.*',
 
-        //return view('employees.index')->with('employees', $employees);
+          'deductions.*',
+
+          'centers.name as center_name',
+
+          'designations.name as designation',
+
+          'centers.description as center_description'
+
+          )
+
+          ->get();
+
+          return view('employees.index', compact('employees'));
+
+          //return view('employees.index')->with('employees', $employees);
+
+      }catch(Exception $e){
+
+        $company = $this->company();
+
+        Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+        Log::debug($company->name.': End employee index');
+
+      }
+
+
     }
 
     /**
@@ -232,13 +258,13 @@ class EmployeeController extends Controller
     // TODO: check to see if the employee exist
     // TODO: dispay error iinformation if something went wrong
     // TODO: work on all hard codede value in employee
-      DB::table('allowances')->insert([
+      DB::table('employees')->insert([
               'amount' => 0.00,
               'employee_id' => $lastEmployeeId,
               'start_date' => now(),
               'end_date' => '3000-01-01',
               'company_id' => $loginEmployee->company_id,
-              'allowance_type_id' => 0,
+              'employee_type_id' => 0,
               'created_at' =>now(),
               'updated_at' =>now(),
         ]);
@@ -311,9 +337,9 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Employee $employee)
     {
-        //
+        return view('employees.edit');
     }
 
     /**
@@ -334,8 +360,20 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Employee $employee)
     {
-        //
+      $employee = Employee::find($employee->id);
+
+      if ($employee->delete()){
+
+        return redirect('employees.index')
+
+        ->with('success','Employee deleted successfully');
+
+      }else{
+
+        return back()->withInput()->with('error','Employee could not be deleted');
+
+      }
     }
 }

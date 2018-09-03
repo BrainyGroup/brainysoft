@@ -1,14 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace BrainySoft\Http\Controllers;
 
-use App\Salary_base;
+use BrainySoft\Salary_base;
 
 use Illuminate\Http\Request;
 
-use App\Company;
+use Illuminate\Support\Facades\Log;
 
-use App\Employee;
+use Exception;
+
+use BrainySoft\Company;
+
+use BrainySoft\Employee;
 
 class SalaryBaseController extends Controller
 {
@@ -18,6 +22,13 @@ class SalaryBaseController extends Controller
         $this->middleware('auth');
 
     }
+
+    private function company()
+    {
+      $employee = Employee::find(auth()->user()->id);
+
+      return Company::find($employee->company_id);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -25,12 +36,29 @@ class SalaryBaseController extends Controller
      */
     public function index()
     {
+      try{
 
-          $employee = Employee::find(auth()->user()->id);
+        $company = $this->company();
 
-          $salary_bases = Salary_base::where('company_id', $employee->company_id)->get();
+        Log::debug($company->name.': Start salary base index');
 
-          return view('salary_bases.index', compact('salary_bases'));
+        $employee = Employee::find(auth()->user()->id);
+
+        $salary_bases = Salary_base::where('company_id', $employee->company_id)->get();
+
+        return view('salary_bases.index', compact('salary_bases'));
+
+      }catch(Exception $e){
+
+        $company = $this->company();
+
+        Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+        Log::debug($company->name.': End salary base index');
+
+      }
+
+
     }
 
     /**
@@ -85,30 +113,30 @@ class SalaryBaseController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Salary_base  $salary_base
+     * @param  \BrainySoft\Salary_base  $salary_base
      * @return \Illuminate\Http\Response
      */
     public function show(Salary_base $salary_base)
     {
-        //
+        return view('salary_bases.show',compact('salary_base'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Salary_base  $salary_base
+     * @param  \BrainySoft\Salary_base  $salary_base
      * @return \Illuminate\Http\Response
      */
     public function edit(Salary_base $salary_base)
     {
-        //
+        return view('salary_bases.edit');
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Salary_base  $salary_base
+     * @param  \BrainySoft\Salary_base  $salary_base
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Salary_base $salary_base)
@@ -119,11 +147,23 @@ class SalaryBaseController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Salary_base  $salary_base
+     * @param  \BrainySoft\Salary_base  $salary_base
      * @return \Illuminate\Http\Response
      */
     public function destroy(Salary_base $salary_base)
     {
-        //
+      $salary_base = Salary_base::find($salary_base->id);
+
+      if ($salary_base->delete()){
+
+        return redirect('salary_bases.index')
+
+        ->with('success','Salary base deleted successfully');
+
+      }else{
+
+        return back()->withInput()->with('error','Salary base could not be deleted');
+
+      }
     }
 }

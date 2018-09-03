@@ -1,14 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace BrainySoft\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Country;
+use Illuminate\Support\Facades\Log;
 
-use App\Company;
+use Exception;
 
-use App\employee;
+use BrainySoft\Country;
+
+use BrainySoft\Company;
+
+use BrainySoft\employee;
 
 
 class CompanyController extends Controller
@@ -19,6 +23,13 @@ class CompanyController extends Controller
         $this->middleware('auth');
 
     }
+
+    private function company()
+    {
+      $employee = Employee::find(auth()->user()->id);
+
+      return Company::find($employee->company_id);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -26,11 +37,31 @@ class CompanyController extends Controller
      */
     public function index()
     {
-      $country = Country::find(1);
+      try{
 
-      $companies = Company::where('country_id', $country->id)->get();
+        $company = $this->company();
 
-      return view('companies.index', compact('companies'));
+        Log::debug($company->name.': Start company index');
+
+        // TODO: figure out how to get country
+
+        $country = Country::find(1);
+
+        $companies = Company::where('country_id', $country->id)->get();
+
+        return view('companies.index', compact('companies'));
+
+      }catch(Exception $e){
+
+        $company = $this->company();
+
+        Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+        Log::debug($company->name.': End company index');
+      }
+
+
+
 
     }
 
@@ -105,9 +136,9 @@ class CompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Company $company)
     {
-        //
+        return view('companies.show',compact('company'));
     }
 
     /**
@@ -118,7 +149,7 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('companies.edit');
     }
 
     /**
@@ -139,8 +170,20 @@ class CompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Company $)
     {
-        //
+      $company = Company::find(company->id);
+
+      if ($company->delete()){
+
+        return redirect('companies.index')
+
+        ->with('success','Company deleted successfully');
+
+      }else{
+
+        return back()->withInput()->with('error','Company could not be deleted');
+
+      }
     }
 }

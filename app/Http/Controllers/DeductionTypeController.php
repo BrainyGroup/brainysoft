@@ -1,13 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace BrainySoft\Http\Controllers;
 
-use App\deduction_type;
+use BrainySoft\deduction_type;
+
 use Illuminate\Http\Request;
 
-use App\Company;
+use Illuminate\Support\Facades\Log;
 
-use App\Employee;
+use Exception;
+
+use BrainySoft\Company;
+
+use BrainySoft\Employee;
 
 class DeductionTypeController extends Controller
 {
@@ -17,6 +22,13 @@ class DeductionTypeController extends Controller
         $this->middleware('auth');
 
     }
+
+    private function company()
+    {
+      $employee = Employee::find(auth()->user()->id);
+
+      return Company::find($employee->company_id);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -24,11 +36,28 @@ class DeductionTypeController extends Controller
      */
     public function index()
     {
-        $company = Company::find(1);
+      try{
 
-        $deduction_types = Deduction_type::where('company_id', $company->id)->get();
+        $company = $this->company();
+
+        Log::debug($company->name.': Start deduction type index');
+
+        $employee = Employee::find(auth()->user()->id);
+
+        $deduction_types = Deduction_type::where('company_id', $employee->company_id)->get();
 
         return view('deduction_types.index', compact('deduction_types'));
+
+      }catch(Exception $e){
+
+        $company = $this->company();
+
+        Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+        Log::debug($company->name.': End deduction type index');
+
+      }
+
     }
 
     /**
@@ -80,7 +109,7 @@ class DeductionTypeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\deduction_type  $deduction_type
+     * @param  \BrainySoft\deduction_type  $deduction_type
      * @return \Illuminate\Http\Response
      */
     public function show(deduction_type $deduction_type)
@@ -91,19 +120,19 @@ class DeductionTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\deduction_type  $deduction_type
+     * @param  \BrainySoft\deduction_type  $deduction_type
      * @return \Illuminate\Http\Response
      */
     public function edit(deduction_type $deduction_type)
     {
-        //
+        return view('deduction_types.edit');
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\deduction_type  $deduction_type
+     * @param  \BrainySoft\deduction_type  $deduction_type
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, deduction_type $deduction_type)
@@ -114,11 +143,23 @@ class DeductionTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\deduction_type  $deduction_type
+     * @param  \BrainySoft\deduction_type  $deduction_type
      * @return \Illuminate\Http\Response
      */
     public function destroy(deduction_type $deduction_type)
     {
-        //
+      $deduction = Deduction_type::find($deduction->id);
+
+      if ($deduction->delete()){
+
+        return redirect('deductions.index')
+
+        ->with('success','Deduction type deleted successfully');
+
+      }else{
+
+        return back()->withInput()->with('error','Deduction type could not be deleted');
+
+      }
     }
 }

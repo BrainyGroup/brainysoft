@@ -1,11 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace BrainySoft\Http\Controllers;
 
-use App\Paye;
+use BrainySoft\Paye;
+
 use Illuminate\Http\Request;
 
-use App\Country;
+use Illuminate\Support\Facades\Log;
+
+use Exception;
+
+use BrainySoft\Country;
 
 class PayeController extends Controller
 {
@@ -15,6 +20,13 @@ class PayeController extends Controller
         $this->middleware('auth');
 
     }
+
+    private function company()
+    {
+      $employee = Employee::find(auth()->user()->id);
+
+      return Company::find($employee->company_id);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -22,11 +34,29 @@ class PayeController extends Controller
      */
     public function index()
     {
-          $country = Country::find(1);
+      try{
 
-          $payes = Paye::where('country_id', $country->id)->get();
+        $company = $this->company();
 
-          return view('payes.index', compact('payes'));
+        Log::debug($company->name.': Start paye index');
+
+        // TODO: figure out how to find country of the user
+        $country = Country::find(1);
+
+        $payes = Paye::where('country_id', $country->id)->get();
+
+        return view('payes.index', compact('payes'));
+
+      }catch(Exception $e){
+
+        $company = $this->company();
+
+        Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+        Log::debug($company->name.': End paye index');
+
+      }
+
     }
 
     /**
@@ -91,30 +121,30 @@ class PayeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Paye  $paye
+     * @param  \BrainySoft\Paye  $paye
      * @return \Illuminate\Http\Response
      */
     public function show(Paye $paye)
     {
-        //
+        return view('payes.show',compact('paye'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Paye  $paye
+     * @param  \BrainySoft\Paye  $paye
      * @return \Illuminate\Http\Response
      */
     public function edit(Paye $paye)
     {
-        //
+        return view('paye.edit');
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Paye  $paye
+     * @param  \BrainySoft\Paye  $paye
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Paye $paye)
@@ -125,11 +155,23 @@ class PayeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Paye  $paye
+     * @param  \BrainySoft\Paye  $paye
      * @return \Illuminate\Http\Response
      */
     public function destroy(Paye $paye)
     {
-        //
+      $paye = Paye::find($paye->id);
+
+      if ($paye->delete()){
+
+        return redirect('payes.index')
+
+        ->with('success','Paye deleted successfully');
+
+      }else{
+
+        return back()->withInput()->with('error','Paye could not be deleted');
+
+      }
     }
 }

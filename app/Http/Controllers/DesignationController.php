@@ -1,14 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace BrainySoft\Http\Controllers;
 
-use App\Designation;
+use BrainySoft\Designation;
 
 use Illuminate\Http\Request;
 
-use App\Company;
+use Illuminate\Support\Facades\Log;
 
-use App\Employee;
+use Exception;
+
+use BrainySoft\Company;
+
+use BrainySoft\Employee;
 
 
 
@@ -20,6 +24,13 @@ class DesignationController extends Controller
         $this->middleware('auth');
 
     }
+
+    private function company()
+    {
+      $employee = Employee::find(auth()->user()->id);
+
+      return Company::find($employee->company_id);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -27,12 +38,30 @@ class DesignationController extends Controller
      */
     public function index()
     {
-      
-          $employee = Employee::where('user_id', auth()->user()->id)->first();
 
-          $designations = Designation::where('company_id', $employee->company_id)->get();
+      try{
 
-          return view('designations.index', compact('designations'));
+        $company = $this->company();
+
+        Log::debug($company->name.': Start designation index');
+
+        $employee = Employee::where('user_id', auth()->user()->id)->first();
+
+        $designations = Designation::where('company_id', $employee->company_id)->get();
+
+        return view('designations.index', compact('designations'));
+
+      }catch(Exception $e){
+
+        $company = $this->company();
+
+        Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+        Log::debug($company->name.': End designation index');
+
+      }
+
+
     }
 
     /**
@@ -84,30 +113,30 @@ class DesignationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Designation  $designation
+     * @param  \BrainySoft\Designation  $designation
      * @return \Illuminate\Http\Response
      */
     public function show(Designation $designation)
     {
-        //
+        return view('designations.show',compact('designation'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Designation  $designation
+     * @param  \BrainySoft\Designation  $designation
      * @return \Illuminate\Http\Response
      */
     public function edit(Designation $designation)
     {
-        //
+        return view('designations.edit');
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Designation  $designation
+     * @param  \BrainySoft\Designation  $designation
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Designation $designation)
@@ -118,11 +147,24 @@ class DesignationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Designation  $designation
+     * @param  \BrainySoft\Designation  $designation
      * @return \Illuminate\Http\Response
      */
     public function destroy(Designation $designation)
     {
-        //
+
+      $designation = Designation::find($designation->id);
+
+      if ($designation->delete()){
+
+        return redirect('designations.index')
+
+        ->with('success','Designation deleted successfully');
+
+      }else{
+
+        return back()->withInput()->with('error','Designation could not be deleted');
+
+      }
     }
 }
