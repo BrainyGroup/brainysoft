@@ -20,6 +20,9 @@
                       <th scope="col">Name</th>
                       <th scope="col">Description</th>
 
+                      <th scope="col">Edit</th>
+                      <th scope="col">Description</th>
+
                     </tr>
                   </thead>
                   <tbody>
@@ -30,6 +33,22 @@
                       <td>{{ $statutory_type->name }}</td>
 
                       <td>{{ $statutory_type->description }}</td>
+
+                      <td><a href="/statutory_types/{{$statutory_type->id}}/edit">Edit</a></td>
+
+                      <td><a href=""
+                          onclick="
+                          var result = confirm('Are you sure yo want to delete this statutory_type?');
+                          if (result){
+                              event.preventDefault();
+                              document.getElementById({{$statutory_type->id}}).submit();
+                            }">Delete
+                          </a>
+
+                          {!! Form::open(['action' => ['Statutory_typeController@destroy',$statutory_type->id],'method' => 'DELETE','id' => $statutory_type->id]) !!}
+
+                          {!! Form::close() !!}
+                      </td>
 
 
 

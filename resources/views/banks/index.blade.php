@@ -34,6 +34,22 @@
 
                     <td>{{  $bank->description }}</td>
 
+                    <td><a href="/banks/{{$bank->id}}/edit">Edit</a></td>
+
+                    <td><a href=""
+                        onclick="
+                        var result = confirm('Are you sure yo want to delete this bank?');
+                        if (result){
+                            event.preventDefault();
+                            document.getElementById({{$bank->id}}).submit();
+                          }">Delete
+                        </a>
+
+                        {!! Form::open(['action' => ['BankController@destroy',$bank->id],'method' => 'DELETE','id' => $bank->id]) !!}
+
+                        {!! Form::close() !!}
+                    </td>
+
                     </tr>
 
 

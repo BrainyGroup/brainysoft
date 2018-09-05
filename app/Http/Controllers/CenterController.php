@@ -149,7 +149,7 @@ class CenterController extends Controller
      */
     public function edit(Center $center)
     {
-        return view('centers.edit');
+        return view('centers.edit',compact('center'));
     }
 
     /**
@@ -222,18 +222,16 @@ class CenterController extends Controller
      */
     public function destroy(Center $center)
     {
-      $center = Center::find($center->id);
 
-      if ($center->delete()){
+        if ($center->delete()){
 
-        return redirect('centers.index')
+        return redirect('centers')
 
         ->with('success','Center deleted successfully');
 
-      }else{
+        }else{
 
         return back()->withInput()->with('error','Center could not be deleted');
-
       }
     }
 }

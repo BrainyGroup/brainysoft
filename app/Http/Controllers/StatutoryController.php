@@ -211,8 +211,20 @@ class StatutoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Statutory $statutory)
     {
-        //
+      $setting = Setting::find($setting->id);
+
+      if ($setting->delete()){
+
+        return redirect('settings.index')
+
+        ->with('success','Setting deleted successfully');
+
+      }else{
+
+        return back()->withInput()->with('error','Setting could not be deleted');
+
+      }
     }
 }

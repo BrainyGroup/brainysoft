@@ -10,6 +10,8 @@ use Exception;
 
 use BrainySoft\User;
 
+use BrainySoft\Employee;
+
 use BrainySoft\Company;
 
 class UserController extends Controller

@@ -24,8 +24,8 @@
                     </tr>
                   </thead>
                   <tbody>
-        @foreach($employees_deductions as $deduction)
 
+        @foreach($employees_deductions as $deduction)
 
                     <tr>
 
@@ -36,6 +36,22 @@
                       <td>{{ $deduction->deduction_name }}  </td>
 
                       <td class = "text-right">{{ $deduction->deduction_amount }}  </td>
+
+                      <td><a href="/deductions/{{$deduction->id}}/edit">Edit</a></td>
+
+                      <td><a href=""
+                          onclick="
+                          var result = confirm('Are you sure yo want to delete this deduction?');
+                          if (result){
+                              event.preventDefault();
+                              document.getElementById({{$deduction->id}}).submit();
+                            }">Delete
+                          </a>
+
+                          {!! Form::open(['action' => ['DeductionController@destroy',$deduction->id],'method' => 'DELETE','id' => $deduction->id]) !!}
+
+                          {!! Form::close() !!}
+                      </td>
 
 
                     </tr>

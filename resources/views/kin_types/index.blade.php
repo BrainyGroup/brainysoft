@@ -31,6 +31,22 @@
 
                       <td>{{ $kin_type->description }}</td>
 
+                      <td><a href="/kin_types/{{$kin_type->id}}/edit">Edit</a></td>
+
+                      <td><a href=""
+                          onclick="
+                          var result = confirm('Are you sure yo want to delete this kin type?');
+                          if (result){
+                              event.preventDefault();
+                              document.getElementById({{$kin_type->id}}).submit();
+                            }">Delete
+                          </a>
+
+                          {!! Form::open(['action' => ['Kin_typeController@destroy',$kin_type->id],'method' => 'DELETE','id' => $kin_type->id]) !!}
+
+                          {!! Form::close() !!}
+                      </td>
+
 
 
                     </tr>

@@ -12,6 +12,8 @@ use Exception;
 
 use BrainySoft\Company;
 
+use BrainySoft\Employee;
+
 class StatutoryTypeController extends Controller
 {
     public function __construct()

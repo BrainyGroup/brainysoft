@@ -20,7 +20,7 @@
                       <th scope="col">Name</th>
                       <th scope="col">Description</th>
                       <th scope="col">Statutory Type</th>
-                      <th scope="col">Bank</th>
+                      <th scope="col">Organization</th>
                       <th scope="col">Account #</th>
 
                     </tr>
@@ -39,6 +39,22 @@
                       <td>{{ $organization->bank_name }}</td>
 
                       <td>{{ $organization->account_number }}</td>
+
+                      <td><a href="/organizations/{{$organization->id}}/edit">Edit</a></td>
+
+                      <td><a href=""
+                          onclick="
+                          var result = confirm('Are you sure yo want to delete this organization?');
+                          if (result){
+                              event.preventDefault();
+                              document.getElementById({{$organization->id}}).submit();
+                            }">Delete
+                          </a>
+
+                          {!! Form::open(['action' => ['OrganizationController@destroy',$organization->id],'method' => 'DELETE','id' => $organization->id]) !!}
+
+                          {!! Form::close() !!}
+                      </td>
 
 
 

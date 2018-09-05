@@ -37,6 +37,22 @@
 
                       <td class = "text-right">{{ $allowance->allowance_amount }}  </td>
 
+                      <td><a href="/allowances/{{$allowance->id}}/edit">Edit</a></td>
+
+                      <td><a href=""
+                    			onclick="
+                    			var result = confirm('Are you sure yo want to delete this allowance?');
+                    			if (result){
+                    					event.preventDefault();
+                    					document.getElementById({{$allowance->id}}).submit();
+                            }">Delete
+                          </a>
+
+                          {!! Form::open(['action' => ['AllowanceController@destroy',$allowance->id],'method' => 'DELETE','id' => $allowance->id]) !!}
+
+                          {!! Form::close() !!}
+                      </td>
+
                     </tr>
 
           @endforeach

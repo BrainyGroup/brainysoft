@@ -22,7 +22,7 @@
                       <th scope="col">Designation</th>
                       <th scope="col">Mobile</th>
                       <th scope="col">salary</th>
-                      <th scope="col">Allowance</th>                    
+                      <th scope="col">Allowance</th>
                       <th scope="col">Deduction</th>
 
                     </tr>
@@ -46,6 +46,22 @@
                     <td><a href="/allowances">{{  number_format($employee->allowance_amount, 2) }}</a></td>
 
                     <td><a href="/deductions">{{  number_format($employee->deduction_amount, 2) }}</a></td>
+
+                    <td><a href="/employees/{{$employee->id}}/edit">Edit</a></td>
+
+                    <td><a href=""
+                        onclick="
+                        var result = confirm('Are you sure yo want to delete this employee?');
+                        if (result){
+                            event.preventDefault();
+                            document.getElementById({{$employee->id}}).submit();
+                          }">Delete
+                        </a>
+
+                        {!! Form::open(['action' => ['EmployeeController@destroy',$employee->id],'method' => 'DELETE','id' => $employee->id]) !!}
+
+                        {!! Form::close() !!}
+                    </td>
 
 
 

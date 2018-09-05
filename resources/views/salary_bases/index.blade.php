@@ -31,6 +31,22 @@
 
                       <td>{{ $salary_base->description }}</td>
 
+                      <td><a href="/salary_bases/{{$salary_base->id}}/edit">Edit</a></td>
+
+                      <td><a href=""
+                          onclick="
+                          var result = confirm('Are you sure yo want to delete this salary base?');
+                          if (result){
+                              event.preventDefault();
+                              document.getElementById({{$salary_base->id}}).submit();
+                            }">Delete
+                          </a>
+
+                          {!! Form::open(['action' => ['Salary_baseController@destroy',$salary_base->id],'method' => 'DELETE','id' => $salary_base->id]) !!}
+
+                          {!! Form::close() !!}
+                      </td>
+
 
 
                     </tr>

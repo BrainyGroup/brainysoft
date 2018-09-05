@@ -31,6 +31,22 @@
 
                       <td>{{ $level->description }}</td>
 
+                      <td><a href="/levels/{{$level->id}}/edit">Edit</a></td>
+
+                      <td><a href=""
+                          onclick="
+                          var result = confirm('Are you sure yo want to delete this level?');
+                          if (result){
+                              event.preventDefault();
+                              document.getElementById({{$level->id}}).submit();
+                            }">Delete
+                          </a>
+
+                          {!! Form::open(['action' => ['LevelController@destroy',$level->id],'method' => 'DELETE','id' => $level->id]) !!}
+
+                          {!! Form::close() !!}
+                      </td>
+
 
 
                     </tr>

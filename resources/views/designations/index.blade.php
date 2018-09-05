@@ -31,6 +31,22 @@
 
                       <td>{{ $designation->description }}</td>
 
+                      <td><a href="/designations/{{$designation->id}}/edit">Edit</a></td>
+
+                      <td><a href=""
+                          onclick="
+                          var result = confirm('Are you sure yo want to delete this designation?');
+                          if (result){
+                              event.preventDefault();
+                              document.getElementById({{$designation->id}}).submit();
+                            }">Delete
+                          </a>
+
+                          {!! Form::open(['action' => ['DesignationController@destroy',$designation->id],'method' => 'DELETE','id' => $designation->id]) !!}
+
+                          {!! Form::close() !!}
+                      </td>
+
 
 
                     </tr>

@@ -31,6 +31,22 @@
 
                       <td>{{ $department->description }}</td>
 
+                      <td><a href="/departments/{{$department->id}}/edit">Edit</a></td>
+
+                      <td><a href=""
+                          onclick="
+                          var result = confirm('Are you sure yo want to delete this department?');
+                          if (result){
+                              event.preventDefault();
+                              document.getElementById({{$department->id}}).submit();
+                            }">Delete
+                          </a>
+
+                          {!! Form::open(['action' => ['DepartmentController@destroy',$department->id],'method' => 'DELETE','id' => $department->id]) !!}
+
+                          {!! Form::close() !!}
+                      </td>
+
 
 
                     </tr>

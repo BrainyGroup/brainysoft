@@ -34,6 +34,22 @@
 
                     <td>{{  $allowance_type->description }}</td>
 
+                    <td><a href="/allowance_types/{{$allowance_type->id}}/edit">Edit</a></td>
+
+                    <td><a href=""
+                        onclick="
+                        var result = confirm('Are you sure yo want to delete this allowance type?');
+                        if (result){
+                            event.preventDefault();
+                            document.getElementById({{$allowance_type->id}}).submit();
+                          }">Delete
+                        </a>
+
+                        {!! Form::open(['action' => ['Allowance_typeController@destroy',$allowance_type->id],'method' => 'DELETE','id' => $allowance_type->id]) !!}
+
+                        {!! Form::close() !!}
+                    </td>
+
                     </tr>
 
 

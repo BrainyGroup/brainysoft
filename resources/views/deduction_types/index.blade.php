@@ -34,6 +34,22 @@
 
                       <td>{{ $deduction_type->description }}</td>
 
+                      <td><a href="/deduction_types/{{$deduction_type->id}}/edit">Edit</a></td>
+
+                      <td><a href=""
+                          onclick="
+                          var result = confirm('Are you sure yo want to delete this deduction type?');
+                          if (result){
+                              event.preventDefault();
+                              document.getElementById({{$deduction_type->id}}).submit();
+                            }">Delete
+                          </a>
+
+                          {!! Form::open(['action' => ['Deduction_typeController@destroy',$deduction_type->id],'method' => 'DELETE','id' => $deduction_type->id]) !!}
+
+                          {!! Form::close() !!}
+                      </td>
+
 
 
                     </tr>

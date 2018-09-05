@@ -41,6 +41,22 @@
 
                       <td>{{ ucfirst($scale->schedule) }}</td>
 
+                      <td><a href="/scales/{{$scale->id}}/edit">Edit</a></td>
+
+                      <td><a href=""
+                          onclick="
+                          var result = confirm('Are you sure yo want to delete this scale?');
+                          if (result){
+                              event.preventDefault();
+                              document.getElementById({{$scale->id}}).submit();
+                            }">Delete
+                          </a>
+
+                          {!! Form::open(['action' => ['ScaleController@destroy',$scale->id],'method' => 'DELETE','id' => $scale->id]) !!}
+
+                          {!! Form::close() !!}
+                      </td>
+
 
 
 

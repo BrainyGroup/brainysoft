@@ -31,6 +31,22 @@
 
                       <td>{{ $company->description }}</td>
 
+                      <td><a href="/companies/{{$company->id}}/edit">Edit</a></td>
+
+                      <td><a href=""
+                    			onclick="
+                    			var result = confirm('Are you sure yo want to delete this company?');
+                    			if (result){
+                    					event.preventDefault();
+                    					document.getElementById({{$company->id}}).submit();
+                            }">Delete
+                          </a>
+
+                          {!! Form::open(['action' => ['CompanyController@destroy',$company->id],'method' => 'DELETE','id' => $company->id]) !!}
+
+                          {!! Form::close() !!}
+                      </td>
+
                     </tr>
 
 

@@ -231,9 +231,7 @@ class AllowanceController extends Controller
     public function destroy(Allowance $allowance)
     {
 
-        $allowance = Allowance::find($allowance->id);
-
-        if ($allowance->delete()){
+          if ($allowance->delete()){
 
           return redirect('allowances.index')
 

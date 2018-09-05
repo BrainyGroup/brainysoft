@@ -32,8 +32,6 @@ use BrainySoft\Designation;
 
 use BrainySoft\Employee;
 
-use BrainySoft\Employee;
-
 use BrainySoft\Deduction;
 
 

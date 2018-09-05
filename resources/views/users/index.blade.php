@@ -23,8 +23,9 @@
 
                       <th scope="col">Email</th>
                       <th scope="col">Mobile</th>
-
                       <th scope="col">Employee</th>
+                      <th scope="col">Edit</th>
+                      <th scope="col">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -49,6 +50,22 @@
                       @endif
 
                       <td><a href="/employees/create?user_id={{ $user->id }}"> Add</a></td>
+
+                      <td><a href="/users/{{$user->id}}/edit">Edit</a></td>
+
+                      <td><a href=""
+                          onclick="
+                          var result = confirm('Are you sure yo want to delete this user?');
+                          if (result){
+                              event.preventDefault();
+                              document.getElementById({{$user->id}}).submit();
+                            }">Delete
+                          </a>
+
+                          {!! Form::open(['action' => ['UserController@destroy',$user->id],'method' => 'DELETE','id' => $user->id]) !!}
+
+                          {!! Form::close() !!}
+                      </td>
                     </tr>
 
 

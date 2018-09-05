@@ -1,4 +1,4 @@
-@extends('layouts.master')
+Country@extends('layouts.master')
 
 @section('title', 'Countries List')
 
@@ -28,6 +28,22 @@
                     <tr>
 
                       <td>{{ $country->name }}</td>
+
+                      <td><a href="/countries/{{$country->id}}/edit">Edit</a></td>
+
+                      <td><a href=""
+                    			onclick="
+                    			var result = confirm('Are you sure yo want to delete this country?');
+                    			if (result){
+                    					event.preventDefault();
+                    					document.getElementById({{$country->id}}).submit();
+                            }">Delete
+                          </a>
+
+                          {!! Form::open(['action' => ['CenterController@destroy',$country->id],'method' => 'DELETE','id' => $country->id]) !!}
+
+                          {!! Form::close() !!}
+                      </td>
 
                     </tr>
 

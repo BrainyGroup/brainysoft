@@ -37,6 +37,22 @@
 
                       <td class = "text-right">{{ number_format($paye->offset, 2) }}</td>
 
+                      <td><a href="/payes/{{$paye->id}}/edit">Edit</a></td>
+
+                      <td><a href=""
+                          onclick="
+                          var result = confirm('Are you sure yo want to delete this paye?');
+                          if (result){
+                              event.preventDefault();
+                              document.getElementById({{$paye->id}}).submit();
+                            }">Delete
+                          </a>
+
+                          {!! Form::open(['action' => ['PayeController@destroy',$paye->id],'method' => 'DELETE','id' => $paye->id]) !!}
+
+                          {!! Form::close() !!}
+                      </td>
+
 
 
                     </tr>
