@@ -3,7 +3,7 @@
 @section('header')
 
 <div class="blog-header">
-  <h1>Add Bank</h1>
+  <h1>{{ __('messages.add').' '.__('messages.bank')}}</h1>
 </div>
 
 @endsection
@@ -18,11 +18,12 @@
 
                     {!! Form::open(['action' => 'BankController@store','method' => 'POST']) !!}
 
-                    {{ Form::bsText('name','',['placeholder' => 'Enter Allowance name']) }}
 
-                    {{ Form::bsText('description','',['placeholder' => 'Enter Allowance description']) }}
+                    {{ Form::bsText('name','',['placeholder' => __('messages.enter name')]) }}
 
-                    {{ Form::bsSubmit('Submit',['class' => 'btn btn-primary']) }}
+                    {{ Form::bsText('description',__('messages.description'),['placeholder' => __('messages.enter description')]) }}
+
+                    {{ Form::bsSubmit(__('messages.add'),['class' => 'btn btn-primary']) }}
 
                     {!! Form::close() !!}
 

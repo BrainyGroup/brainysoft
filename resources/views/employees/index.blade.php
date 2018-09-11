@@ -24,6 +24,8 @@
                       <th scope="col">salary</th>
                       <th scope="col">Allowance</th>
                       <th scope="col">Deduction</th>
+                      <th scope="col">Edit</th>
+                      <th scope="col">Delete</th>
 
                     </tr>
                   </thead>
@@ -76,7 +78,10 @@
 
         @else
 
-          No Employee
+          No Employee defined
+
+          <a class="pull-right" href="/employees/create">{{ __('messages.add')}}</a>
+
 
         @endif
 

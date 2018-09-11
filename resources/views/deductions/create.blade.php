@@ -22,7 +22,7 @@
 
                     {{ Form::bsHidden('employee_id', request('employee_id')) }}
 
-                    <!-- {{ Form::bsSelect('deduction_name', ['1' => 'Leave', '2' => 'House'],'') }} -->
+        
 
                     <div class="form-group">
 

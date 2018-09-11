@@ -22,6 +22,8 @@
                       <th class="text-right" scope="col">Minimum</th>
                       <th class="text-right" scope="col">Maximum</th>
                       <th scope="col">Salary circle</th>
+                      <th scope="col">Edit</th>
+                      <th scope="col">Delete</th>
 
 
                     </tr>
@@ -72,6 +74,9 @@
         @else
 
           No Salary scale defined
+
+          <a class="pull-right" href="/scales/create">{{ __('messages.add')}}</a>
+
 
         @endif
 

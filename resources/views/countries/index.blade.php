@@ -1,4 +1,4 @@
-Country@extends('layouts.master')
+@extends('layouts.master')
 
 @section('title', 'Countries List')
 
@@ -12,12 +12,15 @@ Country@extends('layouts.master')
       <div class="table-responsive">
 
               <table class="table table-hover table-striped table-bordered">
-                  <caption><h1>All Countries</h1></caption>
+                <caption><h1>{{ __('messages.country') }}</h1> <span class="pull-right"> <a href="/countries/create">{{ __('messages.add') }}</span></caption>
+
 
                   <thead>
                     <tr>
 
                       <th scope="col">Name</th>
+                      <th scope="col">Edit</th>
+                      <th scope="col">Delete</th>
 
 
                     </tr>
@@ -40,7 +43,7 @@ Country@extends('layouts.master')
                             }">Delete
                           </a>
 
-                          {!! Form::open(['action' => ['CenterController@destroy',$country->id],'method' => 'DELETE','id' => $country->id]) !!}
+                          {!! Form::open(['action' => ['CountryController@destroy',$country->id],'method' => 'DELETE','id' => $country->id]) !!}
 
                           {!! Form::close() !!}
                       </td>
@@ -57,6 +60,9 @@ Country@extends('layouts.master')
         @else
 
           No Country defined
+
+          <a class="pull-right" href="/countries/create">{{ __('messages.add')}}</a>
+
 
         @endif
 

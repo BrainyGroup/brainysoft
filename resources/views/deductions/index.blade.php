@@ -12,7 +12,7 @@
       <div class="table-responsive">
 
               <table class="table table-hover table-striped table-bordered">
-                  <caption><h1>Total Deductions</h1></caption>
+                    <caption><h1>{{ __('messages.deduction') }}</h1></caption>
 
                   <thead>
                     <tr>
@@ -20,6 +20,8 @@
                       <th scope="col">Name</th>
                       <th scope="col">Deduction name</th>
                       <th scope="col">Amount</th>
+                      <th scope="col">Edit</th>
+                      <th scope="col">Delete</th>
 
                     </tr>
                   </thead>
@@ -35,9 +37,9 @@
 
                       <td>{{ $deduction->deduction_name }}  </td>
 
-                      <td class = "text-right">{{ $deduction->deduction_amount }}  </td>
+                      <td class = "text-right">{{ $deduction->amount }}  </td>
 
-                      <td><a href="/deductions/{{$deduction->id}}/edit">Edit</a></td>
+                      <td><a href="/deductions/{{$deduction->id}}/edit?user_id={{$deduction->user_id}}">{{ __('messages.edit') }}</a></td>
 
                       <td><a href=""
                           onclick="

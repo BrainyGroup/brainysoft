@@ -12,13 +12,15 @@
       <div class="table-responsive">
 
               <table class="table table-hover table-striped table-bordered">
-                  <caption><h1>Departments</h1></caption>
+                    <caption><h1>{{ __('messages.deparment') }}</h1> <span class="pull-right"> <a href="/departments/create">{{ __('messages.add') }}</span></caption>
 
                   <thead>
                     <tr>
 
                       <th scope="col">Name</th>
                       <th scope="col">Description</th>
+                      <th scope="col">Edit</th>
+                      <th scope="col">Delete</th>
 
                     </tr>
                   </thead>
@@ -61,6 +63,9 @@
         @else
 
           No Department defined
+
+          <a class="pull-right" href="/departments/create">{{ __('messages.add')}}</a>
+
 
         @endif
 

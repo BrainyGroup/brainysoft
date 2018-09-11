@@ -12,7 +12,7 @@
       <div class="table-responsive">
 
               <table class="table table-hover table-striped table-bordered">
-                  <caption><h1>Paye for </h1></caption>
+                    <caption><h1>{{ __('messages.paye') }}</h1> <span class="pull-right"> <a href="/payes/create">{{ __('messages.add') }}</span></caption>
 
                   <thead>
                     <tr>
@@ -21,6 +21,8 @@
                       <th class = "text-right" scope="col">Maximum</th>
                       <th class = "text-right" scope="col">Ratio</th>
                       <th class = "text-right" scope="col">Offset</th>
+                      <th scope="col">Edit</th>
+                      <th scope="col">Delete</th>
 
                     </tr>
                   </thead>
@@ -67,6 +69,9 @@
         @else
 
           No Department defined
+
+          <a class="pull-right" href="/payes/create">{{ __('messages.add')}}</a>
+
 
         @endif
 

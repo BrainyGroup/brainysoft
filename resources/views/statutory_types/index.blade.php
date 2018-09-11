@@ -22,6 +22,8 @@
 
                       <th scope="col">Edit</th>
                       <th scope="col">Description</th>
+                      <th scope="col">Edit</th>
+                      <th scope="col">Delete</th>
 
                     </tr>
                   </thead>
@@ -45,7 +47,7 @@
                             }">Delete
                           </a>
 
-                          {!! Form::open(['action' => ['Statutory_typeController@destroy',$statutory_type->id],'method' => 'DELETE','id' => $statutory_type->id]) !!}
+                          {!! Form::open(['action' => ['StatutoryTypeController@destroy',$statutory_type->id],'method' => 'DELETE','id' => $statutory_type->id]) !!}
 
                           {!! Form::close() !!}
                       </td>
@@ -63,7 +65,10 @@
 
         @else
 
-          No Department defined
+          No Statutory type defined
+
+          <a class="pull-right" href="/statutory_types/create">{{ __('messages.add')}}</a>
+
 
         @endif
 

@@ -12,13 +12,15 @@
       <div class="table-responsive">
 
               <table class="table table-hover table-striped table-bordered">
-                  <caption><h1>Deduction Types</h1></caption>
+                    <caption><h1>{{ __('messages.deduction_type') }}</h1> <span class="pull-right"> <a href="/deduction_types/create">{{ __('messages.add') }}</span></caption>
 
                   <thead>
                     <tr>
 
                       <th scope="col">Name</th>
                       <th scope="col">description</th>
+                      <th scope="col">Edit</th>
+                      <th scope="col">Delete</th>
 
 
                     </tr>
@@ -45,7 +47,7 @@
                             }">Delete
                           </a>
 
-                          {!! Form::open(['action' => ['Deduction_typeController@destroy',$deduction_type->id],'method' => 'DELETE','id' => $deduction_type->id]) !!}
+                          {!! Form::open(['action' => ['DeductionTypeController@destroy',$deduction_type->id],'method' => 'DELETE','id' => $deduction_type->id]) !!}
 
                           {!! Form::close() !!}
                       </td>
@@ -64,6 +66,9 @@
         @else
 
           No Deduction type defined
+
+          <a class="pull-right" href="/deduction_types/create">{{ __('messages.add')}}</a>
+
 
         @endif
 

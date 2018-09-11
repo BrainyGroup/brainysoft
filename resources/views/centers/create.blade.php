@@ -3,7 +3,7 @@
 @section('header')
 
 <div class="blog-header">
-  <h1>Add Center</h1>
+  <h1>{{ __('messages.add').' '.__('messages.center')}}</h1>
 </div>
 
 @endsection
@@ -16,13 +16,13 @@
 
                     {!! Form::open(['action' => 'CenterController@store','method' => 'POST']) !!}
 
-                    {{ Form::bsText('number','',['placeholder' => 'Enter Center number']) }}
+                    {{ Form::bsText(__('messages.number'),'',['placeholder' => __('messages.enter number')]) }}
 
-                    {{ Form::bsText('name','',['placeholder' => 'Enter Bank name']) }}
+                    {{ Form::bsText(__('messages.name'),'',['placeholder' => __('messages.enter name')]) }}
 
-                    {{ Form::bsText('description','',['placeholder' => 'Enter Bank description']) }}
+                    {{ Form::bsText(__('messages.description'),'',['placeholder' => __('messages.enter description')]) }}
 
-                    {{ Form::bsSubmit('Submit',['class' => 'btn btn-primary']) }}
+                    {{ Form::bsSubmit(__('messages.add'),['class' => 'btn btn-primary']) }}
 
                     {!! Form::close() !!}
 

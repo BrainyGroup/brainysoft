@@ -12,13 +12,15 @@
       <div class="table-responsive">
 
               <table class="table table-hover table-striped table-bordered">
-                  <caption><h1>Salary types</h1></caption>
+                    <caption><h1>{{ __('messages.salary_type') }}</h1> <span class="pull-right"> <a href="/salary_bases/create">{{ __('messages.add') }}</span></caption>
 
                   <thead>
                     <tr>
 
                       <th scope="col">Name</th>
                       <th scope="col">Description</th>
+                      <th scope="col">Edit</th>
+                      <th scope="col">Delete</th>
 
                     </tr>
                   </thead>
@@ -42,7 +44,7 @@
                             }">Delete
                           </a>
 
-                          {!! Form::open(['action' => ['Salary_baseController@destroy',$salary_base->id],'method' => 'DELETE','id' => $salary_base->id]) !!}
+                          {!! Form::open(['action' => ['SalaryBaseController@destroy',$salary_base->id],'method' => 'DELETE','id' => $salary_base->id]) !!}
 
                           {!! Form::close() !!}
                       </td>
@@ -61,6 +63,9 @@
         @else
 
           No Salary type defined
+
+          <a class="pull-right" href="/salary_types/create">{{ __('messages.add')}}</a>
+
 
         @endif
 

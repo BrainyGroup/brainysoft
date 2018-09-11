@@ -3,7 +3,7 @@
 @section('header')
 
 <div class="blog-header">
-  <h1>Add Company for</h1>
+  <h1>Add Company</h1>
 </div>
 
 @endsection

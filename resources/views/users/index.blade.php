@@ -79,6 +79,9 @@
 
           No Department defined
 
+          <a class="pull-right" href="/users/create">{{ __('messages.add')}}</a>
+
+
         @endif
 
 

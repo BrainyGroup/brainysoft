@@ -29,7 +29,7 @@
 
                     {{ Form::bsHidden('user_id', request('user_id')) }}
 
-                
+
 
                     <div class="form-group">
 

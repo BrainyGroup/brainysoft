@@ -47,6 +47,8 @@
 
                       <th scope="col">Net Earning</th>
 
+                      <th scope="col">Print</th>
+
 
 
 
@@ -84,6 +86,9 @@
                       <td>{{ $pay->net }}</td>
 
 
+                      <td><a href="{{action('PayController@downloadPDF', $pay->id)}}">PDF</a></td>
+
+
 
                     </tr>
 
@@ -97,6 +102,9 @@
         @else
 
           No Earning, run pay now
+
+          <a class="pull-right" href="/pays/create">{{ __('messages.add')}}</a>
+
 
         @endif
 

@@ -33,21 +33,11 @@
 
                       <th scope="col">Salary base</th>
 
-                      <td><a href="/statutories/{{$statutory->id}}/edit">Edit</a></td>
+                      <th scope="col">Edit</th>
 
-                      <td><a href=""
-                          onclick="
-                          var result = confirm('Are you sure yo want to delete this statutory?');
-                          if (result){
-                              event.preventDefault();
-                              document.getElementById({{$statutory->id}}).submit();
-                            }">Delete
-                          </a>
+                      <th scope="col">Delete</th>
 
-                          {!! Form::open(['action' => ['StatutoryController@destroy',$statutory->id],'method' => 'DELETE','id' => $statutory->id]) !!}
 
-                          {!! Form::close() !!}
-                      </td>
 
                     </tr>
                   </thead>
@@ -72,6 +62,22 @@
 
                       <td>{{ $statutory->salary_base }}</td>
 
+                      <td><a href="/statutories/{{$statutory->id}}/edit">Edit</a></td>
+
+                      <td><a href=""
+                          onclick="
+                          var result = confirm('Are you sure yo want to delete this statutory?');
+                          if (result){
+                              event.preventDefault();
+                              document.getElementById({{$statutory->id}}).submit();
+                            }">Delete
+                          </a>
+
+                          {!! Form::open(['action' => ['StatutoryController@destroy',$statutory->id],'method' => 'DELETE','id' => $statutory->id]) !!}
+
+                          {!! Form::close() !!}
+                      </td>
+
 
 
                     </tr>
@@ -86,6 +92,9 @@
         @else
 
           No Statutories defined
+
+          <a class="pull-right" href="/statutories/create">{{ __('messages.add')}}</a>
+
 
         @endif
 

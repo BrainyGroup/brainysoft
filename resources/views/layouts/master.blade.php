@@ -39,6 +39,8 @@
 
     @include('layouts.nav')
 
+    <br>
+
     <div class="container">
       @include('layouts.errors')
       @include('layouts.success')

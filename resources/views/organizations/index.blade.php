@@ -22,6 +22,8 @@
                       <th scope="col">Statutory Type</th>
                       <th scope="col">Organization</th>
                       <th scope="col">Account #</th>
+                      <th scope="col">Edit</th>
+                      <th scope="col">Delete</th>
 
                     </tr>
                   </thead>
@@ -71,6 +73,9 @@
         @else
 
           No Organization defined
+
+          <a class="pull-right" href="/organization/create">{{ __('messages.add')}}</a>
+
 
         @endif
 

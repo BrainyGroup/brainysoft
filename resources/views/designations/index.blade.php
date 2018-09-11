@@ -19,6 +19,8 @@
 
                       <th scope="col">Name</th>
                       <th scope="col">Description</th>
+                      <th scope="col">Edit</th>
+                      <th scope="col">Delete</th>
 
                     </tr>
                   </thead>
@@ -61,6 +63,9 @@
         @else
 
           No Designation defined
+
+          <a class="pull-right" href="/designations/create">{{ __('messages.add')}}</a>
+
 
         @endif
 

@@ -16,7 +16,7 @@
 
 
 
-                    {!! Form::open(['action' => 'DeductionTypeController@store','method' => 'POST']) !!}
+                      {!! Form::open(['action' => 'DeductionTypeController@store','method' => 'POST']) !!}
 
                     {{ Form::bsText('name','',['placeholder' => 'Enter Deduction name']) }}
 

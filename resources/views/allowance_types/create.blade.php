@@ -3,7 +3,7 @@
 @section('header')
 
 <div class="blog-header">
-  <h1>Add Allowance types</h1>
+  <h1>{{ __('messages.add').' '.__('messages.allowance_type')}}</h1>
 </div>
 
 @endsection

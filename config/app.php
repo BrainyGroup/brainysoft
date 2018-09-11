@@ -152,6 +152,8 @@ return [
         BrainySoft\Providers\FormServiceProvider::class,
         //End form collection
 
+        Barryvdh\DomPDF\ServiceProvider::class,
+
         /*
          * Package Service Providers...
          */
@@ -218,6 +220,8 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         //End form collection
+
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
     ],
 

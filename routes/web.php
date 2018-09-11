@@ -14,14 +14,14 @@
 Auth::routes();
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');
 });
 
 Route::get('/logout', function()
 	{
 		Auth::logout();
-	// Session::flush();
-		return Redirect('welcome');
+	  //Session::flush();
+		return Redirect('login');
 	});
 
 
@@ -81,11 +81,13 @@ Route::resource('organizations', 'OrganizationController');
 //pay routes
 Route::resource('pays', 'PayController');
 
+Route::get('/downloadPDF/{id}','PayController@downloadPDF');
+
 //paye routes
 Route::resource('payes', 'PayeController');
 
 //salary type route
-Route::resource('salary_types', 'SalaryBaseController');
+Route::resource('salary_bases', 'SalaryBaseController');
 
 //salary route
 Route::resource('salaries', 'SalaryController');

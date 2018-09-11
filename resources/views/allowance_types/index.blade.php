@@ -12,13 +12,15 @@
       <div class="table-responsive">
 
               <table class="table table-hover table-striped table-bordered">
-                  <caption><h1>Allowance types</h1></caption>
+                  <caption><h1>{{ __('messages.allowance_type') }}</h1> <span class="pull-right"> <a href="/allowance_types/create">{{ __('messages.add') }}</span></caption>
 
                   <thead>
                     <tr>
 
-                      <th scope="col">Name</th>
-                      <th scope="col">Description</th>
+                      <th scope="col">{{ __('messages.name') }}</th>
+                      <th scope="col">{{ __('messages.description') }}</th>
+                      <th scope="col">{{ __('messages.edit') }}</th>
+                      <th scope="col">{{ __('messages.delete') }}</th>
 
 
 
@@ -34,18 +36,18 @@
 
                     <td>{{  $allowance_type->description }}</td>
 
-                    <td><a href="/allowance_types/{{$allowance_type->id}}/edit">Edit</a></td>
+                    <td><a href="/allowance_types/{{$allowance_type->id}}/edit">{{ __('messages.edit') }}</a></td>
 
                     <td><a href=""
                         onclick="
-                        var result = confirm('Are you sure yo want to delete this allowance type?');
+                        var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.allowance_type')}}');
                         if (result){
                             event.preventDefault();
                             document.getElementById({{$allowance_type->id}}).submit();
-                          }">Delete
+                          }">{{ __('messages.delete') }}
                         </a>
 
-                        {!! Form::open(['action' => ['Allowance_typeController@destroy',$allowance_type->id],'method' => 'DELETE','id' => $allowance_type->id]) !!}
+                        {!! Form::open(['action' => ['AllowanceTypeController@destroy',$allowance_type->id],'method' => 'DELETE','id' => $allowance_type->id]) !!}
 
                         {!! Form::close() !!}
                     </td>
@@ -62,6 +64,9 @@
         @else
 
           No Allowance types defined
+
+          <a class="pull-right" href="/allowance_types/create">{{ __('messages.add')}}</a>
+
 
         @endif
 
