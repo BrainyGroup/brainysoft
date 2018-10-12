@@ -1,18 +1,16 @@
-@extends('layouts.master')
-
-@section('title', 'Companies')
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-12 col-md-12 col-sm-12">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">{{ __('messages.company') }}</div>
 
-
-        @if($companies)
+        <div class="card-body">
+            @if( $company )
       <div class="table-responsive">
 
               <table class="table table-hover table-striped table-bordered">
-                <caption><h1>{{ __('messages.company') }}</h1> <span class="pull-right"> <a href="/companies/create">{{ __('messages.add') }}</span></caption>
+                <caption></caption>
 
 
                   <thead>
@@ -21,12 +19,12 @@
                       <th scope="col">Name</th>
                       <th scope="col">Description</th>
                       <th scope="col">Edit</th>
-                      <th scope="col">Delete</th>
+                     
 
                     </tr>
                   </thead>
                   <tbody>
-        @foreach($companies as $company)
+      
 
                     <tr>
 
@@ -36,24 +34,11 @@
 
                       <td><a href="/companies/{{$company->id}}/edit">Edit</a></td>
 
-                      <td><a href=""
-                    			onclick="
-                    			var result = confirm('Are you sure yo want to delete this company?');
-                    			if (result){
-                    					event.preventDefault();
-                    					document.getElementById({{$company->id}}).submit();
-                            }">Delete
-                          </a>
-
-                          {!! Form::open(['action' => ['CompanyController@destroy',$company->id],'method' => 'DELETE','id' => $company->id]) !!}
-
-                          {!! Form::close() !!}
-                      </td>
-
+                      
                     </tr>
 
 
-          @endforeach
+         
 
         </tbody>
       </table>
@@ -68,9 +53,8 @@
 
         @endif
 
-
-
         </div>
     </div>
-</div>
+</div>    
 @endsection
+

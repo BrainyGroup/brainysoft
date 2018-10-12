@@ -1,20 +1,18 @@
-@extends('layouts.master')
-
-@section('header')
-
-<div class="blog-header">
-  <h1>Edit Payes</h1>
-</div>
-
-@endsection
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">Edit payes</div>
 
+        <div class="card-body">
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
 
-                    {!! Form::open(['action' => array('PayeController@update', $paye->id),'method' => 'PUT']) !!}
+            {!! Form::open(['action' => array('PayeController@update', $paye->id),'method' => 'PUT']) !!}
 
                     <div class="form-group">
 
@@ -22,7 +20,7 @@
 
                      <select class="form-control" id="country" name="country_id" required >
 
-                       <option value="">Select country</option>
+                       <option value="{{ $current_country->id }}">{{ $current_country->name }}</option>
 
                        @foreach($countries as $country)
 
@@ -46,9 +44,10 @@
 
                     {!! Form::close() !!}
 
-
-
         </div>
     </div>
-</div>
+</div>    
 @endsection
+
+
+

@@ -2,17 +2,20 @@
 
 namespace BrainySoft\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Log;
 
 use Exception;
+
+use BrainySoft\User;
 
 use BrainySoft\Country;
 
 use BrainySoft\Company;
 
 use BrainySoft\Employee;
+
+use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Log;
 
 
 class CompanyController extends Controller
@@ -26,9 +29,9 @@ class CompanyController extends Controller
 
     private function company()
     {
-      $employee = Employee::find(auth()->user()->id);
+      $user = User::find(auth()->user()->id);
 
-      return Company::find($employee->company_id);
+      return Company::find($user->company_id);
     }
     /**
      * Display a listing of the resource.
@@ -43,13 +46,11 @@ class CompanyController extends Controller
 
         Log::debug($company->name.': Start company index');
 
-        // TODO: figure out how to get country
+        // TODO: figure out how to get country  
 
 
 
-        $companies = Company::all();
-
-        return view('companies.index', compact('companies'));
+        return view('companies.index', compact('company'));
 
       }catch(Exception $e){
 
@@ -101,9 +102,11 @@ class CompanyController extends Controller
 
       //get user id
 
-      $employee = Employee::find(auth()->user()->id);
+      //$company = $this->company();
 
       $company = new Company;
+
+      $dt = now();
 
       $company->name = request('name');
 
@@ -125,11 +128,50 @@ class CompanyController extends Controller
 
       $company->vision = request('vision');
 
+      $company->usage_count  = 0;
+
+      $company->trial_expire_date = now()->addMonth(3);
+
+      $company->last_renew_date  = $dt->toDateString();
+
+      dd($company->last_renew_date);
+
+      $company->employee = request('employee');
+
+      $company->balance  = 0;
+
+      $company->expire_date  = now()->addMonth(3);
+
+      $company->trial  = true;
+
       $company->country_id = request('country_id');
 
       $company->save();
 
-      return redirect('companies');
+      return back()->with('success','Company added successfully');
+
+      // TODO seed initial data with company it, consider languaage add those which not related to the country
+      // any country related add when you add country
+
+
+
+      /**
+      / it is batter to put these information on table based on country for easy update
+      / Allowance types
+      / banks
+      / centers
+      / deduction type
+      / department
+      / designation
+      /  statutory base and option and mandatory based on country
+      / Kin type consider langauge
+      / organization based on country 
+      / when you define country define with all item related to the country 
+      / paye, organization banks, statutory options and mandatory
+      */
+      
+
+      
     }
 
     /**
@@ -202,6 +244,20 @@ class CompanyController extends Controller
 
           'vision'	=>$request->input('vision'),
 
+          'usage_count'  =>$request->input('0'),
+
+          'trial_expire_date'  => now()->addMonth(3),
+
+          'last_renew_date'  => now(),
+
+          'employee'  =>$request->input('employee'),
+
+          'balance'  => 0,
+
+          'expire_date'  => now()->addMonth(3),
+
+          'trial'  => true,
+
       ]);
 
       if($companyUpdate)
@@ -219,9 +275,16 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
+
+
       $company = Company::find($company->id);
 
-      if ($company->delete()){
+
+
+
+      $company_exist = User::where('company_id',$company->id)->exists();
+
+        if (!$company_exist && $company->delete()){
 
         return redirect('companies')
 

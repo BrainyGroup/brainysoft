@@ -20,7 +20,9 @@ class CreateScalesTable extends Migration
             $table->text('description');
             $table->decimal('minimum',11,2);
             $table->decimal('maximum',11,2);
-            $table->string('schedule');
+            $table->integer('employment_type_id')->unsigned()->foreign()->references('id')->on('employment_types');
+            $table->integer('payroll_group_id')->unsigned()->foreign()->references('id')->on('payroll_groups');
+            $table->integer('pay_base_id')->unsigned()->foreign()->references('id')->on('pay_bases');
             $table->timestamps();
         });
     }

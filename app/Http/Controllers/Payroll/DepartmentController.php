@@ -2,19 +2,22 @@
 
 namespace BrainySoft\Http\Controllers;
 
-use Illuminate\Support\Facades\Log;
 
-use Illuminate\Http\Request;
-
-use BrainySoft\Department;
-
-use BrainySoft\Employee;
-
-use BrainySoft\Company;
 
 use Exception;
 
-// TODO: define seed class
+use BrainySoft\User;
+
+use BrainySoft\Company;
+
+use BrainySoft\Employee;
+
+use BrainySoft\Department;
+
+use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Log;
+
 
 
 class DepartmentController extends Controller
@@ -28,9 +31,9 @@ class DepartmentController extends Controller
 
     private function company()
     {
-      $employee = Employee::find(auth()->user()->id);
+      $user = User::find(auth()->user()->id);
 
-      return Company::find($employee->company_id);
+      return Company::find($user->company_id);
     }
     /**
      * Display a listing of the resource.
@@ -44,11 +47,9 @@ class DepartmentController extends Controller
 
         $company = $this->company();
 
-        Log::debug($company->name.': Start department index');
+        Log::debug($company->name.': Start department index');       
 
-        $employee = Employee::find(auth()->user()->id);
-
-        $departments = Department::where('company_id', $employee->company_id)->get();
+        $departments = Department::where('company_id', $company->id)->get();
 
         return view('departments.index', compact('departments'));
 
@@ -93,7 +94,7 @@ class DepartmentController extends Controller
 
       ]);
 
-      $employee = Employee::find(auth()->user()->id);
+      $company = $this->company();
 
       $department = new Department;
 
@@ -101,11 +102,12 @@ class DepartmentController extends Controller
 
       $department->description = request('description');
 
-      $department->company_id = $employee->company_id;
+      $department->company_id = $company->id;
 
       $department->save();
 
-      return redirect('departments');
+      return back()->with('success','Department added successfully');
+
     }
 
     /**
@@ -176,7 +178,9 @@ class DepartmentController extends Controller
     public function destroy(Department $department)
     {
 
-      if ($department->delete()){
+      $department_exist = Employee::where('department_id',$department->id)->exists();
+
+        if (!$department_exist && $department->delete()){
 
         return redirect('departments')
 

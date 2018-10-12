@@ -1,20 +1,18 @@
-@extends('layouts.master')
-
-@section('header')
-
-<div class="blog-header">
-  <h1>Add Organizations </h1>
-</div>
-
-@endsection
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">Add Organization</div>
 
+        <div class="card-body">
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
 
-                    {!! Form::open(['action' => 'OrganizationController@store','method' => 'POST']) !!}
+                   {!! Form::open(['action' => 'OrganizationController@store','method' => 'POST']) !!}
 
                     {{ Form::bsText('name','',['placeholder' => 'Enter organization name', 'required' => 'true']) }}
 
@@ -61,13 +59,16 @@
                     </div>
 
 
-                    {{ Form::bsSubmit('Submit',['class' => 'btn btn-primary']) }}
+                    {{ Form::bsSubmit( __('messages.add'),['class' => 'btn btn-primary']) }}
 
                     {!! Form::close() !!}
 
-
-
         </div>
     </div>
-</div>
+</div>    
 @endsection
+
+
+
+
+

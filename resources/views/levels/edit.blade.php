@@ -1,32 +1,34 @@
-@extends('layouts.master')
-
-@section('header')
-
-<div class="blog-header">
-  <h1>Edit Company Structure Levels </h1>
-</div>
-
-@endsection
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">Edit Company Structure Levels</div>
 
+        <div class="card-body">
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
 
-                      {!! Form::open(['action' => array('LevelController@update', $level->id),'method' => 'PUT']) !!}
+        {!! Form::open(['action' => array('LevelController@update', $level->id),'method' => 'PUT']) !!}
 
-                    {{ Form::bsText('name',$level->name,['placeholder' => 'Enter Kin name']) }}
+        {{ Form::bsText('name',$level->name,['placeholder' => 'Enter Kin name']) }}
 
-                    {{ Form::bsText('description',$level->description,['placeholder' => 'Enter Kin description']) }}
+        {{ Form::bsText('description',$level->description,['placeholder' => 'Enter Kin description']) }}
 
-                    {{ Form::bsSubmit(__('messages.edit'),['class' => 'btn btn-primary']) }}
+        {{ Form::bsSubmit(__('messages.edit'),['class' => 'btn btn-primary']) }}
 
-                    {!! Form::close() !!}
-
+        {!! Form::close() !!}
 
 
         </div>
     </div>
-</div>
+</div>    
 @endsection
+
+
+
+
+

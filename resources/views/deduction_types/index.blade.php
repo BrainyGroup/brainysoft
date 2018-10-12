@@ -1,18 +1,16 @@
-@extends('layouts.master')
-
-@section('title', 'Deduction Types List')
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-12 col-md-12 col-sm-12">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">{{ __('messages.deduction_type') }}<span class="pull-right"> <a href="/deduction_types/create">{{ __('messages.add') }}</a></span></div>
 
-
-        @if($deduction_types)
+        <div class="card-body">
+            @if($deduction_types)
       <div class="table-responsive">
 
               <table class="table table-hover table-striped table-bordered">
-                    <caption><h1>{{ __('messages.deduction_type') }}</h1> <span class="pull-right"> <a href="/deduction_types/create">{{ __('messages.add') }}</span></caption>
+                    <caption></caption>
 
                   <thead>
                     <tr>
@@ -72,9 +70,13 @@
 
         @endif
 
-
-
         </div>
     </div>
-</div>
+</div>    
 @endsection
+
+
+
+
+
+

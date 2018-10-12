@@ -1,18 +1,24 @@
-@extends('layouts.master')
-
-@section('title', 'Settings')
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-12 col-md-12 col-sm-12">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">Settings</div>
+
+        <div class="card-body">
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
 
 
+             <div class="table-responsive">
 
-      <div class="table-responsive aligh-center">
+              <table class="table table-hover table-striped table-bordered">
 
-              <table class="table table-borderless ">
-                  <caption><h1>Settings</h1></caption>
+            
+                  <caption><h1></h1></caption>
 
 
                   <tbody>
@@ -45,22 +51,23 @@
                     <tr>
                       <td><a href="/other_settings">Other settings</a></td>
                       <td><a href="/companies">Companies</a></td>
-                        <td><a href="/countries">Countries</a></td>
-
+                      <td><a href="/countries">Countries</a></td>
                     </tr>
 
-
-
-
+                    <tr>
+                      <td><a href="/statutory_types">Statutory types</a></td>
+                      <td><a href="/statutories">Statutories</a></td>
+                      <td><a href="/countries">Countries</a></td>
+                    </tr>
         </tbody>
       </table>
   </div>
 
-
-
-
-
         </div>
     </div>
-</div>
+</div>    
 @endsection
+
+
+
+

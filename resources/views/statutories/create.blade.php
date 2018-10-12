@@ -1,20 +1,18 @@
-@extends('layouts.master')
-
-@section('header')
-
-<div class="blog-header">
-  <h1>Add Statutory </h1>
-</div>
-
-@endsection
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">Add Statutory</div>
 
+        <div class="card-body">
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
 
-                    {!! Form::open(['action' => 'StatutoryController@store','method' => 'POST']) !!}
+            {!! Form::open(['action' => 'StatutoryController@store','method' => 'POST']) !!}
 
                     {{ Form::bsText('name','',['placeholder' => 'Enter statutory name']) }}
 
@@ -57,6 +55,23 @@
 
                     </div>
 
+                    <div class="form-group">
+
+                    <label for="salary_base" class="control-label">Before paye</label>
+
+                     <select class="form-control" id="salary_base" name="before_paye" required >
+
+                       <option value="0">Before paye</option>
+
+                       <option value="0">false</option>
+
+                       <option value="1">true</option>
+
+
+                     </select>
+
+                    </div>
+
 
                     <div class="form-group">
 
@@ -83,13 +98,17 @@
 
                     {{ Form::bsDate('due_date') }}
 
-                    {{ Form::bsSubmit('Submit',['class' => 'btn btn-primary']) }}
+                    {{ Form::bsSubmit( __('messages.add'),['class' => 'btn btn-primary']) }}
 
                     {!! Form::close() !!}
 
 
-
         </div>
     </div>
-</div>
+</div>    
 @endsection
+
+
+
+
+

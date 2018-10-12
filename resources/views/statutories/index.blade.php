@@ -1,18 +1,24 @@
-@extends('layouts.master')
-
-@section('title', 'Statutories')
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-12 col-md-12 col-sm-12">
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">{{ __('messages.statutory') }}<span class="pull-right"> <a href="/statutories/create">{{ __('messages.add') }}</a></span></div>
+
+        <div class="card-body">
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
 
 
         @if(count ($statutories) > 0)
       <div class="table-responsive">
 
               <table class="table table-hover table-striped table-bordered">
-                  <caption><h1>Statutories</h1></caption>
+                <caption></caption>
+
 
                   <thead>
                     <tr>
@@ -99,8 +105,7 @@
         @endif
 
 
-
         </div>
     </div>
-</div>
+</div>    
 @endsection

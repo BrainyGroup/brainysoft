@@ -65,7 +65,11 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    // 'timezone' => 'UTC',
+
+    // TODO: timezone should be on the fly
+
+    'timezone' => 'Africa/Nairobi',
 
     /*
     |--------------------------------------------------------------------------

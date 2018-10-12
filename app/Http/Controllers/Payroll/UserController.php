@@ -4,6 +4,13 @@ namespace BrainySoft\Http\Controllers;
 
 use Exception;
 
+use Storage;
+
+use App\ImageModel;
+use Image;
+
+
+
 use BrainySoft\User;
 
 use BrainySoft\Company;
@@ -26,9 +33,9 @@ class UserController extends Controller
 
     private function company()
     {
-      $employee = Employee::find(auth()->user()->id);
+      $user = User::find(auth()->user()->id);
 
-      return Company::find($employee->company_id);
+      return Company::find($user->company_id);
     }
     /**
      * Display a listing of the resource.
@@ -44,11 +51,10 @@ class UserController extends Controller
 
         Log::debug($company->name.': Start user index');
 
-        $user = User::find(auth()->user()->id);
+        // $user = User::find(auth()->user()->id); 
 
-        $users = User::find($user->company_id)->get();
 
-        $company = Company::find($user->company_id)->first();
+        $users = User::where('company_id',$company->id)->get();        
 
         return view('users.index', compact('users','company'));
 
@@ -115,9 +121,112 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+         //Validation
+      $validation = $this->validate(request(),[
+
+        'title' =>'required|string',
+
+        'name' => 'required|string',
+
+        'sex' =>'required|string',
+
+        'maritalstatus' => 'required|string',
+
+        'firstname' =>'required|string',
+
+        'middlename' => 'required|string',
+
+        'lastname' =>'required|string',
+
+        'photo' => 'file|image|mimes:jpeg,png,gif,webp|nullable|max:1999',
+        
+
+        // 'photo' => 'required|string',
+
+        'dob' =>'required|date',
+
+        'mobile' => 'required|string',
+
+      ]);
+
+      $filename = null;
+
+
+       // $filename = $img = Image::canvas(100, 115, '#ccc');
+
+      if($request->hasFile('photo')) {
+
+           $file      = $validation['photo']; // get the validated file
+
+           $extension = $file->getClientOriginalExtension();
+
+           $filename  = strtolower($user->id . '.' . $extension);     
+
+           $exists = Storage::disk('local')->exists('user_profile_photos' . $user->photo);
+
+
+
+           if( (strtolower($user->photo) != strtolower($filename)) && $exists ){
+dd($exists);
+
+            Storage::delete('user_profile_photos' . $user->photo);
+            
+
+            Image::make($validation['photo'])->resize(100, 115)->save(
+               'storage/user_profile_photos/'.$filename);
+
+            // $path      = $file->storeAs('public/user_profile_photos', $filename);       
+
+            }else{
+
+         Image::make($validation['photo'])->resize(100, 115)->save(
+                'storage/user_profile_photos/'.$filename);
+
+             // $path      = $file->storeAs('public/user_profile_photos', $filename);
+
+            }
+        }
+
+        
+
+       
+
+
+
+      $userUpdate = User::where('id', $user->id)
+
+      ->update([
+
+          'title'            =>$request->input('title'),
+
+          'name' =>$request->input('name'),
+
+          'sex'            =>$request->input('sex'),
+
+          'maritalstatus' =>$request->input('maritalstatus'),
+
+          'firstname'            =>$request->input('firstname'),
+
+          'middlename' =>$request->input('middlename'),
+
+          'lastname'            =>$request->input('lastname'),
+
+          'photo' => $filename,
+
+          'dob'            =>$request->input('dob'),
+
+          'mobile' =>$request->input('mobile'),
+
+      ]);
+
+      if($userUpdate)
+
+        return redirect('users')
+
+        ->with('success','User updated successfully');
+        //redirect
     }
 
     /**
@@ -132,7 +241,13 @@ class UserController extends Controller
 // TODO: delete user with all related items
       
 
-        if ($user->delete()){
+      $employee_exist = Employee::where('user_id',$user->id)->exists();
+
+      $user = User::find(auth()->user()->id);
+
+      $loginUser = User::where('id', auth()->user()->id)->exists();
+
+      if (!$loginUser && !$employee_exist && $user->delete()){
 
           return redirect('users.index')
 

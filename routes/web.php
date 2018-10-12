@@ -11,18 +11,32 @@
 |
 */
 
-Auth::routes();
 
 Route::get('/', function () {
-    return view('login');
+    return view('welcome');
 });
 
-Route::get('/logout', function()
-	{
-		Auth::logout();
-	  //Session::flush();
-		return Redirect('login');
-	});
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+
+// Auth::routes();
+
+// Route::get('/contacts', function () {
+//     return view('contacts');
+// });
+
+// Route::get('/', function () {
+//     return view('auth.login');
+// });
+
+// Route::get('/logout', function()
+// 	{
+// 		Auth::logout();
+// 	  //Session::flush();
+// 		return Redirect('login');
+// 	});
 
 
 //Allowance routes
@@ -86,6 +100,17 @@ Route::get('/downloadPDF/{id}','PayController@downloadPDF');
 //paye routes
 Route::resource('payes', 'PayeController');
 
+//payroll groups routes
+Route::resource('payroll_groups', 'PayrollGroupController');
+
+
+//pay base routes
+Route::resource('pay_types', 'PayBaseController');
+
+
+//employment type routes
+Route::resource('employment_types', 'EmploymentTypeController');
+
 //salary type route
 Route::resource('salary_bases', 'SalaryBaseController');
 
@@ -107,14 +132,5 @@ Route::resource('statutories', 'StatutoryController');
 //users
 Route::resource('users', 'UserController');
 
-
-
-
-
-
-
-
-
-Route::get('/home', 'HomeController@index')->name('home');
 
 //Route::resource('pays', 'PayController');

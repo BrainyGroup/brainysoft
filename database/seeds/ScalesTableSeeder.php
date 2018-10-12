@@ -19,7 +19,9 @@ class ScalesTableSeeder extends Seeder
               'company_id' => 1,
               'minimum' => '200000',
               'maximum' => '4000000',
-              'schedule' => 'monthly',
+              'payroll_group_id' => 1,
+              'employment_type_id' => 1,
+              'pay_base_id' => 1,
               'created_at' =>now(),
               'updated_at' =>now(),
           ]);
@@ -30,7 +32,9 @@ class ScalesTableSeeder extends Seeder
               'company_id' => 1,
               'minimum' => '10000',
               'maximum' => '20000',
-              'schedule' => 'daily',
+              'payroll_group_id' => 1,
+              'employment_type_id' => 1,
+              'pay_base_id' => 1,
               'created_at' =>now(),
               'updated_at' =>now(),
           ]);
@@ -41,7 +45,9 @@ class ScalesTableSeeder extends Seeder
               'company_id' => 1,
               'minimum' => '10000',
               'maximum' => '20000',
-              'schedule' => 'daily',
+              'payroll_group_id' => 1,
+              'employment_type_id' => 1,
+              'pay_base_id' => 1,
               'created_at' =>now(),
               'updated_at' =>now(),
           ]);

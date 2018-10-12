@@ -1,18 +1,23 @@
-@extends('layouts.master')
-
-@section('title', 'Users')
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-12 col-md-12 col-sm-12">
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">{{ $company->name }} Users</div>
 
+         
+        <div class="card-body">
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
 
         @if(count ($users) > 0)
       <div class="table-responsive">
 
               <table class="table table-hover table-striped table-bordered">
-                  <caption><h1>{{ $company->name }} Users</h1></caption>
+                  <caption></caption>
 
                   <thead>
                     <tr>
@@ -37,17 +42,23 @@
 
                       <td>{{ $user->title.'. '.$user->firstname.' '.$user->middlename.' '.$user->lastname }}</td>
 
-                      <td>{{ $user->sex }}</td>
+                      @if($user->sex == 1)
+                      <td>Male</td>
+                      @else
+                      <td>Male</td>
+                      @endif
 
-                      <td>{{ $user->email }}</td>
-
-                      <td>{{ $user->mobile }}</td>
-
+                      
                       @if($user->maritalstatus == 1)
                       <td>Married</td>
                       @else
                       <td>Not Married</td>
                       @endif
+
+                      <td>{{ $user->email }}</td>
+
+                      <td>{{ $user->mobile }}</td>
+
 
                       <td><a href="/employees/create?user_id={{ $user->id }}"> Add</a></td>
 
@@ -85,8 +96,11 @@
         @endif
 
 
-
         </div>
     </div>
-</div>
+</div>    
 @endsection
+
+
+
+

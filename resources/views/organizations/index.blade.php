@@ -1,18 +1,22 @@
-@extends('layouts.master')
-
-@section('title', 'Organization')
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-12 col-md-12 col-sm-12">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">{{ __('messages.organization') }} <span class="pull-right"> <a href="/organizations/create">{{ __('messages.add') }}</a></span></div>
 
+        <div class="card-body">
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
 
-        @if(count ($organizations) > 0)
+ @if(count ($organizations) > 0)
       <div class="table-responsive">
 
               <table class="table table-hover table-striped table-bordered">
-                  <caption><h1>Organization</h1></caption>
+                    <caption></caption>
 
                   <thead>
                     <tr>
@@ -74,14 +78,13 @@
 
           No Organization defined
 
-          <a class="pull-right" href="/organization/create">{{ __('messages.add')}}</a>
+          <a class="pull-right" href="/organizations/create">{{ __('messages.add')}}</a>
 
 
         @endif
-
-
-
         </div>
     </div>
-</div>
+</div>    
 @endsection
+
+

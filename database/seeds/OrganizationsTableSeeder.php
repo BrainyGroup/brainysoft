@@ -20,6 +20,8 @@ class OrganizationsTableSeeder extends Seeder
               'company_id' => 1,
               'bank_id' => 1,
               'account_number' => '2345678999',
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
       DB::table('organizations')->insert([
@@ -29,6 +31,8 @@ class OrganizationsTableSeeder extends Seeder
               'company_id' => 1,
               'bank_id' => 2,
               'account_number' => '222222222222',
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
       DB::table('organizations')->insert([
@@ -38,6 +42,8 @@ class OrganizationsTableSeeder extends Seeder
               'company_id' => 1,
               'bank_id' => 1,
               'account_number' => '3456378999',
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
       DB::table('organizations')->insert([
@@ -47,6 +53,8 @@ class OrganizationsTableSeeder extends Seeder
               'company_id' => 1,
               'bank_id' => 1,
               'account_number' => '734567888',
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
       DB::table('organizations')->insert([
@@ -56,6 +64,8 @@ class OrganizationsTableSeeder extends Seeder
               'company_id' => 1,
               'bank_id' => 1,
               'account_number' => '334557111',
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
     }
 }

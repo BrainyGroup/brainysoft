@@ -1,18 +1,16 @@
-@extends('layouts.master')
-
-@section('title', 'Employee List')
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-12 col-md-12 col-sm-12">
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">{{ __('messages.allowance') }} </div>
 
-
-        @if(count($employees_allowances)>0)
+        <div class="card-body">
+            @if( count($employees_allowances) > 0)
       <div class="table-responsive">
 
               <table class="table table-hover table-striped table-bordered">
-                <caption><h1>{{ __('messages.allowance') }}</h1> </caption>
+                <caption></caption>
 
 
                   <thead>
@@ -77,8 +75,9 @@
         @endif
 
 
-
         </div>
     </div>
-</div>
+</div>    
 @endsection
+
+     

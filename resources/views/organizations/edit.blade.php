@@ -1,20 +1,18 @@
-@extends('layouts.master')
-
-@section('header')
-
-<div class="blog-header">
-  <h1>Add Organizations </h1>
-</div>
-
-@endsection
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">Edit Organization</div>
 
+        <div class="card-body">
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
 
-                    {!! Form::open(['action' => array('OrganizationController@update', $organization->id),'method' => 'PUT']) !!}
+ {!! Form::open(['action' => array('OrganizationController@update', $organization->id),'method' => 'PUT']) !!}
 
                     {{ Form::bsText('name', $organization->name ,['placeholder' => 'Enter organization name', 'required' => 'true']) }}
 
@@ -26,7 +24,7 @@
 
                      <select class="form-control" id="bank" name="bank_id">
 
-                       <option value="">Select bank</option>
+                       <option value="{{ $current_bank->id }}">{{ $current_bank->name }}</option>
 
                        @foreach($banks as $bank)
 
@@ -39,7 +37,7 @@
                     </div>
 
 
-                      {{ Form::bsText('account_number','',['placeholder' => 'Enter account number']) }}
+                      {{ Form::bsText('account_number', $organization->account_number,['placeholder' => 'Enter account number']) }}
 
 
                     <div class="form-group">
@@ -48,7 +46,7 @@
 
                      <select class="form-control" id="statutory_type" name="statutory_type_id">
 
-                       <option value="">Select statutory type</option>
+                       <option value="{{ $current_statutory_type->id }}">{{ $current_statutory_type->name}}</option>
 
                        @foreach($statutory_types as $statutory_type)
 
@@ -65,9 +63,11 @@
 
                     {!! Form::close() !!}
 
-
-
         </div>
     </div>
-</div>
+</div>    
 @endsection
+
+
+
+

@@ -23,5 +23,17 @@ class Pay extends Model
   }
 
 
+  public function scopePosted($query)
+    {
+      return $query->where('posted', 1);
+    }
+
+  public function scopeUnposted($query)
+    {
+      return $query->where('posted', 0);
+    }
+
+
+
     //
 }

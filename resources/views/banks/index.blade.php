@@ -1,18 +1,16 @@
-@extends('layouts.master')
-
-@section('title', 'Banks')
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-6 col-md-12 col-sm-6">
+<div class="col-md-6">
+    <div class="card">
+        <div class="card-header">{{ __('messages.bank') }} <span class="pull-right"> <a href="/banks/create">{{ __('messages.add') }}</a></span></div>
 
-
-        @if($banks)
+        <div class="card-body">
+            @if( count($banks) > 0 )
       <div class="table-responsive">
 
               <table class="table table-hover table-striped table-bordered">
-                  <caption><h1>{{ __('messages.bank') }}</h1> <span class="pull-right"> <a href="/banks/create">{{ __('messages.add') }}</span></caption>
+                  <caption></caption>
 
                   <thead>
                     <tr>
@@ -73,10 +71,8 @@
 
 
         @endif
-
-
-
         </div>
     </div>
-</div>
+</div>    
 @endsection
+

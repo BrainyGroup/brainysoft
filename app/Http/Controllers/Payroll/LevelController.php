@@ -2,17 +2,21 @@
 
 namespace BrainySoft\Http\Controllers;
 
+use Exception;
+
+use BrainySoft\User;
+
 use BrainySoft\Level;
+
+use BrainySoft\Company;
+
+use BrainySoft\Employee;
 
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Log;
 
-use Exception;
 
-use BrainySoft\Company;
-
-use BrainySoft\Employee;
 
 class LevelController extends Controller
 {
@@ -25,9 +29,9 @@ class LevelController extends Controller
 
     private function company()
     {
-      $employee = Employee::find(auth()->user()->id);
+      $user = User::find(auth()->user()->id);
 
-      return Company::find($employee->company_id);
+      return Company::find($user->company_id);
     }
     /**
      * Display a listing of the resource.
@@ -40,11 +44,9 @@ class LevelController extends Controller
 
         $company = $this->company();
 
-        Log::debug($company->name.': Start level index');
+        Log::debug($company->name.': Start level index');        
 
-        $employee = Employee::find(auth()->user()->id);
-
-        $levels = Level::where('company_id', $employee->company_id)->get();
+        $levels = Level::where('company_id', $company->id)->get();
 
         return view('levels.index', compact('levels'));
 
@@ -88,7 +90,7 @@ class LevelController extends Controller
 
       ]);
 
-      $employee = Employee::find(auth()->user()->id);
+      $company = $this->company();
 
       $level = new Level;
 
@@ -96,11 +98,11 @@ class LevelController extends Controller
 
       $level->description = request('description');
 
-      $level->company_id = $employee->company_id;
+      $level->company_id = $company->id;
 
       $level->save();
 
-      return redirect('levels');
+      return back()->with('success','Level added successfully');
 
     }
 
@@ -174,7 +176,9 @@ class LevelController extends Controller
     {
       
 
-      if ($level->delete()){
+        $level_exist = Employee::where('level_id',$level->id)->exists();
+
+        if (!$level_exist && $level->delete()){
 
         return redirect('levels')
 

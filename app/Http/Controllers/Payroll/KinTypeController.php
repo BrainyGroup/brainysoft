@@ -2,17 +2,23 @@
 
 namespace BrainySoft\Http\Controllers;
 
+use Exception;
+
+use BrainySoft\Kin;
+
+use BrainySoft\User;
+
+use BrainySoft\Company;
+
 use BrainySoft\Kin_type;
+
+use BrainySoft\Employee;
 
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Log;
 
-use Exception;
 
-use BrainySoft\Company;
-
-use BrainySoft\Employee;
 
 // TODO: create kin types seeder
 
@@ -28,9 +34,9 @@ class KinTypeController extends Controller
 
     private function company()
     {
-      $employee = Employee::find(auth()->user()->id);
+      $user = User::find(auth()->user()->id);
 
-      return Company::find($employee->company_id);
+      return Company::find($user->company_id);
     }
     /**
      * Display a listing of the resource.
@@ -43,11 +49,9 @@ class KinTypeController extends Controller
 
         $company = $this->company();
 
-        Log::debug($company->name.': Start kin type index');
+        Log::debug($company->name.': Start kin type index');        
 
-        $employee = Employee::find(auth()->user()->id);
-
-        $kin_types = Kin_type::where('company_id', $employee->company_id)->get();
+        $kin_types = Kin_type::where('company_id', $company->id)->get();
 
         return view('kin_types.index', compact('kin_types'));
 
@@ -91,7 +95,7 @@ class KinTypeController extends Controller
 
       ]);
 
-      $employee = Employee::find(auth()->user()->id);
+      $company = $this->company();
 
       $kin_type = new Kin_type;
 
@@ -99,11 +103,11 @@ class KinTypeController extends Controller
 
       $kin_type->description = request('description');
 
-      $kin_type->company_id = $employee->company_id;
+      $kin_type->company_id = $company->id;
 
       $kin_type->save();
 
-      return redirect('kin_types');
+      return back()->with('success','Kin types added successfully');
 
     }
 
@@ -176,7 +180,9 @@ class KinTypeController extends Controller
     public function destroy(Kin_type $kin_type)
     {
 
-        if ($kin_type->delete()){
+        $kin_type_exist = Kin::where('kin_type_id',$kin_type->id)->exists();
+
+        if (!$kin_type_exist && $kin_type->delete()){
 
         return redirect('kin_types')
 

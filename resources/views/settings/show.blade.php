@@ -1,29 +1,24 @@
-@extends('layouts.master')
-
-@section('header')
-
-
-
-@endsection
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">Dashboard</div>
 
+        <div class="card-body">
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
 
-
-          <div class="table-responsive">
+            <div class="table-responsive">
 
                   <table class="table table-hover table-striped table-bordered">
 
                     <caption><h1>{{ $bank->name  }}</h1></caption>
 
-
-
                       <tbody>
-
-
 
                         <tr>
 
@@ -53,11 +48,11 @@
                           <td><a href="/banks/{{$bank->id}}/edit">{{ __('messages.edit') }}</a></td>
 
                           <td><a href=""
-                        			onclick="
-                        			var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.bank')}}');
-                        			if (result){
-                        					event.preventDefault();
-                        					document.getElementById({{$bank->id}}).submit();
+                              onclick="
+                              var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.bank')}}');
+                              if (result){
+                                  event.preventDefault();
+                                  document.getElementById({{$bank->id}}).submit();
                                 }">{{ __('messages.delete') }}
                               </a>
 
@@ -65,23 +60,18 @@
 
                               {!! Form::close() !!}
                           </td>
-
                       </tr>
+                  </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>    
+@endsection
 
 
 
-                                          </tr>
 
 
 
 
-                              </tbody>
-                            </table>
-                        </div>
-
-
-
-                              </div>
-                          </div>
-                      </div>
-                      @endsection

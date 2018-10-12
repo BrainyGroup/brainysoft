@@ -1,18 +1,23 @@
-@extends('layouts.master')
-
-@section('title', 'Statutory types')
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-12 col-md-12 col-sm-12">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">{{ __('messages.statutory_type') }} <span class="pull-right"> <a href="/statutory_types/create">{{ __('messages.add') }}</a></span></div>
+
+        <div class="card-body">
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
 
 
         @if(count ($statutory_types) > 0)
       <div class="table-responsive">
 
               <table class="table table-hover table-striped table-bordered">
-                  <caption><h1>Statutory types</h1></caption>
+                  <caption></caption>
 
                   <thead>
                     <tr>
@@ -20,8 +25,6 @@
                       <th scope="col">Name</th>
                       <th scope="col">Description</th>
 
-                      <th scope="col">Edit</th>
-                      <th scope="col">Description</th>
                       <th scope="col">Edit</th>
                       <th scope="col">Delete</th>
 
@@ -73,8 +76,12 @@
         @endif
 
 
-
         </div>
     </div>
-</div>
+</div>    
 @endsection
+
+
+
+
+

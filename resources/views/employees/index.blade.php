@@ -1,18 +1,22 @@
-@extends('layouts.master')
-
-@section('title', 'Employee List')
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-12 col-md-12 col-sm-12">
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header"><h1>All Employee</h1></div>
 
+        <div class="card-body">
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
 
         @if( count($employees) > 0 )
       <div class="table-responsive">
 
               <table class="table table-hover table-striped table-bordered">
-                  <caption><h1>All Employee</h1></caption>
+                  <caption></caption>
 
                   <thead>
                     <tr>
@@ -24,6 +28,10 @@
                       <th scope="col">salary</th>
                       <th scope="col">Allowance</th>
                       <th scope="col">Deduction</th>
+                      <th scope="col">Kin</th>
+                      <th scope="col">Statutory</th>
+                      <th scope="col">Details</th>
+
                       <th scope="col">Edit</th>
                       <th scope="col">Delete</th>
 
@@ -48,6 +56,15 @@
                     <td><a href="/allowances">{{  number_format($employee->allowance_amount, 2) }}</a></td>
 
                     <td><a href="/deductions">{{  number_format($employee->deduction_amount, 2) }}</a></td>
+
+                    <td><a href="/kins?employee_id={{ $employee->id }}">Kins</a></td>
+
+                    <td><a href="/statutories">Statutories</a></td>
+
+                    <td><a href="/employees/{{ $employee->id}}">Details</a></td>
+
+
+
 
                     <td><a href="/employees/{{$employee->id}}/edit">Edit</a></td>
 
@@ -86,8 +103,7 @@
         @endif
 
 
-
         </div>
     </div>
-</div>
+</div>    
 @endsection

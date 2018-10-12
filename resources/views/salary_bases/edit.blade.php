@@ -1,32 +1,32 @@
-@extends('layouts.master')
-
-@section('header')
-
-<div class="blog-header">
-  <h1>Edit Salary Bases </h1>
-</div>
-
-@endsection
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">Edit Salary Base</div>
 
+        <div class="card-body">
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
+            {!! Form::open(['action' => array('SalaryBaseController@update', $salary_base->id),'method' => 'PUT']) !!}
 
-                    {!! Form::open(['action' => array('SalaryBaseController@update', $salary_base->id),'method' => 'PUT']) !!}
+            {{ Form::bsText('name', $salary_base->name,['placeholder' => 'Enter salary name']) }}
 
-                    {{ Form::bsText('name', $salary_base->name,['placeholder' => 'Enter salary name']) }}
+            {{ Form::bsText('description', $salary_base->description,['placeholder' => 'Enter salary description']) }}
 
-                    {{ Form::bsText('description', $salary_base->description,['placeholder' => 'Enter salary description']) }}
+            {{ Form::bsSubmit(__('messages.edit'),['class' => 'btn btn-primary']) }}
 
-                    {{ Form::bsSubmit(__('messages.edit'),['class' => 'btn btn-primary']) }}
-
-                    {!! Form::close() !!}
-
-
-
+            {!! Form::close() !!}
+          
         </div>
     </div>
-</div>
+</div>    
 @endsection
+
+
+
+
+

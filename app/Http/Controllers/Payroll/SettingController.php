@@ -4,6 +4,8 @@ namespace BrainySoft\Http\Controllers;
 
 use Exception;
 
+use BrainySoft\User;
+
 use BrainySoft\Company;
 
 use BrainySoft\Setting;
@@ -25,9 +27,9 @@ class SettingController extends Controller
 
     private function company()
     {
-      $employee = Employee::find(auth()->user()->id);
+      $user = User::find(auth()->user()->id);
 
-      return Company::find($employee->company_id);
+      return Company::find($user->company_id);      
     }
     /**
      * Display a listing of the resource.
@@ -41,11 +43,13 @@ class SettingController extends Controller
 
         $company = $this->company();
 
+       
+
         Log::debug($company->name.': Start setting index');
 
-        $employee = Employee::find(auth()->user()->id);
+        //$employee = Employee::find(auth()->user()->id);
 
-        $settings = Setting::where('company_id', $employee->company_id)->get();
+        $settings = Setting::where('company_id', $company->id)->get();
 
         return view('settings.index', compact('settings'));
 
@@ -91,7 +95,7 @@ class SettingController extends Controller
       ]);
 
 
-      $employee = Employee::find(auth()->user()->id);
+      $company = $this->company();
 
       $setting = new Setting;
 
@@ -99,11 +103,11 @@ class SettingController extends Controller
 
       $setting->description = request('description');
 
-      $setting->company_id = $employee->company_id;
+      $setting->company_id = $company->id;
 
       $setting->save();
 
-      return back();
+      return back()->with('success','Setting added successfully');
     }
 
     /**

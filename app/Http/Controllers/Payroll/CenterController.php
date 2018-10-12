@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\Log;
 
 use Exception;
 
-use BrainySoft\Company;
+use BrainySoft\User;
 
 use BrainySoft\Center;
+
+use BrainySoft\Company;
 
 use BrainySoft\Employee;
 
@@ -25,9 +27,9 @@ class CenterController extends Controller
 
     private function company()
     {
-      $employee = Employee::find(auth()->user()->id);
+      $user = User::find(auth()->user()->id);
 
-      return Company::find($employee->company_id);
+      return Company::find($user->company_id);
     }
   /**
      * Display a listing of the resource.
@@ -42,9 +44,9 @@ class CenterController extends Controller
 
             Log::debug($company->name.': Start center index');
 
-            $employee = Employee::find(auth()->user()->id);
+            // $employee = Employee::find(auth()->user()->id);
 
-            $centers = Center::where('company_id', $employee->company_id)->get();
+            $centers = Center::where('company_id', $company->id)->get();
 
             return view('centers.index', compact('centers'));
 
@@ -96,9 +98,9 @@ class CenterController extends Controller
 
         Log::debug($company->name.': Serving center model');
 
-        $id = auth()->user()->id;
+        // $id = auth()->user()->id;
 
-        $employee = Employee::find($id);
+        // $employee = Employee::find($id);
 
         $center = new Center;
 
@@ -108,13 +110,13 @@ class CenterController extends Controller
 
         $center->description = request('description');
 
-        $center->company_id = $employee->company_id;
+        $center->company_id = $company->id;
 
         $center->save();
 
         Log::debug($company->name.': Center model served');
 
-        return redirect('centers')->with('success','Center added successfully');
+        return back()->with('success','Center added successfully');
 
       }catch(Exception $e){
 
@@ -194,7 +196,7 @@ class CenterController extends Controller
 
         $center->description = request('description');
 
-        $center->company_id = $employee->company_id;
+        $center->company_id = $company->id;
 
         $center->save();
 
@@ -223,7 +225,9 @@ class CenterController extends Controller
     public function destroy(Center $center)
     {
 
-        if ($center->delete()){
+        $center_exist = Employee::where('center_id',$center->id)->exists();
+
+        if (!$center_exist && $center->delete()){
 
         return redirect('centers')
 
@@ -231,7 +235,7 @@ class CenterController extends Controller
 
         }else{
 
-        return back()->withInput()->with('error','Center could not be deleted');
+        return back()->with('error','Center could not be deleted');
       }
     }
 }

@@ -25,8 +25,15 @@ class CompaniesTableSeeder extends Seeder
               'slogan' => 'For Dynamic World',
               'mission' => 'monthly',
               'vision' => 'monthly',
-              'created_at' =>now(),
-              'updated_at' =>now(),
+              'usage_count' => '0',
+              'last_renew_date' => now(),
+              'trial_expire_date' => now()->addMonth(3), 
+              'expire_date' => now()->addMonth(3),  
+              'employees' => 9,               
+              'trial' => true,  
+              'balance' => 200000.00,                         
+              'created_at' => now(),
+              'updated_at' => now(),
           ]);
 
           DB::table('companies')->insert([
@@ -41,6 +48,13 @@ class CompaniesTableSeeder extends Seeder
               'slogan' => 'Agily World',
               'mission' => 'monthly',
               'vision' => 'monthly',
+              'usage_count' => '0',
+              'last_renew_date' => now(),
+              'trial_expire_date' => now()->addMonth(3), 
+              'expire_date' => now()->addMonth(3),  
+              'employees' => 9,                
+              'trial' => true, 
+              'balance' => 200000.00,                                      
               'created_at' =>now(),
               'updated_at' =>now(),
               ]);

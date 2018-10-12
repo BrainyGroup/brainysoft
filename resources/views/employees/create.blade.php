@@ -1,44 +1,27 @@
-@extends('layouts.master')
-
-@section('header')
-
-<div class="blog-header">
-  <h2>New Employee {{ $user->title.'. '.$user->firstname.' '.$user->middlename.' '.$user->lastname }}</h2>
-</div>
-
-@endsection
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">New Employee {{ $user->title.'. '.$user->firstname.' '.$user->middlename.' '.$user->lastname }}</div>
 
-
+        <div class="card-body">
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
 
 
                     {!! Form::open(['action' => 'EmployeeController@store','method' => 'POST']) !!}
 
-                    <div class="form-group">
-
-                    <label for="level" class="control-label">Level</label>
-
-                     <select class="form-control" id="level" name="level_id">
-
-                       <option value="">Select Structure level</option>
-
-                       @foreach($levels as $level)
-
-                       <option value="{{ $level->id }}">{{ $level->name }}</option>
-
-                       @endforeach
-
-                     </select>
-
-                    </div>
+ 
 
                     <div class="form-group">
 
                     <label for="center" class="control-label">Center</label>
+
+                    <div class="input-group mb-3">
 
                      <select class="form-control" id="center" name="center_id">
 
@@ -52,33 +35,24 @@
 
                      </select>
 
+                      <div class="input-group-append">
+                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addCenter">Add</button>
+                      </div>
                     </div>
 
-                    <div class="form-group">
-
-                    <label for="Scales" class="control-label">Scales</label>
-
-                     <select class="form-control" id="scale" name="scale_id">
-
-                       <option value="">Select salary scale</option>
-
-                       @foreach($centers as $center)
-
-                       <option value="{{ $center->id }}">{{ $center->name }}</option>
-
-                       @endforeach
-
-                     </select>
-
                     </div>
+
+
 
                     <div class="form-group">
 
                     <label for="department" class="control-label">Department</label>
 
+                    <div class="input-group mb-3">
+
                      <select class="form-control" id="department" name="department_id">
 
-                       <option value="">Select allowance type</option>
+                       <option value="">Select department</option>
 
                        @foreach($departments as $department)
 
@@ -88,11 +62,19 @@
 
                      </select>
 
+                      <div class="input-group-append">
+                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addDepartment">Add</button>
+                      </div>
+
+                    </div>
+
                     </div>
 
                     <div class="form-group">
 
                     <label for="designation" class="control-label">Designation</label>
+
+                    <div class="input-group mb-3">
 
                      <select class="form-control" id="designation" name="designation_id">
 
@@ -106,6 +88,12 @@
 
                      </select>
 
+                      <div class="input-group-append">
+                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addDesignation">Add</button>
+                      </div>
+
+                    </div>
+
                     </div>
 
 
@@ -113,9 +101,11 @@
 
                     <label for="bank" class="control-label">Bank</label>
 
+                    <div class="input-group mb-3">
+
                      <select class="form-control" id="bank" name="bank_id">
 
-                       <option value="">Select allowance type</option>
+                       <option value="">Select bank </option>
 
                        @foreach($banks as $bank)
 
@@ -124,6 +114,12 @@
                        @endforeach
 
                      </select>
+
+                      <div class="input-group-append">
+                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addBank">Add</button>
+                      </div>
+
+                    </div>
 
                     </div>
 
@@ -144,13 +140,13 @@
 
                     {!! Form::close() !!}
 
-                    @if(count($errors)>0)
-                  @include('layouts.errors')
-                  @endif
 
 
+   @include('layouts.model')
 
         </div>
     </div>
-</div>
+</div>    
 @endsection
+
+

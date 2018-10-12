@@ -2,17 +2,28 @@
 
 namespace BrainySoft\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Log;
 
 use Exception;
 
+use BrainySoft\User;
+
 use BrainySoft\Scale;
+
+use BrainySoft\Pay_base;
+
+use BrainySoft\Employment_type;
+
+use BrainySoft\Payroll_group;
 
 use BrainySoft\Company;
 
 use BrainySoft\Employee;
+
+use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Log;
+
+
 
 class ScaleController extends Controller
 {
@@ -25,9 +36,9 @@ class ScaleController extends Controller
 
     private function company()
     {
-      $employee = Employee::find(auth()->user()->id);
+      $user = User::find(auth()->user()->id);
 
-      return Company::find($employee->company_id);
+      return Company::find($user->company_id);
     }
     /**
      * Display a listing of the resource.
@@ -43,9 +54,9 @@ class ScaleController extends Controller
 
         Log::debug($company->name.': Start scale index');
 
-        $employee = Employee::find(auth()->user()->id);
+     
 
-        $scales = Scale::where('company_id', $employee->company_id)->get();
+        $scales = Scale::where('company_id', $company->id)->get();
 
         return view('scales.index', compact('scales'));
 
@@ -69,7 +80,21 @@ class ScaleController extends Controller
      */
     public function create()
     {
-        return view('scales.create');
+
+        $company = $this->company();
+
+        $payroll_groups = Payroll_group::where('company_id', $company->id)->get();
+
+        $pay_types = Pay_base::where('company_id', $company->id)->get();
+
+        $employment_types = Employment_type::where('company_id', $company->id)->get();
+
+        return view('scales.create', compact(
+          'payroll_groups',
+          'pay_types',
+          'employment_types'
+
+        ));
     }
 
     /**
@@ -91,7 +116,7 @@ class ScaleController extends Controller
       ]);
 
 
-      $employee = Employee::find(auth()->user()->id);
+      $company = $this->company();
 
       $scale = new Scale;
 
@@ -103,13 +128,20 @@ class ScaleController extends Controller
 
       $scale->maximum = request('maximum');
 
-      $scale->schedule = request('schedule');
+      $scale->pay_base_id = request('pay_base_id');
 
-      $scale->company_id = $employee->company_id;
+      $scale->payroll_group_id = request('payroll_group_id');
+
+      $scale->employment_type_id = request('employment_type_id');
+
+      
+      // $scale->schedule = request('schedule');
+
+      $scale->company_id = $company->id;
 
       $scale->save();
 
-      return redirect('scales');
+     return back()->with('success','Scale added successfully');
     }
 
     /**
@@ -170,8 +202,7 @@ class ScaleController extends Controller
         //redirect
     }
 
-    }
-
+    
     /**
      * Remove the specified resource from storage.
      *
@@ -180,9 +211,11 @@ class ScaleController extends Controller
      */
     public function destroy(Scale $scale)
     {
-      
 
-      if ($scale->delete()){
+
+       $scale_exist = Employee::where('scale_id',$scale->id)->exists();
+
+        if (!$scale_exist && $scale->delete()){
 
         return redirect('scales')
 

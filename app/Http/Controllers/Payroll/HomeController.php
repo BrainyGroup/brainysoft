@@ -40,15 +40,20 @@ class HomeController extends Controller
      */
     public function index()
     {
+
+        return view('home');
         // Mail::send('emails.mailtrap', [], function($m){
         //   $m->to('yahaya.frezier@datahousetza.com','Yahaya Frezier')
         //   ->subject('You have registered')
         //   ->from('test@test.com','BrainySoft');
         // });
-        $user = User::find(2);
 
-        Mail::to($user)->send(new Salaryslip($user));
 
-        return view('home');
+        //Better way of sending email with view check the view
+        // $user = User::find(2);
+
+        // Mail::to($user)->send(new Salaryslip($user));
+
+        // return view('home');
     }
 }

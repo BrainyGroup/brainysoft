@@ -2,19 +2,24 @@
 
 namespace BrainySoft\Http\Controllers;
 
-use BrainySoft\Kin;
-
-use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Log;
+use DB;
 
 use Exception;
+
+use BrainySoft\Kin;
+
+use BrainySoft\User;
 
 use BrainySoft\Company;
 
 use BrainySoft\Employee;
 
-// TODO: create kin seeder
+use BrainySoft\Kin_type;
+
+use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Log;
+
 
 
 class KinController extends Controller
@@ -28,38 +33,54 @@ class KinController extends Controller
 
     private function company()
     {
-      $employee = Employee::find(auth()->user()->id);
+      $user = User::find(auth()->user()->id);
 
-      return Company::find($employee->company_id);
+      return Company::find($user->company_id);
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-      try{
+
 
         $company = $this->company();
 
-        Log::debug($company->name.': Start kin index');
+        Log::debug($company->name.': Start kin index');        
 
-        $employee = Employee::find(auth()->user()->id);
+        $kins = DB::table('kin')
 
-        $kins = Kin::where('company_id', $employee->company_id)->get();
+        ->where('kin.company_id', $company->id)
 
-        return view('kins.index', compact('kins'));
+        ->where('employee_id',request('employee_id'))
 
-      }catch(Exception $e){
+        ->join('employees','employees.id','kin.employee_id')
 
-        $company = $this->company();
+        ->join('users','users.id','employees.user_id')
 
-        Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
 
-        Log::debug($company->name.': End kin index');
 
-      }
+        ->join('kin_types','kin_types.id','kin.kin_type_id')
+
+        ->select(
+
+          'employees.*',
+
+          'users.*',
+
+          'kin.*',
+
+          'kin_types.name as kin_type_name'
+
+          )
+
+        ->get();
+
+        return view('kins.index', compact('kins','users'));
+
+
 
     }
 
@@ -68,10 +89,16 @@ class KinController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
 
-        return view('kins.create');
+        $employee = Employee::find(request('employee_id'));
+
+        $user = User::where('id', $employee->user_id)->first();
+
+        $kin_types = Kin_type::all();
+
+        return view('kins.create', compact('user','kin_types'));
 
     }
 
@@ -89,7 +116,7 @@ class KinController extends Controller
 
         'name' =>'required|string',
 
-        'description' => 'required|string',
+        'mobile' => 'required|string',
 
         'kin_type_id' =>'required|numeric',
 
@@ -103,17 +130,20 @@ class KinController extends Controller
 
       $kin->name = request('name');
 
-      $kin->description = request('description');
+      $kin->mobile = request('mobile');
 
-      $kin->description = request('kin_type_id');
+      $kin->kin_type_id = request('kin_type_id');
 
-      $kin->description = request('employee_id');
+      $kin->employee_id = request('employee_id');
 
       $kin->company_id = $employee->company_id;
 
       $kin->save();
 
-      return back();
+      //return back()->with('success','Kin added successfully');
+
+
+      return redirect()->route('kins.index',['employee_id' => request('employee_id')]);
 
     }
 
@@ -136,7 +166,11 @@ class KinController extends Controller
      */
     public function edit(Kin $kin)
     {
-        return view('kins.edit',compact('kin'));
+        $kin_types = Kin_type::all();
+
+        $current_kin_type = Kin_type::find($kin->kin_type_id);
+
+        return view('kins.edit',compact('kin','current_kin_type','kin_types'));
     }
 
     /**
@@ -153,11 +187,11 @@ class KinController extends Controller
 
         'name' =>'required|string',
 
-        'description' => 'required|string',
+        'mobile' => 'required|string',
 
         'kin_type_id' =>'required|numeric',
 
-        'employee_id' => 'required|numeric',
+
 
       ]);
 
@@ -167,11 +201,11 @@ class KinController extends Controller
 
           'name'			=>$request->input('name'),
 
-          'description'	=>$request->input('description'),
+          'mobile'	=>$request->input('mobile'),
 
           'kin_type_id'			=>$request->input('kin_type_id'),
 
-          'employee_id'	=>$request->input('employee_id'),
+
 
 
 
@@ -179,11 +213,11 @@ class KinController extends Controller
 
       if($kinUpdate)
 
-        return redirect('kins')
+      return redirect()->route('kins.index',['employee_id' => $kin->employee_id])
 
         ->with('success','Kin updated successfully');
         //redirect
-    
+
 
     }
 
@@ -195,11 +229,11 @@ class KinController extends Controller
      */
     public function destroy(Kin $kin)
     {
-      $kin = Kin::find($kin->id);
+
 
       if ($kin->delete()){
 
-        return redirect('kins')
+      return redirect()->route('kins.index',['employee_id' => $kin->employee_id])
 
         ->with('success','Kin deleted successfully');
 

@@ -1,29 +1,18 @@
-@extends('layouts.master')
-
-@section('header')
-
-
-
-@endsection
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">{{ $center->name  }}</div>
 
-
-
-          <div class="table-responsive">
+        <div class="card-body">
+            <div class="table-responsive">
 
                   <table class="table table-hover table-striped table-bordered">
 
-                    <caption><h1>{{ $center->name  }}</h1></caption>
-
-
+                    <caption></caption>
 
                       <tbody>
-
-
 
                         <tr>
 
@@ -41,23 +30,23 @@
 
                         </tr>
 
-                          <tr>
+                        <tr>
 
                           <td>{{ __('messages.description') }}</td>
 
                           <td>{{ $center->description }}</td>
 
-                    </tr>
+                       </tr>
 
-                    <tr>
+                       <tr>
                           <td><a href="/centers/{{$center->id}}/edit">{{ __('messages.edit') }}</a></td>
 
                           <td><a href=""
-                        			onclick="
-                        			var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.center')}}');
-                        			if (result){
-                        					event.preventDefault();
-                        					document.getElementById({{$center->id}}).submit();
+                              onclick="
+                              var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.center')}}');
+                              if (result){
+                                  event.preventDefault();
+                                  document.getElementById({{$center->id}}).submit();
                                 }">{{ __('messages.delete') }}
                               </a>
 
@@ -65,23 +54,13 @@
 
                               {!! Form::close() !!}
                           </td>
-
-                      </tr>
-
-
-
-                                          </tr>
-
-
-
-
-                              </tbody>
-                            </table>
-                        </div>
+                       </tr>                              
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>    
+@endsection
 
 
-
-                              </div>
-                          </div>
-                      </div>
-                      @endsection

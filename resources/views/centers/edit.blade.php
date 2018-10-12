@@ -1,34 +1,26 @@
-@extends('layouts.master')
-
-@section('header')
-
-<div class="blog-header">
-  <h1>{{ __('messages.edit').' '.__('messages.center')}}</h1>
-</div>
-
-@endsection
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">{{ __('messages.edit').' '.__('messages.center')}}</div>
 
+        <div class="card-body">
 
-                    {!! Form::open(['action' => array('CenterController@update', $center->id),'method' => 'PUT']) !!}
+            {!! Form::open(['action' => array('CenterController@update', $center->id),'method' => 'PUT']) !!}
 
-                    {{ Form::bsText(__('messages.number'),$center->number,['placeholder' => __('messages.enter number')]) }}
+            {{ Form::bsText(__('messages.number'),$center->number,['placeholder' => __('messages.enter number')]) }}
 
-                    {{ Form::bsText(__('messages.name'),$center->name,['placeholder' => __('messages.enter name')]) }}
+            {{ Form::bsText(__('messages.name'),$center->name,['placeholder' => __('messages.enter name')]) }}
 
-                    {{ Form::bsText(__('messages.description'),$center->description,['placeholder' => __('messages.enter description')]) }}
+            {{ Form::bsText(__('messages.description'),$center->description,['placeholder' => __('messages.enter description')]) }}
 
-                    {{ Form::bsSubmit(__('messages.update'),['class' => 'btn btn-primary']) }}
+            {{ Form::bsSubmit(__('messages.update'),['class' => 'btn btn-primary']) }}
 
-                    {!! Form::close() !!}
-
-
-
+            {!! Form::close() !!}
         </div>
     </div>
-</div>
+</div>    
 @endsection
+
+

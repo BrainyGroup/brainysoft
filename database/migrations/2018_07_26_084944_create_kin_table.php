@@ -16,8 +16,8 @@ class CreateKinTable extends Migration
         Schema::create('kin', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('description');
-            $table->integer('user_id')->unsigned()->foreign()->references('id')->on('users');
+            $table->string('mobile');
+            $table->integer('kin_type_id')->unsigned()->foreign()->references('id')->on('kin_types');
             $table->integer('employee_id')->unsigned()->foreign()->references('id')->on('employees');
             $table->integer('company_id')->unsigned()->foreign()->references('id')->on('companies');
             $table->timestamps();

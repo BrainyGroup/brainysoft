@@ -1,18 +1,22 @@
-@extends('layouts.master')
-
-@section('title', 'Salary types')
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-12 col-md-12 col-sm-12">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">{{ __('messages.salary_type') }} <span class="pull-right"> <a href="/salary_bases/create">{{ __('messages.add') }}</a></span></div>
 
+        <div class="card-body">
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
 
         @if(count ($salary_bases) > 0)
       <div class="table-responsive">
 
               <table class="table table-hover table-striped table-bordered">
-                    <caption><h1>{{ __('messages.salary_type') }}</h1> <span class="pull-right"> <a href="/salary_bases/create">{{ __('messages.add') }}</span></caption>
+                    <caption></caption>
 
                   <thead>
                     <tr>
@@ -68,10 +72,10 @@
 
 
         @endif
-
-
-
-        </div>
+                </div>
     </div>
-</div>
+</div>    
 @endsection
+
+
+

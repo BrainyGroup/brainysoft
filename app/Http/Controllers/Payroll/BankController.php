@@ -2,19 +2,23 @@
 
 namespace BrainySoft\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use BrainySoft\Http\Controllers\Controller;
-
-use Illuminate\Support\Facades\Log;
-
 use Exception;
+
+use BrainySoft\User;
 
 use BrainySoft\Bank;
 
 use BrainySoft\Company;
 
 use BrainySoft\Employee;
+
+use BrainySoft\Organization;
+
+use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Log;
+
+use BrainySoft\Http\Controllers\Controller;
 
 class BankController extends Controller
 {
@@ -28,9 +32,9 @@ class BankController extends Controller
 
     private function company()
     {
-      $employee = Employee::find(auth()->user()->id);
+      $user = User::find(auth()->user()->id);
 
-      return Company::find($employee->company_id);
+      return Company::find($user->company_id);
     }
     /**
      * Display a listing of the resource.
@@ -46,9 +50,9 @@ class BankController extends Controller
 
           Log::debug($company->name.': Start bank index');
 
-          $employee = Employee::find(auth()->user()->id);
+          // $employee = Employee::find(auth()->user()->id);
 
-          $banks = Bank::where('company_id', $employee->company_id)->get();
+          $banks = Bank::where('company_id', $company->id)->get();
 
           return view('banks.index', compact('banks'));
 
@@ -99,9 +103,7 @@ class BankController extends Controller
 
       //get user id
 
-      $id = auth()->user()->id;
-
-      $employee = Employee::find($id);
+      $company = $this->company();
 
       $bank = new Bank;
 
@@ -109,11 +111,11 @@ class BankController extends Controller
 
       $bank->description = request('description');
 
-      $bank->company_id = $employee->company_id;
+      $bank->company_id = $company->id;
 
       $bank->save();
 
-      return redirect('banks');
+      return back()->with('success','Bank added successfully');
     }
 
     /**
@@ -182,17 +184,21 @@ class BankController extends Controller
      */
     public function destroy(Bank $bank)
     {
+      $bank_employee_exist = Employee::where('bank_id',$bank->id)->exists();
+
+      $bank_organization_exist = Organization::where('bank_id',$bank->id)->exists();
+
       $bank = Bank::find($bank->id);
 
-      if ($bank->delete()){
+      if (!$bank_employee_exist && !$bank_employee_exist && $bank->delete()){
 
-        return redirect('banks.index')
+        return redirect('banks')
 
         ->with('success','Bank deleted successfully');
 
       }else{
 
-        return back()->withInput()->with('error','Bank could not be deleted');
+        return back()->with('error','Bank could not be deleted');
 
       }
     }

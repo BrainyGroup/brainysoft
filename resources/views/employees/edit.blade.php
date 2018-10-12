@@ -1,19 +1,16 @@
-@extends('layouts.master')
-
-@section('header')
-
-<div class="blog-header">
-  <h2>New Employee {{ $user->title.'. '.$user->firstname.' '.$user->middlename.' '.$user->lastname }}</h2>
-</div>
-
-@endsection
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">Edit Employee {{ $user->title.'. '.$user->firstname.' '.$user->lastname }}</div>
 
-
+        <div class="card-body">
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
 
 
                       {!! Form::open(['action' => array('EmployeeController@update', $employee->id),'method' => 'PUT']) !!}
@@ -24,7 +21,7 @@
 
                      <select class="form-control" id="level" name="level_id">
 
-                       <option value="">Select Structure level</option>
+                       <option value="{{ $current_level->id }}">{{ $current_level->name }}</option>
 
                        @foreach($levels as $level)
 
@@ -42,7 +39,7 @@
 
                      <select class="form-control" id="center" name="center_id">
 
-                       <option value="">Select center</option>
+                       <option value="{{ $current_center->id }}">{{ $current_center->name }}</option>
 
                        @foreach($centers as $center)
 
@@ -60,7 +57,7 @@
 
                      <select class="form-control" id="scale" name="scale_id">
 
-                       <option value="">Select salary scale</option>
+                       <option value="{{ $current_salary_scale->id }}">{{ $current_salary_scale->name }}</option>
 
                        @foreach($centers as $center)
 
@@ -78,7 +75,7 @@
 
                      <select class="form-control" id="department" name="department_id">
 
-                       <option value="">Select allowance type</option>
+                       <option value="{{ $current_department->id }}">{{ $current_department->name }}</option>
 
                        @foreach($departments as $department)
 
@@ -96,7 +93,7 @@
 
                      <select class="form-control" id="designation" name="designation_id">
 
-                       <option value="">Select designation</option>
+                       <option value="{{ $current_designation->id }}">{{ $current_designation->name }}</option>
 
                        @foreach($designations as $designation)
 
@@ -115,7 +112,7 @@
 
                      <select class="form-control" id="bank" name="bank_id">
 
-                       <option value="">Select allowance type</option>
+                       <option value="{{ $current_bank->id }}">{{ $current_bank->name }}</option>
 
                        @foreach($banks as $bank)
 
@@ -127,30 +124,27 @@
 
                     </div>
 
-                    {{ Form::bsText('account_number','',['placeholder' => 'Enter account number']) }}
+                    {{ Form::bsText('account_number', $employee->account_number,['placeholder' => 'Enter account number']) }}
 
-                  {{ Form::bsNumber('salary','',['placeholder' => 'Enter Salary Amount']) }}
+                  {{ Form::bsNumber('salary', $employee_salary->amount ,['placeholder' => 'Enter Salary Amount']) }}
 
-                    {{ Form::bsDate('start_date') }}
+                    {{ Form::bsDate('start_date', $employee->start_date) }}
 
-                    {{ Form::bsDate('end_date') }}
+                    {{ Form::bsDate('end_date', $employee->end_date) }}
 
-                    {{ Form::bsHidden('user_id', request('user_id')) }}
+                    {{ Form::bsHidden('employee_id', $employee->id) }}
 
-                    {{ Form::bsSubmit('Submit',['class' => 'btn btn-primary']) }}
+                    {{ Form::bsSubmit( __('messages.edit'),['class' => 'btn btn-primary']) }}
 
 
 
 
                     {!! Form::close() !!}
 
-                    @if(count($errors)>0)
-                  @include('layouts.errors')
-                  @endif
-
-
-
         </div>
     </div>
-</div>
+</div>    
 @endsection
+
+
+

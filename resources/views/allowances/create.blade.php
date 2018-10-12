@@ -1,30 +1,14 @@
-@extends('layouts.master')
-
-@section('header')
-
-<div class="blog-header">
-  <h2>Add Allowance for {{ $user->title.'. '.$user->firstname.' '.$user->lastname }}</h2>
-</div>
-
-@endsection
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">Add Allowance for {{ $user->title.'. '.$user->firstname.' '.$user->lastname }}</div>
 
+        <div class="card-body">
+            {!! Form::open(['action' => 'AllowanceController@store','method' => 'POST']) !!}
 
-
-
-                    {!! Form::open(['action' => 'AllowanceController@store','method' => 'POST']) !!}
-
-                    {{ Form::bsText('allowance_amount','',['placeholder' => 'Enter Allowance Amount']) }}
-
-                    @if($errors->has('allowance_amount'))
-
-                      {{ $errors->first('allowance_amount')}}
-
-                    @endif
+                    {{ Form::bsText('allowance_amount','',['placeholder' => 'Enter Allowance Amount']) }}  
 
 
                     {{ Form::bsHidden('user_id', request('user_id')) }}
@@ -59,9 +43,8 @@
 
                     {!! Form::close() !!}
 
-
-
         </div>
     </div>
-</div>
+</div>    
 @endsection
+

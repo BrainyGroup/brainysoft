@@ -1,26 +1,37 @@
-@extends('layouts.master')
-
-@section('header')
-
-<div class="blog-header">
-  <h1>Edit Company</h1>
-</div>
-
-@endsection
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">Edit Company</div>
 
-
-
-
+        <div class="card-body">
+            
                     {!! Form::open(['action' => array('CompanyController@update', $company->id),'method' => 'PUT']) !!}
 
                     {{ Form::bsText('name',$company->name,['placeholder' => 'Enter Company name']) }}
 
                     {{ Form::bsText('description',$company->description,['placeholder' => 'Enter Company description']) }}
+
+                    {{ Form::bsText('employees',$company->employees,['placeholder' => 'Enter number of employee']) }}
+
+                    {{ Form::bsText('balance',$company->balance,['placeholder' => 'Enter balance']) }}
+
+                    <div class="form-group">
+
+                    <label for="trial" class="control-label">Product Mode</label>
+
+                     <select class="form-control" id="trial" name="trial">
+
+                       <option value="{{ $company->trial }}">{{ $company->trial }}</option>
+
+                       <option value="true">Trial</option>
+                       <option value="false">Production</option>                      
+
+                     </select>
+
+                    </div>
+
 
 
 
@@ -61,10 +72,9 @@
                     {{ Form::bsSubmit(__('messages.edit'),['class' => 'btn btn-primary']) }}
 
                     {!! Form::close() !!}
-
-
-
         </div>
     </div>
-</div>
+</div>    
 @endsection
+
+

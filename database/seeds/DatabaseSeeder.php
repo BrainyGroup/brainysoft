@@ -34,6 +34,11 @@ class DatabaseSeeder extends Seeder
            Employee_statutoryTableSeeder::class,
            PaysTableSeeder::class,
            Pay_statutoriesTableSeeder::class,
+           DepartmentTableSeeder::class,
+           Payroll_groupTableSeeder::class,
+           Kin_typeTableSeeder::class,
+           Employment_typeTableSeeder::class,
+           Pay_baseTableSeeder::class,
          ]);
     }
 }

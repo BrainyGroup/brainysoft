@@ -4,6 +4,8 @@ namespace BrainySoft\Http\Controllers;
 
 use Exception;
 
+use BrainySoft\User;
+
 use BrainySoft\Country;
 
 use BrainySoft\Company;
@@ -26,9 +28,9 @@ class CountryController extends Controller
 
     private function company()
     {
-      $employee = Employee::find(auth()->user()->id);
+      $user = User::find(auth()->user()->id);
 
-      return Company::find($employee->company_id);
+      return Company::find($user->company_id);
     }
     /**
      * Display a listing of the resource.
@@ -94,9 +96,35 @@ class CountryController extends Controller
 
       $country->name = request('name');
 
+      $country->description = request('description');
+
+      $country->country_code = request('country_code');
+
+      $country->currency_code = request('currency_code');
+
+      $country->currency_name = request('currency_name');
+
+      $country->capital = request('capital');
+
+      $country->language_code = request('language_code');
+
+      $country->language = request('language');
+
+      $country->flag = request('flag');
+
+      $country->map = request('map');
+
+      $country->google_cordinate = request('google_cordinate');
+
+      $country->company_count = 0;
+
+      $country->system_users = request('system_users');
+
+      $country->employees = request('employees');     
+
       $country->save();
 
-      return redirect('countries');
+     return back()->with('success','Country added successfully');
 
     }
 
@@ -147,6 +175,32 @@ class CountryController extends Controller
 
                 'name'			=> $request->input('name'),
 
+                'description'   => $request->input('description'),
+
+                'flag'          => $request->input('flag'),
+
+                'map'          => $request->input('map'),
+
+                'currency_code' => $request->input('currency_code'),
+
+                'currency_name'   => $request->input('currency_name'),
+
+                'capital'       => $request->input('capital'),
+
+                'language_code' => $request->input('language_code'),
+
+                'language'       => $request->input('language'),
+
+                'employees'      => $request->input('employees'),
+
+                'system_users'  => $request->input('system_users'),
+
+                'google_cordinate' => $request->input('google_cordinate'),
+
+                'company_count'    => 0,
+
+                'country_code'    => $request->input('country_code')                                                                               
+
             ]);
 
             if($countryUpdate)
@@ -170,7 +224,9 @@ class CountryController extends Controller
     {
       $country = Country::find($country->id);
 
-      if ($country->delete()){
+      $country_exist = Company::where('country_id',$country->id)->exists();
+
+        if (!$country_exist && $country->delete()){      
 
         return redirect('countries')
 

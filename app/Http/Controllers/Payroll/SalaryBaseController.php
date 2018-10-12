@@ -2,17 +2,24 @@
 
 namespace BrainySoft\Http\Controllers;
 
+
+use Exception;
+
+use BrainySoft\User;
+
+use BrainySoft\Company;
+
+use BrainySoft\Employee;
+
+use BrainySoft\Statutory;
+
 use BrainySoft\Salary_base;
 
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Log;
 
-use Exception;
 
-use BrainySoft\Company;
-
-use BrainySoft\Employee;
 
 class SalaryBaseController extends Controller
 {
@@ -25,9 +32,9 @@ class SalaryBaseController extends Controller
 
     private function company()
     {
-      $employee = Employee::find(auth()->user()->id);
+      $user = User::find(auth()->user()->id);
 
-      return Company::find($employee->company_id);
+      return Company::find($user->company_id);
     }
     /**
      * Display a listing of the resource.
@@ -42,9 +49,9 @@ class SalaryBaseController extends Controller
 
         Log::debug($company->name.': Start salary base index');
 
-        $employee = Employee::find(auth()->user()->id);
+        
 
-        $salary_bases = Salary_base::where('company_id', $employee->company_id)->get();
+        $salary_bases = Salary_base::where('company_id', $company->id)->get();
 
         return view('salary_bases.index', compact('salary_bases'));
 
@@ -89,7 +96,7 @@ class SalaryBaseController extends Controller
 
       ]);
 
-      $employee = Employee::find(auth()->user()->id);
+      $company = $this->company();
 
       $salary_base = new Salary_base;
 
@@ -97,11 +104,12 @@ class SalaryBaseController extends Controller
 
       $salary_base->description = request('description');
 
-      $salary_base->company_id = $employee->company_id;
+      $salary_base->company_id = $company->id;
 
       $salary_base->save();
 
-      return redirect('salary_bases');
+      return back()->with('success','Salary added successfully');
+      
     }
 
     /**
@@ -144,7 +152,7 @@ class SalaryBaseController extends Controller
 
       ]);
 
-      $salaryBaseUpdate = Salary_base::where('id', $salaryBase->id)
+      $salaryBaseUpdate = Salary_base::where('id', $salary_base->id)
 
       ->update([
 
@@ -160,7 +168,7 @@ class SalaryBaseController extends Controller
 
         ->with('success','Salary base updated successfully');
         //redirect
-    }
+
 
     }
 
@@ -173,7 +181,9 @@ class SalaryBaseController extends Controller
     public function destroy(Salary_base $salary_base)
     {
 
-      if ($salary_base->delete()){
+        $salary_base_exist = Statutory::where('base_id',$salary_base->id)->exists();
+
+        if (!$salary_base_exist && $salary_base->delete()){
 
         return redirect('salary_bases')
 

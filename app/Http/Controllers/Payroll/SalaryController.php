@@ -2,17 +2,22 @@
 
 namespace BrainySoft\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Log;
 
 use Exception;
+
+use BrainySoft\User;
 
 use BrainySoft\Salary;
 
 use BrainySoft\Company;
 
 use BrainySoft\Employee;
+
+use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Log;
+
+
 
 class SalaryController extends Controller
 {
@@ -25,9 +30,9 @@ class SalaryController extends Controller
 
     private function company()
     {
-      $employee = Employee::find(auth()->user()->id);
+      $user = User::find(auth()->user()->id);
 
-      return Company::find($employee->company_id);
+      return Company::find($user->company_id);
     }
 
     /**
@@ -43,10 +48,9 @@ class SalaryController extends Controller
         $company = $this->company();
 
         Log::debug($company->name.': Start salary index');
+        
 
-        $employee = Employee::find(auth()->user()->id);
-
-        $salaries = Salary::where('salaries.company_id', $employee->company_id)
+        $salaries = Salary::where('salaries.company_id', $company->id)
 
         ->join('employees', 'employees.id', 'salaries.employee_id')
 
@@ -100,13 +104,13 @@ class SalaryController extends Controller
       ]);
 
 
-      $employee = Employee::find(request('employee_id'));
+      $company = $this->company();
 
       $salary = new Salary;
 
       $salary->employee_id = request('employee_id');
 
-      $salary->company_id = $employee->company_id;
+      $salary->company_id = $company->id;
 
       $salary->salary_type_id = request('salary_type_id');
 
@@ -190,16 +194,6 @@ class SalaryController extends Controller
     public function destroy(Salary $salary)
     {
 
-      if ($salary->delete()){
-
-        return redirect('Salarys')
-
-        ->with('success','Salary deleted successfully');
-
-      }else{
-
-        return back()->withInput()->with('error','Salary could not be deleted');
-
-      }
+      
     }
 }

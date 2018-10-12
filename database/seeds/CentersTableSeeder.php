@@ -18,6 +18,8 @@ class CentersTableSeeder extends Seeder
               'description' => 'Head Quota',
               'company_id' => 1,
               'number' => '0001',
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
       DB::table('centers')->insert([
@@ -25,6 +27,8 @@ class CentersTableSeeder extends Seeder
               'description' => 'Vodacom Project',
               'company_id' => 1,
               'number' => '0002',
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
       DB::table('centers')->insert([
@@ -32,6 +36,8 @@ class CentersTableSeeder extends Seeder
               'description' => 'Airtel Project',
               'company_id' => 1,
               'number' => '0003',
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
     }
 }

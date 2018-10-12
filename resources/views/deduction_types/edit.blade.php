@@ -1,34 +1,23 @@
-@extends('layouts.master')
-
-@section('header')
-
-<div class="blog-header">
-  <h1>Add Deduction types</h1>
-</div>
-
-@endsection
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">Edit Deduction types</div>
 
+        <div class="card-body">
+          	{!! Form::open(['action' => array('DeductionTypeController@update', $deduction_type->id),'method' => 'PUT']) !!}
 
+	        {{ Form::bsText('name', $deduction_type->name,['placeholder' => 'Enter Deduction name']) }}
 
-{!! Form::open(['action' => array('DeductionTypeController@update', $deduction_type->id),'method' => 'PUT']) !!}
-                
+	        {{ Form::bsText('description', $deduction_type->description,['placeholder' => 'Enter Deduction description']) }}
 
-                    {{ Form::bsText('name', $deduction_type->name,['placeholder' => 'Enter Deduction name']) }}
+	        {{ Form::bsSubmit( __('messages.edit'),['class' => 'btn btn-primary']) }}
 
-                    {{ Form::bsText('description', $deduction_type->description,['placeholder' => 'Enter Deduction description']) }}
-
-                    {{ Form::bsSubmit('Submit',['class' => 'btn btn-primary']) }}
-
-                    {!! Form::close() !!}
-
-
+	        {!! Form::close() !!}
 
         </div>
     </div>
-</div>
+</div>    
 @endsection
+

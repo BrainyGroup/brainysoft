@@ -1,18 +1,81 @@
-@extends('layouts.master')
-
-@section('title', 'Pay')
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-12 col-md-12 col-sm-12">
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+
+          <div class="table-responsive">
+
+                  <table class="table table-hover table-striped table-bordered">
+                        <caption></span></caption>
+
+                      <thead>
+                        <tr>
+
+                          <th scope="col">Gross</th>
+
+                          <th scope="col">Net</th>
+
+                          <th scope="col">Paye</th>
+
+
+                          <th scope="col">SDL</th>
+
+
+
+
+
+
+                        </tr>
+                      </thead>
+                      <tbody>
+
+
+                        <tr>
+
+
+                          <td>{{ number_format($month_gross,2) }}</td>
+
+
+
+                          <td>{{ number_format($month_paye,2) }}</td>
+
+                          <td>{{ number_format($month_net,2) }}</td>
+
+
+
+
+                          <td><a href="#">PDF</a></td>
+
+
+
+                        </tr>
+
+
+
+
+            </tbody>
+          </table>
+      </div>
+
+          
+
+        </div>
+
+        <div class="card-body">
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
 
 
         @if(count($pays) > 0)
       <div class="table-responsive">
 
               <table class="table table-hover table-striped table-bordered">
-                  <caption><h1>Pay</h1></caption>
+                    <caption></caption>
 
                   <thead>
                     <tr>
@@ -108,9 +171,11 @@
 
         @endif
 
-
-
         </div>
     </div>
-</div>
+</div>    
 @endsection
+
+
+
+

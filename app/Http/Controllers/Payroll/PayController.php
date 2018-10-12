@@ -2,41 +2,39 @@
 
 namespace BrainySoft\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Log;
-
-use Exception;
-
 use DB;
+
+use PDF;
 
 use Mail;
 
+use Exception;
 
-
-use BrainySoft\Paye;
+use Carbon\Carbon;
 
 use BrainySoft\Pay;
 
+use BrainySoft\User;
+
+use BrainySoft\Paye;
+
 use BrainySoft\Salary;
+
+use BrainySoft\Company;
 
 use BrainySoft\Employee;
 
 use BrainySoft\Statutory;
 
-use Carbon\Carbon;
-
-use BrainySoft\Company;
-
-use BrainySoft\User;
-
 use BrainySoft\Deduction;
 
 use BrainySoft\Allowance;
 
+use Illuminate\Http\Request;
+
 use BrainySoft\Pay_statutory;
 
-use PDF;
+use Illuminate\Support\Facades\Log;
 
 
 
@@ -51,7 +49,7 @@ class PayController extends Controller
     }
 
     public function downloadPDF($id){
-      
+
      $pay = Pay::find($id);
 
      $pdf = PDF::loadView('pdf.payslip', compact('pay'));
@@ -67,9 +65,9 @@ class PayController extends Controller
 
     private function company()
     {
-      $employee = Employee::find(auth()->user()->id);
+      $user = User::find(auth()->user()->id);
 
-      return Company::find($employee->company_id);
+      return Company::find($user->company_id);
     }
 
     private function sendSalarySlipEmail($id,$company,$fromPaySlipEmail,$fromPaySlipName,$paySlipSubject,$lastPayId)
@@ -214,12 +212,29 @@ private function deductionSum($employee_id = null,$company_id = null){
      */
     public function index()
     {
+          $company = $this->company();
+
+          $employeeExist = Employee::where('company_id', $company->id)->exists();
+
+          if(!$employeeExist){
+
+            return redirect('users')->withInput()->with('error','Please add at least one employee to run eanring pay');
+          }
+
           $login_user = Employee::where('user_id', auth()->user()->id)->first();
 
           // $pays = Pay::where('company_id', $login_user->company_id)->get();
+            $max_pay = Pay::max('pay_number');
+
+            $month_gross = Pay::where('pay_number', $max_pay)->sum('gloss');
+
+            $month_paye = Pay::where('pay_number', $max_pay)->sum('paye');
+
+            $month_net = Pay::where('pay_number', $max_pay)->sum('net');
+
 
             $pays = DB::table('pays')
-            ->where('pays.company_id', $login_user->company_id)
+            ->where('pays.company_id', $company->id)
             ->join('employees', 'employees.id','pays.employee_id')
             ->join('users', 'users.id','employees.user_id')
             ->select(
@@ -232,7 +247,12 @@ private function deductionSum($employee_id = null,$company_id = null){
               )
             ->get();
 
-          return view('pays.index', compact('pays'));
+          return view('pays.index', compact(
+            'pays',
+            'month_gross',
+            'month_net',
+            'month_paye'
+          ));
     }
 
     /**
@@ -242,6 +262,15 @@ private function deductionSum($employee_id = null,$company_id = null){
      */
     public function create()
     {
+
+          $company = $this->company();
+
+          $employeeExist = Employee::where('company_id', $company->id)->exists();
+
+          if(!$employeeExist){
+
+            return redirect('users')->withInput()->with('error','Please add at least one employee to view employees');
+          }
           return view('pays.create');
     }
 
@@ -277,11 +306,11 @@ private function deductionSum($employee_id = null,$company_id = null){
 
 
 
-          $login_user = Employee::where('user_id', auth()->user()->id)->first();
+          $company = $this->company();
 
-          $company_id = $login_user->company_id;
+          $company->id = $company->id;
 
-          $company = Company::findOrFail($company_id);
+          $company = Company::findOrFail($company->id);
 
           $company_name = $company->name;
 
@@ -289,18 +318,22 @@ private function deductionSum($employee_id = null,$company_id = null){
 
           $company_domain = $company->website;
 
-          $salaries = Salary::where('company_id', $company_id)->get();
+          $salaries = Salary::where('company_id', $company->id)->get();
 
-          $company = Company::find($company_id);
+          $company = Company::find($company->id);
 
           $country_id = $company->country_id;
 
-          $payPosted = Pay::where('pay_number', $pay_number)->where('posted', true)->exists();
+          $payPosted = Pay::where('pay_number', $pay_number)
+          ->where('company_id', $company->id)
+          ->where('posted', true)->exists();
 
-          $payNotPosted = Pay::where('pay_number', $pay_number)->where('posted', false)->exists();
+          $payNotPosted = Pay::where('pay_number', $pay_number)
+          ->where('company_id', $company->id)
+          ->where('posted', false)->exists();
 
           if($payPosted){
-            dd('salary for this month already run');
+             return back()->withInput()->with('error','Pay for selected month exist');
           }elseif($payNotPosted){
 
             $pays = Pay::where('pay_number', $pay_number)->get();
@@ -324,17 +357,17 @@ private function deductionSum($employee_id = null,$company_id = null){
 
         $employee = Employee::select('user_id')
                     ->where('id',$employee_id)
-                    ->where('company_id',$company_id)
+                    ->where('company_id',$company->id)
                     ->first();
 
 
-        $company_id = $salary->company_id;
+        $company->id = $salary->company_id;
 
         $basic_salary = $salary->amount;
 
-        $allowance = $this->allowanceSum($employee_id, $company_id);
+        $allowance = $this->allowanceSum($employee_id, $company->id);
 
-        $statutory_before_paye = $this->statutoryBeforePaye($employee_id, $company_id,$basic_salary);
+        $statutory_before_paye = $this->statutoryBeforePaye($employee_id, $company->id,$basic_salary);
 
         $statutory_after_paye = $this->statutoryAfterPaye($employee_id, $pay_number,$basic_salary);
 
@@ -344,11 +377,11 @@ private function deductionSum($employee_id = null,$company_id = null){
 
         $gloss = $basic_salary + $allowance;
 
-        $paye = $this->paye($employee_id,$company_id, $taxable);
+        $paye = $this->paye($employee_id,$company->id, $taxable);
 
         $monthly_earning =   $taxable - $paye -   $statutory_after_paye['employee'];
 
-        $deduction = $this->deductionSum($employee_id, $company_id);
+        $deduction = $this->deductionSum($employee_id, $company->id);
 
         $net =   $monthly_earning - $deduction;
 
@@ -357,7 +390,7 @@ private function deductionSum($employee_id = null,$company_id = null){
 
         $lastPayId = DB::table('pays')->insertGetId([
 
-          'company_id' =>  $company_id,
+          'company_id' =>  $company->id,
 
           'employee_id' => $employee_id,
 
@@ -392,7 +425,7 @@ private function deductionSum($employee_id = null,$company_id = null){
             ]);
 
             $statutories = Employee::find($employee_id)->statutories()
-            ->where('statutories.company_id', $company_id)
+            ->where('statutories.company_id', $company->id)
             ->get();
 
 foreach($statutories as $statutory){
@@ -405,7 +438,7 @@ foreach($statutories as $statutory){
     $statutory_employer = $statutory->employer * $gloss;
   }
             DB::table('pay_statutories')->insert([
-                    'company_id' => $company_id,
+                    'company_id' => $company->id,
                     'employee_id' => $employee_id,
                     'pay_id' => $lastPayId,
                     'pay_number' => $pay_number,
@@ -448,6 +481,15 @@ return redirect('pays');
      */
     public function show(Pay $pay)
     {
+
+      $company = $this->company();
+
+          $employeeExist = Employee::where('company_id', $company->id)->exists();
+
+          if(!$employeeExist){
+
+            return redirect('users')->withInput()->with('error','Please add at least one employee to view employees');
+          }
         return view('pays.show',compact('pay'));
     }
 
@@ -459,7 +501,16 @@ return redirect('pays');
      */
     public function edit($id)
     {
-        //return view('pays.edit');
+        $company = $this->company();
+
+          $employeeExist = Employee::where('company_id', $company->id)->exists();
+
+          if(!$employeeExist){
+
+            return redirect('users')->withInput()->with('error','Please add at least one employee to view employees');
+          }
+
+          //return view('pays.edit');
     }
 
     /**
@@ -482,13 +533,13 @@ return redirect('pays');
 
        $employee_id = $salary->employee_id;
 
-       $company_id = $salary->company_id;
+       $company->id = $salary->company_id;
 
        $basic_salary = $salary->amount;
 
-       $allowance = $this->allowanceSum($employee_id, $company_id);
+       $allowance = $this->allowanceSum($employee_id, $company->id);
 
-       $statutory_before_paye = $this->statutoryBeforePaye($employee_id, $company_id,$basic_salary);
+       $statutory_before_paye = $this->statutoryBeforePaye($employee_id, $company->id,$basic_salary);
 
        $statutory_after_paye = $this->statutoryAfterPaye($employee_id, $pay_number,$basic_salary);
 
@@ -498,11 +549,11 @@ return redirect('pays');
 
        $gloss = $basic_salary + $allowance;
 
-       $paye = $this->paye($employee_id,$company_id, $taxable);
+       $paye = $this->paye($employee_id,$company->id, $taxable);
 
        $monthly_earning =   $taxable - $paye -   $statutory_after_paye['employee'];
 
-       $deduction = $this->deductionSum($employee_id, $company_id);
+       $deduction = $this->deductionSum($employee_id, $company->id);
 
        $net =   $monthly_earning - $deduction;
 
@@ -512,7 +563,7 @@ return redirect('pays');
 
        ->where('id',$id)
 
-       ->where('company_id',$company_id)
+       ->where('company_id',$company->id)
 
        ->update([
 
@@ -542,7 +593,7 @@ return redirect('pays');
 
 
        $statutories = Employee::find($employee_id)->statutories()
-      ->where('statutories.company_id', $company_id)
+      ->where('statutories.company_id', $company->id)
       ->get();
 
               foreach($statutories as $statutory){
@@ -556,7 +607,7 @@ return redirect('pays');
               }
                     DB::table('pay_statutories')->where('pay_id',$id)
                     ->where('employee_id', $employee_id)
-                    ->where('company_id', $company_id)
+                    ->where('company_id', $company->id)
                     ->where('statutory_type_id',$statutory->statutory_type_id)
                     ->update([
 
@@ -582,9 +633,23 @@ return redirect('pays');
     public function destroy(Pay $pay)
     {
       // TODO: delete with its statutory, allowance and deductions
-      $pay = Pay::find($pay->id);
+      $is_unposted_pay = Pay::uposted('id',$pay->id)->exixts();
 
-      if ($pay->delete()){
+      if ($is_unposted_pay){
+
+          DB::transaction( function() use ($pay) {
+
+            DB::table('pays')
+            ->where('id', $pay->id)
+            ->delete();
+
+            DB::table('pay_statutories')
+            ->where('pay_id', $pay->id)
+            ->delete();
+
+          });
+
+
 
         return redirect('pays.index')
 

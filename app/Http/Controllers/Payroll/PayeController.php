@@ -2,19 +2,24 @@
 
 namespace BrainySoft\Http\Controllers;
 
+
+use Exception;
+
+use BrainySoft\User;
+
 use BrainySoft\Paye;
 
-use BrainySoft\Employee;
+use BrainySoft\Country;
 
 use BrainySoft\Company;
+
+use BrainySoft\Employee;
 
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Log;
 
-use Exception;
 
-use BrainySoft\Country;
 
 class PayeController extends Controller
 {
@@ -27,9 +32,9 @@ class PayeController extends Controller
 
     private function company()
     {
-      $employee = Employee::find(auth()->user()->id);
+      $user = User::find(auth()->user()->id);
 
-      return Company::find($employee->company_id);
+      return Company::find($user->company_id);
     }
     /**
      * Display a listing of the resource.
@@ -45,7 +50,7 @@ class PayeController extends Controller
         Log::debug($company->name.': Start paye index');
 
         // TODO: figure out how to find country of the user
-        $country = Country::find(1);
+        $country = Country::where('id',$company->country_id)->first();
 
         $payes = Paye::where('country_id', $country->id)->get();
 
@@ -118,7 +123,7 @@ class PayeController extends Controller
 
       $paye->save();
 
-      return redirect('payes');
+     return back()->with('success','Paye added successfully');
 
     }
 
@@ -130,7 +135,11 @@ class PayeController extends Controller
      */
     public function show(Paye $paye)
     {
-        return view('payes.show',compact('paye'));
+        $countries = Country::all();
+
+        $current_country = Country::find($paye->country_id);
+
+        return view('payes.show',compact('paye','countries','current_country'));
     }
 
     /**
@@ -141,7 +150,12 @@ class PayeController extends Controller
      */
     public function edit(Paye $paye)
     {
-        return view('paye.edit',compact('paye'));
+
+        $countries = Country::all();
+
+        $current_country = Country::find($paye->country_id);
+
+          return view('payes.edit',compact('paye','countries','current_country'));
     }
 
     /**
@@ -176,9 +190,9 @@ class PayeController extends Controller
 
           'maximum'	=>$request->input('maximum'),
 
-          'ratio'			=>$request->input('name'),
+          'ratio'			=>$request->input('ratio'),
 
-          'offset'	=>$request->input('description'),
+          'offset'	=>$request->input('offset'),
 
           'country_id'			=>$request->input('country_id'),
 

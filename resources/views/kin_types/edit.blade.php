@@ -1,34 +1,31 @@
-@extends('layouts.master')
-
-@section('header')
-
-<div class="blog-header">
-  <h1>Edit Kin types</h1>
-</div>
-
-@endsection
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">Edit Kin types</div>
 
+        <div class="card-body">
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
 
+            {!! Form::open(['action' => array('KinTypeController@update', $kin_type->id),'method' => 'PUT']) !!}
 
+            {{ Form::bsText('name', $kin_type->name,['placeholder' => 'Enter Kin name']) }}
 
-                    {!! Form::open(['action' => array('KinTypeController@update', $kin_type->id),'method' => 'PUT']) !!}
+            {{ Form::bsText('description', $kin_type->description,['placeholder' => 'Enter Kin description']) }}
 
-                    {{ Form::bsText('name', $kin_type->name,['placeholder' => 'Enter Kin name']) }}
+            {{ Form::bsSubmit( __('messages.edit'),['class' => 'btn btn-primary']) }}
 
-                    {{ Form::bsText('description', $kin_type->description,['placeholder' => 'Enter Kin description']) }}
+            {!! Form::close() !!}
 
-                    {{ Form::bsSubmit( __('messages.edit'),['class' => 'btn btn-primary']) }}
-
-                    {!! Form::close() !!}
-
-
-
-        </div>
+       </div>
     </div>
-</div>
+</div>    
 @endsection
+
+
+

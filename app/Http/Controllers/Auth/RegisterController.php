@@ -2,7 +2,10 @@
 
 namespace BrainySoft\Http\Controllers\Auth;
 
+use DB;
 use BrainySoft\User;
+use BrainySoft\Country;
+use BrainySoft\Company;
 use BrainySoft\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -46,12 +49,16 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
+    
     protected function validator(array $data)
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            // 'company_name' => 'required|string|unique:companies',
+            // 'company_description' => 'required|string',
+           
         ]);
     }
 
@@ -63,10 +70,72 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
+        
+
+         
+  //       DB::transaction( function() use($data){
+
+       
+
+
+
+  //     $lastCompanyId = DB::table('companies')->insertGetId([
+
+        
+
+  //       'name' => $data['company_name'],
+
+  //       'description' => $data['company_description'],
+
+  //       'country_id' => $data['country_id'],      
+        
+
+  //         ]);
+
+  //     $lastUserId = DB::table('users')->insertGetId([
+  //             'name' => $data['name'],
+  //             'email' => $data['email'],
+  //             'password' => Hash::make($data['password']),             
+  //             'company_id' => $lastCompanyId,
+              
+  //       ]);
+
+  //     $user = User::select('name','email','password')->where('id',$lastUserId)->first();
+
+
+  //   return compact('user');
+
+
+    
+
+  // });
+
+
+    
+
+
+
+
+
+
+        $company = Company::create([
+            'name' => $data['company_name'],
+            'description' => $data['company_description'],
+            'country_id' => $data['country_id'],   
+             'usage_count' => 0,         
+            
+        ]);
+
         return User::create([
             'name' => $data['name'],
-            'email' => $data['email'],
+            'email' => $data['email'],            
             'password' => Hash::make($data['password']),
+            'company_id' => $company->id,
+
         ]);
-    }
+
+         
+     }
+    
 }

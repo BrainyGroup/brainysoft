@@ -1,34 +1,33 @@
-@extends('layouts.master')
-
-@section('header')
-
-<div class="blog-header">
-  <h1>Add Kin types</h1>
-</div>
-
-@endsection
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">Add Kin types</div>
+
+        <div class="card-body">
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
 
 
+            {!! Form::open(['action' => 'KinTypeController@store','method' => 'POST']) !!}
 
+            {{ Form::bsText('name','',['placeholder' => 'Enter Kin name']) }}
 
-                    {!! Form::open(['action' => 'KinTypeController@store','method' => 'POST']) !!}
+            {{ Form::bsText('description','',['placeholder' => 'Enter Kin description']) }}
 
-                    {{ Form::bsText('name','',['placeholder' => 'Enter Kin name']) }}
+            {{ Form::bsSubmit('Submit',['class' => 'btn btn-primary']) }}
 
-                    {{ Form::bsText('description','',['placeholder' => 'Enter Kin description']) }}
-
-                    {{ Form::bsSubmit('Submit',['class' => 'btn btn-primary']) }}
-
-                    {!! Form::close() !!}
-
-
+            {!! Form::close() !!}
 
         </div>
     </div>
-</div>
+</div>    
 @endsection
+
+
+
+

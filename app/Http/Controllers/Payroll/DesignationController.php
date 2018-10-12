@@ -2,17 +2,25 @@
 
 namespace BrainySoft\Http\Controllers;
 
+
+
+use Exception;
+
+use BrainySoft\User;
+
+use BrainySoft\Level;
+
+use BrainySoft\Scale;
+
+use BrainySoft\Company;
+
+use BrainySoft\Employee;
+
 use BrainySoft\Designation;
 
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Log;
-
-use Exception;
-
-use BrainySoft\Company;
-
-use BrainySoft\Employee;
 
 
 
@@ -27,9 +35,9 @@ class DesignationController extends Controller
 
     private function company()
     {
-      $employee = Employee::find(auth()->user()->id);
+      $user = User::find(auth()->user()->id);
 
-      return Company::find($employee->company_id);
+      return Company::find($user->company_id);
     }
     /**
      * Display a listing of the resource.
@@ -45,9 +53,9 @@ class DesignationController extends Controller
 
         Log::debug($company->name.': Start designation index');
 
-        $employee = Employee::where('user_id', auth()->user()->id)->first();
+        //$employee = Employee::where('user_id', auth()->user()->id)->first();
 
-        $designations = Designation::where('company_id', $employee->company_id)->get();
+        $designations = Designation::where('company_id', $company->id)->get();
 
         return view('designations.index', compact('designations'));
 
@@ -72,7 +80,16 @@ class DesignationController extends Controller
     public function create()
     {
 
-        return view('designations.create');
+         $company = $this->company();
+
+        $levels = Level::where('company_id', $company->id)->get();
+
+         $scales = Scale::where('company_id', $company->id)->get();
+
+        return view('designations.create', compact(
+          'levels',
+          'scales'
+        ));
 
     }
 
@@ -94,7 +111,7 @@ class DesignationController extends Controller
 
       ]);
 
-      $employee = Employee::find(auth()->user()->id);
+      $company = $this->company();
 
       $designation = new Designation;
 
@@ -102,11 +119,16 @@ class DesignationController extends Controller
 
       $designation->description = request('description');
 
-      $designation->company_id = $employee->company_id;
+       $designation->level_id = request('level_id');
+
+
+        $designation->scale_id = request('scale_id');
+
+      $designation->company_id = $company->id;
 
       $designation->save();
 
-      return redirect('designations');
+     return back()->with('success','Designation added successfully');
 
     }
 
@@ -158,6 +180,10 @@ class DesignationController extends Controller
 
           'description'	=>$request->input('description'),
 
+          'level_id'  =>$request->input('level_id'),
+
+          'scale_id' =>$request->input('scale_id'),
+
       ]);
 
       if($designationUpdate)
@@ -179,7 +205,9 @@ class DesignationController extends Controller
     public function destroy(Designation $designation)
     {
 
-        if ($designation->delete()){
+        $designation_exist = Employee::where('designation_id',$designation->id)->exists();
+
+        if (!$designation_exist && $designation->delete()){
 
         return redirect('designations')
 

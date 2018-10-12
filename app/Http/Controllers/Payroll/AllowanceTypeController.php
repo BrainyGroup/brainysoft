@@ -5,6 +5,8 @@ namespace BrainySoft\Http\Controllers;
 
 use Exception;
 
+use BrainySoft\User;
+
 use BrainySoft\Company;
 
 use BrainySoft\Employee;
@@ -12,6 +14,8 @@ use BrainySoft\Employee;
 use Illuminate\Http\Request;
 
 use BrainySoft\Allowance_type;
+
+use BrainySoft\Allowance;
 
 use Illuminate\Support\Facades\Log;
 
@@ -28,9 +32,9 @@ class AllowanceTypeController extends Controller
 
     private function company()
     {
-      $employee = Employee::find(auth()->user()->id);
+      $user = User::find(auth()->user()->id);
 
-      return Company::find($employee->company_id);
+      return Company::find($user->company_id);
     }
     /**
      * Display a listing of the resource.
@@ -46,9 +50,9 @@ class AllowanceTypeController extends Controller
 
         Log::debug($company->name.': Start allowance index');
 
-        $employee = Employee::find(auth()->user()->id);
+        //$employee = Employee::find(auth()->user()->id);
 
-        $allowance_types = Allowance_type::where('company_id', $employee->company_id)->get();
+        $allowance_types = Allowance_type::where('company_id', $company->id)->get();
 
         return view('allowance_types.index', compact('allowance_types'));
 
@@ -96,12 +100,7 @@ class AllowanceTypeController extends Controller
 
       //get user id
 
-      $id = auth()->user()->id;
-
-      //get employee with that user id
-
-      $employee = Employee::find($id);
-
+      $company = $this->company();
       //save records
 
       $allowance_type = new Allowance_type;
@@ -110,13 +109,13 @@ class AllowanceTypeController extends Controller
 
       $allowance_type->description = request('description');
 
-      $allowance_type->company_id = $employee->company_id;
+      $allowance_type->company_id = $company->id;
 
       $allowance_type->save();
 
-      //redirect to allowance types
+      //redirect to allowance types     
 
-      return redirect('allowance_types');
+      return back()->with('success','Allowance type added successfully');
 
     }
 
@@ -178,7 +177,9 @@ class AllowanceTypeController extends Controller
     public function destroy(Allowance_type $allowance_type)
     {
 
-      if ($allowance_type->delete()){
+      $allowance_types_exist = Allowance::where('allowance_type_id',$allowance_type->id)->exists();
+
+      if (!$allowance_types_exist && $allowance_type->delete()){
 
         return redirect('allowance_types')
 

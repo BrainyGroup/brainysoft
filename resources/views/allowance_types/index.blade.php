@@ -1,29 +1,24 @@
-@extends('layouts.master')
-
-@section('title', 'Allowance types')
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-6 col-md-12 col-sm-6">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">{{ __('messages.allowance_type') }}
+          <span class="pull-right"> <a href="/allowance_types/create">{{ __('messages.add') }}</a></span>
+        </div>
 
-
-        @if(count($allowance_types) > 0)
+        <div class="card-body">
+                   @if(count($allowance_types) > 0)
       <div class="table-responsive">
 
-              <table class="table table-hover table-striped table-bordered">
-                  <caption><h1>{{ __('messages.allowance_type') }}</h1> <span class="pull-right"> <a href="/allowance_types/create">{{ __('messages.add') }}</span></caption>
+              <table class="table table-hover table-striped table-bordered">   
 
                   <thead>
                     <tr>
-
                       <th scope="col">{{ __('messages.name') }}</th>
                       <th scope="col">{{ __('messages.description') }}</th>
                       <th scope="col">{{ __('messages.edit') }}</th>
                       <th scope="col">{{ __('messages.delete') }}</th>
-
-
-
                     </tr>
                   </thead>
                   <tbody>
@@ -63,16 +58,18 @@
 
         @else
 
-          No Allowance types defined
+          No Allowance types defined,
 
-          <a class="pull-right" href="/allowance_types/create">{{ __('messages.add')}}</a>
+          <a class="pull-right" href="/allowance_types/create">please define</a>
 
 
         @endif
-
-
-
         </div>
     </div>
-</div>
+</div>    
 @endsection
+
+
+
+
+

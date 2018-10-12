@@ -1,26 +1,37 @@
-@extends('layouts.master')
-
-@section('header')
-
-<div class="blog-header">
-  <h1>Add Company</h1>
-</div>
-
-@endsection
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">Add Company/div>
 
-
-
-
-                    {!! Form::open(['action' => 'CompanyController@store','method' => 'POST']) !!}
+        <div class="card-body">
+            {!! Form::open(['action' => 'CompanyController@store','method' => 'POST']) !!}
 
                     {{ Form::bsText('name','',['placeholder' => 'Enter Company name']) }}
 
                     {{ Form::bsText('description','',['placeholder' => 'Enter Company description']) }}
+
+                    {{ Form::bsText('employee','',['placeholder' => 'Enter number of employee']) }}
+
+                    {{ Form::bsText('balance','',['placeholder' => 'Enter balance']) }}
+
+                    <div class="form-group">
+
+                    <label for="trial" class="control-label">Product Mode</label>
+
+                     <select class="form-control" id="trial" name="trial">
+
+                       <option value="true">Trial</option>
+
+                       <option value="true">Trial</option>
+                       <option value="false">Production</option>                      
+
+                     </select>
+
+                    </div>
+
+                                                   
 
 
 
@@ -58,13 +69,12 @@
 
                     {{ Form::bsText('vision','',['placeholder' => 'Enter Company vision']) }}
 
-                    {{ Form::bsSubmit('Submit',['class' => 'btn btn-primary']) }}
+                    {{ Form::bsSubmit( __('messages.add'),['class' => 'btn btn-primary']) }}
 
                     {!! Form::close() !!}
 
-
-
         </div>
     </div>
-</div>
+</div>    
 @endsection
+

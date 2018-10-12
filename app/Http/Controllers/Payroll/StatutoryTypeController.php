@@ -2,17 +2,21 @@
 
 namespace BrainySoft\Http\Controllers;
 
-use BrainySoft\Statutory_type;
 
-use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Log;
 
 use Exception;
+
+use BrainySoft\User;
 
 use BrainySoft\Company;
 
 use BrainySoft\Employee;
+
+use Illuminate\Http\Request;
+
+use BrainySoft\Statutory_type;
+
+use Illuminate\Support\Facades\Log;
 
 class StatutoryTypeController extends Controller
 {
@@ -25,9 +29,9 @@ class StatutoryTypeController extends Controller
 
     private function company()
     {
-      $employee = Employee::find(auth()->user()->id);
+      $user = User::find(auth()->user()->id);
 
-      return Company::find($employee->company_id);
+      return Company::find($user->company_id);
     }
       /**
      * Display a listing of the resource.
@@ -41,11 +45,9 @@ class StatutoryTypeController extends Controller
 
         $company = $this->company();
 
-        Log::debug($company->name.': Start statutory type index');
+        Log::debug($company->name.': Start statutory type index');       
 
-        $employee = Employee::find(auth()->user()->id);
-
-        $statutory_types = Statutory_type::where('company_id', $employee->company_id)->get();
+        $statutory_types = Statutory_type::where('company_id', $company->id)->get();
 
         return view('statutory_types.index', compact('statutory_types'));
 
@@ -90,7 +92,7 @@ class StatutoryTypeController extends Controller
 
       ]);
 
-      $employee = Employee::find(auth()->user()->id);
+      $company = $this->company();
 
       $statutory_type = new Statutory_type;
 
@@ -98,11 +100,11 @@ class StatutoryTypeController extends Controller
 
       $statutory_type->description = request('description');
 
-      $statutory_type->company_id = $employee->company_id;
+      $statutory_type->company_id = $company->id;
 
       $statutory_type->save();
 
-      return back();
+     return back()->with('success','Statutory type added successfully');
 
     }
 
@@ -125,7 +127,7 @@ class StatutoryTypeController extends Controller
      */
     public function edit(Statutory_type $statutory_type)
     {
-        return view('statutory_types.edit',compact('Statutory_type'));
+        return view('statutory_types.edit',compact('statutory_type'));
     }
 
     /**
@@ -174,9 +176,11 @@ class StatutoryTypeController extends Controller
     public function destroy(Statutory_type $statutory_type)
     {
 
-        if ($statutory_type->delete()){
+        $statutory_type_exist = Statutory::where('statutory_type_id',$statutory_type->id)->exists();
 
-        return redirect('statutory_types.index')
+        if (!$statutory_type_exist && $statutory_type->delete()){
+
+        return redirect('statutory_types')
 
         ->with('success','Statutory type deleted successfully');
 

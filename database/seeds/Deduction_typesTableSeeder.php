@@ -17,12 +17,16 @@ class Deduction_typesTableSeeder extends Seeder
               'name' => 'Loan',
               'description' => 'Loan Deduction',
               'company_id' => 1,
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
       DB::table('deduction_types')->insert([
               'name' => 'Share',
               'description' => 'Share Deduction',
               'company_id' => 1,
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
 
@@ -30,6 +34,8 @@ class Deduction_typesTableSeeder extends Seeder
               'name' => 'HESLB',
               'description' => 'Higher Education Loan Board',
               'company_id' => 1,
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
 
@@ -37,6 +43,8 @@ class Deduction_typesTableSeeder extends Seeder
               'name' => 'Contribution',
               'description' => 'Contribution',            
               'company_id' => 1,
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
     }
 }

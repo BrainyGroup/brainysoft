@@ -2,11 +2,12 @@
 
 namespace BrainySoft\Http\Controllers;
 
-use Illuminate\Http\Request;
 
-use Illuminate\Support\Facades\Log;
+use DB;
 
 use Exception;
+
+use BrainySoft\User;
 
 use BrainySoft\Company;
 
@@ -14,13 +15,18 @@ use BrainySoft\Statutory;
 
 use BrainySoft\Employee;
 
+use BrainySoft\Salary_base;
+
 use BrainySoft\Organization;
+
+use Illuminate\Http\Request;
 
 use BrainySoft\Statutory_type;
 
-use BrainySoft\Salary_base;
+use Illuminate\Support\Facades\Log;
 
-use DB;
+
+
 
 class StatutoryController extends Controller
 {
@@ -33,9 +39,9 @@ class StatutoryController extends Controller
 
     private function company()
     {
-      $employee = Employee::find(auth()->user()->id);
+      $user = User::find(auth()->user()->id);
 
-      return Company::find($employee->company_id);
+      return Company::find($user->company_id);
     }
     /**
      * Display a listing of the resource.
@@ -49,14 +55,11 @@ class StatutoryController extends Controller
 
         $company = $this->company();
 
-        Log::debug($company->name.': Start statutory index');
-
-        $employee = Employee::find(auth()->user()->id);
-
+        Log::debug($company->name.': Start statutory index'); 
 
         $statutories = DB::table('statutories')
 
-        ->where('statutories.company_id', $employee->company_id)
+        ->where('statutories.company_id', $company->id)
 
         ->join('organizations', 'organizations.id','statutories.organization_id')
 
@@ -141,7 +144,7 @@ class StatutoryController extends Controller
 
       ]);
 
-      $employee = Employee::find(auth()->user()->id);
+      $company = $this->company();;
 
       $statutory = new Statutory;
 
@@ -159,11 +162,13 @@ class StatutoryController extends Controller
 
       $statutory->employer = request('employer_ratio');
 
+      $statutory->before_paye = request('before_paye');
+
       $statutory->date_required = request('due_date');
 
       $statutory->total = $statutory->employee + $statutory->employer;
 
-      $statutory->company_id = $employee->company_id;
+      $statutory->company_id = $company->id;
 
       $statutory->save();
 
@@ -190,7 +195,30 @@ class StatutoryController extends Controller
      */
     public function edit(Statutory $statutory)
     {
-        return view('statutories.edit',compact('statutory'));
+        $current_organization = Organization::find($statutory->organization_id);
+
+        $current_salary_base = Salary_base::find($statutory->base_id);
+
+        $current_before_paye = $statutory->before_paye;
+
+        $current_statutory_type = Statutory_type::find($statutory->statutory_type_id);
+
+        $organizations = Organization::all();
+
+        $salary_bases = Salary_base::all();
+
+        $statutory_types = Statutory_type::all();
+
+        return view('statutories.edit',compact(
+          'statutory',
+          'current_salary_base',
+          'current_before_paye',
+          'current_organization',
+          'current_statutory_type',
+          'organizations',
+          'salary_bases',
+          'statutory_types'
+        ));
     }
 
     /**
@@ -200,7 +228,7 @@ class StatutoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Statutory $statutory)
     {
       //Validation
       $this->validate(request(),[
@@ -234,13 +262,15 @@ class StatutoryController extends Controller
 
           'statutory_type_id'	=>$request->input('statutory_type_id'),
 
-          'salary_base_id'			=>$request->input('salary_base_id'),
+          'base_id'			=>$request->input('salary_base_id'),
 
-          'employee_ratio'	=>$request->input('employee_ratio'),
+          'employee'	=>$request->input('employee_ratio'),
 
-          'employer_ratio'			=>$request->input('employee_ratio'),
+          'employer'			=>$request->input('employee_ratio'),
 
-          'due_date'	=>$request->input('due_date'),
+          'before_paye'			=>$request->input('before_paye'),
+
+          'date_required'	=>$request->input('due_date'),
 
       ]);
 
@@ -250,7 +280,7 @@ class StatutoryController extends Controller
 
         ->with('success','Statutory updated successfully');
         //redirect
-    
+
 
     }
 
@@ -266,7 +296,7 @@ class StatutoryController extends Controller
 
       if ($statutory->delete()){
 
-        return redirect('statutorys.index')
+        return redirect('statutories')
 
         ->with('success','Statutory deleted successfully');
 

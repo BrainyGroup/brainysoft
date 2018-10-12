@@ -1,18 +1,16 @@
-@extends('layouts.master')
-
-@section('title', 'Center List')
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-12 col-md-12 col-sm-12">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">{{ __('messages.center') }} <span class="pull-right"> <a href="/centers/create">{{ __('messages.add') }}</a></span></div>
 
-
-        @if($centers)
+        <div class="card-body">
+             @if( count($centers) > 0 )
       <div class="table-responsive">
 
               <table class="table table-hover table-striped table-bordered">
-                  <caption><h1>{{ __('messages.center') }}</h1> <span class="pull-right"> <a href="/centers/create">{{ __('messages.add') }}</span></caption>
+                  <caption></caption>
 
                   <thead>
                     <tr>
@@ -40,11 +38,11 @@
                       <td><a href="/centers/{{$center->id}}/edit">{{ __('messages.edit') }}</a></td>
 
                       <td><a href=""
-                    			onclick="
-                    			var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.center')}}');
-                    			if (result){
-                    					event.preventDefault();
-                    					document.getElementById({{$center->id}}).submit();
+                          onclick="
+                          var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.center')}}');
+                          if (result){
+                              event.preventDefault();
+                              document.getElementById({{$center->id}}).submit();
                             }">{{ __('messages.delete') }}
                           </a>
 
@@ -73,9 +71,15 @@
 
         @endif
 
-
-
         </div>
     </div>
-</div>
+</div>    
 @endsection
+
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+
+
+       

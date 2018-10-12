@@ -2,21 +2,25 @@
 
 namespace BrainySoft\Http\Controllers;
 
-use BrainySoft\Organization;
-
-use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Log;
-
 use Exception;
+
+use BrainySoft\User;
+
+use BrainySoft\Bank;
 
 use BrainySoft\Company;
 
 use BrainySoft\Employee;
 
-use BrainySoft\Bank;
+use BrainySoft\Organization;
+
+use Illuminate\Http\Request;
 
 use BrainySoft\Statutory_type;
+
+use Illuminate\Support\Facades\Log;
+
+
 
 class OrganizationController extends Controller
 {
@@ -29,9 +33,9 @@ class OrganizationController extends Controller
 
     private function company()
     {
-      $employee = Employee::find(auth()->user()->id);
+      $user = User::find(auth()->user()->id);
 
-      return Company::find($employee->company_id);
+      return Company::find($user->company_id);
     }
     /**
      * Display a listing of the resource.
@@ -44,11 +48,9 @@ class OrganizationController extends Controller
 
         $company = $this->company();
 
-        Log::debug($company->name.': Start organization index');
+        Log::debug($company->name.': Start organization index');      
 
-        $employee = Employee::find(auth()->user()->id);
-
-        $organizations = Organization::where('organizations.company_id', $employee->company_id)
+        $organizations = Organization::where('organizations.company_id', $company->id)
 
         ->join('banks', 'banks.id', 'organizations.bank_id')
 
@@ -87,9 +89,12 @@ class OrganizationController extends Controller
      */
     public function create()
     {
-        $banks = Bank::all();
 
-        $statutory_types = Statutory_type::all();
+        $company = $this->company();
+        
+        $banks = Bank::where('company_id', $company->id)->get();
+
+        $statutory_types = Statutory_type::where('company_id', $company->id)->get();
 
         return view('organizations.create', compact('banks', 'statutory_types'));
     }
@@ -119,7 +124,7 @@ class OrganizationController extends Controller
       ]);
 
 
-      $employee = Employee::find(auth()->user()->id);
+      $company = $this->company();
 
       $organization = new Organization;
 
@@ -133,11 +138,11 @@ class OrganizationController extends Controller
 
       $organization->account_number = request('account_number');
 
-      $organization->company_id = $employee->company_id;
+      $organization->company_id = $company->id;
 
       $organization->save();
 
-      return redirect('organizations');
+      return back()->with('success','Organization added successfully');
 
     }
 
@@ -160,7 +165,19 @@ class OrganizationController extends Controller
      */
     public function edit(Organization $organization)
     {
-        return view('organizations.edit',compact('organization'));
+
+        $company = $this->company();
+
+        $banks = Bank::where('company_id', $company->id)->get();
+
+        $statutory_types = Statutory_type::where('company_id', $company->id)->get();
+
+        $current_statutory_type = Statutory_type::find($organization->statutory_type_id);
+
+        $current_bank = Bank::find($organization->bank_id);
+
+        return view('organizations.edit',compact('organization', 'banks','current_bank', 'statutory_types','current_statutory_type'));
+
     }
 
     /**
@@ -223,8 +240,10 @@ class OrganizationController extends Controller
      */
     public function destroy(Organization $organization)
     {
-    
-      if ($organization->delete()){
+
+       $organization_exist = Employee::where('organization_id',$organization->id)->exists();
+
+        if (!$organization_exist && $organization->delete()){
 
         return redirect('organizations')
 

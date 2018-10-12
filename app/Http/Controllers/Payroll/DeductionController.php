@@ -32,9 +32,9 @@ class DeductionController extends Controller
 
     private function company()
     {
-      $employee = Employee::find(auth()->user()->id);
+      $user = User::find(auth()->user()->id);
 
-      return Company::find($employee->company_id);
+      return Company::find($user->company_id);
     }
     /**
      * Display a listing of the resource.
@@ -219,7 +219,7 @@ public function deductionDetails()
 
       $deduction->save();
 
-      return redirect('deductions');
+      return back()->with('success','Deduction added successfully');
 
     }
 

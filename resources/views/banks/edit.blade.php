@@ -1,34 +1,23 @@
-@extends('layouts.master')
-
-@section('header')
-
-<div class="blog-header">
-  <h1>{{ __('messages.edit').' '.__('messages.bank')}}</h1>
-</div>
-
-@endsection
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="col-md-6">
+    <div class="card">
+        <div class="card-header">{{ __('messages.edit').' '.__('messages.bank')}}</div>
 
+        <div class="card-body">
+            {!! Form::open(['action' => array('BankController@update', $bank->id),'method' => 'PUT']) !!}
 
+            {{ Form::bsText('name', $bank->name,['placeholder' => __('messages.enter name')]) }}
 
+            {{ Form::bsText('description', $bank->description ,['placeholder' => __('messages.enter description')]) }}
 
-                    {!! Form::open(['action' => array('BankController@update', $bank->id),'method' => 'PUT']) !!}
+            {{ Form::bsSubmit(__('messages.edit'),['class' => 'btn btn-primary']) }}
 
-                    {{ Form::bsText('name', $bank->name,['placeholder' => __('messages.enter name')]) }}
-
-                    {{ Form::bsText('description', $bank->description ,['placeholder' => __('messages.enter description')]) }}
-
-                    {{ Form::bsSubmit(__('messages.edit'),['class' => 'btn btn-primary']) }}
-
-                    {!! Form::close() !!}
-
-
-
+            {!! Form::close() !!}
         </div>
     </div>
-</div>
+</div>    
 @endsection
+
+

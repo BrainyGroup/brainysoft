@@ -21,6 +21,8 @@ class AllowancesTableSeeder extends Seeder
               'end_date' => '3000-01-01',
               'company_id' => 1,
               'allowance_type_id' => 1,
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
       DB::table('allowances')->insert([
@@ -30,6 +32,8 @@ class AllowancesTableSeeder extends Seeder
               'end_date' => '3000-01-01',
               'company_id' => 1,
               'allowance_type_id' => 1,
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
       DB::table('allowances')->insert([
@@ -39,6 +43,8 @@ class AllowancesTableSeeder extends Seeder
               'end_date' => '3000-01-01',
               'company_id' => 1,
               'allowance_type_id' => 1,
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
       DB::table('allowances')->insert([
@@ -48,6 +54,8 @@ class AllowancesTableSeeder extends Seeder
               'end_date' => '3000-01-01',
               'company_id' => 1,
               'allowance_type_id' => 1,
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
       DB::table('allowances')->insert([
@@ -57,6 +65,8 @@ class AllowancesTableSeeder extends Seeder
               'end_date' => '3000-01-01',
               'company_id' => 1,
               'allowance_type_id' => 1,
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
       DB::table('allowances')->insert([
@@ -66,6 +76,8 @@ class AllowancesTableSeeder extends Seeder
               'end_date' => '3000-01-01',
               'company_id' => 1,
               'allowance_type_id' => 1,
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
       DB::table('allowances')->insert([
@@ -75,6 +87,8 @@ class AllowancesTableSeeder extends Seeder
               'end_date' => '3000-01-01',
               'company_id' => 1,
               'allowance_type_id' => 1,
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
       DB::table('allowances')->insert([
@@ -84,6 +98,8 @@ class AllowancesTableSeeder extends Seeder
               'end_date' => '3000-01-01',
               'company_id' => 1,
               'allowance_type_id' => 1,
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
       DB::table('allowances')->insert([
@@ -93,6 +109,8 @@ class AllowancesTableSeeder extends Seeder
               'end_date' => '3000-01-01',
               'company_id' => 1,
               'allowance_type_id' => 1,
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
     }
 }

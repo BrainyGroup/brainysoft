@@ -5,6 +5,8 @@ namespace BrainySoft\Http\Controllers;
 
 use Exception;
 
+use BrainySoft\User;
+
 use BrainySoft\Company;
 
 use BrainySoft\Employee;
@@ -28,9 +30,9 @@ class DeductionTypeController extends Controller
 
     private function company()
     {
-      $employee = Employee::find(auth()->user()->id);
+      $user = User::find(auth()->user()->id);
 
-      return Company::find($employee->company_id);
+      return Company::find($user->company_id);
     }
     /**
      * Display a listing of the resource.
@@ -43,11 +45,9 @@ class DeductionTypeController extends Controller
 
         $company = $this->company();
 
-        Log::debug($company->name.': Start deduction type index');
+        Log::debug($company->name.': Start deduction type index');       
 
-        $employee = Employee::find(auth()->user()->id);
-
-        $deduction_types = Deduction_type::where('company_id', $employee->company_id)->get();
+        $deduction_types = Deduction_type::where('company_id', $company->id)->get();
 
         return view('deduction_types.index', compact('deduction_types'));
 
@@ -93,7 +93,7 @@ class DeductionTypeController extends Controller
 
       ]);
 
-      $employee = Employee::find(auth()->user()->id);
+      $company = $this->company();
 
       $deduction_type = new Deduction_type;
 
@@ -101,11 +101,11 @@ class DeductionTypeController extends Controller
 
       $deduction_type->description = request('description');
 
-      $deduction_type->company_id = $employee->company_id;
+      $deduction_type->company_id = $company->id;
 
       $deduction_type->save();
 
-      return redirect('deduction_types');
+      return back()->with('success','Deduction type added successfully');
 
     }
 
@@ -163,7 +163,7 @@ class DeductionTypeController extends Controller
 
         return redirect('deduction_types')
 
-        ->with('success','Bank updated successfully');
+        ->with('success','Deduction type updated successfully');
         //redirect
 
     }
@@ -177,8 +177,9 @@ class DeductionTypeController extends Controller
     public function destroy(deduction_type $deduction_type)
     {
 
+      $deduction_type_exist = Deduction::where('deduction_type_id',$deduction_type->id)->exists();
 
-      if ($deduction_type->delete()){
+        if (!$deduction_type_exist && $deduction_type->delete()){
 
         return redirect('deduction_types')
 

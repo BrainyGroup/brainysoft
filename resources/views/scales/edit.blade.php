@@ -1,38 +1,41 @@
-@extends('layouts.master')
-
-@section('header')
-
-<div class="blog-header">
-  <h1>Edit Salary scale </h1>
-</div>
-
-@endsection
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">Edit Scales</div>
+
+        <div class="card-body">
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
 
 
-                    {!! Form::open(['action' => array('ScaleController@update', $scale->id),'method' => 'PUT']) !!}
+            {!! Form::open(['action' => array('ScaleController@update', $scale->id),'method' => 'PUT']) !!}
 
-                    {{ Form::bsText('name', $scale->name,['placeholder' => 'Enter scale name']) }}
+            {{ Form::bsText('name', $scale->name,['placeholder' => 'Enter scale name']) }}
 
-                    {{ Form::bsText('description', $scale->description,['placeholder' => 'Enter scale description']) }}
+            {{ Form::bsText('description', $scale->description,['placeholder' => 'Enter scale description']) }}
 
-                    {{ Form::bsText('minimum', $scale->minimum,['placeholder' => 'Enter minimum salary']) }}
+            {{ Form::bsText('minimum', $scale->minimum,['placeholder' => 'Enter minimum salary']) }}
 
-                    {{ Form::bsText('maximum', $scale->maximum,['placeholder' => 'Enter maximum salary']) }}
+            {{ Form::bsText('maximum', $scale->maximum,['placeholder' => 'Enter maximum salary']) }}
 
-                    {{ Form::bsText('schedule',$scale->schedule,['placeholder' => 'Enter salary circle']) }}
+            {{ Form::bsText('schedule',$scale->schedule,['placeholder' => 'Enter salary circle']) }}
 
-                    {{ Form::bsSubmit(__('messages.edit'),['class' => 'btn btn-primary']) }}
+            {{ Form::bsSubmit(__('messages.edit'),['class' => 'btn btn-primary']) }}
 
-                    {!! Form::close() !!}
-
-
-
+            {!! Form::close() !!}
         </div>
     </div>
-</div>
+</div>    
 @endsection
+
+
+
+
+
+
+

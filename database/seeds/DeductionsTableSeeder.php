@@ -21,6 +21,8 @@ class DeductionsTableSeeder extends Seeder
               'company_id' => 1,
               'start_date' => now(),
               'end_date' =>'3000-01-01',
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
       DB::table('deductions')->insert([
@@ -30,6 +32,8 @@ class DeductionsTableSeeder extends Seeder
               'company_id' => 1,
               'start_date' => now(),
               'end_date' =>'3000-01-01',
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
       DB::table('deductions')->insert([
@@ -39,6 +43,8 @@ class DeductionsTableSeeder extends Seeder
               'company_id' => 1,
               'start_date' => now(),
               'end_date' =>'3000-01-01',
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
       DB::table('deductions')->insert([
@@ -48,6 +54,8 @@ class DeductionsTableSeeder extends Seeder
               'company_id' => 1,
               'start_date' => now(),
               'end_date' =>'3000-01-01',
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
       DB::table('deductions')->insert([
@@ -57,6 +65,8 @@ class DeductionsTableSeeder extends Seeder
               'company_id' => 1,
               'start_date' => now(),
               'end_date' =>'3000-01-01',
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
       DB::table('deductions')->insert([
@@ -66,6 +76,8 @@ class DeductionsTableSeeder extends Seeder
               'company_id' => 1,
               'start_date' => now(),
               'end_date' =>'3000-01-01',
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
       DB::table('deductions')->insert([
@@ -75,6 +87,8 @@ class DeductionsTableSeeder extends Seeder
               'company_id' => 1,
               'start_date' => now(),
               'end_date' =>'3000-01-01',
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
       DB::table('deductions')->insert([
@@ -84,6 +98,8 @@ class DeductionsTableSeeder extends Seeder
               'company_id' => 1,
               'start_date' => now(),
               'end_date' =>'3000-01-01',
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
 
       DB::table('deductions')->insert([
@@ -93,6 +109,8 @@ class DeductionsTableSeeder extends Seeder
               'deduction_type_id' => 1,
               'start_date' => now(),
               'end_date' =>'3000-01-01',
+              'created_at' =>now(),
+              'updated_at' =>now(),
           ]);
     }
 }

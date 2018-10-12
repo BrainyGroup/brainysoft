@@ -1,29 +1,27 @@
-@extends('layouts.master')
-
-@section('header')
-
-<div class="blog-header">
-  <h1>Edit Department</h1>
-</div>
-
-@endsection
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">Edit Department</div>
 
-                    {!! Form::open(['action' => array('DepartmentController@update', $department->id),'method' => 'PUT']) !!}
+        <div class="card-body">
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
 
-                    {{ Form::bsText('name', $department->name,['placeholder' => 'Enter Deduction name']) }}
+            {!! Form::open(['action' => array('DepartmentController@update', $department->id),'method' => 'PUT']) !!}
 
-                    {{ Form::bsText('description', $department->description,['placeholder' => 'Enter Deduction description']) }}
+            {{ Form::bsText('name', $department->name,['placeholder' => 'Enter Deduction name']) }}
 
-                    {{ Form::bsSubmit( __('messages.edit'),['class' => 'btn btn-primary']) }}
+            {{ Form::bsText('description', $department->description,['placeholder' => 'Enter Deduction description']) }}
 
-                    {!! Form::close() !!}
+            {{ Form::bsSubmit( __('messages.edit'),['class' => 'btn btn-primary']) }}
 
+            {!! Form::close() !!}
         </div>
     </div>
-</div>
+</div>    
 @endsection

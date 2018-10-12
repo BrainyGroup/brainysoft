@@ -17,6 +17,8 @@ class CreateDesignationsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('description');
+            $table->integer('scale_id')->unsigned()->foreign()->references('id')->on('scales');
+            $table->integer('level_id')->unsigned()->foreign()->references('id')->on('levels');
             $table->integer('company_id')->unsigned()->foreign()->references('id')->on('companies');
             $table->timestamps();
         });

@@ -18,14 +18,22 @@ class CreateCompaniesTable extends Migration
             $table->integer('country_id')->unsigned()->foreign()->references('id')->on('countries');
             $table->string('name');
             $table->text('description');
-            $table->string('logo');
-            $table->string('website');
-            $table->string('tin');
-            $table->string('vrn');
-            $table->string('regno');
-            $table->text('slogan');
-            $table->text('mission');
-            $table->text('vision');
+            $table->string('logo')->nullable();
+            $table->string('website')->nullable();
+            $table->string('tin')->nullable();
+            $table->string('vrn')->nullable();
+            $table->string('regno')->nullable();
+            $table->text('slogan')->nullable();
+            $table->text('mission')->nullable();
+            $table->text('vision')->nullable();           
+            $table->integer('usage_count');
+            $table->date('last_renew_date');
+            $table->date('trial_expire_date');
+            $table->integer('employees');
+            $table->decimal('balance',9,2);
+          
+            $table->date('expire_date');
+            $table->boolean('trial');
             $table->timestamps();
         });
     }
