@@ -17,8 +17,6 @@ class CreateStatutoryTypesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('description');
-            $table->boolean('selected');
-            $table->boolean('mandatory');
             $table->integer('company_id')->unsigned()->foreign()->references('id')->on('companies');
             $table->timestamps();
         });

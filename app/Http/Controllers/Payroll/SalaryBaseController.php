@@ -51,7 +51,7 @@ class SalaryBaseController extends Controller
 
         
 
-        $salary_bases = Salary_base::where('company_id', $company->id)->get();
+        $salary_bases = Salary_base::all();
 
         return view('salary_bases.index', compact('salary_bases'));
 

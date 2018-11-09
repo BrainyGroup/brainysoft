@@ -59,7 +59,7 @@ class AllowancesTableSeeder extends Seeder
           ]);
 
       DB::table('allowances')->insert([
-              'amount' => 508000.00,
+              'amount' => 509000.00,
               'employee_id' => 5,
               'start_date' => now(),
               'end_date' => '3000-01-01',

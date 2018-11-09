@@ -123,13 +123,15 @@
 
                     </div>
 
+                  
+
                     {{ Form::bsText('account_number','',['placeholder' => 'Enter account number']) }}
 
                   {{ Form::bsNumber('salary','',['placeholder' => 'Enter Salary Amount']) }}
 
                     {{ Form::bsDate('start_date') }}
 
-                    {{ Form::bsDate('end_date') }}
+               
 
                     {{ Form::bsHidden('user_id', request('user_id')) }}
 

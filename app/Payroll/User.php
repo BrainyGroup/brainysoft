@@ -86,6 +86,16 @@ class User extends Authenticatable
       return $query->where('maritalstatus', 0);
     }
 
+    
+    public function getAgeAttribute()
+    {
+    return Carbon::parse($this->attributes['dob'])->age;
+    }
+
+    public function age() {
+    return $this->dob->diffInYears(\Carbon::now());
+    }
+
 
 
 

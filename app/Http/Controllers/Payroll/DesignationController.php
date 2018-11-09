@@ -82,7 +82,7 @@ class DesignationController extends Controller
 
          $company = $this->company();
 
-        $levels = Level::where('company_id', $company->id)->get();
+        $levels = Level::all();
 
          $scales = Scale::where('company_id', $company->id)->get();
 

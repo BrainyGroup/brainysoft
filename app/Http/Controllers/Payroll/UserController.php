@@ -7,7 +7,10 @@ use Exception;
 use Storage;
 
 use App\ImageModel;
+
 use Image;
+
+use Illuminate\Support\Facades\Hash;
 
 
 
@@ -78,7 +81,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.create');
     }
 
     /**
@@ -89,8 +92,79 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+                 //Validation
+      $validation = $this->validate(request(),[
+
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'required|string|min:6|confirmed',
+
+
+        'title' =>'required|string',
+
+        'name' => 'required|string',
+
+        'sex' =>'required|string',
+
+        'maritalstatus' => 'required|string',
+
+        'firstname' =>'required|string',
+
+        'middlename' => 'required|string',
+
+        'lastname' =>'required|string',
+
+       
+        
+
+        // 'photo' => 'required|string',
+
+        'dob' =>'required|date',
+
+        'mobile' => 'required|string',
+
+      ]);
+
+       $company = $this->company();
+
+
+          $user = new User;
+
+          $user->name = request('name');
+
+          $user->email = request('email');
+
+          $user->password = Hash::make(request('password'));
+
+          $user->company_id = $company->id;
+
+          $user->title            = request('title');        
+
+          $user->sex           = request('sex');
+
+          $user->maritalstatus = request('maritalstatus');
+
+          $user->firstname           = request('firstname');
+
+          $user->middlename = request('middlename');
+
+          $user->lastname         = request('lastname');
+
+         
+
+          $user->dob          = request('dob');
+
+          $user->mobile = request('mobile');
+
+          $user->save();  
+     
+
+        return redirect('users')
+
+        ->with('success','User updated successfully');
+        //redirect
     }
+    
 
     /**
      * Display the specified resource.
@@ -169,7 +243,7 @@ class UserController extends Controller
 
 
            if( (strtolower($user->photo) != strtolower($filename)) && $exists ){
-dd($exists);
+
 
             Storage::delete('user_profile_photos' . $user->photo);
             

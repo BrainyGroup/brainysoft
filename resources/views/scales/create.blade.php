@@ -56,7 +56,7 @@
 
                     <div class="input-group mb-3">
 
-                     <select class="form-control" id="pay_type_id" name="pay_type_id">
+                     <select class="form-control" id="pay_type_id" name="pay_base_id">
 
                        <option value="">Select pay type</option>
 
@@ -108,6 +108,8 @@
         {{ Form::bsSubmit( __('messages.add'),['class' => 'btn btn-primary']) }}
 
         {!! Form::close() !!}
+
+        @include('layouts.model')
         </div>
     </div>
 </div>    

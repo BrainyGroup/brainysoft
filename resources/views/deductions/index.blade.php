@@ -17,7 +17,7 @@
       <div class="table-responsive">
 
               <table class="table table-hover table-striped table-bordered">
-                    <caption><h1>{{ __('messages.deduction') }}</h1></caption>
+                    <caption></caption>
 
                   <thead>
                     <tr>

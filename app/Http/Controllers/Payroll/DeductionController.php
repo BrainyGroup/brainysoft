@@ -90,6 +90,8 @@ class DeductionController extends Controller
 
               )
 
+            ->where('deductions.company_id', $company->id )
+
             ->orderBy('employee_id')
 
             ->get();
@@ -201,7 +203,9 @@ public function deductionDetails()
 
       // TODO: check deduction to see if it is working
 
-      $employee = Employee::find(auth()->user()->id);
+     
+
+      $company = $this->company();
 
       $deduction = new Deduction;
 
@@ -213,7 +217,7 @@ public function deductionDetails()
 
       $deduction->employee_id = request('employee_id');
 
-      $deduction->company_id = $employee->company_id;
+      $deduction->company_id = $company->id;
 
       $deduction->deduction_type_id = request('deduction_type_id');
 
@@ -240,10 +244,11 @@ public function deductionDetails()
      * @param  \BrainySoft\deduction  $deduction
      * @return \Illuminate\Http\Response
      */
-    public function edit(Deduction $deduction)
+    public function edit(Request $request, Deduction $deduction)
     {
 
-      $employee = Employee::find(request('user_id'));
+      $employee = Employee::where('user_id',request('user_id'))->first();
+
 
       $user = User::where('users.id', $employee->user_id)->first();
 

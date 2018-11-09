@@ -3,9 +3,13 @@
 @section('content')
 <div class="col-md-12">
     <div class="card">
-        <div class="card-header">{{ $company->name }} Users</div>
+        <div class="card-header">{{ $company->name }} Users
+          <span class="pull-right"> <a href="/users/create">{{ __('messages.add') }}</a></span>
 
-         
+        </div>
+
+        
+
         <div class="card-body">
             @if (session('status'))
                 <div class="alert alert-success" role="alert">

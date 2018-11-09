@@ -124,7 +124,9 @@ class KinController extends Controller
 
       ]);
 
-      $employee = Employee::find(auth()->user()->id);
+      
+
+      $company = $this->company();
 
       $kin = new Kin;
 
@@ -136,7 +138,7 @@ class KinController extends Controller
 
       $kin->employee_id = request('employee_id');
 
-      $kin->company_id = $employee->company_id;
+      $kin->company_id = $company->id;
 
       $kin->save();
 

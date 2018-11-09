@@ -43,12 +43,17 @@
 
                      <select class="form-control" id="sex" name="sex">
 
-                    @if($user->sex)
+                    @if($user->sex == null)
 
-                      <option value="{{ $user->sex }}">Male</option>                    
+                      <option value="{{ $user->sex }}">Please choose gender</option>                    
+                    @elseif($user->sex)
+
+                      <option value="{{ $user->sex }}">Male</option>	
                     @else
 
-                      <option value="{{ $user->sex }}">Female</option>	
+                    <option value="{{ $user->sex }}">Female</option>
+
+
                     @endif
 
                        <option value="1">Male</option>
@@ -67,14 +72,22 @@
 
                      <select class="form-control" id="maritalstatus" name="maritalstatus">
 
-                     	@if($user->maritalstatus)
+                     	@if($user->maritalstatus == null)
 
-                      <option value="{{ $user->maritalstatus }}"> Male
+                      <option value="{{ $user->maritalstatus }}"> Choose marital status
 
 
                       </option>	
 
-                      @else<option value="{{ $user->maritalstatus }}"> Female
+                      @elseif($user->maritalstatus)
+
+                      <option value="{{ $user->maritalstatus }}"> Single
+
+
+                      </option> 
+
+
+                      @else<option value="{{ $user->maritalstatus }}"> Married
 
 
                       </option>	

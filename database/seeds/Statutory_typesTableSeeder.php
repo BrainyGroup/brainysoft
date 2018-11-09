@@ -16,9 +16,7 @@ class Statutory_typesTableSeeder extends Seeder
       DB::table('statutory_types')->insert([
               'name' => 'SSF',
               'description' => 'Social Security Fund',
-              'company_id' => 1,
-              'selected' => true,
-              'mandatory' => true,                            
+              'company_id' => 1,                                      
               'created_at' =>now(),
               'updated_at' =>now(),
           ]);
@@ -26,9 +24,7 @@ class Statutory_typesTableSeeder extends Seeder
       DB::table('statutory_types')->insert([
               'name' => 'HI',
               'description' => 'Health Insurance',
-              'company_id' => 1,
-              'selected' => true,
-              'mandatory' => false,    
+              'company_id' => 1,            
               'created_at' =>now(),
               'updated_at' =>now(),
           ]);
@@ -37,9 +33,7 @@ class Statutory_typesTableSeeder extends Seeder
       DB::table('statutory_types')->insert([
               'name' => 'WCF',
               'description' => 'Worker Compasation Fund',
-              'company_id' => 1,
-              'selected' => false,
-              'mandatory' => true,    
+              'company_id' => 1,              
               'created_at' =>now(),
               'updated_at' =>now(),
           ]);
@@ -49,8 +43,6 @@ class Statutory_typesTableSeeder extends Seeder
               'name' => 'SDL',
               'description' => 'School Development Levy',
               'company_id' => 1,
-              'selected' => false,
-              'mandatory' => true,    
               'created_at' =>now(),
               'updated_at' =>now(),
           ]);

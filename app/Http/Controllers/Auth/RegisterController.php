@@ -3,6 +3,7 @@
 namespace BrainySoft\Http\Controllers\Auth;
 
 use DB;
+use Carbon\Carbon;
 use BrainySoft\User;
 use BrainySoft\Country;
 use BrainySoft\Company;
@@ -122,14 +123,29 @@ class RegisterController extends Controller
         $company = Company::create([
             'name' => $data['company_name'],
             'description' => $data['company_description'],
-            'country_id' => $data['country_id'],   
+            'country_id' => $data['country_id'],
+              'last_renew_date' => now(),
+              'trial_expire_date' => now()->addMonth(3), 
+              'expire_date' => now()->addMonth(3),  
+              'employees' => 9,                
+              'trial' => true, 
+              'balance' => 0.00,
+         
              'usage_count' => 0,         
             
         ]);
 
         return User::create([
+            'title' => $data['title'],
+            'firstname' => $data['firstname'], 
+            'middlename' => $data['middlename'],
+            'lastname' => $data['lastname'], 
+
+
+
+
             'name' => $data['name'],
-            'email' => $data['email'],            
+            'email' => $data['email'], 
             'password' => Hash::make($data['password']),
             'company_id' => $company->id,
 

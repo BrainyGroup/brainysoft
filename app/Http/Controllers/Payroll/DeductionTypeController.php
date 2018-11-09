@@ -47,7 +47,7 @@ class DeductionTypeController extends Controller
 
         Log::debug($company->name.': Start deduction type index');       
 
-        $deduction_types = Deduction_type::where('company_id', $company->id)->get();
+        $deduction_types = Deduction_type::all();
 
         return view('deduction_types.index', compact('deduction_types'));
 

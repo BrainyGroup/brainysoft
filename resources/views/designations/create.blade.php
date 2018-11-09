@@ -13,9 +13,9 @@
             @endif
                     {!! Form::open(['action' => 'DesignationController@store','method' => 'POST']) !!}
 
-                    {{ Form::bsText('name','',['placeholder' => 'Enter Deduction name']) }}
+                    {{ Form::bsText('name','',['placeholder' => 'Enter designation name']) }}
 
-                    {{ Form::bsText('description','',['placeholder' => 'Enter Deduction description']) }}
+                    {{ Form::bsText('description','',['placeholder' => 'Enter designation description']) }}
 
                     <div class="form-group">
 
@@ -36,7 +36,7 @@
                      </select>
 
                       <div class="input-group-append">
-                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addlevel">Add</button>
+                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addLevel">Add</button>
                       </div>
 
                     </div>
@@ -61,9 +61,7 @@
 
                      </select>
 
-                      <div class="input-group-append">
-                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addScale">Add</button>
-                      </div>
+                      
 
                     </div>
 
@@ -72,7 +70,7 @@
                     {{ Form::bsSubmit('Submit',['class' => 'btn btn-primary']) }}
 
                     {!! Form::close() !!}
-
+ @include('layouts.model')
         </div>
     </div>
 </div>    

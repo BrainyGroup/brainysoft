@@ -21,7 +21,8 @@ class CreatePayStatutoriesTable extends Migration
             $table->integer('pay_number');
             $table->decimal('employee',11,2);
             $table->decimal('employer',11,2);
-            $table->integer('statutory_type_id');
+            $table->decimal('total',11,2);
+            $table->integer('statutory_id');
             $table->timestamps();
         });
     }

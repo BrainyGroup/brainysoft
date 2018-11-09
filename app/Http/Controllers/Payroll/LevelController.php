@@ -46,7 +46,7 @@ class LevelController extends Controller
 
         Log::debug($company->name.': Start level index');        
 
-        $levels = Level::where('company_id', $company->id)->get();
+        $levels = Level::all();
 
         return view('levels.index', compact('levels'));
 

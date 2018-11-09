@@ -50,7 +50,7 @@ class OrganizationController extends Controller
 
         Log::debug($company->name.': Start organization index');      
 
-        $organizations = Organization::where('organizations.company_id', $company->id)
+        $organizations = Organization::where('organizations.country_id', $company->country_id)
 
         ->join('banks', 'banks.id', 'organizations.bank_id')
 
@@ -92,9 +92,9 @@ class OrganizationController extends Controller
 
         $company = $this->company();
         
-        $banks = Bank::where('company_id', $company->id)->get();
+        $banks = Bank::where('country_id', $company->country_id)->get();
 
-        $statutory_types = Statutory_type::where('company_id', $company->id)->get();
+        $statutory_types = Statutory_type::all();
 
         return view('organizations.create', compact('banks', 'statutory_types'));
     }
@@ -140,6 +140,8 @@ class OrganizationController extends Controller
 
       $organization->company_id = $company->id;
 
+      $organization->country_id = $company->country_id;
+
       $organization->save();
 
       return back()->with('success','Organization added successfully');
@@ -168,9 +170,9 @@ class OrganizationController extends Controller
 
         $company = $this->company();
 
-        $banks = Bank::where('company_id', $company->id)->get();
+        $banks = Bank::where('country_id', $company->country_id)->get();
 
-        $statutory_types = Statutory_type::where('company_id', $company->id)->get();
+        $statutory_types = Statutory_type::all();
 
         $current_statutory_type = Statutory_type::find($organization->statutory_type_id);
 

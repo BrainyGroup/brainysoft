@@ -59,7 +59,7 @@
 
                     <td><a href="/kins?employee_id={{ $employee->id }}">Kins</a></td>
 
-                    <td><a href="/statutories">Statutories</a></td>
+                    <td><a href="/employee_statutories?employee_id={{ $employee->id }}">Statutories</a></td>
 
                     <td><a href="/employees/{{ $employee->id}}">Details</a></td>
 

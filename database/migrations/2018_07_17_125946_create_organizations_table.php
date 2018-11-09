@@ -19,6 +19,7 @@ class CreateOrganizationsTable extends Migration
             $table->string('description');
             $table->integer('statutory_type_id')->unsigned()->foreign()->references('id')->on('statutory_types');
             $table->integer('company_id')->unsigned()->foreign()->references('id')->on('companies');
+             $table->integer('country_id')->unsigned()->foreign()->references('id')->on('countries');
             $table->integer('bank_id')->unsigned()->foreign()->references('id')->on('banks');
             $table->string('account_number');
             $table->timestamps();

@@ -47,7 +47,7 @@ class StatutoryTypeController extends Controller
 
         Log::debug($company->name.': Start statutory type index');       
 
-        $statutory_types = Statutory_type::where('company_id', $company->id)->get();
+        $statutory_types = Statutory_type::all();
 
         return view('statutory_types.index', compact('statutory_types'));
 

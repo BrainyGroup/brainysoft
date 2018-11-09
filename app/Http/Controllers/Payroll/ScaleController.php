@@ -9,6 +9,8 @@ use BrainySoft\User;
 
 use BrainySoft\Scale;
 
+use BrainySoft\Level;
+
 use BrainySoft\Pay_base;
 
 use BrainySoft\Employment_type;
@@ -83,15 +85,21 @@ class ScaleController extends Controller
 
         $company = $this->company();
 
+        $levels = Level::all();
+
+        $scales = Scale::where('company_id', $company->id)->get();
+
         $payroll_groups = Payroll_group::where('company_id', $company->id)->get();
 
-        $pay_types = Pay_base::where('company_id', $company->id)->get();
+        $pay_types = Pay_base::all();
 
-        $employment_types = Employment_type::where('company_id', $company->id)->get();
+        $employment_types = Employment_type::all();
 
         return view('scales.create', compact(
           'payroll_groups',
           'pay_types',
+          'levels',
+          'scales',
           'employment_types'
 
         ));

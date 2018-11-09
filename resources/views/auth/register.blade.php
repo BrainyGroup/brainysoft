@@ -10,6 +10,75 @@
                 @csrf
 
 
+                <div class="form-group row">
+
+                    <label for="title" class="col-md-4 col-form-label text-md-right">Title</label>
+
+                    <div class="col-md-6">
+
+                        <select class="form-control" id="title" name="title">
+
+                            <option value="">Select your title</option>
+
+                                
+
+                                    <option value="Mr">Mr</option>
+                                    <option value="Mrs">Mrs</option>
+                                    <option value="Miss">Miss</option>
+
+                               
+
+                        </select>
+
+                    </div>
+
+                 </div>
+
+
+                <div class="form-group row">
+                    <label for="firstname" class="col-md-4 col-form-label text-md-right">First name</label>
+
+                    <div class="col-md-6">
+                        <input id="firstname" type="text" class="form-control{{ $errors->has('firstname') ? ' is-invalid' : '' }}" name="firstname" value="{{ old('firstname') }}" required autofocus>
+
+                        @if ($errors->has('firstname'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('firstname') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
+
+
+                <div class="form-group row">
+                    <label for="middlename" class="col-md-4 col-form-label text-md-right">Middle name</label>
+
+                    <div class="col-md-6">
+                        <input id="middlename" type="text" class="form-control{{ $errors->has('middlename') ? ' is-invalid' : '' }}" name="middlename" value="{{ old('middlename') }}" required autofocus>
+
+                        @if ($errors->has('middlename'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('middlename') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="lastname" class="col-md-4 col-form-label text-md-right">Last name</label>
+
+                    <div class="col-md-6">
+                        <input id="lastname" type="text" class="form-control{{ $errors->has('lastname') ? ' is-invalid' : '' }}" name="lastname" value="{{ old('lastname') }}" required autofocus>
+
+                        @if ($errors->has('lastname'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('lastname') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
               <div class="form-group row">
                     <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
 
@@ -60,28 +129,29 @@
                     </div>
                 </div>
 
+
+
                 <div class="form-group row">
 
-                    <label for="country_id" class="col-md-4 col-form-label text-md-right">Select your country</label>
+                    <label for="country_id" class="col-md-4 col-form-label text-md-right">Country</label>
 
                     <div class="col-md-6">
-
                         <select class="form-control" id="country_id" name="country_id">
 
-                            <option value="">Select your country</option>
-
-                                
+                            <option value="">Select your country</option>                 
 
                                     <option value="1">Tanzania</option>
-                                     <option value="2">Kenya</option>
-
-                               
+                                     <option value="2">Kenya</option>                     
 
                         </select>
 
                     </div>
 
                  </div>
+
+
+
+
 
 
                  <div class="form-group row">

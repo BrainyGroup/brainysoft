@@ -91,6 +91,41 @@
 
                     </div>
 
+                    <div class="form-group">
+
+                    <label for="selection" class="control-label">Is more than one for this type?</label>
+
+                     <select class="form-control" id="selection" name="selection" required >
+
+                       <option value="true">true</option>                      
+
+                       <option value="false">false</option>
+                      <option value=true">true</option>
+
+                     
+
+                     </select>
+
+                    </div>
+
+                       <div class="form-group">
+
+                    <label for="mandatory" class="control-label">Mandatory</label>
+
+                     <select class="form-control" id="mandatory" name="mandatory" required >
+
+                      <option value="false">false</option>                      
+
+                       <option value="true">true</option>
+                      <option value="false">false</option>
+
+
+                     </select>
+
+                    </div>
+
+
+
 
                     {{ Form::bsText('employee_ratio','',['placeholder' => 'Enter employee ratio']) }}
 

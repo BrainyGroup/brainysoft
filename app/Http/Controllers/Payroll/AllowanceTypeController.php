@@ -52,7 +52,7 @@ class AllowanceTypeController extends Controller
 
         //$employee = Employee::find(auth()->user()->id);
 
-        $allowance_types = Allowance_type::where('company_id', $company->id)->get();
+        $allowance_types = Allowance_type::all();
 
         return view('allowance_types.index', compact('allowance_types'));
 

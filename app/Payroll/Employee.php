@@ -75,7 +75,7 @@ class Employee extends Model
 
  		     return $this->belongsToMany(Statutory::class)
 
-         ->withPivot('company_id')
+         ->withPivot('company_id','employee_statutories')
 
     	   ->withTimestamps();
 
@@ -101,5 +101,10 @@ class Employee extends Model
 
        return $this->belongsTo(Department::class);
 
+     }
+
+     public function getAge() 
+     {
+      return $this->user->dob->diffInYears(\Carbon::now());
      }
 }

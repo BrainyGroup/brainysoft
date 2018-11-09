@@ -15,23 +15,7 @@
 
                       {!! Form::open(['action' => array('EmployeeController@update', $employee->id),'method' => 'PUT']) !!}
 
-                    <div class="form-group">
 
-                    <label for="level" class="control-label">Level</label>
-
-                     <select class="form-control" id="level" name="level_id">
-
-                       <option value="{{ $current_level->id }}">{{ $current_level->name }}</option>
-
-                       @foreach($levels as $level)
-
-                       <option value="{{ $level->id }}">{{ $level->name }}</option>
-
-                       @endforeach
-
-                     </select>
-
-                    </div>
 
                     <div class="form-group">
 
@@ -51,23 +35,7 @@
 
                     </div>
 
-                    <div class="form-group">
-
-                    <label for="Scales" class="control-label">Scales</label>
-
-                     <select class="form-control" id="scale" name="scale_id">
-
-                       <option value="{{ $current_salary_scale->id }}">{{ $current_salary_scale->name }}</option>
-
-                       @foreach($centers as $center)
-
-                       <option value="{{ $center->id }}">{{ $center->name }}</option>
-
-                       @endforeach
-
-                     </select>
-
-                    </div>
+                    
 
                     <div class="form-group">
 
@@ -128,9 +96,15 @@
 
                   {{ Form::bsNumber('salary', $employee_salary->amount ,['placeholder' => 'Enter Salary Amount']) }}
 
-                    {{ Form::bsDate('start_date', $employee->start_date) }}
 
-                    {{ Form::bsDate('end_date', $employee->end_date) }}
+
+                  {{ Form::bsText('start_date', $employee->start_date,['readonly' => true]) }}
+
+                   {{ Form::bsText('end_date', $employee->end_date,['readonly' => true]) }}
+
+
+                
+
 
                     {{ Form::bsHidden('employee_id', $employee->id) }}
 

@@ -79,6 +79,8 @@ class StatutoryController extends Controller
 
           )
 
+
+
         ->get();
 
         return view('statutories.index', compact('statutories'));
@@ -140,6 +142,10 @@ class StatutoryController extends Controller
 
         'employer_ratio' =>'required|numeric',
 
+        'selection' => 'required|boolean',
+
+        'mandatory' =>'required|boolean',
+
         'due_date' =>'required|date',
 
       ]);
@@ -165,6 +171,10 @@ class StatutoryController extends Controller
       $statutory->before_paye = request('before_paye');
 
       $statutory->date_required = request('due_date');
+
+      $statutory->selection = request('selection');
+
+      $statutory->mandatory = request('mandatory');
 
       $statutory->total = $statutory->employee + $statutory->employer;
 
@@ -266,7 +276,10 @@ class StatutoryController extends Controller
 
           'employee'	=>$request->input('employee_ratio'),
 
-          'employer'			=>$request->input('employee_ratio'),
+          'employer'			=>$request->input('employer_ratio'),
+
+          'total' => $request->input('employee_ratio') + $request->input('employer_ratio'),
+
 
           'before_paye'			=>$request->input('before_paye'),
 

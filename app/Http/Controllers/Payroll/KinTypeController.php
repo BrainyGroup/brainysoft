@@ -51,7 +51,7 @@ class KinTypeController extends Controller
 
         Log::debug($company->name.': Start kin type index');        
 
-        $kin_types = Kin_type::where('company_id', $company->id)->get();
+        $kin_types = Kin_type::all();
 
         return view('kin_types.index', compact('kin_types'));
 

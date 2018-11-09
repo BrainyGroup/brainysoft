@@ -17,6 +17,7 @@ class BanksTableSeeder extends Seeder
               'name' => 'Exim Bank',
               'description' => 'Exim Bank',
               'company_id' => 1,
+              'country_id' => 1,
               'created_at' =>now(),
               'updated_at' =>now(),
           ]);
@@ -25,6 +26,7 @@ class BanksTableSeeder extends Seeder
               'name' => 'CRDB Bank',
               'description' => 'CRDB Bank',            
               'company_id' => 1,
+              'country_id' => 1,
               'created_at' =>now(),
               'updated_at' =>now(),
           ]);

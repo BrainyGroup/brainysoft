@@ -70,6 +70,9 @@ class AllowanceController extends Controller
 
           $employees_allowances=DB::table('allowances')
 
+          
+
+
           ->join('employees','employees.id','allowances.employee_id')
 
           ->join('users','users.id','employees.user_id')
@@ -80,6 +83,8 @@ class AllowanceController extends Controller
           //
           // })
           ->join('allowance_types','allowance_types.id','allowances.allowance_type_id')
+
+
 
             ->select(
 
@@ -92,6 +97,11 @@ class AllowanceController extends Controller
               'allowance_types.name as allowance_name'
 
               )
+
+
+            ->where('allowances.company_id', $company->id )
+            
+
             ->orderBy('employee_id')
 
             ->get();
@@ -121,7 +131,9 @@ class AllowanceController extends Controller
      */
     public function create(Request $request)
     {
-        $employee = Employee::find(request('user_id'));
+        $employee = Employee::where('user_id',request('user_id'))->first();
+
+ 
 
         $user = User::where('users.id', $employee->user_id)->first();
 
@@ -154,7 +166,8 @@ class AllowanceController extends Controller
         ]);
 
 
-        $employee = Employee::find(request('user_id'));
+       $employee = Employee::where('user_id',request('user_id'))->first();
+
 
         $allowance = new Allowance;
 
@@ -196,7 +209,9 @@ class AllowanceController extends Controller
     public function edit(Request $request, Allowance $allowance)
     {
 
-      $employee = Employee::find(request('user_id'));
+      $employee = Employee::where('user_id',request('user_id'))->first();
+
+   
 
       $model_allowance_type = Allowance_type::find($allowance->allowance_type_id);
 

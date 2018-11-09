@@ -95,6 +95,8 @@ Route::resource('organizations', 'OrganizationController');
 //pay routes
 Route::resource('pays', 'PayController');
 
+Route::match(['put', 'patch'], '/pays/update/{id}','PayController@post');
+
 Route::get('/downloadPDF/{id}','PayController@downloadPDF');
 
 //paye routes
@@ -129,8 +131,16 @@ Route::resource('statutory_types', 'StatutoryTypeController');
 //statutory
 Route::resource('statutories', 'StatutoryController');
 
+//statutory
+Route::resource('employee_statutories', 'EmployeeStatutoryController');
+
 //users
 Route::resource('users', 'UserController');
 
 
 //Route::resource('pays', 'PayController');
+
+//Reports
+
+Route::get('/reports/net','ReportController@net');
+

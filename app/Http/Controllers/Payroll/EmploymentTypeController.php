@@ -39,7 +39,25 @@ class EmploymentTypeController extends Controller
      */
     public function index()
     {
-        //
+        try{
+
+        $company = $this->company();
+
+        Log::debug($company->name.': Start employment type index');        
+
+        $employment_types = Employment_type::all();
+
+        return view('employement_types.index', compact('employment_types'));
+
+      }catch(Exception $e){
+
+        $company = $this->company();
+
+        Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+        Log::debug($company->name.': End employment type index');
+
+      }
     }
 
     /**
@@ -49,7 +67,7 @@ class EmploymentTypeController extends Controller
      */
     public function create()
     {
-        //
+         return view('employment_types.create');
     }
 
     /**

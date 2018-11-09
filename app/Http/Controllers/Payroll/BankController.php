@@ -52,7 +52,7 @@ class BankController extends Controller
 
           // $employee = Employee::find(auth()->user()->id);
 
-          $banks = Bank::where('company_id', $company->id)->get();
+          $banks = Bank::where('country_id', $company->id)->get();
 
           return view('banks.index', compact('banks'));
 
@@ -110,6 +110,8 @@ class BankController extends Controller
       $bank->name = request('name');
 
       $bank->description = request('description');
+
+      $bank->country_id = $company->country_id;
 
       $bank->company_id = $company->id;
 

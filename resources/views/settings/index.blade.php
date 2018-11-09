@@ -49,14 +49,22 @@
                     </tr>
 
                     <tr>
-                      <td><a href="/other_settings">Other settings</a></td>
-                      <td><a href="/companies">Companies</a></td>
-                      <td><a href="/countries">Countries</a></td>
+                      <td><a href="/employment_types">Employment types</a></td>
+                      <td><a href="/pay_types">Pay types</a></td>
+                      <td><a href="/payroll_groups">Payroll Groups</a></td>
                     </tr>
+
+                    
 
                     <tr>
                       <td><a href="/statutory_types">Statutory types</a></td>
                       <td><a href="/statutories">Statutories</a></td>
+                      <td><a href="/countries">Countries</a></td>
+                    </tr>
+
+                    <tr>
+                      <td><a href="/other_settings">Other settings</a></td>
+                      <td><a href="/companies">Companies</a></td>
                       <td><a href="/countries">Countries</a></td>
                     </tr>
         </tbody>

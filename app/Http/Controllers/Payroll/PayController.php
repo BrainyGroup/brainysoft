@@ -59,9 +59,8 @@ class PayController extends Controller
 
      return $pdf->download('payslip.pdf');
 
-
-
-   }
+     }
+     
 
     private function company()
     {
@@ -117,11 +116,18 @@ private function allowanceSum($employee_id = null, $company_id = null){
 // 4.1 Calculate statutory
 private function statutoryBeforePaye($employee_id = null, $company_id = null,$basic_salary = null){
 
-  $statutories = Employee::find($employee_id)->statutories()
+   $statutories = DB::table('employee_statutories')
+
+   ->join('statutories', 'statutories.id','employee_statutories.statutory_id')
+
+   ->select('statutories.*', 'employee_statutories.id as employee_statutories_id')
+
+    ->where('employee_statutories.employee_id',$employee_id)  
+
+  ->where('employee_statutories.company_id', $company_id)
+  
 
   ->where('statutories.before_paye', true)
-
-  ->where('statutories.company_id', $company_id)
 
   ->get();
 
@@ -146,9 +152,19 @@ private function statutoryBeforePaye($employee_id = null, $company_id = null,$ba
 
 // 4.2 Calculate statutory
 private function statutoryAfterPaye($employee_id = null, $company_id = null,$basic_salary=null){
-  $statutories = Employee::find($employee_id)->statutories()
+   $statutories = DB::table('employee_statutories')
+
+   ->join('statutories', 'statutories.id','employee_statutories.statutory_id')
+
+   ->select('statutories.*', 'employee_statutories.id as employee_statutories_id')
+
+    ->where('employee_statutories.employee_id',$employee_id)  
+
+  ->where('employee_statutories.company_id', $company_id)
+  
+
   ->where('statutories.before_paye', false)
-  ->where('statutories.company_id', $company_id)
+
   ->get();
 
   $pay_statutory_after['employee'] = 0;
@@ -176,16 +192,16 @@ private function paye($employee_id = null,$country_id = null,$taxable_salary = 0
 {
 
   $taxable_pay = $taxable_salary;
+  
 
-  $payes  = Paye::where('country_id','=',$country_id)->get();
+  $payes  = Paye::where('country_id',$country_id)->get();
 
+    foreach ($payes as $paye) {   
 
-
-    foreach ($payes as $paye) {
 
       if(($taxable_pay > $paye->minimum) && ($taxable_pay <= $paye->maximum)){
 
-          return (($taxable_pay - $paye->minimum) * $paye->ratio) + $paye->offset;
+        return ((($taxable_pay - $paye->minimum) * $paye->ratio) + $paye->offset);
 
         }
 
@@ -210,9 +226,10 @@ private function deductionSum($employee_id = null,$company_id = null){
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function index()
     {
-          $company = $this->company();
+          $company = $this->company();        
 
           $employeeExist = Employee::where('company_id', $company->id)->exists();
 
@@ -224,13 +241,84 @@ private function deductionSum($employee_id = null,$company_id = null){
           $login_user = Employee::where('user_id', auth()->user()->id)->first();
 
           // $pays = Pay::where('company_id', $login_user->company_id)->get();
-            $max_pay = Pay::max('pay_number');
+            $max_pay = Pay::where('company_id', $company->id )->max('pay_number');
 
-            $month_gross = Pay::where('pay_number', $max_pay)->sum('gloss');
+            $pay_periods = DB::table('pays')->distinct()->select('pay_number')->get();
 
-            $month_paye = Pay::where('pay_number', $max_pay)->sum('paye');
+            $month_gross = Pay::where('pay_number', $max_pay)
 
-            $month_net = Pay::where('pay_number', $max_pay)->sum('net');
+            ->where('company_id',$company->id)
+
+            ->sum('gloss');
+
+         
+
+            $month_paye = Pay::where('pay_number', $max_pay)
+
+             ->where('company_id',$company->id)
+
+            ->sum('paye');
+
+            $month_net = Pay::where('pay_number', $max_pay)
+
+             ->where('company_id',$company->id)
+
+            ->sum('net');
+
+            $deduction_sum = Pay::where('pay_number', $max_pay)
+
+             ->where('company_id',$company->id)
+
+            ->sum('deduction');
+
+             $isPosted = Pay::where('company_id', $company->id)
+
+             ->where('pay_number', $max_pay)
+
+             ->where('posted', true)
+
+             ->exists();
+
+
+            $statutory_sum = Pay_statutory::where('pay_number', $max_pay)
+
+            ->where('company_id',$company->id)
+
+            ->sum('total');
+
+
+        $pay_statutories = DB::table('pay_statutories')
+
+        ->select(
+
+          'statutory_id',
+
+          DB::raw('SUM(total) as total_amount'))
+
+          ->where('pay_number',$max_pay)
+
+           ->where('company_id',$company->id)
+
+          ->groupBy('statutory_id');
+
+
+           $statutories = DB::table('statutories')
+
+        ->joinSub($pay_statutories, 'pay_statutories', function($join) {
+
+        $join->on('statutories.id','pay_statutories.statutory_id');
+
+      })     
+
+        ->select(
+
+          'pay_statutories.*',        
+
+          'statutories.name as statutory_name'       
+
+          )
+
+          ->get();       
 
 
             $pays = DB::table('pays')
@@ -247,11 +335,19 @@ private function deductionSum($employee_id = null,$company_id = null){
               )
             ->get();
 
+            $total = $month_net + $month_paye + $statutory_sum + $deduction_sum;
+
           return view('pays.index', compact(
             'pays',
             'month_gross',
             'month_net',
-            'month_paye'
+            'month_paye',
+            'month_sdl',
+            'statutories',
+            'max_pay',
+            'deduction_sum',
+            'isPosted',
+            'total'
           ));
     }
 
@@ -282,7 +378,7 @@ private function deductionSum($employee_id = null,$company_id = null){
      */
     public function store(Request $request)    {
 
-        //$pay= new Pay;
+    
 
 
         DB::transaction( function(){
@@ -310,7 +406,7 @@ private function deductionSum($employee_id = null,$company_id = null){
 
           $company->id = $company->id;
 
-          $company = Company::findOrFail($company->id);
+          //$company = Company::findOrFail($company->id);
 
           $company_name = $company->name;
 
@@ -324,6 +420,8 @@ private function deductionSum($employee_id = null,$company_id = null){
 
           $country_id = $company->country_id;
 
+         
+
           $payPosted = Pay::where('pay_number', $pay_number)
           ->where('company_id', $company->id)
           ->where('posted', true)->exists();
@@ -331,6 +429,8 @@ private function deductionSum($employee_id = null,$company_id = null){
           $payNotPosted = Pay::where('pay_number', $pay_number)
           ->where('company_id', $company->id)
           ->where('posted', false)->exists();
+
+           
 
           if($payPosted){
              return back()->withInput()->with('error','Pay for selected month exist');
@@ -369,7 +469,10 @@ private function deductionSum($employee_id = null,$company_id = null){
 
         $statutory_before_paye = $this->statutoryBeforePaye($employee_id, $company->id,$basic_salary);
 
-        $statutory_after_paye = $this->statutoryAfterPaye($employee_id, $pay_number,$basic_salary);
+      
+
+
+        $statutory_after_paye = $this->statutoryAfterPaye($employee_id, $company->id,$basic_salary);
 
         $salary_after_statutory_before_paye = $basic_salary -   $statutory_before_paye['employee'];
 
@@ -377,14 +480,13 @@ private function deductionSum($employee_id = null,$company_id = null){
 
         $gloss = $basic_salary + $allowance;
 
-        $paye = $this->paye($employee_id,$company->id, $taxable);
+        $paye = $this->paye($employee_id,$country_id, $taxable);
 
         $monthly_earning =   $taxable - $paye -   $statutory_after_paye['employee'];
 
         $deduction = $this->deductionSum($employee_id, $company->id);
 
         $net =   $monthly_earning - $deduction;
-
 
 
 
@@ -424,9 +526,21 @@ private function deductionSum($employee_id = null,$company_id = null){
 
             ]);
 
-            $statutories = Employee::find($employee_id)->statutories()
-            ->where('statutories.company_id', $company->id)
-            ->get();
+            // $statutories = Employee::find($employee_id)->statutories()
+            // ->where('statutories.company_id', $company->id)
+            // ->get();
+
+    $statutories = DB::table('employee_statutories')
+
+   ->join('statutories', 'statutories.id','employee_statutories.statutory_id')
+
+   ->select('statutories.*', 'employee_statutories.id as employee_statutories_id')
+
+    ->where('employee_statutories.employee_id',$employee_id)  
+
+  ->where('employee_statutories.company_id', $company->id)  
+
+  ->get();
 
 foreach($statutories as $statutory){
 
@@ -444,8 +558,8 @@ foreach($statutories as $statutory){
                     'pay_number' => $pay_number,
                     'employee' =>   $statutory_employee,
                     'employer' =>   $statutory_employer,
-
-                    'statutory_type_id' => $statutory->statutory_type_id,
+                    'total' =>   $statutory_employer + $statutory_employee,
+                    'statutory_id' => $statutory->id,
                     'created_at' =>now(),
                     'updated_at' =>now(),
                 ]);
@@ -520,12 +634,40 @@ return redirect('pays');
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function post($max_pay)
+    {
+
+       $company = $this->company();
+        
+
+        DB::table('pays')
+
+       ->where('pay_number', $max_pay)
+
+       ->where('company_id',$company->id)
+
+       ->update([
+         'posted' => 1,       
+
+       ]);
+
+       return back();
+
+    }
+
+
     public function update($id,$pay_number)
     {
 
        $pay = Pay::find($id);
 
+       $company = $this->company();
+
+
+
        $salary = Salary::where('employee_id', $pay->employee_id)
+
+
 
        ->where('company_id',$pay->company_id)
 
@@ -533,7 +675,9 @@ return redirect('pays');
 
        $employee_id = $salary->employee_id;
 
-       $company->id = $salary->company_id;
+     
+
+       //$company->id = $salary->company_id;
 
        $basic_salary = $salary->amount;
 
@@ -592,9 +736,22 @@ return redirect('pays');
        ]);
 
 
-       $statutories = Employee::find($employee_id)->statutories()
-      ->where('statutories.company_id', $company->id)
-      ->get();
+      //  $statutories = Employee::find($employee_id)->statutories()
+      // ->where('statutories.company_id', $company->id)
+      // ->get();
+
+
+    $statutories = DB::table('employee_statutories')
+
+   ->join('statutories', 'statutories.id','employee_statutories.statutory_id')
+
+   ->select('statutories.*', 'employee_statutories.id as employee_statutories_id')
+
+    ->where('employee_statutories.employee_id',$employee_id)  
+
+  ->where('employee_statutories.company_id', $company->id)  
+
+  ->get();
 
               foreach($statutories as $statutory){
 

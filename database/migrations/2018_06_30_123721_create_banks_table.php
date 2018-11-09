@@ -18,6 +18,7 @@ class CreateBanksTable extends Migration
             $table->string('name');
             $table->text('description');            
             $table->integer('company_id')->unsigned()->foreign()->references('id')->on('companies');
+            $table->integer('country_id')->unsigned()->foreign()->references('id')->on('countries');
             $table->timestamps();
         });
     }

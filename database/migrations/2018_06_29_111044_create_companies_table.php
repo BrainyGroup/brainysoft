@@ -26,14 +26,14 @@ class CreateCompaniesTable extends Migration
             $table->text('slogan')->nullable();
             $table->text('mission')->nullable();
             $table->text('vision')->nullable();           
-            $table->integer('usage_count');
-            $table->date('last_renew_date');
-            $table->date('trial_expire_date');
-            $table->integer('employees');
-            $table->decimal('balance',9,2);
+            $table->integer('usage_count')->nullable();
+            $table->date('last_renew_date')->nullable();
+            $table->date('trial_expire_date')->nullable();
+            $table->integer('employees')->nullable();
+            $table->decimal('balance',9,2)->nullable();
           
-            $table->date('expire_date');
-            $table->boolean('trial');
+            $table->date('expire_date')->nullable();
+            $table->boolean('trial')->nullable();
             $table->timestamps();
         });
     }
