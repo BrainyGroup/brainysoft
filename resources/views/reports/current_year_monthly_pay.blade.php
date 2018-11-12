@@ -8,7 +8,7 @@
 
           
 
-        <span class="pull-right"><h1><strong>Payroll Summary for {{$max_pay . '        '}}</strong></h1><a  href="/pays/create">{{ __('messages.add')}}</a></span></div>
+        <span class="pull-right">Payroll Summary for {{$max_pay . '        '}}<a  href="/pays/create">{{ __('messages.add')}}</a></span></div>
 
         <div class="card-body">
             @if (session('status'))
@@ -44,7 +44,7 @@
 
                           <td>{{ number_format($total,2) }}</td>
 
-                           <td><a href="/reports/pay_details?max_pay={{$max_pay}}">Details</a></td>
+                           <td></td>
                      </tr>
 
 
@@ -117,7 +117,6 @@
 
                           {!! Form::close() !!}
                       </td>
-                      <td></td>
 
                      </tr>
 
@@ -129,7 +128,96 @@
           </table>
       </div>
 
-      
+      <div class="table-responsive">
+
+              <table class="table table-hover table-striped table-bordered">
+                    <caption></caption>
+
+                  <thead>
+                    <tr>
+
+                      <th scope="col">Name</th>
+
+                      <th scope="col">Run Date</th>
+
+                      <th scope="col">Pay number</th>
+
+
+
+                      <th scope="col">Basic Salary</th>
+
+                      <th scope="col">Allowances</th>
+
+                      <th scope="col">Gloss</th>
+
+
+
+                      <th scope="col">Taxable Pay</th>
+
+
+
+                      <th scope="col">paye</th>
+
+                      <th scope="col">Monthly Earn</th>
+
+
+
+                      <th scope="col">Deductions</th>
+
+                      <th scope="col">Net Earning</th>
+
+                      <th scope="col">Print</th>
+
+
+
+
+
+
+                    </tr>
+                  </thead>
+                  <tbody>
+        @foreach($pays as $pay)
+
+                    <tr>
+
+                      <td>{{ $pay->title.'. '.$pay->firstname.' '.$pay->middlename.' '.$pay->lastname }}</td>
+
+                      <td>{{ $pay->run_date }}</td>
+
+
+
+                      <td>{{ $pay->pay_number }}</td>
+
+                      <td>{{ $pay->basic_salary }}</td>
+
+                      <td>{{ $pay->allowance }}</td>
+
+                      <td>{{ $pay->gloss }}</td>
+
+                      <td>{{ $pay->taxable }}</td>
+
+                      <td>{{ $pay->paye }}</td>
+
+                      <td>{{ $pay->monthly_earning }}</td>
+
+                      <td>{{ $pay->deduction }}</td>
+
+                      <td>{{ $pay->net }}</td>
+
+
+                      <td><a href="{{action('PayController@downloadPDF', $pay->id)}}">PDF</a></td>
+
+
+
+                    </tr>
+
+
+          @endforeach
+
+        </tbody>
+      </table>
+  </div>
+
         @else
 
           No Earning, run pay now

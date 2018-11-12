@@ -8,7 +8,7 @@
 
           
 
-        <span class="pull-right"><h1><strong>Payroll Summary for {{$max_pay . '        '}}</strong></h1><a  href="/pays/create">{{ __('messages.add')}}</a></span></div>
+        <span class="pull-right"><h1><strong>Payroll Summary for {{$max_pay . '        '}}</strong></h1></span></div>
 
         <div class="card-body">
             @if (session('status'))
@@ -91,37 +91,7 @@
                      </tr>
                 @endforeach
 
-                @if($isPosted)
-                 <tr>
-                          <td>Already posted</td>
-
-                          <td></td>
-                          <td></td>
-                     </tr>
-
-                @else
-
-                 <tr>
-                          <td>Do you want to post?</td>
-
-                          <td><a href=""
-                          onclick="
-                          var result = confirm('Are you sure yo want to post pays for this month?');
-                          if (result){
-                              event.preventDefault();
-                              document.getElementById({{$max_pay}}).submit();
-                            }">Yes
-                          </a>
-
-                          {!! Form::open(['action' => ['PayController@post',$max_pay],'method' => 'PUT','id' => $max_pay]) !!}
-
-                          {!! Form::close() !!}
-                      </td>
-                      <td></td>
-
-                     </tr>
-
-                @endif
+                
 
 
 
@@ -129,12 +99,13 @@
           </table>
       </div>
 
-      
+     
+
         @else
 
           No Earning, run pay now
 
-          <a class="pull-right" href="/pays/create">{{ __('messages.add')}}</a>
+         
 
 
         @endif

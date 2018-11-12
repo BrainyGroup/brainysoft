@@ -8,7 +8,7 @@
 
           
 
-        <span class="pull-right"><h1><strong>Net pay for {{$max_pay}}</strong></h1></div>
+        <span class="pull-right"><h1>Net pay by bank </h1></div>
 
         <div class="card-body">
             @if (session('status'))
@@ -29,32 +29,36 @@
                   <thead>
                     <tr>
 
-                      <th scope="col">Name</th>
+                    
 
-                      <th scope="col">Bank</th>
-
-                      <th scope="col">Account#</th>
+                      <th scope="col">Bank</th>                    
 
                       <th scope="col">Amount</th>
+
+                      <th scope="col"></th>
 
 
                     </tr>
                   </thead>
                   <tbody>
-        @if(count($nets)>0)
+        @if(count($net_by_banks)>0)
 
-        @foreach($nets as $net)
+        @foreach($net_by_banks as $net)
 
                     <tr>
 
-                      <td>{{ $net->title.'. '.$net->firstname.' '.$net->middlename.' '.$net->lastname }}</td>                 
+                     
+                      
 
 
                       <td>{{ $net->bank_name }}</td>
 
-                      <td>{{ $net->account_number }}</td>
+                     
 
-                      <td>{{ number_format($net->net,2) }}</td>                
+                      <td>{{ number_format($net->bank_amount,2) }}</td>
+
+
+                       <td><a href="/reports/net_list_by_bank?max_pay={{$max_pay}}&bank_id={{$net->bank_id}}">Bank list</a></td>                
 
 
 
@@ -67,13 +71,9 @@
 
             <td><a href="">PDF</a></td>
 
-            <td></td>
+            <td><a href="">PDF</a></td>
 
-             <td></td>
-
-              <td></td>
-
-
+            <td><a href="">PDF</a></td>
             
           </tr>
 

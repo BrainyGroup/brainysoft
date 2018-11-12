@@ -44,7 +44,7 @@
                               </li>
 
                               <li class="nav-item">
-                                  <a class="nav-link" href="#">{{ __('Report') }}</a>
+                                  <a class="nav-link" href="/reports">{{ __('Report') }}</a>
                               </li>
 
                               <li class="nav-item">

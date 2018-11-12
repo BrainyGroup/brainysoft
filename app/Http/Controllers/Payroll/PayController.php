@@ -323,6 +323,7 @@ private function deductionSum($employee_id = null,$company_id = null){
 
             $pays = DB::table('pays')
             ->where('pays.company_id', $company->id)
+             ->where('pays.pay_number', $max_pay)
             ->join('employees', 'employees.id','pays.employee_id')
             ->join('users', 'users.id','employees.user_id')
             ->select(

@@ -144,3 +144,19 @@ Route::resource('users', 'UserController');
 
 Route::get('/reports/net','ReportController@net');
 
+Route::get('/reports/net_by_bank','ReportController@netByBank');
+
+Route::get('/reports/paye','ReportController@paye');
+
+Route::get('/reports','ReportController@index');
+
+Route::post('/reports/current_pay','ReportController@currentPay');
+
+Route::get('/reports/pay_details','ReportController@payDetails');
+
+Route::get('/reports/monthly_create','ReportController@monthlyCreate');
+
+Route::get('/reports/statutory_list','ReportController@statutoryList');
+
+Route::get('/reports/net_list_by_bank','ReportController@netListByBank');
+

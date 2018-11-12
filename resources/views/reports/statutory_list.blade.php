@@ -8,7 +8,7 @@
 
           
 
-        <span class="pull-right"><h1><strong>Net pay for {{$max_pay}}</strong></h1></div>
+        <span class="pull-right"><h1><strong>{{ $statutory_name }} - Details of Payment for {{ $max_pay}}</strong></h1></div>
 
         <div class="card-body">
             @if (session('status'))
@@ -20,6 +20,8 @@
            
 
 
+           @if(count($pay_statutories) > 0)
+
 
       <div class="table-responsive">
 
@@ -29,53 +31,49 @@
                   <thead>
                     <tr>
 
-                      <th scope="col">Name</th>
+                      <th scope="col">#</th>
 
-                      <th scope="col">Bank</th>
+                      <th scope="col">Name of Employee</th>               
 
-                      <th scope="col">Account#</th>
+                      <th scope="col">Pay#</th>         
 
                       <th scope="col">Amount</th>
 
-
-                    </tr>
+                   </tr>
                   </thead>
                   <tbody>
-        @if(count($nets)>0)
 
-        @foreach($nets as $net)
+
+                   
+        @foreach($pay_statutories as $pay)
+
+
+         
+
+
 
                     <tr>
 
-                      <td>{{ $net->title.'. '.$net->firstname.' '.$net->middlename.' '.$net->lastname }}</td>                 
+                      <td></td>
+
+                      <td>{{ $pay->title.'. '.$pay->firstname.' '.$pay->middlename.' '.$pay->lastname }}</td>                
 
 
-                      <td>{{ $net->bank_name }}</td>
 
-                      <td>{{ $net->account_number }}</td>
+                      <td>{{ $pay->pay_number }}</td>
 
-                      <td>{{ number_format($net->net,2) }}</td>                
+                      
+                      <td>{{ number_format($pay->total,2) }}</td>
+
+                      
 
 
 
                     </tr>
 
+               
 
           @endforeach
-
-          <tr>
-
-            <td><a href="">PDF</a></td>
-
-            <td></td>
-
-             <td></td>
-
-              <td></td>
-
-
-            
-          </tr>
 
         </tbody>
       </table>
