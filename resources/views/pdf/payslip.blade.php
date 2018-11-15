@@ -12,124 +12,50 @@
         <div class="col-lg-12 col-md-12 col-sm-12">
 
 
-         
-      <div class="table-responsive">
+        <p>******************************************************************</p>
+        <h1>Salary Slip</h1>
+        <p>******************************************************************</p>
+        <p>{{$pay->company_id}}</p>
 
-              <table class="table table-hover table-striped table-bordered">
-                   
+        <p>company logo</p>
 
-                 
-                  <tbody>       
+        <p>company_address</p>
 
-                    <tr>
-                      <td> <caption><h1>{{ $company->name }}</caption></td>
-                      <td>{{ $company->logo }}</td>              
-                    </tr>
+        <p>{{$pay->employee_id}}</p>
 
-                    <tr>
-                      <td>Tin</td>
-                      <td>{{ $company->tin }}</td>              
-                    </tr>
+        <p>employee_number</p>
 
-                    <tr>
-                      <td>Identity No</td>
-                      <td>{{ $employee->identity}}</td>              
-                    </tr>
+        <p>employee_center</p>
 
-                    <tr>
-                      <td>Full Name</td>
-                      <td>{{$user->title.' '.$user->firstname.' '.$user->lastname}}</td>              
-                    </tr>
+        <p>payment_mode</p>
 
-                    <tr>
-                      <td>Designation</td>
-                      <td>{{ $designation->name }}</td>              
-                    </tr>
+        <p>designation</p>
 
-                    <tr>
-                      <td>Salary Scale</td>
-                      <td>{{ $scale->name }}</td>              
-                    </tr>
+        <p>employee_scale</p>
 
-                    <tr>
-                      <td>Center number</td>
-                      <td>{{ $center->number }}</td>              
-                    </tr>
+        <p>******************************************************************</p>
 
-                    <tr>
-                      <td>Center name</td>
-                      <td>{{ $center->name }}</td>              
-                    </tr>
+        <p>Payments</p>
 
-                    <tr>
-                      <td colspan="2"><caption>Payment Description</caption></td>
-                            
-                    </tr>
+        <p>******************************************************************</p>
 
-                    <tr>
-                      <td>Basic salary</td>
-                      <td class="text-right">{{number_format($pay->basic_salary,2)}}</td>              
-                    </tr>
+        <p>Basic Salary:...............{{number_format($pay->basic_salary, 2)}}</p>
 
-                    <tr>
-                      <td>Allowance</td>
-                      <td class="text-right">{{number_format($pay->allowance, 2)}}</td>              
-                    </tr>
+        <p>SSF:.........................{{number_format(($pay->gloss - $pay->taxable), 2)}}</p>
 
-                    <tr>
-                      <td>Gross</td>
-                      <td class="text-right">{{number_format($pay->gloss, 2)}}</td>              
-                    </tr>
+        <p>Allowance:..................{{number_format($pay->allowance, 2)}}</p>
 
+        <p>Gross:.......................{{number_format($pay->gloss, 2)}}</p>
 
+        <p>Taxable Earning:.............{{number_format($pay->taxable,2)}}</p>
 
-                    <tr>
-                      <td>Taxable pay</td>
-                      <td class="text-right">{{number_format($pay->taxable,2)}}</td>              
-                    </tr>
+        <p>Paye:........................{{number_format($pay->paye, 2)}}</p>
 
+        <p>Deduction:...................{{number_format($pay->deduction, 2)}}</p>
 
- 
-                    <tr>
-                      <td>Deduction</td>
-                      <td class="text-right">{{number_format($pay->deduction, 2)}}</td>              
-                    </tr>
+        <p>Net Earning:.................{{number_format($pay->net, 2)}}</p>
 
-                    <tr>
-                      <td>PAYE</td>
-                      <td class="text-right">{{number_format($pay->paye, 2)}}</td>              
-                    </tr>
-
-                    <tr>
-                      <td>{{ $statutory->statutory_name}}</td>
-                      <td class="text-right">{{number_format($month_statutory->total, 2)}}</td>              
-                    </tr>
-
-
-                   
-                    <tr class="">
-                      <td>Net Pay</td>
-                      <td class="text-right">{{number_format($pay->net, 2)}}</td>              
-                    </tr>
-
-                    <tr>
-                      <td></td>
-                      <td></td>             
-                    </tr>
-
-
-                    <tr>
-                      <td>Commulative {{ $statutory->statutory_name}}</td>
-                      <td class="text-right">{{number_format($pay_statutories_cummulative, 2)}}</td>              
-                    </tr>
-
-
-     
-        </tbody>
-      </table>
-  </div>
-
-
+        <p>******************************************************************</p>
 
 
 
