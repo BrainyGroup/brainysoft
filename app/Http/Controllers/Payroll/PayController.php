@@ -22,6 +22,12 @@ use BrainySoft\Salary;
 
 use BrainySoft\Company;
 
+use BrainySoft\Designation;
+
+use BrainySoft\Center;
+
+use BrainySoft\Scale;
+
 use BrainySoft\Employee;
 
 use BrainySoft\Statutory;
@@ -50,14 +56,43 @@ class PayController extends Controller
 
     public function downloadPDF($id){
 
+    
+
      $pay = Pay::find($id);
 
-     $pdf = PDF::loadView('pdf.payslip', compact('pay'));
+
+     $company = $this->company();
+
+     $employee = Employee::where('id', $pay->employee_id )->first();
+
+     $user = User::where('id', $employee->user_id )->first();
+
+     $designation = Designation::where('id', $employee->designation_id )->first();
+
+    $center = Center::where('id', $employee->center_id )->first();
+
+     $scale = Scale::where('id', $designation->scale_id )->first();
+
+$pay_statutories_cummulative = Pay_statutory::where('employee_id',$pay->employee_id)->join('statutories','statutories.id', 'pay_statutories.statutory_id')  ->join('statutory_types','statutory_types.id', 'statutories.statutory_type_id')->select('pay_statutories.*','statutory_types.name as statutory_type_name','statutories.name as statutory_name')->where('statutory_types.name','SSF')->sum('pay_statutories.total');
+
+$pay_statutories = Pay_statutory::where('employee_id',$pay->employee_id)
+->where('pay_id', $id)->get();
+
+$month_statutory = Pay_statutory::where('employee_id',$pay->employee_id)->where('pay_id', $id)
+->join('statutories','statutories.id', 'pay_statutories.statutory_id')  ->join('statutory_types','statutory_types.id', 'statutories.statutory_type_id')->select('pay_statutories.*','statutory_types.name as statutory_type_name','statutories.name as statutory_name')->where('statutory_types.name','SSF')->first();
+
+
+$statutory = Pay_statutory::where('employee_id',$pay->employee_id)->join('statutories','statutories.id', 'pay_statutories.statutory_id')  ->join('statutory_types','statutory_types.id', 'statutories.statutory_type_id')->select('pay_statutories.*','statutory_types.name as statutory_type_name','statutories.name as statutory_name')->where('statutory_types.name','SSF')->first();
+ 
+
+
+
+     $pdf = PDF::loadView('pdf.payslip', compact('pay','employee','user','company','designation','center','scale','pay_statutories_cummulative','statutory','month_statutory'));
      // $pdf->stream('payslip.pdf'); //display in browser
 
-     $pdf->setPaper('a4', 'landscape')->setWarnings(false)->save('myfile1.pdf');
+     $pdf->setPaper([0, 0,297.6378 , 841.8898], 'portrait')->setWarnings(false)->save('myfile1.pdf');
 
-     return $pdf->download('payslip.pdf');
+     return $pdf->download('payslip_' . $pay->pay_number . '_' . $employee->identity . '.pdf');
 
      }
      
