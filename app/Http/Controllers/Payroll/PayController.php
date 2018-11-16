@@ -908,6 +908,67 @@ return redirect('pays');
       //  $statutories = Employee::find($employee_id)->statutories()
       // ->where('statutories.company_id', $company->id)
       // ->get();
+   $deductions = DB::table('deductions')
+
+   ->join('deduction_types', 'deduction_types.id','deductions.deduction_type_id')
+
+   ->select('deductions.*','deductions.id as deduction_id')
+
+    ->where('deductions.employee_id',$employee_id)  
+
+  ->where('deductions.company_id', $company->id)  
+
+  ->get();
+
+
+  foreach($deductions as $deduction){
+  
+            DB::table('pay_deductions')
+            ->where('pay_id',$id)
+            ->where('employee_id', $employee_id)
+            ->where('company_id', $company->id)
+            ->where('deduction_type_id', $deduction->deduction_type_id)
+            ->update([                   
+                    'pay_number' => $pay_number,
+                    'deduction_type_id' =>  $deduction->deduction_type_id,
+                    'amount' =>   $deduction->amount,
+                    'deduction_id' =>   $deduction->deduction_id,  
+                   
+                    'updated_at' =>now(),
+                ]);
+          }
+
+
+  $allowances = DB::table('allowances')
+
+   ->join('allowance_types', 'allowance_types.id','allowances.allowance_type_id')
+
+   ->select('allowances.*','allowances.id as allowance_id')
+
+    ->where('allowances.employee_id',$employee_id)  
+
+  ->where('allowances.company_id', $company->id)  
+
+  ->get();
+
+
+  foreach($allowances as $allowance){
+  
+            DB::table('pay_allowances')
+            ->where('pay_id',$id)
+            ->where('employee_id', $employee_id)
+            ->where('company_id', $company->id)
+            ->where('allowance_type_id', $allowance->allowance_type_id)
+            ->update([
+                    
+                    'pay_number' => $pay_number,
+                    'allowance_type_id' =>  $allowance->allowance_type_id,
+                    'amount' =>   $allowance->amount,
+                    'allowance_id' =>   $allowance->allowance_id,                  
+                   
+                    'updated_at' =>now(),
+                ]);
+          }
 
 
     $statutories = DB::table('employee_statutories')
@@ -931,10 +992,12 @@ return redirect('pays');
               $statutory_employee = $statutory->employee * $gloss;
               $statutory_employer = $statutory->employer * $gloss;
               }
-                    DB::table('pay_statutories')->where('pay_id',$id)
+                   
+                    DB::table('pay_statutories')
+                    ->where('pay_id',$id)
                     ->where('employee_id', $employee_id)
                     ->where('company_id', $company->id)
-                    ->where('statutory_type_id',$statutory->statutory_type_id)
+                    ->where('statutory_id',$statutory->id)
                     ->update([
 
                             'employee' =>   $statutory_employee,
@@ -970,6 +1033,14 @@ return redirect('pays');
             ->delete();
 
             DB::table('pay_statutories')
+            ->where('pay_id', $pay->id)
+            ->delete();
+
+            DB::table('pay_allowances')
+            ->where('pay_id', $pay->id)
+            ->delete();
+
+            DB::table('pay_deductions')
             ->where('pay_id', $pay->id)
             ->delete();
 
