@@ -7,7 +7,7 @@
 
         <div class="card-body">
             
-                    {!! Form::open(['action' => array('CompanyController@update', $company->id),'method' => 'PUT']) !!}
+                    {!! Form::open(['action' => array('CompanyController@update', $company->id),'method' => 'PUT','files' => true]) !!}
 
                     {{ Form::bsText('name',$company->name,['placeholder' => 'Enter Company name']) }}
 
@@ -53,7 +53,7 @@
 
                     </div>
 
-                    {{ Form::bsText('logo',$company->logo,['placeholder' => 'Enter Company logo']) }}
+                    {{ Form::bsFile('logo',$company->logo,['placeholder' => 'Enter Company logo']) }}
 
                     {{ Form::bsText('website',$company->website,['placeholder' => 'Enter website']) }}
 

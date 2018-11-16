@@ -6,7 +6,7 @@
         <div class="card-header">Add Company/div>
 
         <div class="card-body">
-            {!! Form::open(['action' => 'CompanyController@store','method' => 'POST']) !!}
+            {!! Form::open(['action' => 'CompanyController@store','files' => true, 'method' => 'POST']) !!}
 
                     {{ Form::bsText('name','',['placeholder' => 'Enter Company name']) }}
 
@@ -53,7 +53,7 @@
 
                     </div>
 
-                    {{ Form::bsText('logo','',['placeholder' => 'Enter Company logo']) }}
+                    {{ Form::bsFile('logo','',['placeholder' => 'Enter Company logo']) }}
 
                     {{ Form::bsText('website','',['placeholder' => 'Enter website']) }}
 

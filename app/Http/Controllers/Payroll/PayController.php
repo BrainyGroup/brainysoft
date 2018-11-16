@@ -14,6 +14,20 @@ use Carbon\Carbon;
 
 use BrainySoft\Pay;
 
+use BrainySoft\Payroll_group;
+
+use BrainySoft\Pay_allowance;
+
+use BrainySoft\Pay_deduction;
+
+use BrainySoft\Employment_type;
+
+use BrainySoft\Scale;
+
+use BrainySoft\Center;
+
+use BrainySoft\Level;
+
 use BrainySoft\User;
 
 use BrainySoft\Paye;
@@ -23,6 +37,8 @@ use BrainySoft\Salary;
 use BrainySoft\Company;
 
 use BrainySoft\Employee;
+
+use BrainySoft\Designation;
 
 use BrainySoft\Statutory;
 
@@ -52,12 +68,85 @@ class PayController extends Controller
 
      $pay = Pay::find($id);
 
-     $pdf = PDF::loadView('pdf.payslip', compact('pay'));
+     $company = $this->company();
+
+     $employee = Employee::find($pay->employee_id);
+
+     $user = User::find($employee->user_id);
+
+     $designation = Designation::find($employee->designation_id);
+
+     $scale = Scale::find($designation->scale_id);
+
+     $level = Level::find($designation->level_id);
+
+     $center = Center::find($employee->center_id);
+
+     $payroll_group = Payroll_group::find($scale->payroll_group_id);
+
+     $pay_statutory = Pay_statutory::where('pay_number',$pay->pay_number)
+
+     ->where('employee_id', $employee->id)
+
+     ->join('statutories','statutories.id','pay_statutories.statutory_id')
+
+     ->join('statutory_types','statutory_types.id','statutories.statutory_type_id')
+
+     ->select(
+      'pay_statutories.*', 
+      'statutory_types.name as statutory_type_name',
+      'statutories.name as statutory_name')
+
+     ->where('statutory_types.name','SSF')->first();
+
+      $pay_ssf_statutory_sum = Pay_statutory::where('employee_id', $employee->id)
+
+     ->join('statutories','statutories.id','pay_statutories.statutory_id')
+
+     ->join('statutory_types','statutory_types.id','statutories.statutory_type_id')
+
+     ->select(
+      'pay_statutories.*', 
+      'statutory_types.name as statutory_type_name',
+      'statutories.name as statutory_name')
+
+     ->where('statutory_types.name','SSF')->sum('pay_statutories.total');
+
+     $pay_allowances = Pay_allowance::where('pay_number',$pay->pay_number)
+
+     ->where('employee_id', $employee->id)
+
+     ->join('allowance_types','allowance_types.id','pay_allowances.allowance_type_id')->get();
+
+      $pay_deductions = Pay_deduction::where('pay_number',$pay->pay_number)
+
+     ->where('employee_id', $employee->id)
+
+     ->join('deduction_types','deduction_types.id','pay_deductions.deduction_type_id')->get();
+
+     $employment_type = Employment_type::find($scale->employment_type_id);
+
+     $pdf = PDF::loadView('pdf.payslip', compact(
+      'pay',
+      'company',
+      'employee',
+      'user',
+      'designation',
+      'scale',
+      'level',
+      'center',
+      'payroll_group',
+      'employment_type',
+      'pay_allowances',
+      'pay_deductions',
+      'pay_statutory',
+      'pay_ssf_statutory_sum')
+   );
      // $pdf->stream('payslip.pdf'); //display in browser
 
-     $pdf->setPaper('a4', 'landscape')->setWarnings(false)->save('myfile1.pdf');
+     $pdf->setPaper([0,0, 297.638, 841.88976], 'portrait')->setWarnings(false)->save('myfile1.pdf');
 
-     return $pdf->download('payslip.pdf');
+     return $pdf->download('payslip_' . $pay->pay_number . '_' . $employee->identity . '.pdf');
 
      }
      
@@ -530,6 +619,63 @@ private function deductionSum($employee_id = null,$company_id = null){
             // $statutories = Employee::find($employee_id)->statutories()
             // ->where('statutories.company_id', $company->id)
             // ->get();
+  $deductions = DB::table('deductions')
+
+   ->join('deduction_types', 'deduction_types.id','deductions.deduction_type_id')
+
+   ->select('deductions.*','deductions.id as deduction_id')
+
+    ->where('deductions.employee_id',$employee_id)  
+
+  ->where('deductions.company_id', $company->id)  
+
+  ->get();
+
+
+  foreach($deductions as $deduction){
+  
+            DB::table('pay_deductions')->insert([
+                    'company_id' => $company->id,
+                    'employee_id' => $employee_id,
+                    'pay_id' => $lastPayId,
+                    'pay_number' => $pay_number,
+                    'deduction_type_id' =>  $deduction->deduction_type_id,
+                    'amount' =>   $deduction->amount,
+                    'deduction_id' =>   $deduction->deduction_id,                    
+                    'created_at' =>now(),
+                    'updated_at' =>now(),
+                ]);
+          }
+
+
+  $allowances = DB::table('allowances')
+
+   ->join('allowance_types', 'allowance_types.id','allowances.allowance_type_id')
+
+   ->select('allowances.*','allowances.id as allowance_id')
+
+    ->where('allowances.employee_id',$employee_id)  
+
+  ->where('allowances.company_id', $company->id)  
+
+  ->get();
+
+
+  foreach($allowances as $allowance){
+  
+            DB::table('pay_allowances')->insert([
+                    'company_id' => $company->id,
+                    'employee_id' => $employee_id,
+                    'pay_id' => $lastPayId,
+                    'pay_number' => $pay_number,
+                    'allowance_type_id' =>  $allowance->allowance_type_id,
+                    'amount' =>   $allowance->amount,
+                    'allowance_id' =>   $allowance->allowance_id,                    
+                    'created_at' =>now(),
+                    'updated_at' =>now(),
+                ]);
+          }
+
 
     $statutories = DB::table('employee_statutories')
 
@@ -542,6 +688,9 @@ private function deductionSum($employee_id = null,$company_id = null){
   ->where('employee_statutories.company_id', $company->id)  
 
   ->get();
+
+
+
 
 foreach($statutories as $statutory){
 

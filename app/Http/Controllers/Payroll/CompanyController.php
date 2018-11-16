@@ -5,6 +5,12 @@ namespace BrainySoft\Http\Controllers;
 
 use Exception;
 
+use Storage;
+
+use App\ImageModel;
+
+use Image;
+
 use BrainySoft\User;
 
 use BrainySoft\Country;
@@ -210,13 +216,53 @@ class CompanyController extends Controller
     public function update(Request $request, Company $company)
     {
       //Validation
-      $this->validate(request(),[
+      $validation  = $this->validate(request(),[
 
         'name' =>'required|string',
 
         'description' => 'required|string',
 
+        'logo' => 'file|image|mimes:jpeg,png,gif,webp|nullable|max:1999',
+
       ]);
+
+       $filename = null;
+
+
+       // $filename = $img = Image::canvas(100, 115, '#ccc');
+
+      if($request->hasFile('logo')) {
+
+           $file      = $validation['logo']; // get the validated file
+
+           $extension = $file->getClientOriginalExtension();
+
+           $filename  = strtolower($company->id . '.' . $extension);     
+
+           $exists = Storage::disk('local')->exists('company_logo' . $company->logo);
+
+
+
+           if( (strtolower($company->logo) != strtolower($filename)) && $exists ){
+
+
+            Storage::delete('company_logo' . $user->logo);
+            
+
+            Image::make($validation['logo'])->resize(100, 115)->save(
+               'storage/company_logo/'.$filename);
+
+            // $path      = $file->storeAs('public/user_profile_photos', $filename);       
+
+            }else{
+
+         Image::make($validation['logo'])->resize(100, 115)->save(
+                'storage/company_logo/'.$filename);
+
+             // $path      = $file->storeAs('public/user_profile_photos', $filename);
+
+            }
+        }
 
       $companyUpdate = Company::where('id', $company->id)
 
@@ -228,7 +274,7 @@ class CompanyController extends Controller
 
           'logo'			=>$request->input('website'),
 
-          'website'	=>$request->input('website'),
+          'website'	=>$request->input('logo'),
 
           'country_id'	=>$request->input('country_id'),
 
@@ -250,7 +296,7 @@ class CompanyController extends Controller
 
           'last_renew_date'  => now(),
 
-          'employee'  =>$request->input('employee'),
+          'employees'  =>$request->input('employees'),
 
           'balance'  => 0,
 

@@ -12,11 +12,13 @@
                 </div>
             @endif
 
-            {!! Form::open(['action' => 'SalaryBaseController@store','method' => 'POST']) !!}
+            {!! Form::open(['action' => 'SettingController@store','method' => 'POST']) !!}
 
-            {{ Form::bsText('name','',['placeholder' => 'Enter salary name']) }}
+            {{ Form::bsText('name','',['placeholder' => 'Enter setting name']) }}
 
-            {{ Form::bsText('description','',['placeholder' => 'Enter salary description']) }}
+            {{ Form::bsText('description','',['placeholder' => 'Enter setting desctiption description']) }}
+
+            {{ Form::bsText('value','',['placeholder' => 'Enter setting value']) }}
 
             {{ Form::bsSubmit('Submit',['class' => 'btn btn-primary']) }}
 

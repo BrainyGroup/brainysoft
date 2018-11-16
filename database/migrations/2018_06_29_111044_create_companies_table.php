@@ -18,6 +18,9 @@ class CreateCompaniesTable extends Migration
             $table->integer('country_id')->unsigned()->foreign()->references('id')->on('countries');
             $table->string('name');
             $table->text('description');
+            $table->string('district')->nullable();
+            $table->string('region')->nullable();
+            $table->string('pobox')->nullable();
             $table->string('logo')->nullable();
             $table->string('website')->nullable();
             $table->string('tin')->nullable();
