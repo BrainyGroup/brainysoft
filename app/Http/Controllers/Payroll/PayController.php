@@ -36,6 +36,12 @@ use BrainySoft\Salary;
 
 use BrainySoft\Company;
 
+use BrainySoft\Designation;
+
+use BrainySoft\Center;
+
+use BrainySoft\Scale;
+
 use BrainySoft\Employee;
 
 use BrainySoft\Designation;
@@ -66,7 +72,10 @@ class PayController extends Controller
 
     public function downloadPDF($id){
 
+    
+
      $pay = Pay::find($id);
+
 
      $company = $this->company();
 
@@ -142,9 +151,18 @@ class PayController extends Controller
       'pay_statutory',
       'pay_ssf_statutory_sum')
    );
-     // $pdf->stream('payslip.pdf'); //display in browser
+
+
+
+
+
+
 
      $pdf->setPaper([0,0, 297.638, 841.88976], 'portrait')->setWarnings(false)->save('myfile1.pdf');
+ merged common ancestors
+     
+
+     
 
      return $pdf->download('payslip_' . $pay->pay_number . '_' . $employee->identity . '.pdf');
 
@@ -412,7 +430,6 @@ private function deductionSum($employee_id = null,$company_id = null){
 
             $pays = DB::table('pays')
             ->where('pays.company_id', $company->id)
-             ->where('pays.pay_number', $max_pay)
             ->join('employees', 'employees.id','pays.employee_id')
             ->join('users', 'users.id','employees.user_id')
             ->select(
