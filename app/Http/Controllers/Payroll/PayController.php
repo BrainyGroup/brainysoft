@@ -36,13 +36,15 @@ use BrainySoft\Salary;
 
 use BrainySoft\Company;
 
-use BrainySoft\Designation;
-
-use BrainySoft\Center;
-
-use BrainySoft\Scale;
-
 use BrainySoft\Employee;
+
+
+
+
+
+
+
+
 
 use BrainySoft\Designation;
 
@@ -159,7 +161,7 @@ class PayController extends Controller
 
 
      $pdf->setPaper([0,0, 297.638, 841.88976], 'portrait')->setWarnings(false)->save('myfile1.pdf');
- merged common ancestors
+ 
      
 
      
