@@ -76,7 +76,15 @@ class PayController extends Controller
 
     
 
-     $pay = Pay::find($id);
+     $pay = Pay::where('id',$id)
+     ->where('posted', true)->first();
+
+     if($pay == null){
+
+      return back()->with('error','Please post this pay');
+
+     }else{
+
 
 
      $company = $this->company();
@@ -168,7 +176,10 @@ class PayController extends Controller
 
      return $pdf->download('payslip_' . $pay->pay_number . '_' . $employee->identity . '.pdf');
 
+   }
+
      }
+
      
 
     private function company()
@@ -178,14 +189,92 @@ class PayController extends Controller
       return Company::find($user->company_id);
     }
 
-    private function sendSalarySlipEmail($id,$company,$fromPaySlipEmail,$fromPaySlipName,$paySlipSubject,$lastPayId)
+    private function sendSalarySlipEmail($id,$company,$fromPaySlipEmail,$fromPaySlipName,$paySlipSubject,$payNumber)
     {
 
-          try{
+          
 
-            $user = User::findOrFail(200);
+        $company = $this->company();
 
-            $pay = Pay::findOrFail($lastPayId);
+
+
+
+      $pay = Pay::where('pay_number',$payNumber)
+
+      ->where('company_id',$company->id)
+
+     ->where('posted', true)->first();
+
+     if($pay == null){
+
+      return back()->with('error','Please post this pay');
+
+     }else{
+
+            $user = User::findOrFail(2);
+
+           
+
+
+             
+
+     $employee = Employee::where('user_id', $user->id)->first();
+
+    // $user = User::find($employee->user_id);
+
+     $designation = Designation::find($employee->designation_id);
+
+     $scale = Scale::find($designation->scale_id);
+
+     $level = Level::find($designation->level_id);
+
+     $center = Center::find($employee->center_id);
+
+     $payroll_group = Payroll_group::find($scale->payroll_group_id);
+
+     $pay_statutory = Pay_statutory::where('pay_number',$pay->pay_number)
+
+     ->where('employee_id', $employee->id)
+
+     ->join('statutories','statutories.id','pay_statutories.statutory_id')
+
+     ->join('statutory_types','statutory_types.id','statutories.statutory_type_id')
+
+     ->select(
+      'pay_statutories.*', 
+      'statutory_types.name as statutory_type_name',
+      'statutories.name as statutory_name')
+
+     ->where('statutory_types.name','SSF')->first();
+
+      $pay_ssf_statutory_sum = Pay_statutory::where('employee_id', $employee->id)
+
+     ->join('statutories','statutories.id','pay_statutories.statutory_id')
+
+     ->join('statutory_types','statutory_types.id','statutories.statutory_type_id')
+
+     ->select(
+      'pay_statutories.*', 
+      'statutory_types.name as statutory_type_name',
+      'statutories.name as statutory_name')
+
+     ->where('statutory_types.name','SSF')->sum('pay_statutories.total');
+
+     $pay_allowances = Pay_allowance::where('pay_number',$pay->pay_number)
+
+     ->where('employee_id', $employee->id)
+
+     ->join('allowance_types','allowance_types.id','pay_allowances.allowance_type_id')->get();
+
+      $pay_deductions = Pay_deduction::where('pay_number',$pay->pay_number)
+
+     ->where('employee_id', $employee->id)
+
+     ->join('deduction_types','deduction_types.id','pay_deductions.deduction_type_id')->get();
+
+     $employment_type = Employment_type::find($scale->employment_type_id);
+
+     
 
             $data = [
 
@@ -195,7 +284,37 @@ class PayController extends Controller
 
             ];
 
-            Mail::send('emails.salary_slip', ['user' => $user,'pay'=>$pay,'company'=>$company], function ($message) use ($user,$data) {
+             Mail::send('emails.salary_slip', [
+              'user' => $user,
+              'pay'=> $pay,
+              'company'=> $company,
+              'employee' => $employee,
+              'designation' => $designation,
+              'scale' => $scale,
+              'level' => $level,
+              'center' => $center,
+              'payroll_group' => $payroll_group,
+              'employment_type' => $employment_type,
+              'pay_allowances' => $pay_allowances,
+              'pay_deductions' => $pay_deductions,
+              'pay_statutory' => $pay_statutory,
+              'pay_ssf_statutory_sum' => $pay_ssf_statutory_sum
+            ], function ($message) use (
+              $user,
+              $data
+              // $company,
+              // $employee,
+              // $designation,
+              // $scale,
+              // $level,
+              // $center,
+              // $payroll_group,
+              // $employment_type,
+              // $pay_allowances,
+              // $pay_deductions,
+              // $pay_statutory,
+              // $pay_ssf_statutory_sum
+            ) {
 
                 $message->from($data['email'], $data['sender']);
 
@@ -203,14 +322,11 @@ class PayController extends Controller
 
                 // $message->attach($pathToFile, ['as' => $display, 'mime' => $mime]);
             });
-          }catch(Exception $e){
-
-            report($e);
-
-            return false;
-
 
           }
+        
+
+        
         }
 
 
@@ -738,7 +854,7 @@ foreach($statutories as $statutory){
 
 
 
-$this->sendSalarySlipEmail($employee->user_id,$company,$fromPaySlipEmail,$fromPaySlipName,$paySlipSubject,$lastPayId);
+// $this->sendSalarySlipEmail($employee->user_id,$company,$fromPaySlipEmail,$fromPaySlipName,$paySlipSubject,$lastPayId);
 
 }
 }
@@ -819,6 +935,25 @@ return redirect('pays');
          'posted' => 1,       
 
        ]);
+
+       
+
+       $pays = Pay::where('pay_number', $max_pay)->get();
+
+       
+
+      foreach($pays as $pay){
+
+         $fromPaySlipEmail = 'payroll@datahousetza.com';
+          $fromPaySlipName = 'Payroll Datahouse';
+          $paySlipSubject = 'Pay Slip';
+
+      $employee = Employee::findOrFail($pay->employee_id);
+
+        $this->sendSalarySlipEmail($employee->user_id,$pay->company_id,$fromPaySlipEmail,$fromPaySlipName,$paySlipSubject,$pay->pay_number);
+
+      }
+      
 
        return back();
 
