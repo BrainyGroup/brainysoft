@@ -4,9 +4,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title></title>
-
-   
+    <title></title>  
 
      <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -28,16 +26,6 @@
 
 
     </style>
-        
-    
-
- 
-
-    
-
-   
-
-
 
   </head>
   <body>
@@ -62,6 +50,11 @@
    
                     <tr>
                       <td colspan="2" class="company"><strong><h1>{{ $company->name }}</h1></strong></td> 
+                      <td></td>   
+                      
+                    </tr>
+                     <tr>
+                      <td colspan="2" class="company"><strong><h3>Pay Slip for month of {{$pay->month}} year of {{$pay->year}}</h3></strong></td> 
                       <td></td>   
                       
                     </tr>

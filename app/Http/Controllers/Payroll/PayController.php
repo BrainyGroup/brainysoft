@@ -8,6 +8,10 @@ use PDF;
 
 use Mail;
 
+use BrainySoft\Jobs\SendEmailPaySlip;
+
+
+
 use Exception;
 
 use Carbon\Carbon;
@@ -950,7 +954,11 @@ return redirect('pays');
 
       $employee = Employee::findOrFail($pay->employee_id);
 
-        $this->sendSalarySlipEmail($employee->user_id,$pay->company_id,$fromPaySlipEmail,$fromPaySlipName,$paySlipSubject,$pay->pay_number);
+      $user = User::findOrFail(2);
+
+      dispatch(new SendEmailPaySlip($pay,$company,$user))->delay(now()->addMinutes(60));;
+
+        // $this->sendSalarySlipEmail($employee->user_id,$pay->company_id,$fromPaySlipEmail,$fromPaySlipName,$paySlipSubject,$pay->pay_number);
 
       }
       
