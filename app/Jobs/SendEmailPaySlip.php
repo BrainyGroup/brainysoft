@@ -125,7 +125,7 @@ class SendEmailPaySlip implements ShouldQueue
 
         $email = new Payslip($this->user,$this->company,$this->pay,$employee,$designation,$scale,$level,$center,$payroll_group,$pay_ssf_statutory_sum,$pay_allowances,$pay_deductions,$employment_type,$pay_statutory);
 
-        Mail::to($this->user->email)->send($email);
+        Mail::to($this->user->email)->queue($email);
 
 
     }

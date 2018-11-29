@@ -2,6 +2,8 @@
 
 namespace BrainySoft\Http\Controllers;
 
+use BrainySoft\DataTables\UsersDataTable;
+
 use Exception;
 
 use Storage;
@@ -74,6 +76,7 @@ class UserController extends Controller
 
     }
 
+    
     /**
      * Show the form for creating a new resource.
      *

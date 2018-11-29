@@ -54,7 +54,7 @@
                       
                     </tr>
                      <tr>
-                      <td colspan="2" class="company"><strong><h3>Pay Slip for month of {{$pay->month}} year of {{$pay->year}}</h3></strong></td> 
+                      <td colspan="2" class="company"><strong><h3>Pay Slip for {{$pay->month . ' of ' . $pay->year}}</h3></strong></td> 
                       <td></td>   
                       
                     </tr>

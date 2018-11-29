@@ -17,6 +17,7 @@
                     <caption></caption>
                    <thead>
                     <tr>
+                      <th scope="col">#</th>
                        <th scope="col">Name</th>
                        <th scope="col">Account#</th>
                        <th scope="col">Amount</th>
@@ -24,8 +25,9 @@
                   </thead>
                   <tbody>
         @if(count($net_list_by_banks)>0)
-         @foreach($net_list_by_banks as $net)
+         @foreach($net_list_by_banks as $key => $net)
                      <tr>
+                      <td>{{ $key + 1}}</td>
                        <td>{{ $net->title.'. '.$net->firstname.' '.$net->middlename.' '.$net->lastname }}</td>                   
                        <td>{{ $net->account_number }}</td>
                        <td>{{ number_format($net->net,2) }}</td>                
@@ -33,6 +35,7 @@
            @endforeach
            <tr>
              <td><a href="">PDF</a></td>
+            <td><a href="">PDF</a></td>
             <td><a href="">PDF</a></td>
             <td><a href="">PDF</a></td>
             

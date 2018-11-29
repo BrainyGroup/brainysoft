@@ -34,10 +34,11 @@
                   </thead>
                   <tbody>
                     
-        @foreach($pays as $pay)
+        
+        @foreach($pays as $key => $pay)
           
                      <tr>
-                       <td></td>
+                       <td>{{$key + 1 }}</td>
                        <td>{{ $pay->title.'. '.$pay->firstname.' '.$pay->middlename.' '.$pay->lastname }}</td>                
                        <td>{{ $pay->pay_number }}</td>
                         <td>{{ $pay->mobile }}</td>

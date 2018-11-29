@@ -60,7 +60,7 @@ Route::resource('centers', 'CenterController');
 Route::resource('companies', 'CompanyController');
 
 //contribution route
-Route::resource('contributions', 'ContributionController');
+// Route::resource('contributions', 'ContributionController');
 
 //country routes
 Route::resource('countries', 'CountryController');
@@ -135,10 +135,10 @@ Route::resource('statutories', 'StatutoryController');
 Route::resource('employee_statutories', 'EmployeeStatutoryController');
 
 //users
-Route::resource('users', 'UserController');
+ Route::resource('users', 'UserController');
 
 
-//Route::resource('pays', 'PayController');
+
 
 //Reports
 
@@ -153,3 +153,10 @@ Route::get('/reports/net','ReportController@net');
  Route::get('/reports/monthly_create','ReportController@monthlyCreate');
  Route::get('/reports/statutory_list','ReportController@statutoryList');
  Route::get('/reports/net_list_by_bank','ReportController@netListByBank');
+
+ Route::get('/reports/create_user', 'ReportController@createUser');
+Route::get('/reports/index_user', 'ReportController@indexUser');
+
+Route::resource('/reports/users', 'UsersController');
+
+Route::resource('/reports/pays', 'PaysController');

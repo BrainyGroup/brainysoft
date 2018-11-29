@@ -12,6 +12,8 @@ use Mail;
 
 use Exception;
 
+use DataTables;
+
 use Carbon\Carbon;
 
 use BrainySoft\Pay;
@@ -71,6 +73,39 @@ class ReportController extends Controller
         return view('reports.index');
 
      }
+
+    public function indexUser()
+    {      
+
+        $company = $this->company();
+
+        return DataTables::of(User::query()->where('company_id',$company->id))->make(true);        
+
+     }
+
+    public function createUser()
+    {      
+
+     return view('reports.display_user');      
+
+     }
+
+     public function indexPay()
+    {      
+
+        $company = $this->company();
+
+        return DataTables::of(Pay::query())->make(true);        
+
+     }
+
+    public function createPay()
+    {      
+
+     return view('reports.display_pay');      
+
+     }
+
 
 
     public function net(Request $request)
@@ -390,6 +425,8 @@ class ReportController extends Controller
               )
             ->get();
 
+            $count = 0;
+
             $total = $month_net + $month_paye + $statutory_sum + $deduction_sum;
 
           return view('reports.current_pay', compact(
@@ -402,7 +439,8 @@ class ReportController extends Controller
             'max_pay',
             'deduction_sum',
             'isPosted',
-            'total'
+            'total',
+            'count'
           ));
     }
 

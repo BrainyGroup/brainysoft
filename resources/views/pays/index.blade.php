@@ -104,6 +104,7 @@
                           <td>Already posted</td>
 
                           <td></td>
+                          <td></td>
                      </tr>
 
                 @else
@@ -124,6 +125,8 @@
 
                           {!! Form::close() !!}
                       </td>
+
+                      <td></td>
 
                      </tr>
 

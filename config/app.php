@@ -156,7 +156,13 @@ return [
         BrainySoft\Providers\FormServiceProvider::class,
         //End form collection
 
+        Yajra\DataTables\DataTablesServiceProvider::class,
+
+        Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
+
         Barryvdh\DomPDF\ServiceProvider::class,
+
+        Barryvdh\Snappy\ServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -226,6 +232,13 @@ return [
         //End form collection
 
         'PDF' => Barryvdh\DomPDF\Facade::class,
+
+        'PDFS' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
+
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+
+        'Lava' => Khill\Lavacharts\Laravel\LavachartsFacade::class,
 
     ],
 

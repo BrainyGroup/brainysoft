@@ -17,6 +17,7 @@
                     <caption></caption>
                    <thead>
                     <tr>
+                      <th scope="col">#</th>
                      
                        <th scope="col">Bank</th>                    
                        <th scope="col">Amount</th>
@@ -25,9 +26,10 @@
                   </thead>
                   <tbody>
         @if(count($net_by_banks)>0)
-         @foreach($net_by_banks as $net)
+         @foreach($net_by_banks as $key => $net)
                      <tr>
-                      
+
+                      <td>{{ $key + 1 }}</td>                      
                       
                        <td>{{ $net->bank_name }}</td>
                       
@@ -39,6 +41,8 @@
              <td><a href="">PDF</a></td>
              <td><a href="">PDF</a></td>
              <td><a href="">PDF</a></td>
+             <td><a href="">PDF</a></td>
+
             
           </tr>
          </tbody>
