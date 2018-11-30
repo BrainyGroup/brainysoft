@@ -3,6 +3,7 @@
 namespace BrainySoft;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon;
 
 class Employee extends Model
 {
@@ -40,6 +41,20 @@ class Employee extends Model
 
      }
 
+    public function bank()
+     {
+
+       return $this->belongsTo(Bank::class);
+
+     }
+
+     public function designation()
+     {
+
+       return $this->belongsTo(Designation::class);
+
+     }
+
      public function company()
      {
 
@@ -50,7 +65,7 @@ class Employee extends Model
      public function scale()
      {
 
-       return $this->belongsTo(Scale::class);
+       return $this->designation->scale;
 
      }
 
@@ -89,6 +104,9 @@ class Employee extends Model
 
       }
 
+     
+
+
      public function level()
      {
 
@@ -105,6 +123,15 @@ class Employee extends Model
 
      public function getAge() 
      {
-      return $this->user->dob->diffInYears(\Carbon::now());
+
+      return Carbon::parse($this->user->dob)->diffInYears(Carbon::now());
+     
+     }
+
+     public function getFullName() 
+     {
+
+      return $this->user->getFullName();
+     
      }
 }

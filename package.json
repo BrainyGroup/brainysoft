@@ -18,5 +18,10 @@
         "laravel-mix": "^2.0",
         "lodash": "^4.17.4",
         "vue": "^2.5.7"
+    },
+    "dependencies": {
+        "ajv": "^6.0.0",
+        "chart.js": "^2.7.3",
+        "imagemin": "^5.0.0"
     }
 }

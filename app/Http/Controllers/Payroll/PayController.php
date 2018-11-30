@@ -93,23 +93,12 @@ class PayController extends Controller
 
      $company = $this->company();
 
-     $employee = Employee::find($pay->employee_id);
+    
 
-     $user = User::find($employee->user_id);
-
-     $designation = Designation::find($employee->designation_id);
-
-     $scale = Scale::find($designation->scale_id);
-
-     $level = Level::find($designation->level_id);
-
-     $center = Center::find($employee->center_id);
-
-     $payroll_group = Payroll_group::find($scale->payroll_group_id);
-
+  
      $pay_statutory = Pay_statutory::where('pay_number',$pay->pay_number)
 
-     ->where('employee_id', $employee->id)
+     ->where('employee_id', $pay->employee->id)
 
      ->join('statutories','statutories.id','pay_statutories.statutory_id')
 
@@ -122,7 +111,7 @@ class PayController extends Controller
 
      ->where('statutory_types.name','SSF')->first();
 
-      $pay_ssf_statutory_sum = Pay_statutory::where('employee_id', $employee->id)
+      $pay_ssf_statutory_sum = Pay_statutory::where('employee_id', $pay->employee->id)
 
      ->join('statutories','statutories.id','pay_statutories.statutory_id')
 
@@ -137,29 +126,22 @@ class PayController extends Controller
 
      $pay_allowances = Pay_allowance::where('pay_number',$pay->pay_number)
 
-     ->where('employee_id', $employee->id)
+     ->where('employee_id', $pay->employee->id)
 
      ->join('allowance_types','allowance_types.id','pay_allowances.allowance_type_id')->get();
 
       $pay_deductions = Pay_deduction::where('pay_number',$pay->pay_number)
 
-     ->where('employee_id', $employee->id)
+     ->where('employee_id', $pay->employee->id)
 
      ->join('deduction_types','deduction_types.id','pay_deductions.deduction_type_id')->get();
 
-     $employment_type = Employment_type::find($scale->employment_type_id);
+   
 
      $pdf = PDF::loadView('pdf.payslip', compact(
-      'pay',
-      'company',
-      'employee',
-      'user',
-      'designation',
-      'scale',
-      'level',
-      'center',
-      'payroll_group',
-      'employment_type',
+      'pay',     
+      
+     
       'pay_allowances',
       'pay_deductions',
       'pay_statutory',
@@ -172,13 +154,13 @@ class PayController extends Controller
 
 
 
-     $pdf->setPaper([0,0, 297.638, 841.88976], 'portrait')->setWarnings(false)->save('myfile1.pdf');
+     $pdf->setPaper([0,0, 297.638, 841.88976], 'portrait')->setWarnings(false)->save('myfile.pdf');
  
      
 
      
 
-     return $pdf->download('payslip_' . $pay->pay_number . '_' . $employee->identity . '.pdf');
+     return $pdf->download('payslip_' . $pay->pay_number . '_' . $pay->employee->identity . '.pdf');
 
    }
 

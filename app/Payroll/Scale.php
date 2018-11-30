@@ -21,6 +21,20 @@ class Scale extends Model
 
   }
 
+  public function payroll_group()
+  {
+
+    return $this->belongsTo(Payroll_group::class);
+
+  }
+
+  public function employment_type()
+  {
+
+    return $this->belongsTo(Employment_type::class);
+
+  }
+
   public function employee()
   {
 

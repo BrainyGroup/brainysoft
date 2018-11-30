@@ -42,4 +42,13 @@ class Statutory extends Model
 
      }
 
+     public  function pay_statutories()
+    {
+
+        //return $this->belongsMany(Pay_statutory::class);
+         //return $this->hasMany(Pay_statutory::class);
+         return $this->belongsTo(Pay_statutory::class);
+
+     }
+
 }

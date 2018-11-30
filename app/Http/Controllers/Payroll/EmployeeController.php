@@ -63,10 +63,10 @@ class EmployeeController extends Controller
     }
 
     private function company()
-    {
-      $user = User::find(auth()->user()->id);
-
-      return Company::find($user->company_id);
+    {      
+      
+      return User::find(auth()->user()->id)->company;
+      
     }
     /**
      * Display a listing of the resource.

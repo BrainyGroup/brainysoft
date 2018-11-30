@@ -61,7 +61,7 @@
                     </tr>
    
                     <tr>
-                      <td colspan="2" class="company"><strong><h1>{{ $company->name }}</h1></strong></td> 
+                      <td colspan="2" class="company"><strong><h1>{{ $pay->company->name }}</h1></strong></td> 
                       <td></td>   
                       
                     </tr>
@@ -72,13 +72,13 @@
                     </tr>
                     <tr>
                       <td>P.O.Box</td>
-                      <td>{{ $company->pobox }}</td>
+                      <td>{{ $pay->company->pobox }}</td>
                     </tr>
 
                      
                     <tr>
                       <td>Region</td>
-                      <td>{{ $company->region}}</td>
+                      <td>{{ $pay->company->region}}</td>
                     </tr>
 
                      <tr>
@@ -101,31 +101,31 @@
 
                     <tr>
                       <td>Identity #</td>
-                      <td>{{$employee->identity}}</td>
+                      <td>{{$pay->employee->identity}}</td>
                      
                     </tr>
 
                     <tr>
                       <td>Name</td>
-                      <td>{{$user->getFullName() }}</td>
+                      <td>{{$pay->employee->getFullName() }}</td>
                      
                     </tr>
 
                     <tr>
                       <td>Level</td>
-                      <td>{{$level->name}}</td>
+                      <td>{{$pay->employee->designation->level->name}}</td>
                      
                     </tr>
 
                     <tr>
                       <td>Scale</td>
-                      <td>{{$scale->name}}</td>
+                      <td>{{$pay->employee->designation->scale->name}}</td>
                      
                     </tr>
 
                     <tr>
                       <td>Designation</td>
-                      <td>{{$designation->name}}</td>
+                      <td>{{$pay->employee->designation->name}}</td>
                      
                     </tr>
 
@@ -133,25 +133,37 @@
 
                     <tr>
                       <td>Center #</td>
-                      <td>{{$center->number}}</td>
+                      <td>{{$pay->employee->center->number}}</td>
                      
                     </tr>
 
                     <tr>
                       <td>Center Name</td>
-                      <td>{{$center->name}}</td>
+                      <td>{{$pay->employee->center->name}}</td>
+                     
+                    </tr>
+
+                    <tr>
+                      <td>Department</td>
+                      <td>{{$pay->employee->department->name}}</td>
+                     
+                    </tr>
+
+                    <tr>
+                      <td>Bank</td>
+                      <td>{{$pay->employee->bank->name}}</td>
                      
                     </tr>
 
                     <tr>
                       <td>Payroll group</td>
-                      <td>{{$payroll_group->name}}</td>
+                      <td>{{$pay->employee->designation->scale->payroll_group->name}}</td>
                      
                     </tr>
 
                     <tr>
                       <td>Employment type</td>
-                      <td>{{$employment_type->name}}</td>
+                      <td>{{$pay->employee->designation->scale->employment_type->name}}</td>
                      
                     </tr>
 
