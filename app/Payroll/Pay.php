@@ -47,6 +47,14 @@ class Pay extends Model
 
     }
 
+    public function scopeThisYear($query)
+    {
+
+      return $query->where('year', 2018);
+
+    }
+
+
 
 
   

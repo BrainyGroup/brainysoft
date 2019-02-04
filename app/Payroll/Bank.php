@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bank extends Model
 {
+  
+
   public  function employees()
   {
 

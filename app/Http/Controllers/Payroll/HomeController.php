@@ -5,6 +5,9 @@ namespace BrainySoft\Http\Controllers;
 
 //use Mail;
 use BrainySoft\User;
+use BrainySoft\Pay;
+use Carbon;
+
 use BrainySoft\Bank;
 use BrainySoft\Scale;
 use BrainySoft\Level;
@@ -527,8 +530,39 @@ class HomeController extends Controller
           ]);
         }
 
+        
+        // $pays = DB::table('pays')
 
-        return view('home');
+        // ->select(
+
+        //   'month',
+
+        //   DB::raw('SUM(gloss) as gloss'))
+
+        //   ->thisYear()
+
+        //    ->where('company_id',$company->id)
+
+        //   ->groupBy('month')->get();
+
+        $pays = Pay::thisYear()
+
+        ->selectRaw('month, sum(gloss) as gloss')
+
+        ->groupBy('month')
+
+        ->pluck('gloss','month');
+
+       
+
+
+
+        // $pay = Pay::where('year', 2018)->groupBy('month')->sum('gloss');
+
+     
+
+
+        return view('home',compact('pays'));
         // Mail::send('emails.mailtrap', [], function($m){
         //   $m->to('yahaya.frezier@datahousetza.com','Yahaya Frezier')
         //   ->subject('You have registered')
