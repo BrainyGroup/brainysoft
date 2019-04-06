@@ -44,6 +44,21 @@ class AllowanceController extends Controller
     }
 
 
+    public function allow_type_autocomp(Request $request)
+    {
+
+      $data = Allowance_type::where('name', 'LIKE', "%{$request->input('query')}%")->get();
+   
+        return response()->json($data);
+    }
+
+
+    public function welcome()
+    {
+      return view('welcome');
+    }
+
+
 
     public function index()
     {

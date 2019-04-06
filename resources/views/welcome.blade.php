@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
     <head>
         <meta charset="utf-8">
@@ -7,8 +7,14 @@
 
         <title>BrainySoft</title>
 
+
+
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
 
         <!-- Styles -->
         <style>
@@ -79,6 +85,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
+                    <input class="typeahead form-control" type="text">
                     BrainySoft
                 </div>
 
@@ -91,5 +98,17 @@
                 </div>
             </div>
         </div>
+
+        <script type="text/javascript">
+            var path = "{{ route('allow_typ_auto') }}";
+            $('input.typeahead').typeahead({              
+                source:  function (query, process) {
+                return $.get(path, { query: query }, function (data) {
+                    return process(data);
+                    });
+                }
+            });
+        </script>
+
     </body>
 </html>

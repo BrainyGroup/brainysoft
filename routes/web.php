@@ -41,6 +41,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 //Allowance routes
 
+Route::get('welcome', 'AllowanceController@welcome')->name('welcome');
+Route::get('allow_typ_auto', 'AllowanceController@allow_type_autocomp')->name('allow_typ_auto');
+
 
 
 Route::resource('allowances', 'AllowanceController');

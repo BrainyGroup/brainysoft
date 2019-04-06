@@ -10477,3 +10477,23 @@ a.text-dark:focus {
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
+.border-left-primary {
+  border-left: 0.25rem solid #4e73df;
+}
+
+.border-left-success {
+  border-left: 0.25rem solid #1cc88a;
+}
+
+.border-left-info {
+  border-left: 0.25rem solid #36b9cc;
+}
+
+.border-left-warning {
+  border-left: 0.25rem solid #f6c23e;
+}
+
+.border-left-danger {
+  border-left: 0.25rem solid #e74a3b;
+}
+
