@@ -14,7 +14,6 @@ import Vue from 'vue';
 
 require('./bootstrap');
 
-//window.Vue = require('vue');
 
 let axios = require('axios');
 
@@ -25,13 +24,10 @@ Vue.component('count-up', require('./components/CounterUp.vue'));
 Vue.component('graph-line', require('./components/Graph.vue'));
 
 
-//import Graph from './components/Graph.vue';
+
 
 new Vue({
-  el: '#ap',
-  
-//components: { Graph }
-
+  el: '#app',
 });
 
 jQuery(document).ready(function( $ ) {

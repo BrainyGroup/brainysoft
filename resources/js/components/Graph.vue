@@ -1,8 +1,5 @@
-<template>
-
-                       
-                       <canvas></canvas>
-                 
+<template>                      
+        <canvas></canvas>      
 
 
 </template>
@@ -12,18 +9,19 @@
 
 export default {
 
-    props: ['labels','values','color', 'type'],
+    props: ['labels','values','color', 'type','legend'],
 
-    // props:{
-    //     labels: {},
-    //     values: {},
-    //     type: {},
-    //     color:{
-    //         default: 'blue'
-    //     }
+    props:{
+        labels: {},
+        values: {},
+        type: {},
+        legend: {},
+        color:{
+            default: 'blue'
+        }
 
 
-    // },
+    },
     
 
 
@@ -41,7 +39,7 @@ mounted(){
         labels: this.labels,
         datasets: [
           {
-            label: 'My First da',
+            label: this.legend,
             backgroundColor: this.color,
             borderColor: 'rgb(255, 99, 132)',
             data: this.values

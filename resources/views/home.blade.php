@@ -157,25 +157,41 @@
                         <div class="clearfix"></div>
                         <!-- END DASHBOARD STATS 1-->
 
-            <span class="counter">1,234,567.00</span>
+<!-- BEGIN DASHBOARD STATS 1-->
 
-            <canvas id="graph"></canvas>
+<div class="row">
 
-            <div id="ap">
-                <graph-line :labels="['January', 'February', 'March', 'April', 'May', 'June', 'July']"
-                            :values="[0, 10, 5, 2, 20, 30, 45]"
-                            :color="'red'"
-                            :type="'line'"
-                            ></graph-line>
+    <span class="counter">1,234,567.00</span>
 
-                            <graph-line :labels="['January', 'February', 'March']"
-                            :values="[0, 10, 5]"
-                            :color="'green'"
-                            :type="'bar'"
-                            ></graph-line>
-        
+    <canvas id="graph"></canvas>
 
-            </div>
+    
+        <graph-line :labels="['January', 'February', 'March', 'April', 'May', 'June', 'July']"
+                    :values="[0, 10, 5, 2, 20, 30, 45]"
+                    :color="'red'"
+                    :type="'line'"
+                    :legend="'This legend red'"
+                    ></graph-line>
+
+                    <graph-line :labels="['January', 'February', 'March']"
+                    :values="[0, 10, 5]"
+                    :color="'green'"
+                    :type="'bar'"
+                    :legend="'This legend green'"
+                    ></graph-line>
+
+
+    
+
+
+
+
+
+
+  
+</div>
+
+            
             
 
 

@@ -12,7 +12,7 @@
 
 
     <!-- Scripts -->
-   <!--  <script src="{{ asset('js/app.js') }}" defer></script> -->
+  
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -29,15 +29,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 
     <!-- Fonts -->
-
-     <!-- Datatable -->
-
-
-
-   <!--  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">  
-    <link  href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet"> -->
-
-     <!-- End Datatable -->
+    
 
     <!-- Styles -->
 
@@ -52,28 +44,20 @@
         @include('layouts.nav')
 
         <main class="py-4">
+
             <div class="container">
                  <div class="row justify-content-center">
                     @include('layouts.errors')
                     @include('layouts.success')
                     @yield('content')
-                     <!-- jQuery -->
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    
+
+                  
         
-        <!-- DataTables -->
-        <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-        <!-- Bootstrap JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-
-        <!-- App scripts -->
-
-      
+        
+                    
+                    
+                    
         
   
       
