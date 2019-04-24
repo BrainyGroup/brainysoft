@@ -59,7 +59,9 @@ class UserController extends Controller
         // $user = User::find(auth()->user()->id); 
 
 
-        $users = User::where('company_id',$company->id)->get();        
+        $users = User::where('company_id',$company->id)
+        ->where('employee',false)
+        ->get();        
 
         return view('users.index', compact('users','company'));
 
