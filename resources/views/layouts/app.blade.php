@@ -51,6 +51,8 @@
                     @include('layouts.success')
                     @yield('content')
 
+                    
+
 
                   
         
@@ -60,10 +62,13 @@
                     
         
   
-      
+                
                  </div>
+                 
             </div>
+            
         </main>
+        @include('layouts.footer')
     </div>
 </body>
 </html>
