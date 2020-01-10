@@ -51,12 +51,6 @@ mounted(){
     // Configuration options go here
     options: {}
 });
-
-
 }
-
-
-
-
 }
 </script>

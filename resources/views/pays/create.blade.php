@@ -19,9 +19,16 @@
 
                      <select class="form-control" id="year" name="year" required >
 
-                       <option value="">Select year</option>
+                     {{  define("YEAR", date("y") ) }}
+                     {{  define("MONTH", date("n") ) }}
 
-                       @for($i = 1; $i<=18; $i++)
+
+                       <option value="{{ date("Y") }}">{{ date("Y") }}</option>             
+
+                       
+                       
+
+                       @for($i = YEAR - 3; $i<=YEAR; $i++)
 
                        <option value="{{ 2000 + $i }}">{{ 2000 + $i }}</option>
 
@@ -37,11 +44,27 @@
 
                      <select class="form-control" id="month" name="month" required >
 
-                       <option value="">Select month</option>
+                            <?php $months = array(
+                                'January', 
+                                'February', 
+                                'March', 
+                                'April', 
+                                'May', 
+                                'June', 
+                                'July', 
+                                'August', 
+                                'September', 
+                                'October', 
+                                'November', 
+                                'December'
+                              ); ?>        
 
-                       @for($i = 01; $i<=12; $i++)
+                       <option value="{{ MONTH }}">{{ $months[MONTH - 1]}}</option>
 
-                       <option value="{{ $i }}">{{ $i }}</option>
+                       
+                       @for($i = 1 ; $i<=11; $i++)
+
+                       <option value="{{ $i }}">{{ $months[$i - 1] }}</option>
 
                        @endfor
 

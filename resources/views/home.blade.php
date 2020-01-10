@@ -173,59 +173,31 @@
                     :legend="'This legend red'"
                     ></graph-line>
 
-                    <graph-line :labels="['January', 'February', 'March']"
+        <graph-line :labels="['January', 'February', 'March']"
                     :values="[0, 10, 5]"
                     :color="'green'"
                     :type="'bar'"
                     :legend="'This legend green'"
-                    ></graph-line>
+        ></graph-line>
 
-
-    
-
-
-
-
-
-
-  
-</div>
-
-            
-            
-
-
-   
-    
-
-
-
-
-
-
-
-       
+        <data-table
+			fetch-url="{{ route('users.table') }}"
+			:columns="['company id','title','name','gender','married','email','firstname','middlename','lastname','photo','dod','employee','created','updated']"
+		></data-table>  
+</div>     
            
         </div>
-       
-
-
-        
-
-
-        
-
-
     </div>
 </div>  
 
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.0/jquery.waypoints.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0.0/jquery.counterup.min.js"></script>
 
-<script type="text/javascript" src="/js/app.js"></script>
+
+
 
 
 
 @endsection
+
+

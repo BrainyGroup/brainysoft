@@ -18,10 +18,33 @@
             @endif
 
         @if(count ($users) > 0)
+<!-- STARING EXPERIMENT -->
+
+<div class="table-responsive"> 
+    <form id="search">
+      Search <input name="query" v-model="searchQuery">
+    </form>
+    <demo-grid
+    fetch-url="{{ route('users.table') }}"
+      :heroes="gridData"
+      :columns="['id','company id','title','name','gender','married','email','firstname','middlename','lastname','photo','dod','mobile','employee','created','updated']"
+      :filter-key="searchQuery">
+    </demo-grid>
+</div>
 
 
+{{-- <div class="row">  
 
-      <div class="table-responsive">
+        <data-table
+			fetch-url="{{ route('users.table') }}"
+			:columns="['id','company id','title','name','gender','married','email','firstname','middlename','lastname','photo','dod','mobile','employee','created','updated']"
+		></data-table>  
+</div> --}}
+
+<!-- ENDING EXPERIMENT -->
+
+
+      {{-- <div class="table-responsive">
 
               <table class="table table-hover table-striped table-bordered">
                   <caption></caption>
@@ -91,7 +114,7 @@
 
         </tbody>
       </table>
-  </div>
+  </div> --}}
 
         @else
 

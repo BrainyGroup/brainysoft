@@ -19,16 +19,31 @@ let axios = require('axios');
 
 //Vue.component('allowance_type', require('./components/allowance_type.vue'));
 
+//import UserDataTable from './components/Users'
+
 Vue.component('count-up', require('./components/CounterUp.vue'));
 
 Vue.component('graph-line', require('./components/Graph.vue'));
+
+Vue.component('data-table', require('./components/Users.vue'));
+
+Vue.component('demo-grid', require('./components/User.vue'));
+
+
 
 
 
 
 new Vue({
   el: '#app',
+  data: {
+    searchQuery: '',
+   
+  }
+
 });
+
+
 
 jQuery(document).ready(function( $ ) {
   $('.counter').counterUp({
@@ -66,6 +81,16 @@ var chart2 = new Chart(ctx, {
     // Configuration options go here
     options: {}
 });
+
+String.prototype.toProperCase = function() {
+  var words = this.split(' ');
+  var results = [];
+  for (var i=0; i < words.length; i++) {
+      var letter = words[i].charAt(0).toUpperCase();
+      results.push(letter + words[i].slice(1));
+  }
+  return results.join(' ');
+};
 
 
 
