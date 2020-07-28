@@ -17,6 +17,8 @@
 
                     {{ Form::bsText('amount',$deduction->amount,['placeholder' => 'Enter Deduction Amount']) }}
 
+                    {{ Form::bsText('interest', $deduction->interest,['placeholder' => 'Enter Interest in percent']) }}    
+
                     {{ Form::bsHidden('employee_id', request('employee_id')) }}
 
 
@@ -39,11 +41,13 @@
 
                     </div>
 
+                    {{ Form::bsDate('date_taken',$deduction->date_taken) }}
+
+                    {{ Form::bsText('period',$deduction->period,['placeholder' => 'Enter Period']) }}
 
 
                     {{ Form::bsDate('start_date', $deduction->start_date) }}
-
-                    {{ Form::bsDate('end_date',$deduction->end_date) }}
+                
 
                     {{ Form::bsSubmit(__('messages.edit'),['class' => 'btn btn-primary']) }}
 

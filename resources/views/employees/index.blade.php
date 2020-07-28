@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-12">
     <div class="card">
-        <div class="card-header"><h1>All Employee</h1></div>
+        <div class="card-header"><h2>All Employee</h2></div>
 
         <div class="card-body">
             @if (session('status'))
@@ -15,7 +15,7 @@
         @if( count($employees) > 0 )
       <div class="table-responsive">
 
-              <table class="table table-hover table-striped table-bordered">
+              <table class="table table-hover table-striped table-bordered table-sm" id="sample_1">
                   <caption></caption>
 
                   <thead>

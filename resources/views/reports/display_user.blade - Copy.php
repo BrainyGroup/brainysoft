@@ -10,7 +10,7 @@
       <body>
          <div class="container">
                <h2>Laravel DataTables Tutorial Example</h2>
-            <table class="table table-bordered" id="table">
+            <table class="table table-bordered table-sm" id="table">
                <thead>
                   <tr>
                      <th>Id</th>

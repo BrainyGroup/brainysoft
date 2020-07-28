@@ -2,6 +2,8 @@
 
 namespace BrainySoft\Http\Controllers;
 
+use Exception;
+
 use BrainySoft\User;
 
 use BrainySoft\Company;
@@ -9,6 +11,10 @@ use BrainySoft\Company;
 use Illuminate\Http\Request;
 
 use BrainySoft\Employment_type;
+
+use Illuminate\Support\Facades\Log;
+
+
 
 
 class EmploymentTypeController extends Controller
@@ -47,7 +53,10 @@ class EmploymentTypeController extends Controller
 
         $employment_types = Employment_type::all();
 
-        return view('employement_types.index', compact('employment_types'));
+
+        return view('employement_types.index');
+
+     
 
       }catch(Exception $e){
 

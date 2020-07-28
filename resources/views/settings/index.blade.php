@@ -15,7 +15,7 @@
 
              <div class="table-responsive">
 
-              <table class="table table-hover table-striped table-bordered">
+              <table class="table table-hover table-striped table-bordered table-sm">
 
             
                   <caption><h1></h1></caption>
@@ -63,7 +63,7 @@
                     </tr>
 
                     <tr>
-                      <td><a href="/other_settings">Other settings</a></td>
+                      <td><a href="/basic_settings">Basic settings</a></td>
                       <td><a href="/companies">Companies</a></td>
                       <td><a href="/countries">Countries</a></td>
                     </tr>

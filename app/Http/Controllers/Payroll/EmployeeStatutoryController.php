@@ -157,6 +157,8 @@ class EmployeeStatutoryController extends Controller
 
             $employee_statutory->statutory_id = request('statutory_id');
 
+            $employee_statutory->employee_statutory_no = request('employee_statutory_no');
+
             $employee_statutory->company_id = $company->id;
 
             $employee_statutory->save();
@@ -182,9 +184,12 @@ class EmployeeStatutoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(EmployeeStatutory $employee_statutory)
     {
-        //
+      $employee_statutory_id = $employee_statutory->id;
+      $employee_statutory = EmployeeStatutory::find($employee_statutory_id);
+      $employee_statutory_no = $employee_statutory->employee_statutory_no;
+      return view('employee_statutories.edit', compact('employee_statutory_id', 'employee_statutory_no'));
     }
 
     /**
@@ -194,9 +199,33 @@ class EmployeeStatutoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, EmployeeStatutory $employee_statutory)
     {
-        //
+      $employee_statutory_id = $employee_statutory->id;
+
+  
+      $employee_id = $employee_statutory->employee_id;
+
+     
+
+   
+      $employeeStatutoryUpdate = EmployeeStatutory::where('id', $employee_statutory_id)     
+
+      ->update([
+
+          'employee_statutory_no'			=>$request->input('employee_statutory_no'),
+        
+
+      ]);
+
+      if($employeeStatutoryUpdate)
+
+       // return redirect('employee_statutories', ['employee_id' =>  $employee_id ])
+
+        return redirect()->route('employee_statutories.index',['employee_id' => $employee_id])
+
+        ->with('success','Employee statutories updated successfully');
+        //redirect
     }
 
     /**

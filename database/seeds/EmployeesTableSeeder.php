@@ -62,7 +62,7 @@ class EmployeesTableSeeder extends Seeder
               'department_id' => 1,
               'start_date' => '2011-01-01',
               'end_date' => $end_date1,
-              'account_number' => '1111111',
+              'account_number' => '1111111',              
               'bank_id' => 2,
               'created_at' =>now(),
               'updated_at' =>now(),

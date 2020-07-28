@@ -38,6 +38,8 @@
 
                     </div>
 
+                    {{ Form::bsText('employee_statutory_no','',['placeholder' => 'Enter Employee NSF Number']) }}
+
 
           
 

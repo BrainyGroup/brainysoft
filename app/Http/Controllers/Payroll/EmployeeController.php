@@ -113,7 +113,7 @@ class EmployeeController extends Controller
 
           'employee_id',
 
-          DB::raw('SUM(amount) as deduction_amount'))
+          DB::raw('SUM(balance) as deduction_amount'))
 
           ->where('deductions.company_id', $company->id)
 
@@ -366,6 +366,14 @@ class EmployeeController extends Controller
 
         DB::table('deductions')->insert([
                 'amount' => 0.00,
+                'interest' => 0,
+                'interest_amount' => 0,
+                'date_taken' => now(),
+                'period' => 0,
+                'total_amount' => 0.00,
+                'status' => 10,
+                'balance' => 0,
+                'monthly_amount' => 0.00,
                 'employee_id' => $lastEmployeeId,
                 'start_date' => now(),
                 'end_date' => '3000-01-01',
@@ -373,9 +381,7 @@ class EmployeeController extends Controller
                 'deduction_type_id' => 1,
                 'created_at' =>now(),
                 'updated_at' =>now(),
-          ]);
-
-    
+          ]);    
 
 
       $statutories = Statutory::where(
@@ -403,6 +409,7 @@ class EmployeeController extends Controller
         DB::table('employee_statutories')->insert([
                 'employee_id' => $lastEmployeeId,
                 'statutory_id' => $statutory->id, 
+                'employee_statutory_no' => '', 
                 'company_id' => $company->id,
                 'created_at' =>now(),
                 'updated_at' =>now(),
@@ -451,6 +458,8 @@ class EmployeeController extends Controller
 
           ->where('allowances.employee_id', $employee->id)
 
+          ->where('allowances.amount','>', 0)
+
           ->groupBy('employee_id')
 
           ->groupBy('allowance_type_id');
@@ -462,11 +471,13 @@ class EmployeeController extends Controller
 
           'deduction_type_id','employee_id',
 
-          DB::raw('SUM(amount) as deduction_amount'))
+          DB::raw('SUM(balance) as deduction_amount'))
 
           ->where('deductions.company_id', $company->id)
 
            ->where('deductions.employee_id', $employee->id)
+
+           ->where('deductions.balance', '>', 0)
 
            ->groupBy('employee_id')
 

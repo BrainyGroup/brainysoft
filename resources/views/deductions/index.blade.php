@@ -16,7 +16,7 @@
         @if(count($employees_deductions)>0)
       <div class="table-responsive">
 
-              <table class="table table-hover table-striped table-bordered">
+              <table class="table table-hover table-striped table-bordered table-sm">
                     <caption></caption>
 
                   <thead>
@@ -34,16 +34,21 @@
 
         @foreach($employees_deductions as $deduction)
 
+        @if( $deduction->balance > 0)
+
                     <tr>
 
                       <th scope="row">{{ $deduction->user_id }}</th>
 
                       <td><a href="/deductions/create?employee_id={{$deduction->employee_id}}">{{ $deduction->title.'. '.$deduction->firstname.' '.$deduction->middlename.' '.$deduction->lastname }}</a></td>
 
-                      <td>{{ $deduction->deduction_name }}  </td>
+                        <td>{{ $deduction->deduction_name }}  </td>
 
-                      <td class = "text-right">{{ $deduction->amount }}  </td>
+                        <td class = "text-right">{{ $deduction->balance }}  </td>
 
+            
+
+                      
                       <td><a href="/deductions/{{$deduction->id}}/edit?user_id={{$deduction->user_id}}">{{ __('messages.edit') }}</a></td>
 
                       <td><a href=""
@@ -62,6 +67,49 @@
 
 
                     </tr>
+
+                      @else
+
+                      <tr>
+
+                      <th scope="row">{{ $deduction->user_id }}</th>
+
+                      <td><a href="/deductions/create?employee_id={{$deduction->employee_id}}">{{ $deduction->title.'. '.$deduction->firstname.' '.$deduction->middlename.' '.$deduction->lastname }}</a></td>
+
+                        <td> </td>
+
+                        <td class = "text-right"></td>
+
+                   
+
+                   
+
+                      
+                      <td><a href="/deductions/{{$deduction->id}}/edit?user_id={{$deduction->user_id}}">{{ __('messages.edit') }}</a></td>
+
+                      <td><a href=""
+                          onclick="
+                          var result = confirm('Are you sure yo want to delete this deduction?');
+                          if (result){
+                              event.preventDefault();
+                              document.getElementById({{$deduction->id}}).submit();
+                            }">Delete
+                          </a>
+
+                          {!! Form::open(['action' => ['DeductionController@destroy',$deduction->id],'method' => 'DELETE','id' => $deduction->id]) !!}
+
+                          {!! Form::close() !!}
+                      </td>
+
+
+                    </tr>
+
+                      @endif
+
+
+
+
+
 
 
           @endforeach

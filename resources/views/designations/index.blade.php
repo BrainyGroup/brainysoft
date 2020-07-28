@@ -16,7 +16,7 @@
         @if( count($designations) > 0)
       <div class="table-responsive">
 
-              <table class="table table-hover table-striped table-bordered">
+              <table class="table table-hover table-striped table-bordered table-sm">
                   <caption></caption>
 
                   <thead>

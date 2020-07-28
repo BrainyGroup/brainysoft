@@ -6,9 +6,9 @@
         <div class="card-header">
 
 
-          
+     
 
-        <span class="pull-right"><h1><strong>Payroll  for {{$max_pay . '        '}}</strong></h1></span></div>
+        <span><h1><strong>Payroll  for {{$max_pay . '        '}}</strong></h1></span></div>
 
         <div class="card-body">
             @if (session('status'))
@@ -21,11 +21,13 @@
 
 
         @if(count($pays) > 0)
+
+        <div class="scrollme">
                   
 
       <div class="table-responsive">
 
-              <table class="table table-hover table-striped table-bordered">
+              <table class="table table-hover table-striped table-bordered table-sm " id="sample_1">
                     <caption></caption>
 
                   <thead>
@@ -87,21 +89,21 @@
 
                       <td>{{ $pay->pay_number }}</td>
 
-                      <td>{{ $pay->basic_salary }}</td>
+                      <td>{{  number_format($pay->basic_salary) }}</td>
 
-                      <td>{{ $pay->allowance }}</td>
+                      <td>{{  number_format($pay->allowance,2) }}</td>
 
-                      <td>{{ $pay->gloss }}</td>
+                      <td>{{ number_format($pay->gloss,2) }}</td>
 
-                      <td>{{ $pay->taxable }}</td>
+                      <td>{{  number_format($pay->taxable,2) }}</td>
 
-                      <td>{{ $pay->paye }}</td>
+                      <td>{{  number_format($pay->paye,2) }}</td>
 
-                      <td>{{ $pay->monthly_earning }}</td>
+                      <td>{{  number_format($pay->monthly_earning,2) }}</td>
 
-                      <td>{{ $pay->deduction }}</td>
+                      <td>{{  number_format($pay->deduction,2) }}</td>
 
-                      <td>{{ $pay->net }}</td>
+                      <td>{{  number_format($pay->net,2) }}</td>
 
 
                       <td><a href="{{action('PayController@downloadPDF', $pay->id)}}">PDF</a></td>
@@ -116,6 +118,7 @@
         </tbody>
       </table>
   </div>
+        </div>
 
         @else
 

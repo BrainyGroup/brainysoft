@@ -17,7 +17,8 @@ class CreateEmployeeStatutoriesTable extends Migration
             $table->increments('id');
             $table->integer('employee_id')->unsigned()->foreign()->references('id')->on('employees');
             $table->integer('statutory_id')->unsigned()->foreign()->references('id')->on('statutories');           
-            $table->integer('company_id')->unsigned()->foreign()->references('id')->on('companies');           
+            $table->integer('company_id')->unsigned()->foreign()->references('id')->on('companies');   
+            $table->string('employee_statutory_no')->nullable();     
             $table->timestamps();
         });
     }

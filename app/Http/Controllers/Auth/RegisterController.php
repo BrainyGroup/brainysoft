@@ -127,7 +127,7 @@ class RegisterController extends Controller
               'last_renew_date' => now(),
               'trial_expire_date' => now()->addMonth(3), 
               'expire_date' => now()->addMonth(3),  
-              'employees' => 9,                
+              'employees' => 10,                
               'trial' => true, 
               'balance' => 0.00,
          

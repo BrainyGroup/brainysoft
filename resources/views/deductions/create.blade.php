@@ -17,7 +17,9 @@
 
                     {{ Form::bsText('amount','',['placeholder' => 'Enter Deduction Amount']) }}
 
-                    {{ Form::bsHidden('employee_id', request('employee_id')) }}
+                    {{ Form::bsText('interest','',['placeholder' => 'Enter Interest in percent']) }}                   
+
+                    {{ Form::bsHidden('employee_id', request('employee_id')) }}              
 
         
 
@@ -39,11 +41,13 @@
 
                     </div>
 
+                    {{ Form::bsDate('date_taken') }}
+
+                    {{ Form::bsText('period','',['placeholder' => 'Enter Period']) }}
 
 
-                    {{ Form::bsDate('start_date') }}
 
-                    {{ Form::bsDate('end_date') }}
+                    {{ Form::bsDate('start_date') }}                   
 
                     {{ Form::bsSubmit('Submit',['class' => 'btn btn-primary']) }}
 

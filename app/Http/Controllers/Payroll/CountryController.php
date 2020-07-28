@@ -41,8 +41,9 @@ class CountryController extends Controller
     {
       try{
 
-        $company = $this->company();
+        $company = $this->company();      
 
+     
         Log::debug($company->name.': Start country index');
 
         $countries = Country::all();
@@ -94,6 +95,8 @@ class CountryController extends Controller
 
       $country = new Country;
 
+      $country_count = Company::where('country_id', $country->id)->count();
+
       $country->name = request('name');
 
       $country->description = request('description');
@@ -116,7 +119,7 @@ class CountryController extends Controller
 
       $country->google_cordinate = request('google_cordinate');
 
-      $country->company_count = 0;
+      $country->company_count =   0;
 
       $country->system_users = request('system_users');
 

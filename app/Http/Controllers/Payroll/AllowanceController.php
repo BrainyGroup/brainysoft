@@ -18,7 +18,11 @@ use Illuminate\Http\Request;
 
 use BrainySoft\Allowance_type;
 
+//se Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Facades\Log;
+
+use Carbon\Carbon;
 
 
 
@@ -53,6 +57,8 @@ class AllowanceController extends Controller
         $company = $this->company();
 
         Log::debug($company->name.': Start allowance index');
+
+        $employee = Employee::find(auth()->user()->id);
 
 
         // $allowance = DB::table('allowances')
@@ -108,7 +114,15 @@ class AllowanceController extends Controller
 
           Log::debug($company->name.': End allowance index');
 
-          return view('allowances.index', compact('employees_allowances'));
+          $now = Carbon::now();
+          $current_year = $now->year;
+          $current_month = $now->month;
+              
+
+
+          return view('allowances.index', compact('employees_allowances','current_year','current_month'));
+
+          
 
       }catch(Exception $e){
 

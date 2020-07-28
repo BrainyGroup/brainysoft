@@ -13,3 +13,7 @@ npm-debug.log
 yarn-error.log
 .env
 resources/views/emails/salary_slip1.blade.php
+
+/public/backend
+/public/frontend
+/public/uploads

@@ -6,18 +6,26 @@
  */
 
 import chart from 'chart.js';
+import swal from 'sweetalert2';
 
 
 require('./bootstrap');
 
 window.Vue = require('vue');
 
+
+window.swal = swal;
+window.Fire = new Vue();
+
 let axios = require('axios');
 
 Vue.component('allowance_type', require('./components/allowance_type.vue'));
+Vue.component('all-users', require('./components/AllUsers.vue'));
+//Vue.component('centers', require('./components/centers.vue'));
 
 var app = new Vue({
-	el: '#app',
+  el: '#app',
+  
 
 });
 

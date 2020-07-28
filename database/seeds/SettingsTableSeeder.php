@@ -1,9 +1,12 @@
 <?php
 
+use BrainySoft\Setting;
 use Illuminate\Database\Seeder;
 
 class SettingsTableSeeder extends Seeder
 {
+
+    
     /**
      * Run the database seeds.
      *
@@ -11,6 +14,7 @@ class SettingsTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+       
     }
+    
 }

@@ -56,6 +56,8 @@ class BankController extends Controller
 
           return view('banks.index', compact('banks'));
 
+         
+
         }catch(Exception $e){
 
           $company = $this->company();

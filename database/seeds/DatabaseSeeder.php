@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
            Kin_typeTableSeeder::class,
            Employment_typeTableSeeder::class,
            Pay_baseTableSeeder::class,
+           BasicSettingsTableSeeder::class,
          ]);
     }
 }

@@ -27,6 +27,7 @@ class UsersTableSeeder extends Seeder
               'mobile' => '+255754744254',
               'maritalstatus' => 1,
               'password' => bcrypt('123456'),
+              'national_id' => '255754744254',
               'created_at' =>now(),
               'updated_at' =>now(),
           ]);
@@ -45,6 +46,7 @@ class UsersTableSeeder extends Seeder
               'mobile' => '+255754307151',
               'maritalstatus' => 1,
               'password' => bcrypt('123456'),
+              'national_id' => '19750615-15130-00002-22',
               'created_at' =>now(),
               'updated_at' =>now(),
           ]);
@@ -63,6 +65,7 @@ class UsersTableSeeder extends Seeder
               'mobile' => '+255712916916',
               'maritalstatus' => 1,
               'password' => bcrypt('123456'),
+              'national_id' => '255754744254',
               'created_at' =>now(),
               'updated_at' =>now(),
           ]);
@@ -81,6 +84,7 @@ class UsersTableSeeder extends Seeder
                 'mobile' => '+255713680495',
                 'maritalstatus' => 0,
                 'password' => bcrypt('123456'),
+                'national_id' => '255754744254',
                 'created_at' =>now(),
                 'updated_at' =>now(),
             ]);
@@ -99,6 +103,7 @@ class UsersTableSeeder extends Seeder
                 'mobile' => '+255788591751',
                 'maritalstatus' => 1,
                 'password' => bcrypt('123456'),
+                'national_id' => '255754744254',
                 'created_at' =>now(),
                 'updated_at' =>now(),
             ]);
@@ -119,6 +124,7 @@ class UsersTableSeeder extends Seeder
                 'mobile' => '+255716150594',
                 'maritalstatus' => 0,
                 'password' => bcrypt('123456'),
+                'national_id' => '255754744254',
                 'created_at' =>now(),
                 'updated_at' =>now(),
             ]);
@@ -138,6 +144,7 @@ class UsersTableSeeder extends Seeder
                 'mobile' => '+255656745777',
                 'maritalstatus' => 0,
                 'password' => bcrypt('123456'),
+                'national_id' => '255754744254',
                 'created_at' =>now(),
                 'updated_at' =>now(),
             ]);
@@ -156,6 +163,7 @@ class UsersTableSeeder extends Seeder
                 'mobile' => '+255683358990',
                 'maritalstatus' => 0,
                 'password' => bcrypt('123456'),
+                'national_id' => '255754744254',
                 'created_at' =>now(),
                 'updated_at' =>now(),
             ]);
@@ -176,6 +184,7 @@ class UsersTableSeeder extends Seeder
                 'mobile' => '+255753956864',
                 'maritalstatus' => 1,
                 'password' => bcrypt('123456'),
+                'national_id' => '255754744254',
                 'created_at' =>now(),
                 'updated_at' =>now(),
             ]);
@@ -194,6 +203,7 @@ class UsersTableSeeder extends Seeder
                     'mobile' => '+255754307153',
                     'maritalstatus' => 0,
                     'password' => bcrypt('123456'),
+                    'national_id' => '255754744254',
                     'created_at' =>now(),
                     'updated_at' =>now(),
                 ]);
@@ -213,6 +223,7 @@ class UsersTableSeeder extends Seeder
                         'mobile' => '+2557543071222',
                         'maritalstatus' => 1,
                         'password' => bcrypt('123456'),
+                        'national_id' => '255754744254',
                         'created_at' =>now(),
                         'updated_at' =>now(),
                     ]);
@@ -231,6 +242,7 @@ class UsersTableSeeder extends Seeder
                             'mobile' => '+255754307152',
                             'maritalstatus' => 1,
                             'password' => bcrypt('123456'),
+                            'national_id' => '255754744254',
                             'created_at' =>now(),
                             'updated_at' =>now(),
                         ]);

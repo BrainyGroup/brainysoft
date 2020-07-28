@@ -16,7 +16,7 @@
         @if(count ($statutories) > 0)
       <div class="table-responsive">
 
-              <table class="table table-hover table-striped table-bordered">
+              <table class="table table-hover table-striped table-bordered table-sm">
                 <caption></caption>
 
 
@@ -37,9 +37,11 @@
 
                       <th scope="col">Statutory type</th>
 
+                      <th scope="col">Number</th>
+
                       <th scope="col">Salary base</th>
 
-
+                      <th scope="col">Edit</th>
 
                       <th scope="col">Delete</th>
 
@@ -66,9 +68,13 @@
 
                       <td>{{ $statutory->statutory_type_name }}</td>
 
+                      <td>{{ $statutory->employee_statutory_no }}</td>
+
                       <td>{{ $statutory->salary_base }}</td>
 
               @if($statutory->selection == 1)
+
+              <td><a href="/employee_statutories/{{$statutory->employee_statutory_id}}/edit">Edit</a></td>
 
                       <td><a href=""
                           onclick="
@@ -84,6 +90,7 @@
                           {!! Form::close() !!}
                       </td>
               @else
+              <td>Edit</td>
 
 
                 <td>delete</td>

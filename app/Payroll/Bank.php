@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bank extends Model
 {
+
+  protected $fillable = ['name', 'description','company_id','country_id'];
   
 
   public  function employees()

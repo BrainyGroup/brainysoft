@@ -150,7 +150,7 @@ class SettingController extends Controller
 
       ]);
 
-      $settingUpdate = Setting::where('id', $setting->id)
+      $settingUpdate = Setting::where('id', $id)
 
       ->update([
 

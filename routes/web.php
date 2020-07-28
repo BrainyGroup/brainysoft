@@ -1,5 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,9 +18,9 @@
 */
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('users.index');
+// });
 
 Auth::routes();
 
@@ -27,16 +33,16 @@ Route::get('/home', 'HomeController@index')->name('home');
 //     return view('contacts');
 // });
 
-// Route::get('/', function () {
-//     return view('auth.login');
-// });
+Route::get('/', function () {
+    return view('auth.login');
+});
 
-// Route::get('/logout', function()
-// 	{
-// 		Auth::logout();
-// 	  //Session::flush();
-// 		return Redirect('login');
-// 	});
+Route::get('/logout', function()
+	{
+		Auth::logout();
+	  Session::flush();
+		return Redirect('login');
+	});
 
 
 //Allowance routes
@@ -135,7 +141,10 @@ Route::resource('statutories', 'StatutoryController');
 Route::resource('employee_statutories', 'EmployeeStatutoryController');
 
 //users
- Route::resource('users', 'UserController');
+Route::resource('users', 'UserController');
+
+//  Route::get('/users', 'UserController@getUsers');
+// Route::delete('/users/{user}/delete', 'UserController@deleteUser');
 
 
 
@@ -160,3 +169,15 @@ Route::get('/reports/index_user', 'ReportController@indexUser');
 Route::resource('/reports/users', 'UsersController');
 
 Route::resource('/reports/pays', 'PaysController');
+
+Route::get('/reports/employee_pay', 'ReportController@pay_by_employee');
+
+Route::get('/reports/monthly_summary', 'ReportController@monthly_summary');
+
+Route::get('/reports/monthly_create', 'ReportController@monthlyCreate');
+
+
+//Route::view('/admin', 'admin.dashboard.index');
+
+Route::get('/basic_settings', 'BasicSettingController@index')->name('basic_settings');
+Route::post('/basic_settings', 'BasicSettingController@update')->name('basic_settings.update');

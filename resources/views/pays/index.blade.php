@@ -7,9 +7,10 @@
 
 
           
-
-        <span class="pull-right">Payroll Summary for {{$max_pay . '        '}}<a  href="/pays/create">{{ __('messages.add')}}</a></span></div>
-
+        <span >Payroll Summary for {{$max_pay . '        '}}</span>
+        
+        <span class="pull-right"> <a class="btn btn-secondary btn-sm" href="/pays/create">{{ __('messages.add') }} new pay </a></span>
+      </div>
         <div class="card-body">
             @if (session('status'))
                 <div class="alert alert-success" role="alert">
@@ -21,28 +22,30 @@
 
 
         @if(count($pays) > 0)
+       
                   <div class="table-responsive">
 
-                  <table class="table table-hover table-striped table-bordered">
+                  <table class="table table-hover table-striped table-bordered table-sm">
                         <caption></span></caption>
 
                       <thead>
-                        <tr>
+                        @if($isPosted)
+                        <tr class="table-success">
+                          <th scope="col">Name</th>
+
+                          <th scope="col">Amount</th>
+
+                          <th scope="col">Details</th>
+       
+                       @else
+                        <tr class="table-danger">
 
                           <th scope="col">Name</th>
 
                           <th scope="col">Amount</th>
 
                           <th scope="col">Details</th>
-
-
-
-                          
-
-
-
-
-
+                        @endif         
 
                         </tr>
                       </thead>
@@ -100,7 +103,7 @@
                 @endforeach
 
                 @if($isPosted)
-                 <tr>
+                 <tr class="table-success">
                           <td>Already posted</td>
 
                           <td></td>
@@ -109,25 +112,26 @@
 
                 @else
 
-                 <tr>
-                          <td>Do you want to post?</td>
+                 <tr class="table-danger">
+                          <td class="text-danger" colspan="3">Do you want to post? 
+                         
+                          <span class = "pull-right">
+                           
 
-                          <td><a href=""
+                          <a class="btn btn-secondary btn-sm" href=""
                           onclick="
                           var result = confirm('Are you sure yo want to post pays for this month?');
                           if (result){
                               event.preventDefault();
                               document.getElementById({{$max_pay}}).submit();
-                            }">Yes
-                          </a>
+                            }"> Yes post
+                          </a></span>
 
                           {!! Form::open(['action' => ['PayController@post',$max_pay],'method' => 'PUT','id' => $max_pay]) !!}
 
                           {!! Form::close() !!}
-                      </td>
-
-                      <td></td>
-
+            
+                        </td>
                      </tr>
 
                 @endif
@@ -137,6 +141,7 @@
             </tbody>
           </table>
       </div>
+        
 
       
 

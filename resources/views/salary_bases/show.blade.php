@@ -13,7 +13,7 @@
             @endif
           <div class="table-responsive">
 
-                  <table class="table table-hover table-striped table-bordered">
+                  <table class="table table-hover table-striped table-bordered table-sm">
 
                     <caption><h1>{{ $bank->name  }}</h1></caption>
 

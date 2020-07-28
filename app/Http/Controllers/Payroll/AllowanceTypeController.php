@@ -34,7 +34,9 @@ class AllowanceTypeController extends Controller
     {
       $user = User::find(auth()->user()->id);
 
+    
       return Company::find($user->company_id);
+
     }
     /**
      * Display a listing of the resource.
@@ -54,7 +56,9 @@ class AllowanceTypeController extends Controller
 
         $allowance_types = Allowance_type::all();
 
-        return view('allowance_types.index', compact('allowance_types'));
+        
+
+        return view('allowance_types.index' ,compact('allowance_types'));
 
       }catch(Exception $e){
 
@@ -65,6 +69,33 @@ class AllowanceTypeController extends Controller
           Log::debug($company->name.': End allowance types index');
       }
 
+
+    }
+
+    public function indexAPI(Request $request){
+      
+        $allowance_types = Allowance_type::latest()->orderBy('created_at', 'desc')->get();
+
+        dd($allowance_types);
+
+        return response()->json( $allowance_types);
+        
+        $columns = ['id', 'name', 'description'];
+        $length = $request->input('length');
+        $column = $request->input('column');
+        $search_input = $request->input('search');
+        $query = Allowance_type::select('id', 'name', 'description')
+        ->orderBy($columns[$column]);
+        if ($search_input) {
+        $query->where(function($query) use ($search_input) {
+        $query->where('id', 'like', '%' . $search_input . '%')
+        ->orWhere('name', 'like', '%' . $search_input . '%')
+        ->orWhere('description', 'like', '%' . $search_input . '%');
+        });
+        }
+        $users = $query->paginate($length);
+        return ['data' => $users];
+        
 
     }
 

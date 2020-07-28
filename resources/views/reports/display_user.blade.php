@@ -20,7 +20,7 @@
       
       <div class="table-responsive">
 
-              <table class="table table-hover table-striped table-bordered" id="users-table">
+              <table class="table table-hover table-striped table-bordered table-sm" id="users-table">
                   <caption></caption>
 
                   <thead>

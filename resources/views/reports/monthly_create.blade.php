@@ -3,15 +3,16 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">Add pays</div>
+        <div class="card-header">Select Pay</div>
 
         <div class="card-body">
             @if (session('status'))
                 <div class="alert alert-success" role="alert">
                     {{ session('status') }}
                 </div>
+                
             @endif
-{!! Form::open(['action' => 'PayController@store','method' => 'POST']) !!}
+                {!! Form::open(['action' => 'ReportController@monthly_summary','method' => 'GET']) !!}
 
                     <div class="form-group">
 
@@ -23,9 +24,9 @@
 
                        <option value="">Select year</option>
 
-                      @foreach($pays as $pay)
+                      @foreach($years as $year)
 
-                       <option value="{{ $pay->year }}">{{ $pay->year }}</option>
+                       <option value="{{ $year }}">{{ $year }}</option>
 
                        @endforeach
 
@@ -41,9 +42,9 @@
 
                        <option value="">Select month</option>
 
-                    @foreach($pays as $pay)
+                    @foreach($months as $month)
 
-                       <option value="{{ $pay->month }}">{{ $pay->month }}</option>
+                       <option value="{{ $month->month }}">{{ $month->month }}</option>
 
                        @endforeach
 

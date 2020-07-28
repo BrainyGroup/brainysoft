@@ -6,6 +6,8 @@ use DB;
 
 use Exception;
 
+use Carbon\Carbon;
+
 use BrainySoft\User;
 
 use BrainySoft\Company;
@@ -91,6 +93,10 @@ class DeductionController extends Controller
               )
 
             ->where('deductions.company_id', $company->id )
+
+            //->where('balance','>', 0 )
+
+            ->where('status','!=',0 )            
 
             ->orderBy('employee_id')
 
@@ -203,7 +209,7 @@ public function deductionDetails()
 
       // TODO: check deduction to see if it is working
 
-     
+     $start_date = new Carbon(request('start_date'));
 
       $company = $this->company();
 
@@ -211,9 +217,25 @@ public function deductionDetails()
 
       $deduction->amount = request('amount');
 
+      $deduction->interest = request('interest');
+
+      $deduction->period = request('period');
+
+      $deduction->interest_amount = ($deduction->interest/100) *  $deduction->amount;
+
+      $deduction->total_amount =  $deduction->amount + $deduction->interest_amount;
+
+      $deduction->monthly_amount =  $deduction->total_amount  / $deduction->period;
+
+      $deduction->balance = $deduction->total_amount;
+
+      $deduction->status = 1;
+
+      $deduction->date_taken = request('date_taken');
+
       $deduction->start_date = request('start_date');
 
-      $deduction->end_date = request('end_date');
+      $deduction->end_date = $start_date->addMonthsNoOverflow($deduction->period);
 
       $deduction->employee_id = request('employee_id');
 
@@ -279,14 +301,19 @@ public function deductionDetails()
 
         'start_date' => 'required|date',
 
-        'end_date' => 'required|date',
+      
 
       ]);
 
       //save data
+
+  
+  $start_date = new Carbon(request('start_date'));
+
   $deductionUpdate = Deduction::where('id', $deduction->id)
 
   ->update([
+
 
       'deduction_type_id'			=> $request->input('deduction_type_id'),
 
@@ -294,7 +321,21 @@ public function deductionDetails()
 
       'start_date'			=> $request->input('start_date'),
 
-      'end_date'	=> $request->input('end_date'),
+      'end_date' => $start_date->addMonthsNoOverflow($deduction->period),  
+
+      'interest' => $request->input('interest'),
+
+      'period' => request('period'),
+
+      'interest_amount' => ($deduction->interest/100) *  $deduction->amount,
+
+     'total_amount' =>  $deduction->amount + $deduction->interest_amount,
+
+      'monthly_amount' =>  $deduction->total_amount  / $deduction->period,
+
+     'balance' => $deduction->total_amount,     
+
+      'date_taken' => request('date_taken'),
 
   ]);
 

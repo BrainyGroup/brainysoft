@@ -3,8 +3,9 @@
 @section('content')
 <div class="col-md-12">
     <div class="card">
-        <div class="card-header">{{ $company->name }} Users
-          <span class="pull-right"> <a href="/users/create">{{ __('messages.add') }}</a></span>
+      
+        <div class="card-header"> Users
+          <span class="pull-right"> <a class="btn btn-secondary btn-sm"href="/users/create">{{ __('messages.add') }} new user </a></span>
 
         </div>
 
@@ -20,7 +21,7 @@
         @if(count ($users) > 0)
       <div class="table-responsive">
 
-              <table class="table table-hover table-striped table-bordered">
+              <table class="table table-hover table-striped table-bordered table-sm" id="sample_1">
                   <caption></caption>
 
                   <thead>
@@ -32,9 +33,9 @@
 
                       <th scope="col">Email</th>
                       <th scope="col">Mobile</th>
-                      <th scope="col">Employee</th>
-                      <th scope="col">Edit</th>
-                      <th scope="col">Delete</th>
+                      <th scope="col"></th>
+                      <th scope="col"></th>
+                      <th scope="col"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -64,9 +65,9 @@
                       <td>{{ $user->mobile }}</td>
 
 
-                      <td><a href="/employees/create?user_id={{ $user->id }}"> Add</a></td>
+                      <td><a href="/employees/create?user_id={{ $user->id }}"> <i class="fa fa-paper-plane text-secondary" aria-hidden="true"></i></a></td>
 
-                      <td><a href="/users/{{$user->id}}/edit">Edit</a></td>
+                      <td><a href="/users/{{$user->id}}/edit"><i class="fa fa-paint-brush text-secondary" aria-hidden="true"></i></a></td>
 
                       <td><a href=""
                           onclick="
@@ -74,7 +75,7 @@
                           if (result){
                               event.preventDefault();
                               document.getElementById({{$user->id}}).submit();
-                            }">Delete
+                            }"><i class="fa fa-trash text-secondary" aria-hidden="true"></i>
                           </a>
 
                           {!! Form::open(['action' => ['UserController@destroy',$user->id],'method' => 'DELETE','id' => $user->id]) !!}
@@ -104,6 +105,7 @@
     </div>
 </div>    
 @endsection
+
 
 
 

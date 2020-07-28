@@ -4,7 +4,7 @@
     <div class="card">
         <div class="card-header">
            
-         <span class="pull-right"><h1>Net pay for {{ $bank_name }} </h1></div>
+         <span><h1>Net pay for {{ $bank_name }} </h1></div>
          <div class="card-body">
             @if (session('status'))
                 <div class="alert alert-success" role="alert">
@@ -13,7 +13,7 @@
             @endif
             
        <div class="table-responsive">
-               <table class="table table-hover table-striped table-bordered">
+               <table class="table table-hover table-striped table-bordered table-sm">
                     <caption></caption>
                    <thead>
                     <tr>

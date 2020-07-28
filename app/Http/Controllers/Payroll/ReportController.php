@@ -68,9 +68,12 @@ class ReportController extends Controller
 
         $company = $this->company();
 
-      
+        $max_pay = Pay::where('posted', 1)
+        ->where('company_id', $company->id)
+        ->max('pay_number');
 
-        return view('reports.index');
+
+        return view('reports.index', compact('max_pay'));
 
      }
 
@@ -106,6 +109,33 @@ class ReportController extends Controller
 
      }
 
+    public function pays(){
+
+    }
+
+    public function pay_by_employee(Request $request){
+
+      $user = User::find(auth()->user()->id);
+
+      $company = $this->company();
+
+      $employee = Employee::where('user_id',$user->id)
+
+                  ->where('company_id', $company->id)
+                  
+                  ->first();
+
+      $pays = Pay::where('company_id',$company->id)
+
+                    ->where('employee_id', $employee->id )
+
+                    ->get();
+
+
+      return view('reports.employee_pay', compact( 'pays', 'user'));
+
+    }
+
 
 
     public function net(Request $request)
@@ -113,6 +143,14 @@ class ReportController extends Controller
             $company = $this->company(); 
 
             $max_pay = request('max_pay');
+
+            $net_total = DB::table('pays')
+
+            ->where('pays.company_id', $company->id)
+
+            ->where('pay_number', $max_pay)
+
+            ->sum('pays.net');
 
             $nets = DB::table('pays')
 
@@ -137,20 +175,181 @@ class ReportController extends Controller
               'pays.*'
               )
             ->get();
+
+           
           
-            return view('reports.net', compact( 'nets','max_pay'));
+            return view('reports.net', compact( 'nets','max_pay','company','net_total'));
     }
 
     public function monthlyCreate()
     {
     	 $company = $this->company(); 
-    	 $pays = Pay::where('company_id', $company->id)
-    	 ->where('posted', true)->get();
+    	 $min_year = Pay::where('company_id', $company->id)
+       ->where('posted', true)->min('year');
+
+       $min_year = Pay::where('company_id', $company->id)
+       ->where('posted', true)->min('year');
+
+       $months = Pay::distinct('month')->where('company_id', $company->id)
+       ->where('posted', true)->get(['month']);
+
+       
+
+       //$month = DB::table('pays')->distinct('month')->get();
+
+       if(!$min_year) $min_year = Carbon::now()->format('Y');
+
+       $max_year = Carbon::now()->format('Y');
+
+       $years = [];
+       for ($y = $max_year;$y >=  $min_year; $y-- ){
+        $years[] = $y;
+       }
+       
+
+    
+       
+     
 
 
+    	 return view('reports.monthly_create', compact( 'years','months'));
 
-    	 return view('reports.monthly_create', compact( 'pays'));
+    }
 
+    public function monthly_summary(Request $request)
+    {
+          $company = $this->company();        
+
+          $employeeExist = Employee::where('company_id', $company->id)->exists();
+
+          if(!$employeeExist){
+
+            return redirect('users')->withInput()->with('error','Please add at least one employee to run eanring pay');
+          }
+
+          
+
+          $login_user = Employee::where('user_id', auth()->user()->id)->first();
+
+          // $pays = Pay::where('company_id', $login_user->company_id)->get();
+            //$max_pay = Pay::where('company_id', $company->id )->max('pay_number');
+            $month = request('month');
+
+            if (strlen($month) == 1) $month = "0" . $month;
+
+          
+            $max_pay = request('year').$month ;
+
+            //dd($max_pay);
+
+            $pay_periods = DB::table('pays')->distinct()->select('pay_number')->get();
+
+            $month_gross = Pay::where('pay_number', $max_pay)
+
+            ->where('company_id',$company->id)
+
+            ->sum('gloss');
+
+         
+
+            $month_paye = Pay::where('pay_number', $max_pay)
+
+             ->where('company_id',$company->id)
+
+            ->sum('paye');
+
+            $month_net = Pay::where('pay_number', $max_pay)
+
+             ->where('company_id',$company->id)
+
+            ->sum('net');
+
+            $deduction_sum = Pay::where('pay_number', $max_pay)
+
+             ->where('company_id',$company->id)
+
+            ->sum('deduction');
+
+             $isPosted = Pay::where('company_id', $company->id)
+
+             ->where('pay_number', $max_pay)
+
+             ->where('posted', true)
+
+             ->exists();
+
+
+            $statutory_sum = Pay_statutory::where('pay_number', $max_pay)
+
+            ->where('company_id',$company->id)
+
+            ->sum('total');
+
+
+        $pay_statutories = DB::table('pay_statutories')
+
+        ->select(
+
+          'statutory_id',
+
+          DB::raw('SUM(total) as total_amount'))
+
+          ->where('pay_number',$max_pay)
+
+           ->where('company_id',$company->id)
+
+          ->groupBy('statutory_id');
+
+
+           $statutories = DB::table('statutories')
+
+        ->joinSub($pay_statutories, 'pay_statutories', function($join) {
+
+        $join->on('statutories.id','pay_statutories.statutory_id');
+
+      })     
+
+        ->select(
+
+          'pay_statutories.*',        
+
+          'statutories.name as statutory_name'       
+
+          )
+
+          ->get();       
+
+
+            $pays = DB::table('pays')
+            ->where('pays.company_id', $company->id)
+            ->join('employees', 'employees.id','pays.employee_id')
+            ->join('users', 'users.id','employees.user_id')
+            ->select(
+
+              'users.*',
+
+              'employees.*',
+
+              'pays.*'
+              )
+            ->get();
+
+            $total = $month_net + $month_paye + $statutory_sum + $deduction_sum;
+
+            
+
+          return view('pays.index', compact(
+            'pays',
+            'month_gross',
+            'month_net',
+            'month_paye',
+            'month_sdl',
+            'statutories',
+            'max_pay',
+            'deduction_sum',
+            'isPosted',
+            'total'
+          ));
     }
 
 
@@ -167,6 +366,18 @@ class ReportController extends Controller
 
             $statutory_name = $statutory->name;
 
+            
+            $total_statutory = DB::table('pay_statutories')
+
+            ->where('pay_statutories.company_id', $company->id)
+
+            ->where('pay_statutories.statutory_id',  $statutory_id)
+
+            ->where('pay_number', $max_pay)
+
+            ->sum('pay_statutories.total');
+
+
             $pay_statutories = DB::table('pay_statutories')
 
             ->where('pay_statutories.company_id', $company->id)
@@ -177,6 +388,8 @@ class ReportController extends Controller
 
             ->join('employees', 'employees.id','pay_statutories.employee_id')
 
+            ->join('employee_statutories', 'employee_statutories.statutory_id','pay_statutories.statutory_id')
+
          
 
             ->join('users', 'users.id','employees.user_id')
@@ -185,7 +398,9 @@ class ReportController extends Controller
 
               'users.*',
 
-              'employees.*',            
+              'employees.*',  
+              
+              'employee_statutories.*',
 
               'pay_statutories.*'
               )
@@ -193,13 +408,15 @@ class ReportController extends Controller
 
             
           
-            return view('reports.statutory_list', compact( 'pay_statutories','max_pay','statutory_name'));
+            return view('reports.statutory_list', compact( 'pay_statutories','max_pay','statutory_name','total_statutory'));
     }
 
         public function paye(Request $request)
     	{
            
-           	$company = $this->company();           
+             $company = $this->company(); 
+             
+             $title = 'P.A.Y.E. - DETAILS OF PAYMENT OF TAX WITHHELD';
 
           	$login_user = Employee::where('user_id', auth()->user()->id)->first();
          
@@ -262,7 +479,7 @@ class ReportController extends Controller
 
         
 
-          return view('reports.paye', compact('pays'));
+          return view('reports.paye', compact('pays','title'));
     }
 
     public function payDetails(Request $request)

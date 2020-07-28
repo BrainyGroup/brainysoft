@@ -2,6 +2,9 @@
 
 use Illuminate\Http\Request;
 use BrainySoft\Allowance_type;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,8 +19,11 @@ use BrainySoft\Allowance_type;
 
 Route::group(["middleware" => "api"], function(){
 
+	//Route::get('allowance_types','AllowanceTypeController@indexAPI');
+
 	Route::get('allowance_types', function(){
 		return Allowance_type::latest()->orderBy('created_at','desc')->get();
+	
 	});
 
 	Route::get('allowance_types/{id}', function($id){

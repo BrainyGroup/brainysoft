@@ -8,7 +8,7 @@
 
           
 
-        <span class="pull-right">Net pay for </div>
+        <span><h1>Net pay for {{ $company->name}}</h1></div>
 
         <div class="card-body">
             @if (session('status'))
@@ -23,11 +23,12 @@
 
       <div class="table-responsive">
 
-              <table class="table table-hover table-striped table-bordered">
+              <table class="table table-hover table-striped table-bordered table-sm">
                     <caption></caption>
 
-                  <thead>
+                  <thead class="thead-dark">
                     <tr>
+                      <th scope="col">#</th>
 
                       <th scope="col">Name</th>
 
@@ -35,39 +36,34 @@
 
                       <th scope="col">Account#</th>
 
-                      <th scope="col">Amount</th>
-
+                      <th scope="col"><span class = "pull-right">Amount</span></th>
+                      
 
                     </tr>
                   </thead>
                   <tbody>
         @if(count($nets)>0)
 
-        @foreach($nets as $net)
+        @foreach($nets as $key => $net)
 
                     <tr>
+                    <td>{{ $key+1}}</td>
 
-                      <td>{{ $net->title.'. '.$net->firstname.' '.$net->middlename.' '.$net->lastname }}</td>                  
+                      <td>{{ $net->title.'. '.$net->firstname.' '.$net->middlename.' '.$net->lastname }}</td>          
 
+                    <td>{{ $net->bank_name}}</td>
 
+                    <td>{{$net->account_number}}</td>
 
-                    
-
-                      
-
-
-                      <td></td>
-
-                      <td></td>
-
-                      <td>{{ number_format($net->net,2) }}</td>                
-
-
-
+                      <td><span class = "pull-right">{{ number_format($net->net,2) }}</span></td>           
                     </tr>
-
-
           @endforeach
+          <tr>
+            <td></td>
+            <td colspan="3">Total</td>
+          <td><span class = "pull-right">{{ number_format($net_total,2)}}</span></td>
+
+          </tr>
 
           <tr>
 

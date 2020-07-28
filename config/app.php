@@ -150,6 +150,9 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        BrainySoft\Providers\BasicSettingServiceProvider::class,
+
+        BrainySoft\Providers\RepositoryServiceProvider::class,
 
         //Form collection
         Collective\Html\HtmlServiceProvider::class,
@@ -226,6 +229,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+
         //Form collection
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
@@ -234,11 +238,13 @@ return [
         'PDF' => Barryvdh\DomPDF\Facade::class,
 
         // 'PDFS' => Barryvdh\Snappy\Facades\SnappyPdf::class,
-        'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
+        //'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
 
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
 
         'Lava' => Khill\Lavacharts\Laravel\LavachartsFacade::class,
+
+        'BasicSetting' => BrainySoft\Providers\BasicSettingServiceProvider::class,
 
         'Carbon' => 'Carbon\Carbon',
 

@@ -57,7 +57,7 @@ use BrainySoft\Statutory;
 use BrainySoft\Deduction;
 
 use BrainySoft\Allowance;
-
+use BrainySoft\EmployeeStatutory;
 use Illuminate\Http\Request;
 
 use BrainySoft\Pay_statutory;
@@ -75,6 +75,8 @@ class PayController extends Controller
         $this->middleware('auth');
 
     }
+
+
 
     public function downloadPDF($id){
 
@@ -425,7 +427,9 @@ private function paye($employee_id = null,$country_id = null,$taxable_salary = 0
 //9 deduction
 private function deductionSum($employee_id = null,$company_id = null){
 
-      return Deduction::where('employee_id',$employee_id)->sum('amount');
+     // return Deduction::where('employee_id',$employee_id)->sum('amount');
+
+      return Deduction::where('employee_id',$employee_id)->sum('monthly_amount');
 
 }
 
@@ -562,6 +566,8 @@ private function deductionSum($employee_id = null,$company_id = null){
           ));
     }
 
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -697,6 +703,8 @@ private function deductionSum($employee_id = null,$company_id = null){
 
         $deduction = $this->deductionSum($employee_id, $company->id);
 
+        
+
         $net =   $monthly_earning - $deduction;
 
 
@@ -748,24 +756,77 @@ private function deductionSum($employee_id = null,$company_id = null){
 
     ->where('deductions.employee_id',$employee_id)  
 
-  ->where('deductions.company_id', $company->id)  
+  ->where('deductions.company_id', $company->id) 
+  
+  ->where('deductions.start_date','<=', Carbon::now()->format('Y-m-d')) 
+
+  ->where('deductions.end_date','>=', Carbon::now()->format('Y-m-d')) 
 
   ->get();
 
 
   foreach($deductions as $deduction){
+     if(($deduction->balance > 0) && ($deduction->balance >= $deduction->monthly_amount)){
+      DB::table('pay_deductions')->insert([
+        'company_id' => $company->id,
+        'employee_id' => $employee_id,
+        'pay_id' => $lastPayId,
+        'pay_number' => $pay_number,
+        'deduction_type_id' =>  $deduction->deduction_type_id,
+        'amount' =>   $deduction->monthly_amount,
+        'deduction_id' =>   $deduction->deduction_id,                    
+        'created_at' =>now(),
+        'updated_at' =>now(),
+    ]);
+
+    $balance =  $deduction->balance -  $deduction->monthly_amount;
+
+    if ($balance < $deduction->monthly_amount ){
+      $monthly_amount = $balance;
+    }else{
+      $monthly_amount = $deduction->monthly_amount;
+    }
+
+    DB::table('deductions')
+    ->where('employee_id', $employee_id)
+    ->where('company_id', $company->id)
+    ->where('deduction_type_id', $deduction->deduction_type_id)
+    ->where('id', $deduction->id)
+
+    ->update(['balance' => $balance,
+              'monthly_amount' => $monthly_amount,
+              'updated_at' => now()]);
+
+     }else{
+
+      DB::table('pay_deductions')->insert([
+        'company_id' => $company->id,
+        'employee_id' => $employee_id,
+        'pay_id' => $lastPayId,
+        'pay_number' => $pay_number,
+        'deduction_type_id' =>  $deduction->deduction_type_id,
+        'amount' =>   $deduction->balance,
+        'deduction_id' =>   $deduction->deduction_id,                    
+        'created_at' =>now(),
+        'updated_at' =>now(),
+    ]);
+
+
+
+    DB::table('deductions')
+    ->where('employee_id', $employee_id)
+    ->where('company_id', $company->id)
+    ->where('deduction_type_id', $deduction->deduction_type_id)
+    ->where('id', $deduction->id)
+
+    ->update(['balance' => 0.00,'updated_at' => now(),'monthly_amount' => 0.00 , 'status' => 0]);
+
+
+      
+
+     }
   
-            DB::table('pay_deductions')->insert([
-                    'company_id' => $company->id,
-                    'employee_id' => $employee_id,
-                    'pay_id' => $lastPayId,
-                    'pay_number' => $pay_number,
-                    'deduction_type_id' =>  $deduction->deduction_type_id,
-                    'amount' =>   $deduction->amount,
-                    'deduction_id' =>   $deduction->deduction_id,                    
-                    'created_at' =>now(),
-                    'updated_at' =>now(),
-                ]);
+   
           }
 
 
@@ -778,6 +839,10 @@ private function deductionSum($employee_id = null,$company_id = null){
     ->where('allowances.employee_id',$employee_id)  
 
   ->where('allowances.company_id', $company->id)  
+
+  ->where('allowances.start_date','<=', Carbon::now()->format('Y-m-d')) 
+
+  ->where('allowances.end_date','>=', Carbon::now()->format('Y-m-d')) 
 
   ->get();
 
@@ -822,6 +887,13 @@ foreach($statutories as $statutory){
     $statutory_employee = $statutory->employee * $gloss;
     $statutory_employer = $statutory->employer * $gloss;
   }
+
+  $employee_statutory_no = EmployeeStatutory::where('company_id', $company->id)
+                                            ->where('employee_id',$employee_id)
+                                            ->where('statutory_id', $statutory->id)                                            
+                                            ->value('employee_statutory_no');
+
+  //select employee_statutory_no where company_id,employee_idstatutory_id
             DB::table('pay_statutories')->insert([
                     'company_id' => $company->id,
                     'employee_id' => $employee_id,
@@ -831,6 +903,7 @@ foreach($statutories as $statutory){
                     'employer' =>   $statutory_employer,
                     'total' =>   $statutory_employer + $statutory_employee,
                     'statutory_id' => $statutory->id,
+                    'employee_statutory_no'=> $employee_statutory_no,
                     'created_at' =>now(),
                     'updated_at' =>now(),
                 ]);
