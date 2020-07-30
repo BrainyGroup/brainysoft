@@ -8,8 +8,6 @@
 
 namespace BrainySoft\Http\Controllers;
 
-use DB;
-
 use Exception;
 
 use Carbon\Carbon;
@@ -51,6 +49,8 @@ use BrainySoft\Statutory_type;
 use BrainySoft\Employment_type;
 
 use Illuminate\Support\Facades\Log;
+
+use Illuminate\Support\Facades\DB;
 
 
 class EmployeeController extends Controller
