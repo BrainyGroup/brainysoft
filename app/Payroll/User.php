@@ -96,6 +96,12 @@ class User extends Authenticatable
     return $this->dob->diffInYears(\Carbon::now());
     }
 
+    public function scaopeNotEmployee($id){
+      return static::where('company_id',$id)
+      ->where('employee',false)
+      ->get(); 
+    }
+
 
 
 

@@ -8,46 +8,22 @@
 
 namespace BrainySoft\Http\Controllers;
 
-use Exception;
-
+use BrainySoft\Bank;
+use BrainySoft\Center;
+use BrainySoft\Company;
+use BrainySoft\Department;
+use BrainySoft\Designation;
+use BrainySoft\Employee;
+use BrainySoft\Level;
+use BrainySoft\Pay;
+use BrainySoft\Salary;
+use BrainySoft\Scale;
+use BrainySoft\Statutory;
+use BrainySoft\Statutory_type;
+use BrainySoft\User;
 use Carbon\Carbon;
 
-use BrainySoft\Pay;
-
-use BrainySoft\User;
-
-use BrainySoft\Bank;
-
-use BrainySoft\Level;
-
-use BrainySoft\Scale;
-
-use BrainySoft\Center;
-
-use BrainySoft\Salary;
-
-use BrainySoft\Company;
-
-use BrainySoft\Employee;
-
-use BrainySoft\Pay_base;
-
-use BrainySoft\Deduction;
-
-use BrainySoft\Statutory;
-
-use BrainySoft\Department;
-
-use BrainySoft\Designation;
-
 use Illuminate\Http\Request;
-
-use BrainySoft\Payroll_group;
-
-use BrainySoft\Statutory_type;
-
-use BrainySoft\Employment_type;
-
 use Illuminate\Support\Facades\Log;
 
 use Illuminate\Support\Facades\DB;
@@ -63,10 +39,10 @@ class EmployeeController extends Controller
     }
 
     private function company()
-    {      
-      
-      return User::find(auth()->user()->id)->company;
-      
+    {
+
+        return User::find(auth()->user()->id)->company;
+
     }
     /**
      * Display a listing of the resource.
@@ -76,98 +52,92 @@ class EmployeeController extends Controller
     public function index()
     {
 
-
         $company = $this->company();
 
-          $employeeExist = Employee::where('company_id', $company->id)->exists();
+        $employeeExist = Employee::where('company_id', $company->id)->exists();
 
-          if(!$employeeExist){
+        if (!$employeeExist) {
 
-            return redirect('users')->withInput()->with('error','Please add at least one employee to view employees');
-          }
+            return redirect('users')->withInput()->with('error', 'Please add at least one employee to view employees');
+        }
 
-        Log::debug($company->name.': Start employee index');
+        Log::debug($company->name . ': Start employee index');
 
         // TODO: here you must fetch from user and use user id to fetch from employees see on user controller
 
-       // $employee = Employee::where('user_id', auth()->user()->id)->first();
-       
-
+        // $employee = Employee::where('user_id', auth()->user()->id)->first();
 
         $allowances = DB::table('allowances')
 
-        ->select(
+            ->select(
 
-          'employee_id',
+                'employee_id',
 
-          DB::raw('SUM(amount) as allowance_amount'))
+                DB::raw('SUM(amount) as allowance_amount'))
 
-          ->where('allowances.company_id', $company->id)
+            ->where('allowances.company_id', $company->id)
 
-          ->groupBy('employee_id');
-
+            ->groupBy('employee_id');
 
         $deductions = DB::table('deductions')
 
-        ->select(
+            ->select(
 
-          'employee_id',
+                'employee_id',
 
           DB::raw('SUM(balance) as deduction_amount'))
 
-          ->where('deductions.company_id', $company->id)
+             
 
-          ->groupBy('employee_id');
+            ->where('deductions.company_id', $company->id)
 
+            ->groupBy('employee_id');
 
-      $employees = DB::table('employees')
+        $employees = DB::table('employees')
 
-      ->join('users', 'users.id','employees.user_id')
+            ->join('users', 'users.id', 'employees.user_id')
 
-      ->join('salaries','employees.id', 'salaries.employee_id')
+            ->join('salaries', 'employees.id', 'salaries.employee_id')
 
-      ->join('centers', 'employees.center_id', '=', 'centers.id')
+            ->join('centers', 'employees.center_id', '=', 'centers.id')
 
-      ->join('designations', 'employees.designation_id', '=', 'designations.id')
+            ->join('designations', 'employees.designation_id', '=', 'designations.id')
 
-      ->joinSub($allowances, 'allowances', function($join) {
+            ->joinSub($allowances, 'allowances', function ($join) {
 
-        $join->on('employees.id','allowances.employee_id');
+                $join->on('employees.id', 'allowances.employee_id');
 
-      })
+            })
 
-      ->joinSub($deductions, 'deductions', function($join) {
+            ->joinSub($deductions, 'deductions', function ($join) {
 
-        $join->on('employees.id', '=', 'deductions.employee_id');})
+                $join->on('employees.id', '=', 'deductions.employee_id');})
 
-        ->select(
+            ->select(
 
-          'users.*',
+                'users.*',
 
-          'employees.*',
+                'employees.*',
 
-          'salaries.amount as salary',
+                'salaries.amount as salary',
 
-          'allowances.*',
+                'allowances.*',
 
-          'deductions.*',
+                'deductions.*',
 
-          'centers.name as center_name',
+                'centers.name as center_name',
 
-          'designations.name as designation',
+                'designations.name as designation',
 
-          'centers.description as center_description'
+                'centers.description as center_description'
 
-          )
+            )
 
-          ->get();
+            ->get();
 
-          return view('employees.index', compact('employees'));
+        return view('employees.index', compact('employees'));
 
-          //return view('employees.index')->with('employees', $employees);
-
-
-
+        //return view('employees.index')->with('employees', $employees);
 
     }
 
@@ -179,50 +149,43 @@ class EmployeeController extends Controller
     public function create(Request $request)
     {
 
-
         $user = User::find(request('user_id'));
 
         $company = $this->company();
 
-
         $statutories = Statutory::where(
 
-        'statutories.company_id', $company->id)
+            'statutories.company_id', $company->id)
 
-        ->join('statutory_types', 'statutory_types.id','statutories.statutory_type_id')
+            ->join('statutory_types', 'statutory_types.id', 'statutories.statutory_type_id')
 
-       // ->where('statutory_types.selected', true)
+        // ->where('statutory_types.selected', true)
 
-         ->select(
+            ->select(
 
-          'statutories.*',        
+                'statutories.*',
 
-          'statutory_types.*',
+                'statutory_types.*',
 
-          'statutory_types.name as statutory_type_name',
+                'statutory_types.name as statutory_type_name',
 
-          'statutories.name as statutory_name',
+                'statutories.name as statutory_name',
 
-          'statutories.id as statutory_id'
+                'statutories.id as statutory_id'
 
+            )
 
-          ) 
-
-        ->get();
+            ->get();
 
         $selected_statutory_types = Statutory_type::where(
 
-          'company_id', $company->id
+            'company_id', $company->id
         )
-       // ->where('selected', true)
+        // ->where('selected', true)
 
-        ->get();
+            ->get();
 
-
-
-        $employeeExist = Employee::where('company_id', $company->id)->exists(); 
-
-       
+        $employeeExist = Employee::where('company_id', $company->id)->exists();
 
         $centers = Center::where('company_id', $company->id)->get();
 
@@ -237,18 +200,18 @@ class EmployeeController extends Controller
         $designations = Designation::where('company_id', $company->id)->get();
 
         return view('employees.create', compact(
-          'user',
-          'payroll_groups',
-          'pay_types',
-          'employment_types',
-          'centers',
-          'levels',
-          'departments',
-          'designations',
-          'scales',
-          'selected_statutory_types',
-          'statutories',
-          'banks'
+            'user',
+            //'payroll_groups',
+            //'pay_types',
+            //'employment_types',
+            'centers',
+            'levels',
+            'departments',
+            'designations',
+            'scales',
+            'selected_statutory_types',
+            'statutories',
+            'banks'
         ));
     }
 
@@ -260,145 +223,135 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-      // TODO: add validation
+        // TODO: add validation
 
-      $company = $this->company();
+        $company = $this->company();
 
-      $user= User::where('id', request('user_id'))
+        $user = User::where('id', request('user_id'))
 
             ->where('company_id', $company->id)->first();
 
-      //$age = now()-$user->dob;
+        //$age = now()-$user->dob;
+
+        $userExists = Employee::where('user_id', request('user_id'))
+
+            ->where('company_id', $company->id)
+
+            ->exists();
+
+        // TODO: check if user already on employee list of the company before adding
+
+        if ($userExists) {
+
+            return redirect('users')->with('error', 'User already exist as employee in this company');
+
+        } else {
+
+            // TODO:  work on employee store function is the taff one
+
+            //update statutory table
+
+            DB::transaction(function () use ($company, $user) {
+
+                $user = User::find(request('user_id'));
+
+                $dob = Carbon::parse($user->dob);
+
+                $lastEmployeeId = DB::table('employees')->insertGetId([
+
+                    'company_id' => $company->id,
+
+                    'center_id' => request('center_id'),
+
+                    'department_id' => request('department_id'),
+
+                    'designation_id' => request('designation_id'),
+
+                    'start_date' => request('start_date'),
+
+                    'end_date' => Carbon::parse($user->dob)->addYears(60),
+
+                    'identity' => Employee::max('identity') + 1,
+
+                    'department_id' => request('department_id'),
+
+                    'user_id' => request('user_id'),
+
+                    'bank_id' => request('bank_id'),
+
+                    'account_number' => request('account_number'),
+
+                    'created_at' => now(),
+
+                    'updated_at' => now(),
+
+                ]);
+
+                // TODO: check to see if the employee exist
+                // TODO: dispay error iinformation if something went wrong
+                // TODO: work on all hard codede value in employee
+                DB::table('allowances')->insert([
+                    'amount' => 0.00,
+                    'employee_id' => $lastEmployeeId,
+                    'start_date' => now(),
+                    'end_date' => '3000-01-01',
+                    'company_id' => $company->id,
+                    'allowance_type_id' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+
+                DB::table('salaries')->insert([
+                    'company_id' => $company->id,
+                    'employee_id' => $lastEmployeeId,
+                    'amount' => request('salary'),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+
+                DB::table('deductions')->insert([
+                    'amount' => 0.00,
+                    'interest' => 0,
+                    'interest_amount' => 0,
+                    'date_taken' => now(),
+                    'period' => 0,
+                    'total_amount' => 0.00,
+                    'status' => 10,
+                    'balance' => 0,
+                    'monthly_amount' => 0.00,
+                    'employee_id' => $lastEmployeeId,
+                    'start_date' => now(),
+                    'end_date' => '3000-01-01',
+                    'company_id' => $company->id,
+                    'deduction_type_id' => 1,
+                    'created_at' =>now(),
+                    'updated_at' =>now(),
+              ]);    
 
 
-      
 
-      $userExists = Employee::where('user_id', request('user_id'))
+                DB::table('users')
+                ->where('company_id', $company->id)
+                ->where('id', request('user_id'))
+                ->update(['employee' => true]);
 
-      ->where('company_id', $company->id)
+                $statutories = Statutory::where(
 
-      ->exists();
+                    'statutories.company_id', $company->id)
 
-      // TODO: check if user already on employee list of the company before adding
+                    ->where('statutories.selection', 0)       
 
-      if($userExists){
+                    ->select(
 
-        return redirect('users')->with('error','User already exist as employee in this company');
+                        'statutories.*'
+              
+                        )
 
-            
-      }else {
+                    ->get();
 
-      
+                //dd( $statutories);
 
-      
-
-      
-
-
-
-      // TODO:  work on employee store function is the taff one
-
-      //update statutory table
-
-      DB::transaction( function() use($company,$user){    
-
-      $user = User::find(request('user_id'));
-
-
-      $dob = Carbon::parse($user->dob);
-
-
-      $lastEmployeeId = DB::table('employees')->insertGetId([
-
-
-        'company_id' =>  $company->id,        
-
-        'center_id' => request('center_id'),
-
-        'department_id' => request('department_id'),
-
-        'designation_id'=> request('designation_id'),
-
-        'start_date' => request('start_date'),
-
-        'end_date' => Carbon::parse($user->dob)->addYears(60),
-
-        'identity' => Employee::max('identity') + 1,
-
-        'department_id' => request('department_id'),
-
-        'user_id' => request('user_id'),
-
-        'bank_id' => request('bank_id'),
-
-        'account_number' => request('account_number'),
-
-        'created_at' =>now(),
-
-        'updated_at' =>now(),
-
-          ]);
-
-
-    // TODO: check to see if the employee exist
-    // TODO: dispay error iinformation if something went wrong
-    // TODO: work on all hard codede value in employee
-      DB::table('allowances')->insert([
-              'amount' => 0.00,
-              'employee_id' => $lastEmployeeId,
-              'start_date' => now(),
-              'end_date' => '3000-01-01',
-              'company_id' => $company->id,
-              'allowance_type_id' => 1,
-              'created_at' =>now(),
-              'updated_at' =>now(),
-        ]);
-
-
-        DB::table('salaries')->insert([
-                'company_id' => $company->id,
-                'employee_id' => $lastEmployeeId,
-                'amount' => request('salary'),
-                'created_at' =>now(),
-                'updated_at' =>now(),
-            ]);
-
-
-        DB::table('deductions')->insert([
-                'amount' => 0.00,
-                'interest' => 0,
-                'interest_amount' => 0,
-                'date_taken' => now(),
-                'period' => 0,
-                'total_amount' => 0.00,
-                'status' => 10,
-                'balance' => 0,
-                'monthly_amount' => 0.00,
-                'employee_id' => $lastEmployeeId,
-                'start_date' => now(),
-                'end_date' => '3000-01-01',
-                'company_id' => $company->id,
-                'deduction_type_id' => 1,
-                'created_at' =>now(),
-                'updated_at' =>now(),
-          ]);    
-
-
-      $statutories = Statutory::where(
-
-        'statutories.company_id', $company->id)
-     
-
-        ->where('statutories.selection', 0)
-
-         ->select(
-
-          'statutories.*'
-
-          )
-
-
-        ->get();
+       
 
       //dd( $statutories);
 
@@ -419,10 +372,9 @@ class EmployeeController extends Controller
       });
 
       return back()->with('success','Employee added successfully');
-
     }
 
-  }
+    }
 
     /**
      * Display the specified resource.
@@ -433,30 +385,28 @@ class EmployeeController extends Controller
     public function show(Employee $employee)
     {
 
-          $company = $this->company();
+        $company = $this->company();
 
-          $employeeExist = Employee::where('company_id', $company->id)->exists();
+        $employeeExist = Employee::where('company_id', $company->id)->exists();
 
-          if(!$employeeExist){
+        if (!$employeeExist) {
 
-          
-
-            return redirect('users')->withInput()->with('error','Please add at least one employee to view employees');
-          }
+            return redirect('users')->withInput()->with('error', 'Please add at least one employee to view employees');
+        }
 
         $allowances = DB::table('allowances')
 
-        ->select(
+            ->select(
 
-          'employee_id',
+                'employee_id',
 
-          'allowance_type_id', 
+                'allowance_type_id',
 
-          DB::raw('SUM(amount) as allowance_amount'))
+                DB::raw('SUM(amount) as allowance_amount'))
 
-          ->where('allowances.company_id', $company->id)
+            ->where('allowances.company_id', $company->id)
 
-          ->where('allowances.employee_id', $employee->id)
+            ->where('allowances.employee_id', $employee->id)
 
           ->where('allowances.amount','>', 0)
 
@@ -464,6 +414,7 @@ class EmployeeController extends Controller
 
           ->groupBy('allowance_type_id');
 
+      
 
         $deductions = DB::table('deductions')
 
@@ -481,186 +432,159 @@ class EmployeeController extends Controller
 
            ->groupBy('employee_id')
 
-          ->groupBy('deduction_type_id');
+           ->groupBy('deduction_type_id');
 
 
-      $allowance_types = DB::table('allowance_types')
 
-       ->joinSub($allowances, 'allowances', function($join) {
+        $allowance_types = DB::table('allowance_types')
 
-        $join->on('allowance_types.id','allowances.allowance_type_id');
+            ->joinSub($allowances, 'allowances', function ($join) {
 
-      })
+                $join->on('allowance_types.id', 'allowances.allowance_type_id');
 
-      ->select(
+            })
 
-        'allowances.*',
+            ->select(
 
-       
-        'allowance_types.name as allowance_name'
+                'allowances.*',
 
-      )->get();
+                'allowance_types.name as allowance_name'
 
-      $deduction_types = DB::table('deduction_types')
+            )->get();
 
-       ->joinSub($deductions, 'deductions', function($join) {
+        $deduction_types = DB::table('deduction_types')
 
-        $join->on('deduction_types.id','deductions.deduction_type_id');
+            ->joinSub($deductions, 'deductions', function ($join) {
 
-      })
+                $join->on('deduction_types.id', 'deductions.deduction_type_id');
 
-      ->select(
+            })
 
-        'deductions.*',
+            ->select(
 
-       
-        'deduction_types.description as deduction_name'
+                'deductions.*',
 
-      )->get();
+                'deduction_types.description as deduction_name'
 
+            )->get();
 
-  
+        $employee = DB::table('employees')
 
+            ->where('employees.id', $employee->id)
 
-      $employee = DB::table('employees')
+            ->join('users', 'users.id', 'employees.user_id')
 
-      ->where('employees.id', $employee->id)
+            ->join('salaries', 'employees.id', 'salaries.employee_id')
 
-      ->join('users', 'users.id','employees.user_id')
+            ->join('centers', 'employees.center_id', '=', 'centers.id')
 
-      ->join('salaries','employees.id', 'salaries.employee_id')
+            ->join('departments', 'employees.department_id', 'departments.id')
 
-      ->join('centers', 'employees.center_id', '=', 'centers.id')
+            ->join('banks', 'employees.bank_id', 'banks.id')
 
-       ->join('departments', 'employees.department_id', 'departments.id')
+            ->join('designations', 'employees.designation_id', 'designations.id')
 
-      ->join('banks', 'employees.bank_id', 'banks.id')
+            ->join('scales', 'designations.scale_id', 'scales.id')
 
-      ->join('designations', 'employees.designation_id','designations.id')
+            ->join('levels', 'designations.level_id', 'levels.id')
 
-      ->join('scales', 'designations.scale_id','scales.id')
+            ->join('employment_types', 'scales.employment_type_id', 'employment_types.id')
 
-      ->join('levels', 'designations.level_id','levels.id')
+            ->join('payroll_groups', 'scales.payroll_group_id', 'payroll_groups.id')
 
-      ->join('employment_types', 'scales.employment_type_id','employment_types.id')
+            ->join('pay_bases', 'scales.pay_base_id', 'pay_bases.id')
 
-      ->join('payroll_groups', 'scales.payroll_group_id','payroll_groups.id')
+            ->select(
 
-      ->join('pay_bases', 'scales.pay_base_id','pay_bases.id')
-     
+                'users.*',
 
-        ->select(
+                'employees.*',
 
-          'users.*',
+                'salaries.amount as salary',
 
-          'employees.*',
+                'centers.name as center_name',
 
-          'salaries.amount as salary',
+                'departments.name as department_name',
 
-          
-          'centers.name as center_name',
+                'banks.name as bank_name',
 
-          'departments.name as department_name',
+                'scales.name as scale_name',
 
-          'banks.name as bank_name',
+                'employment_types.name as employment_type_name',
 
-          'scales.name as scale_name',
+                'pay_bases.name as pay_base_name',
 
-          'employment_types.name as employment_type_name',
+                'payroll_groups.name as payroll_group_name',
 
-          'pay_bases.name as pay_base_name',
+                'scales.description as scale_description',
 
-          'payroll_groups.name as payroll_group_name',
+                'levels.description as level_description',
 
-          'scales.description as scale_description',
+                'designations.name as designation_name',
 
-          'levels.description as level_description',
+                'designations.description as designation_description',
 
-          'designations.name as designation_name',
+                'centers.description as center_description'
 
-          'designations.description as designation_description',
+            )
 
-          'centers.description as center_description'
-
-          )
-
-
-          ->first();
-
+            ->first();
 
         $kins = DB::table('kin')
 
-        ->where('kin.company_id', $company->id)
+            ->where('kin.company_id', $company->id)
 
-        ->where('employee_id',$employee->id)
+            ->where('employee_id', $employee->id)
 
-        ->join('employees','employees.id','kin.employee_id')
+            ->join('employees', 'employees.id', 'kin.employee_id')
 
-      
+            ->join('kin_types', 'kin_types.id', 'kin.kin_type_id')
 
+            ->select(
 
+                'employees.*',
 
-        ->join('kin_types','kin_types.id','kin.kin_type_id')
+                'kin.*',
 
-        ->select(
+                'kin_types.name as kin_type_name'
 
-          'employees.*',         
+            )
 
-          'kin.*',
-
-          'kin_types.name as kin_type_name'
-
-          )
-
-        ->get();
+            ->get();
 
         $statutories = DB::table('employee_statutories')
 
-        ->where('employee_statutories.company_id', $company->id)
+            ->where('employee_statutories.company_id', $company->id)
 
-        ->where('employee_statutories.employee_id', $employee->id)
+            ->where('employee_statutories.employee_id', $employee->id)
 
-        ->join('statutories', 'statutories.id','employee_statutories.statutory_id')
+            ->join('statutories', 'statutories.id', 'employee_statutories.statutory_id')
 
+            ->join('organizations', 'organizations.id', 'statutories.organization_id')
 
-        ->join('organizations', 'organizations.id','statutories.organization_id')
+            ->join('salary_bases', 'salary_bases.id', 'statutories.base_id')
 
-        ->join('salary_bases','salary_bases.id', 'statutories.base_id')
+            ->join('statutory_types', 'statutory_types.id', '=', 'statutories.statutory_type_id')
 
-        ->join('statutory_types', 'statutory_types.id', '=', 'statutories.statutory_type_id')
+            ->select(
 
-        ->select(
+                'employee_statutories.*',
 
-             'employee_statutories.*',
+                'statutories.*',
 
-          'statutories.*',
+                'organizations.name as organization_name',
 
-          'organizations.name as organization_name',
+                'salary_bases.name as salary_base',
 
-          'salary_bases.name as salary_base',
+                'statutory_types.name as statutory_type_name',
 
-          'statutory_types.name as statutory_type_name',
+                'employee_statutories.id as employee_statutory_id'
 
-          'employee_statutories.id as employee_statutory_id'
+            )
 
-          )
+            ->get();
 
-        ->get();
-
-
-
-        
-
-
-
-
-
-
-  
-
-
-
-        return view('employees.show',compact('employee','allowance_types','deduction_types','kins','statutories'));
+        return view('employees.show', compact('employee', 'allowance_types', 'deduction_types', 'kins', 'statutories'));
 
     }
 
@@ -671,21 +595,20 @@ class EmployeeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Employee $employee)
-    {   
+    {
 
-      $company = $this->company();
+        $company = $this->company();
 
-          $employeeExist = Employee::where('company_id', $company->id)->exists();
+        $employeeExist = Employee::where('company_id', $company->id)->exists();
 
-          if(!$employeeExist){
+        if (!$employeeExist) {
 
-            return redirect('users')->withInput()->with('error','Please add at least one employee to view employees');
-          }
-
+            return redirect('users')->withInput()->with('error', 'Please add at least one employee to view employees');
+        }
 
         $user = User::find($employee->user_id);
 
-        $employee_salary = Salary::where('employee_id',$employee->id)->first();
+        $employee_salary = Salary::where('employee_id', $employee->id)->first();
 
         $current_level = Level::find($employee->level_id);
 
@@ -711,23 +634,22 @@ class EmployeeController extends Controller
 
         $banks = Bank::all();
 
-
-        return view('employees.edit',compact(
-          'employee',
-          'employee_salary',
-          'current_level',
-          'current_salary_scale',
-          'current_center',
-          'current_designation',
-          'current_department',
-          'current_bank',
-          'levels',
-          'scales',
-          'designations',
-          'centers',
-          'departments',
-          'banks',
-          'user'
+        return view('employees.edit', compact(
+            'employee',
+            'employee_salary',
+            'current_level',
+            'current_salary_scale',
+            'current_center',
+            'current_designation',
+            'current_department',
+            'current_bank',
+            'levels',
+            'scales',
+            'designations',
+            'centers',
+            'departments',
+            'banks',
+            'user'
         ));
     }
 
@@ -741,71 +663,50 @@ class EmployeeController extends Controller
     public function update(Request $request, Employee $employee)
     {
 
-      // TODO: update all item related to this employee
-      //Validation
-      $this->validate(request(),[
+        // TODO: update all item related to this employee
+        //Validation
+        $this->validate(request(), [
 
-        // 'payroll_group_id' =>'required|string',
+            // 'payroll_group_id' =>'required|string',
 
-        'center_id' => 'required|string',
-
-      ]);
-
-
-
-
-      DB::transaction( function() {
-
-     
-
-        DB::table('employees')
-
-
-        ->where('id', request('employee_id'))->update([
-
-          // 'payroll_group_id' => request('payroll_group_id'),
-
-          'center_id' => request('center_id'),
-
-          'department_id' => request('department_id'),
-
-          'designation_id'=> request('designation_id'),       
-
-          
-          'bank_id' => request('bank_id'),
-
-          'account_number' => request('account_number'),
-
-          'updated_at' =>now(),
-
-
-
-
-
+            'center_id' => 'required|string',
 
         ]);
 
-        DB::table('salaries')
+        DB::transaction(function () {
 
-        ->where('employee_id', request('employee_id'))->update([
-          'amount' => request('salary'),
-          'updated_at' => now(),
-        ]);
+            DB::table('employees')
 
+                ->where('id', request('employee_id'))->update([
 
-            
+                // 'payroll_group_id' => request('payroll_group_id'),
 
-              
+                'center_id' => request('center_id'),
 
+                'department_id' => request('department_id'),
+
+                'designation_id' => request('designation_id'),
+
+                'bank_id' => request('bank_id'),
+
+                'account_number' => request('account_number'),
+
+                'updated_at' => now(),
+
+            ]);
+
+            DB::table('salaries')
+
+                ->where('employee_id', request('employee_id'))->update([
+                'amount' => request('salary'),
+                'updated_at' => now(),
+            ]);
 
         });
 
-      return redirect('employees')
+        return redirect('employees')
 
-              ->with('success','Employee updated successfully');
-
-      
-
+            ->with('success', 'Employee updated successfully');
 
     }
 
@@ -818,47 +719,44 @@ class EmployeeController extends Controller
     public function destroy(Employee $employee)
     {
 
-     
-      //// TODO: delete all item related to employee
+        //// TODO: delete all item related to employee
 
-      $employee_exist = Pay::where('employee_id',$employee->id)->exists();
+        $employee_exist = Pay::where('employee_id', $employee->id)->exists();
 
-      if (!$employee_exist){
+        if (!$employee_exist) {
 
-       DB::transaction( function() use ($employee) {
+            DB::transaction(function () use ($employee) {
 
-            DB::table('employees')
-            ->where('id', $employee->id)
-            ->delete();
+                DB::table('employees')
+                    ->where('id', $employee->id)
+                    ->delete();
 
-            DB::table('allowances')
-            ->where('employee_id', $employee->id)
-            ->delete();
+                DB::table('allowances')
+                    ->where('employee_id', $employee->id)
+                    ->delete();
 
-            DB::table('deductions')
-            ->where('employee_id', $employee->id)
-            ->delete();
+                DB::table('deductions')
+                    ->where('employee_id', $employee->id)
+                    ->delete();
 
+                DB::table('salaries')
+                    ->where('employee_id', $employee->id)
+                    ->delete();
 
-            DB::table('salaries')
-            ->where('employee_id', $employee->id)
-            ->delete();
+                DB::table('employee_statutories')
+                    ->where('employee_id', $employee->id)
+                    ->delete();
 
+            });
 
-            DB::table('employee_statutories')
-            ->where('employee_id', $employee->id)
-            ->delete();
+            return redirect('employees')
 
-          });
-     
-        return redirect('employees')
+                ->with('success', 'Employee deleted successfully');
 
-        ->with('success','Employee deleted successfully');
+        } else {
 
-      }else{
+            return back()->withInput()->with('error', 'Employee could not be deleted');
 
-        return back()->withInput()->with('error','Employee could not be deleted');
-
-      }
+        }
     }
 }

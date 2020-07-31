@@ -29,6 +29,7 @@ class CreateUsersTable extends Migration
             $table->string('photo')->nullable();
             $table->date('dob')->nullable();
             $table->string('mobile')->nullable();
+            $table->boolean('employee');
             $table->rememberToken();
             $table->timestamps();
         });

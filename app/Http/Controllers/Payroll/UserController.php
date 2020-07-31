@@ -6,13 +6,19 @@ use BrainySoft\DataTables\UsersDataTable;
 
 use Exception;
 
-use Storage;
+
 
 use App\ImageModel;
 
+
 use Image;
 
+use Illuminate\Support\Facades\Storage;
+
+
 use Illuminate\Support\Facades\Hash;
+
+use BrainySoft\Http\Resources\UserResource;
 
 
 
@@ -28,7 +34,8 @@ use Illuminate\Support\Facades\Log;
 
 
 class UserController extends Controller
-{
+{   
+  
     public function __construct()
     {
 
@@ -60,7 +67,11 @@ class UserController extends Controller
 
    
 
-        $users = User::where('company_id',$company->id)->get();        
+        $users = User::where('company_id',$company->id)
+        ->where('employee',false)
+        ->get();    
+        
+        
 
         return view('users.index', compact('users','company'));
 
@@ -115,6 +126,16 @@ class UserController extends Controller
       }
       
 
+    public function getUsersForDataTable(Request $request)
+    {
+      
+        $query = User::where('employee', false)->orderBy('employee', $request->order);
+        $users = $query->paginate($request->per_page);
+  
+     
+        return UserResource::collection($users);
+    }
+
     
     /**
      * Show the form for creating a new resource.
@@ -155,6 +176,7 @@ class UserController extends Controller
         'middlename' => 'required|string',
 
         'lastname' =>'required|string',
+        
 
        
         
@@ -197,6 +219,8 @@ class UserController extends Controller
           $user->dob          = request('dob');
 
           $user->mobile = request('mobile');
+
+          $user->employee = false;
 
           $user->save();  
      

@@ -3,9 +3,8 @@
 @section('content')
 <div class="col-md-12">
     <div class="card">
-      
-        <div class="card-header"> Users
-          <span class="pull-right"> <a class="btn btn-secondary btn-sm"href="/users/create">{{ __('messages.add') }} new user </a></span>
+        <div class="card-header">{{ $company->name }} Users
+          <span class="pull-right"> <a href="/users/create">{{ __('messages.add') }}</a></span>
 
         </div>
 
@@ -19,12 +18,35 @@
             @endif
 
         @if(count ($users) > 0)
+<!-- STARING EXPERIMENT -->
+
+<div class="table-responsive"> 
+    <form id="search">
+      Search <input name="query" v-model="searchQuery">
+    </form>
+    <demo-grid
+    fetch-url="{{ route('users.table') }}"
+      :heroes="gridData"
+      :columns="['id','company id','title','name','gender','married','email','firstname','middlename','lastname','photo','dod','mobile','employee','created','updated']"
+      :filter-key="searchQuery">
+    </demo-grid>
+</div>
 
 
+{{-- <div class="row">  
 
-      <div class="table-responsive">
+        <data-table
+			fetch-url="{{ route('users.table') }}"
+			:columns="['id','company id','title','name','gender','married','email','firstname','middlename','lastname','photo','dod','mobile','employee','created','updated']"
+		></data-table>  
+</div> --}}
 
-              <table class="table table-hover table-striped table-bordered table-sm" id="sample_1">
+<!-- ENDING EXPERIMENT -->
+
+
+      {{-- <div class="table-responsive">
+
+              <table class="table table-hover table-striped table-bordered">
                   <caption></caption>
 
                   <thead>
@@ -36,9 +58,9 @@
 
                       <th scope="col">Email</th>
                       <th scope="col">Mobile</th>
-                      <th scope="col"></th>
-                      <th scope="col"></th>
-                      <th scope="col"></th>
+                      <th scope="col">Employee</th>
+                      <th scope="col">Edit</th>
+                      <th scope="col">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -68,9 +90,9 @@
                       <td>{{ $user->mobile }}</td>
 
 
-                      <td><a href="/employees/create?user_id={{ $user->id }}"> <i class="fa fa-paper-plane text-secondary" aria-hidden="true"></i></a></td>
+                      <td><a href="/employees/create?user_id={{ $user->id }}"> Add</a></td>
 
-                      <td><a href="/users/{{$user->id}}/edit"><i class="fa fa-paint-brush text-secondary" aria-hidden="true"></i></a></td>
+                      <td><a href="/users/{{$user->id}}/edit">Edit</a></td>
 
                       <td><a href=""
                           onclick="
@@ -78,7 +100,7 @@
                           if (result){
                               event.preventDefault();
                               document.getElementById({{$user->id}}).submit();
-                            }"><i class="fa fa-trash text-secondary" aria-hidden="true"></i>
+                            }">Delete
                           </a>
 
                           {!! Form::open(['action' => ['UserController@destroy',$user->id],'method' => 'DELETE','id' => $user->id]) !!}
@@ -92,7 +114,7 @@
 
         </tbody>
       </table>
-  </div>
+  </div> --}}
 
         @else
 
@@ -108,7 +130,6 @@
     </div>
 </div>    
 @endsection
-
 
 
 

@@ -47,6 +47,12 @@ Route::get('/logout', function()
 
 //Allowance routes
 
+Route::get('welcome', 'AllowanceController@welcome')->name('welcome');
+Route::get('allow_typ_auto', 'AllowanceController@allow_type_autocomp')->name('allow_typ_auto');
+
+
+$this->get('users/index', 'UserController@getUsersForDataTable')->name('users.table');
+
 
 
 Route::resource('allowances', 'AllowanceController');

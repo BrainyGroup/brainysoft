@@ -2,69 +2,30 @@
 
 namespace BrainySoft\Http\Controllers;
 
-use DB;
+use BrainySoft\Allowance;
+use BrainySoft\Center;
+use BrainySoft\Company;
+use BrainySoft\Deduction;
+use BrainySoft\Designation;
+use BrainySoft\Employee;
+use BrainySoft\Employment_type;
+use BrainySoft\Jobs\SendEmailPaySlip;
+use BrainySoft\Level;
+use BrainySoft\Pay;
+use BrainySoft\Paye;
+use BrainySoft\Payroll_group;
+use BrainySoft\Pay_allowance;
+use BrainySoft\Pay_deduction;
+use BrainySoft\Pay_statutory;
+use BrainySoft\Salary;
+use BrainySoft\Scale;
+use BrainySoft\User;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 use PDF;
-
-use Mail;
-
-use BrainySoft\Jobs\SendEmailPaySlip;
-
-
-
-use Exception;
-
-use Carbon\Carbon;
-
-use BrainySoft\Pay;
-
-use BrainySoft\Payroll_group;
-
-use BrainySoft\Pay_allowance;
-
-use BrainySoft\Pay_deduction;
-
-use BrainySoft\Employment_type;
-
-use BrainySoft\Scale;
-
-use BrainySoft\Center;
-
-use BrainySoft\Level;
-
-use BrainySoft\User;
-
-use BrainySoft\Paye;
-
-use BrainySoft\Salary;
-
-use BrainySoft\Company;
-
-use BrainySoft\Employee;
-
-
-
-
-
-
-
-
-
-use BrainySoft\Designation;
-
-use BrainySoft\Statutory;
-
-use BrainySoft\Deduction;
-
-use BrainySoft\Allowance;
-use BrainySoft\EmployeeStatutory;
-use Illuminate\Http\Request;
-
-use BrainySoft\Pay_statutory;
-
-use Illuminate\Support\Facades\Log;
-
-
 
 class PayController extends Controller
 {
@@ -78,230 +39,208 @@ class PayController extends Controller
 
 
 
-    public function downloadPDF($id){
+    public function downloadPDF($id)
+    {
 
-    
+        // Find posted pay
 
-     $pay = Pay::where('id',$id)
-     ->where('posted', true)->first();
+        $pay = Pay::where('id', $id)
+            ->where('posted', true)->first();
 
-     if($pay == null){
+        if ($pay == null) {
 
-      return back()->with('error','Please post this pay');
+            return back()->with('error', 'Please post this pay');
 
-     }else{
+        } else {
+            //find out which company
+            $company = $this->company();
 
+            //find all pay statutories
 
+            $pay_statutory = Pay_statutory::where('pay_number', $pay->pay_number)
 
-     $company = $this->company();
+                ->where('employee_id', $pay->employee->id)
 
-    
+                ->join('statutories', 'statutories.id', 'pay_statutories.statutory_id')
 
-  
-     $pay_statutory = Pay_statutory::where('pay_number',$pay->pay_number)
+                ->join('statutory_types', 'statutory_types.id', 'statutories.statutory_type_id')
 
-     ->where('employee_id', $pay->employee->id)
+                ->select(
+                    'pay_statutories.*',
+                    'statutory_types.name as statutory_type_name',
+                    'statutories.name as statutory_name')
 
-     ->join('statutories','statutories.id','pay_statutories.statutory_id')
+                ->where('statutory_types.name', 'SSF')->first();
 
-     ->join('statutory_types','statutory_types.id','statutories.statutory_type_id')
+            $pay_ssf_statutory_sum = Pay_statutory::where('employee_id', $pay->employee->id)
 
-     ->select(
-      'pay_statutories.*', 
-      'statutory_types.name as statutory_type_name',
-      'statutories.name as statutory_name')
+                ->join('statutories', 'statutories.id', 'pay_statutories.statutory_id')
 
-     ->where('statutory_types.name','SSF')->first();
+                ->join('statutory_types', 'statutory_types.id', 'statutories.statutory_type_id')
 
-      $pay_ssf_statutory_sum = Pay_statutory::where('employee_id', $pay->employee->id)
+                ->select(
+                    'pay_statutories.*',
+                    'statutory_types.name as statutory_type_name',
+                    'statutories.name as statutory_name')
 
-     ->join('statutories','statutories.id','pay_statutories.statutory_id')
+                ->where('statutory_types.name', 'SSF')->sum('pay_statutories.total');
 
-     ->join('statutory_types','statutory_types.id','statutories.statutory_type_id')
+            //find pay allowances
 
-     ->select(
-      'pay_statutories.*', 
-      'statutory_types.name as statutory_type_name',
-      'statutories.name as statutory_name')
+            $pay_allowances = Pay_allowance::where('pay_number', $pay->pay_number)
 
-     ->where('statutory_types.name','SSF')->sum('pay_statutories.total');
+                ->where('employee_id', $pay->employee->id)
 
-     $pay_allowances = Pay_allowance::where('pay_number',$pay->pay_number)
+                ->join('allowance_types', 'allowance_types.id', 'pay_allowances.allowance_type_id')->get();
 
-     ->where('employee_id', $pay->employee->id)
+            //find pay deduction
 
-     ->join('allowance_types','allowance_types.id','pay_allowances.allowance_type_id')->get();
+            $pay_deductions = Pay_deduction::where('pay_number', $pay->pay_number)
 
-      $pay_deductions = Pay_deduction::where('pay_number',$pay->pay_number)
+                ->where('employee_id', $pay->employee->id)
 
-     ->where('employee_id', $pay->employee->id)
+                ->join('deduction_types', 'deduction_types.id', 'pay_deductions.deduction_type_id')->get();
 
-     ->join('deduction_types','deduction_types.id','pay_deductions.deduction_type_id')->get();
+            // load pdf and download
+            $pdf = PDF::loadView('pdf.payslip', compact(
+                'pay',
+                'pay_allowances',
+                'pay_deductions',
+                'pay_statutory',
+                'pay_ssf_statutory_sum')
+            );
 
-   
+            //set paper size and download
 
-     $pdf = PDF::loadView('pdf.payslip', compact(
-      'pay',     
-      
-     
-      'pay_allowances',
-      'pay_deductions',
-      'pay_statutory',
-      'pay_ssf_statutory_sum')
-   );
+            $pdf->setPaper([0, 0, 297.638, 841.88976], 'portrait')->setWarnings(false)->save('myfile.pdf');
 
+            return $pdf->download('payslip_' . $pay->pay_number . '_' . $pay->employee->identity . '.pdf');
 
+        }
 
-
-
-
-
-     $pdf->setPaper([0,0, 297.638, 841.88976], 'portrait')->setWarnings(false)->save('myfile.pdf');
- 
-     
-
-     
-
-     return $pdf->download('payslip_' . $pay->pay_number . '_' . $pay->employee->identity . '.pdf');
-
-   }
-
-     }
-
-     
+    }
 
     private function company()
     {
-      $user = User::find(auth()->user()->id);
+        $user = User::find(auth()->user()->id);
 
-      return Company::find($user->company_id);
+        return Company::find($user->company_id);
     }
 
-    private function sendSalarySlipEmail($id,$company,$fromPaySlipEmail,$fromPaySlipName,$paySlipSubject,$payNumber)
+    private function sendSalarySlipEmail($id, $company, $fromPaySlipEmail, $fromPaySlipName, $paySlipSubject, $payNumber)
     {
-
-          
 
         $company = $this->company();
 
+        $pay = Pay::where('pay_number', $payNumber)
 
+            ->where('company_id', $company->id)
 
+            ->where('posted', true)->first();
 
-      $pay = Pay::where('pay_number',$payNumber)
+        if ($pay == null) {
 
-      ->where('company_id',$company->id)
+            return back()->with('error', 'Please post this pay');
 
-     ->where('posted', true)->first();
-
-     if($pay == null){
-
-      return back()->with('error','Please post this pay');
-
-     }else{
+        } else {
 
             $user = User::findOrFail(2);
 
-           
+            $employee = Employee::where('user_id', $user->id)->first();
 
+            // $user = User::find($employee->user_id);
 
-             
+            $designation = Designation::find($employee->designation_id);
 
-     $employee = Employee::where('user_id', $user->id)->first();
+            $scale = Scale::find($designation->scale_id);
 
-    // $user = User::find($employee->user_id);
+            $level = Level::find($designation->level_id);
 
-     $designation = Designation::find($employee->designation_id);
+            $center = Center::find($employee->center_id);
 
-     $scale = Scale::find($designation->scale_id);
+            $payroll_group = Payroll_group::find($scale->payroll_group_id);
+            
 
-     $level = Level::find($designation->level_id);
+            $pay_statutory = Pay_statutory::where('pay_number', $pay->pay_number)
 
-     $center = Center::find($employee->center_id);
+                ->where('employee_id', $employee->id)
 
-     $payroll_group = Payroll_group::find($scale->payroll_group_id);
+                ->join('statutories', 'statutories.id', 'pay_statutories.statutory_id')
 
-     $pay_statutory = Pay_statutory::where('pay_number',$pay->pay_number)
+                ->join('statutory_types', 'statutory_types.id', 'statutories.statutory_type_id')
 
-     ->where('employee_id', $employee->id)
+                ->select(
+                    'pay_statutories.*',
+                    'statutory_types.name as statutory_type_name',
+                    'statutories.name as statutory_name')
 
-     ->join('statutories','statutories.id','pay_statutories.statutory_id')
+                ->where('statutory_types.name', 'SSF')->first();
 
-     ->join('statutory_types','statutory_types.id','statutories.statutory_type_id')
+            $pay_ssf_statutory_sum = Pay_statutory::where('employee_id', $employee->id)
 
-     ->select(
-      'pay_statutories.*', 
-      'statutory_types.name as statutory_type_name',
-      'statutories.name as statutory_name')
+                ->join('statutories', 'statutories.id', 'pay_statutories.statutory_id')
 
-     ->where('statutory_types.name','SSF')->first();
+                ->join('statutory_types', 'statutory_types.id', 'statutories.statutory_type_id')
 
-      $pay_ssf_statutory_sum = Pay_statutory::where('employee_id', $employee->id)
+                ->select(
+                    'pay_statutories.*',
+                    'statutory_types.name as statutory_type_name',
+                    'statutories.name as statutory_name')
 
-     ->join('statutories','statutories.id','pay_statutories.statutory_id')
+                ->where('statutory_types.name', 'SSF')->sum('pay_statutories.total');
 
-     ->join('statutory_types','statutory_types.id','statutories.statutory_type_id')
+            $pay_allowances = Pay_allowance::where('pay_number', $pay->pay_number)
 
-     ->select(
-      'pay_statutories.*', 
-      'statutory_types.name as statutory_type_name',
-      'statutories.name as statutory_name')
+                ->where('employee_id', $employee->id)
 
-     ->where('statutory_types.name','SSF')->sum('pay_statutories.total');
+                ->join('allowance_types', 'allowance_types.id', 'pay_allowances.allowance_type_id')->get();
 
-     $pay_allowances = Pay_allowance::where('pay_number',$pay->pay_number)
+            $pay_deductions = Pay_deduction::where('pay_number', $pay->pay_number)
 
-     ->where('employee_id', $employee->id)
+                ->where('employee_id', $employee->id)
 
-     ->join('allowance_types','allowance_types.id','pay_allowances.allowance_type_id')->get();
+                ->join('deduction_types', 'deduction_types.id', 'pay_deductions.deduction_type_id')->get();
 
-      $pay_deductions = Pay_deduction::where('pay_number',$pay->pay_number)
-
-     ->where('employee_id', $employee->id)
-
-     ->join('deduction_types','deduction_types.id','pay_deductions.deduction_type_id')->get();
-
-     $employment_type = Employment_type::find($scale->employment_type_id);
-
-     
+            $employment_type = Employment_type::find($scale->employment_type_id);
 
             $data = [
 
-              'email' => $fromPaySlipEmail,
-              'sender' => $fromPaySlipName,
-              'subject' => $paySlipSubject
+                'email' => $fromPaySlipEmail,
+                'sender' => $fromPaySlipName,
+                'subject' => $paySlipSubject,
 
             ];
 
-             Mail::send('emails.salary_slip', [
-              'user' => $user,
-              'pay'=> $pay,
-              'company'=> $company,
-              'employee' => $employee,
-              'designation' => $designation,
-              'scale' => $scale,
-              'level' => $level,
-              'center' => $center,
-              'payroll_group' => $payroll_group,
-              'employment_type' => $employment_type,
-              'pay_allowances' => $pay_allowances,
-              'pay_deductions' => $pay_deductions,
-              'pay_statutory' => $pay_statutory,
-              'pay_ssf_statutory_sum' => $pay_ssf_statutory_sum
+            Mail::send('emails.salary_slip', [
+                'user' => $user,
+                'pay' => $pay,
+                'company' => $company,
+                'employee' => $employee,
+                'designation' => $designation,
+                'scale' => $scale,
+                'level' => $level,
+                'center' => $center,
+                'payroll_group' => $payroll_group,
+                'employment_type' => $employment_type,
+                'pay_allowances' => $pay_allowances,
+                'pay_deductions' => $pay_deductions,
+                'pay_statutory' => $pay_statutory,
+                'pay_ssf_statutory_sum' => $pay_ssf_statutory_sum,
             ], function ($message) use (
-              $user,
-              $data
-              // $company,
-              // $employee,
-              // $designation,
-              // $scale,
-              // $level,
-              // $center,
-              // $payroll_group,
-              // $employment_type,
-              // $pay_allowances,
-              // $pay_deductions,
-              // $pay_statutory,
-              // $pay_ssf_statutory_sum
+                $user,
+                $data
+                // $company,
+                // $employee,
+                // $designation,
+                // $scale,
+                // $level,
+                // $center,
+                // $payroll_group,
+                // $employment_type,
+                // $pay_allowances,
+                // $pay_deductions,
+                // $pay_statutory,
+                // $pay_ssf_statutory_sum
             ) {
 
                 $message->from($data['email'], $data['sender']);
@@ -311,118 +250,102 @@ class PayController extends Controller
                 // $message->attach($pathToFile, ['as' => $display, 'mime' => $mime]);
             });
 
-          }
-        
-
-        
         }
-
-
-//2 Sum of $allowanceSum
-private function allowanceSum($employee_id = null, $company_id = null){
-
-    return Allowance::where('employee_id',$employee_id)->sum('amount');
-
-}
-
-
-// 4.1 Calculate statutory
-private function statutoryBeforePaye($employee_id = null, $company_id = null,$basic_salary = null){
-
-   $statutories = DB::table('employee_statutories')
-
-   ->join('statutories', 'statutories.id','employee_statutories.statutory_id')
-
-   ->select('statutories.*', 'employee_statutories.id as employee_statutories_id')
-
-    ->where('employee_statutories.employee_id',$employee_id)  
-
-  ->where('employee_statutories.company_id', $company_id)
-  
-
-  ->where('statutories.before_paye', true)
-
-  ->get();
-
-  $pay_statutory_before['employee'] = 0;
-
-  $pay_statutory_before['employer'] = 0;
-
-  foreach($statutories as $statutory){
-
-    $pay_statutory_before['employee'] = $pay_statutory_before['employee'] + ($statutory->employee * $basic_salary);
-
-    $pay_statutory_before['employer'] = $pay_statutory_before['employer'] + ($statutory->employer * $basic_salary);
-
-
-
-  }
-
-  return   $pay_statutory_before;
-}
-
-
-
-// 4.2 Calculate statutory
-private function statutoryAfterPaye($employee_id = null, $company_id = null,$basic_salary=null){
-   $statutories = DB::table('employee_statutories')
-
-   ->join('statutories', 'statutories.id','employee_statutories.statutory_id')
-
-   ->select('statutories.*', 'employee_statutories.id as employee_statutories_id')
-
-    ->where('employee_statutories.employee_id',$employee_id)  
-
-  ->where('employee_statutories.company_id', $company_id)
-  
-
-  ->where('statutories.before_paye', false)
-
-  ->get();
-
-  $pay_statutory_after['employee'] = 0;
-
-  $pay_statutory_after['employer'] = 0;
-
-  ;
-
-  foreach($statutories as $statutory){
-
-    $pay_statutory_after['employee'] = $pay_statutory_after['employee'] + ($statutory->employee * $basic_salary);
-
-    $pay_statutory_after['employer'] = $pay_statutory_after['employer'] + ($statutory->employee * $basic_salary);
-
-
-  }
-
-  return $pay_statutory_after;
-}
-
-
-
-//7 Paye
-private function paye($employee_id = null,$country_id = null,$taxable_salary = 0)
-{
-
-  $taxable_pay = $taxable_salary;
-  
-
-  $payes  = Paye::where('country_id',$country_id)->get();
-
-    foreach ($payes as $paye) {   
-
-
-      if(($taxable_pay > $paye->minimum) && ($taxable_pay <= $paye->maximum)){
-
-        return ((($taxable_pay - $paye->minimum) * $paye->ratio) + $paye->offset);
-
-        }
-
-      }
 
     }
 
+//2 Sum of $allowanceSum
+    private function allowanceSum($employee_id = null, $company_id = null)
+    {
 
+        return Allowance::where('employee_id', $employee_id)->sum('amount');
+
+    }
+
+// 4.1 Calculate statutory
+    private function statutoryBeforePaye($employee_id = null, $company_id = null, $basic_salary = null)
+    {
+
+        $statutories = DB::table('employee_statutories')
+
+            ->join('statutories', 'statutories.id', 'employee_statutories.statutory_id')
+
+            ->select('statutories.*', 'employee_statutories.id as employee_statutories_id')
+
+            ->where('employee_statutories.employee_id', $employee_id)
+
+            ->where('employee_statutories.company_id', $company_id)
+
+            ->where('statutories.before_paye', true)
+
+            ->get();
+
+        $pay_statutory_before['employee'] = 0;
+
+        $pay_statutory_before['employer'] = 0;
+
+        foreach ($statutories as $statutory) {
+
+            $pay_statutory_before['employee'] = $pay_statutory_before['employee'] + ($statutory->employee * $basic_salary);
+
+            $pay_statutory_before['employer'] = $pay_statutory_before['employer'] + ($statutory->employer * $basic_salary);
+
+        }
+
+        return $pay_statutory_before;
+    }
+
+// 4.2 Calculate statutory
+    private function statutoryAfterPaye($employee_id = null, $company_id = null, $basic_salary = null)
+    {
+        $statutories = DB::table('employee_statutories')
+
+            ->join('statutories', 'statutories.id', 'employee_statutories.statutory_id')
+
+            ->select('statutories.*', 'employee_statutories.id as employee_statutories_id')
+
+            ->where('employee_statutories.employee_id', $employee_id)
+
+            ->where('employee_statutories.company_id', $company_id)
+
+            ->where('statutories.before_paye', false)
+
+            ->get();
+
+        $pay_statutory_after['employee'] = 0;
+
+        $pay_statutory_after['employer'] = 0;
+
+        foreach ($statutories as $statutory) {
+
+            $pay_statutory_after['employee'] = $pay_statutory_after['employee'] + ($statutory->employee * $basic_salary);
+
+            $pay_statutory_after['employer'] = $pay_statutory_after['employer'] + ($statutory->employee * $basic_salary);
+
+        }
+
+        return $pay_statutory_after;
+    }
+
+//7 Paye
+    private function paye($employee_id = null, $country_id = null, $taxable_salary = 0)
+    {
+
+        $taxable_pay = $taxable_salary;
+
+        $payes = Paye::where('country_id', $country_id)->get();
+
+        foreach ($payes as $paye) {
+
+            if (($taxable_pay > $paye->minimum) && ($taxable_pay <= $paye->maximum)) {
+
+                return ((($taxable_pay - $paye->minimum) * $paye->ratio) + $paye->offset);
+
+            }
+
+        }
+
+    }
 
 //9 deduction
 private function deductionSum($employee_id = null,$company_id = null){
@@ -431,139 +354,130 @@ private function deductionSum($employee_id = null,$company_id = null){
 
       return Deduction::where('employee_id',$employee_id)->sum('monthly_amount');
 
-}
-
-
-
+    }
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    
+
     public function index()
     {
-          $company = $this->company();        
+        $company = $this->company();
 
-          $employeeExist = Employee::where('company_id', $company->id)->exists();
+        $employeeExist = Employee::where('company_id', $company->id)->exists();
 
-          if(!$employeeExist){
+        if (!$employeeExist) {
 
-            return redirect('users')->withInput()->with('error','Please add at least one employee to run eanring pay');
-          }
+            return redirect('users')->withInput()->with('error', 'Please add at least one employee to run eanring pay');
+        }
 
-          $login_user = Employee::where('user_id', auth()->user()->id)->first();
+        $login_user = Employee::where('user_id', auth()->user()->id)->first();
 
-          // $pays = Pay::where('company_id', $login_user->company_id)->get();
-            $max_pay = Pay::where('company_id', $company->id )->max('pay_number');
+        // $pays = Pay::where('company_id', $login_user->company_id)->get();
+        $max_pay = Pay::where('company_id', $company->id)->max('pay_number');
 
-            $pay_periods = DB::table('pays')->distinct()->select('pay_number')->get();
+        $pay_periods = DB::table('pays')->distinct()->select('pay_number')->get();
 
-            $month_gross = Pay::where('pay_number', $max_pay)
+        $month_gross = Pay::where('pay_number', $max_pay)
 
-            ->where('company_id',$company->id)
+            ->where('company_id', $company->id)
 
             ->sum('gloss');
 
-         
+        $month_paye = Pay::where('pay_number', $max_pay)
 
-            $month_paye = Pay::where('pay_number', $max_pay)
-
-             ->where('company_id',$company->id)
+            ->where('company_id', $company->id)
 
             ->sum('paye');
 
-            $month_net = Pay::where('pay_number', $max_pay)
+        $month_net = Pay::where('pay_number', $max_pay)
 
-             ->where('company_id',$company->id)
+            ->where('company_id', $company->id)
 
             ->sum('net');
 
-            $deduction_sum = Pay::where('pay_number', $max_pay)
+        $deduction_sum = Pay::where('pay_number', $max_pay)
 
-             ->where('company_id',$company->id)
+            ->where('company_id', $company->id)
 
             ->sum('deduction');
 
-             $isPosted = Pay::where('company_id', $company->id)
+        $isPosted = Pay::where('company_id', $company->id)
 
-             ->where('pay_number', $max_pay)
+            ->where('pay_number', $max_pay)
 
-             ->where('posted', true)
+            ->where('posted', true)
 
-             ->exists();
+            ->exists();
 
+        $statutory_sum = Pay_statutory::where('pay_number', $max_pay)
 
-            $statutory_sum = Pay_statutory::where('pay_number', $max_pay)
-
-            ->where('company_id',$company->id)
+            ->where('company_id', $company->id)
 
             ->sum('total');
 
-
         $pay_statutories = DB::table('pay_statutories')
 
-        ->select(
-
-          'statutory_id',
-
-          DB::raw('SUM(total) as total_amount'))
-
-          ->where('pay_number',$max_pay)
-
-           ->where('company_id',$company->id)
-
-          ->groupBy('statutory_id');
-
-
-           $statutories = DB::table('statutories')
-
-        ->joinSub($pay_statutories, 'pay_statutories', function($join) {
-
-        $join->on('statutories.id','pay_statutories.statutory_id');
-
-      })     
-
-        ->select(
-
-          'pay_statutories.*',        
-
-          'statutories.name as statutory_name'       
-
-          )
-
-          ->get();       
-
-
-            $pays = DB::table('pays')
-            ->where('pays.company_id', $company->id)
-            ->join('employees', 'employees.id','pays.employee_id')
-            ->join('users', 'users.id','employees.user_id')
             ->select(
 
-              'users.*',
+                'statutory_id',
 
-              'employees.*',
+                DB::raw('SUM(total) as total_amount'))
 
-              'pays.*'
-              )
+            ->where('pay_number', $max_pay)
+
+            ->where('company_id', $company->id)
+
+            ->groupBy('statutory_id');
+
+        $statutories = DB::table('statutories')
+
+            ->joinSub($pay_statutories, 'pay_statutories', function ($join) {
+
+                $join->on('statutories.id', 'pay_statutories.statutory_id');
+
+            })
+
+            ->select(
+
+                'pay_statutories.*',
+
+                'statutories.name as statutory_name'
+
+            )
+
             ->get();
 
-            $total = $month_net + $month_paye + $statutory_sum + $deduction_sum;
+        $pays = DB::table('pays')
+            ->where('pays.company_id', $company->id)
+            ->join('employees', 'employees.id', 'pays.employee_id')
+            ->join('users', 'users.id', 'employees.user_id')
+            ->select(
 
-          return view('pays.index', compact(
+                'users.*',
+
+                'employees.*',
+
+                'pays.*'
+            )
+            ->get();
+
+        $total = $month_net + $month_paye + $statutory_sum + $deduction_sum;
+
+        return view('pays.index', compact(
             'pays',
             'month_gross',
             'month_net',
             'month_paye',
-            'month_sdl',
+            //'month_sdl',
             'statutories',
             'max_pay',
             'deduction_sum',
             'isPosted',
             'total'
-          ));
+        ));
     }
 
 
@@ -576,15 +490,15 @@ private function deductionSum($employee_id = null,$company_id = null){
     public function create()
     {
 
-          $company = $this->company();
+        $company = $this->company();
 
-          $employeeExist = Employee::where('company_id', $company->id)->exists();
+        $employeeExist = Employee::where('company_id', $company->id)->exists();
 
-          if(!$employeeExist){
+        if (!$employeeExist) {
 
-            return redirect('users')->withInput()->with('error','Please add at least one employee to view employees');
-          }
-          return view('pays.create');
+            return redirect('users')->withInput()->with('error', 'Please add at least one employee to view employees');
+        }
+        return view('pays.create');
     }
 
     /**
@@ -593,177 +507,153 @@ private function deductionSum($employee_id = null,$company_id = null){
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)    {
+    public function store(Request $request)
+    {
 
-    
+        DB::transaction(function () {
 
+            // TODO: below item should be company variable or setting
+            $fromPaySlipEmail = 'payroll@datahousetza.com';
+            $fromPaySlipName = 'Payroll Datahouse';
+            $paySlipSubject = 'Pay Slip';
 
-        DB::transaction( function(){
+            //end of todo
 
-          // TODO: below item should be company variable or setting
-          $fromPaySlipEmail = 'payroll@datahousetza.com';
-          $fromPaySlipName = 'Payroll Datahouse';
-          $paySlipSubject = 'Pay Slip';
+            $year = request('year');
 
-          //end of todo
+            $month = request('month');
 
-          $year = request('year');
-
-          $month = request('month');
-
-          if( strlen($month) == 1){
-            $month = '0'.$month;
-          }
-
-          $pay_number = $year.$month;
-
-
-
-          $company = $this->company();
-
-          $company->id = $company->id;
-
-          //$company = Company::findOrFail($company->id);
-
-          $company_name = $company->name;
-
-          $company_logo = $company->logo;
-
-          $company_domain = $company->website;
-
-          $salaries = Salary::where('company_id', $company->id)->get();
-
-          $company = Company::find($company->id);
-
-          $country_id = $company->country_id;
-
-         
-
-          $payPosted = Pay::where('pay_number', $pay_number)
-          ->where('company_id', $company->id)
-          ->where('posted', true)->exists();
-
-          $payNotPosted = Pay::where('pay_number', $pay_number)
-          ->where('company_id', $company->id)
-          ->where('posted', false)->exists();
-
-           
-
-          if($payPosted){
-             return back()->withInput()->with('error','Pay for selected month exist');
-          }elseif($payNotPosted){
-
-            $pays = Pay::where('pay_number', $pay_number)->get();
-
-            foreach($pays as $pay){
-
-              $this->update($pay->id,$pay_number);
+            if (strlen($month) == 1) {
+                $month = '0' . $month;
             }
 
-          }else{
+            $pay_number = $year . $month;
 
+            $company = $this->company();
 
+            $company->id = $company->id;
 
+            //$company = Company::findOrFail($company->id);
 
+            $company_name = $company->name;
 
+            $company_logo = $company->logo;
 
-      foreach($salaries as $salary){
+            $company_domain = $company->website;
 
-        $employee_id = $salary->employee_id;
+            $salaries = Salary::where('company_id', $company->id)->get();
 
+            $company = Company::find($company->id);
 
-        $employee = Employee::select('user_id')
-                    ->where('id',$employee_id)
-                    ->where('company_id',$company->id)
-                    ->first();
+            $country_id = $company->country_id;
 
+            $payPosted = Pay::where('pay_number', $pay_number)
+                ->where('company_id', $company->id)
+                ->where('posted', true)->exists();
 
-        $company->id = $salary->company_id;
+            $payNotPosted = Pay::where('pay_number', $pay_number)
+                ->where('company_id', $company->id)
+                ->where('posted', false)->exists();
 
-        $basic_salary = $salary->amount;
+            if ($payPosted) {
+                return back()->withInput()->with('error', 'Pay for selected month exist');
+            } elseif ($payNotPosted) {
 
-        $allowance = $this->allowanceSum($employee_id, $company->id);
+                $pays = Pay::where('pay_number', $pay_number)->get();
 
-        $statutory_before_paye = $this->statutoryBeforePaye($employee_id, $company->id,$basic_salary);
+                foreach ($pays as $pay) {
 
-      
+                    $this->update($pay->id, $pay_number);
+                }
 
+            } else {
 
-        $statutory_after_paye = $this->statutoryAfterPaye($employee_id, $company->id,$basic_salary);
+                foreach ($salaries as $salary) {
 
-        $salary_after_statutory_before_paye = $basic_salary -   $statutory_before_paye['employee'];
+                    $employee_id = $salary->employee_id;
 
-        $taxable =   $salary_after_statutory_before_paye + $allowance;
-
-        $gloss = $basic_salary + $allowance;
-
-        $paye = $this->paye($employee_id,$country_id, $taxable);
-
-        $monthly_earning =   $taxable - $paye -   $statutory_after_paye['employee'];
-
-        $deduction = $this->deductionSum($employee_id, $company->id);
+                    $employee = Employee::select('user_id')
+                        ->where('id', $employee_id)
+                        ->where('company_id', $company->id)
+                        ->first();
 
         
 
-        $net =   $monthly_earning - $deduction;
+                    
 
+                    $basic_salary = $salary->amount;
 
+                    $allowance = $this->allowanceSum($employee_id, $company->id);
 
-        $lastPayId = DB::table('pays')->insertGetId([
+                    $statutory_before_paye = $this->statutoryBeforePaye($employee_id, $company->id, $basic_salary);
 
-          'company_id' =>  $company->id,
+                    $statutory_after_paye = $this->statutoryAfterPaye($employee_id, $company->id, $basic_salary);
 
-          'employee_id' => $employee_id,
+                    $salary_after_statutory_before_paye = $basic_salary - $statutory_before_paye['employee'];
 
-          'run_date' => Carbon::now(),
+                    $taxable = $salary_after_statutory_before_paye + $allowance;
 
-          'pay_number' => $pay_number,
+                    $gloss = $basic_salary + $allowance;
 
-          'basic_salary' => $basic_salary,
+                    $paye = $this->paye($employee_id, $country_id, $taxable);
 
-          'allowance' => $allowance,
+                    $monthly_earning = $taxable - $paye - $statutory_after_paye['employee'];
 
-          'gloss' => $basic_salary + $allowance,
+                    $deduction = $this->deductionSum($employee_id, $company->id);
 
-          'taxable' => $taxable,
+                    $net = $monthly_earning - $deduction;
 
-          'paye' => $paye,
+                    $lastPayId = DB::table('pays')->insertGetId([
 
-          'monthly_earning' => $monthly_earning,
+                        'company_id' => $company->id,
 
-          'deduction' => $deduction,
+                        'employee_id' => $employee_id,
 
-          'net' => $net,
+                        'run_date' => Carbon::now(),
 
-          'year' => $year,
+                        'pay_number' => $pay_number,
 
-          'month' => $month,
+                        'basic_salary' => $basic_salary,
 
-          'created_at' =>now(),
+                        'allowance' => $allowance,
 
-          'updated_at' =>now(),
+                        'gloss' => $basic_salary + $allowance,
 
-            ]);
+                        'taxable' => $taxable,
 
-            // $statutories = Employee::find($employee_id)->statutories()
-            // ->where('statutories.company_id', $company->id)
-            // ->get();
-  $deductions = DB::table('deductions')
+                        'paye' => $paye,
 
-   ->join('deduction_types', 'deduction_types.id','deductions.deduction_type_id')
+                        'monthly_earning' => $monthly_earning,
 
-   ->select('deductions.*','deductions.id as deduction_id')
+                        'deduction' => $deduction,           
+                                        
+                        'net' => $net,
 
-    ->where('deductions.employee_id',$employee_id)  
+                        'year' => $year,
 
-  ->where('deductions.company_id', $company->id) 
-  
-  ->where('deductions.start_date','<=', Carbon::now()->format('Y-m-d')) 
+                        'month' => $month,
 
-  ->where('deductions.end_date','>=', Carbon::now()->format('Y-m-d')) 
+                        'created_at' =>now(),
 
-  ->get();
+                        'updated_at' =>now(),
 
+                            ]);
+                            
+            $deductions = DB::table('deductions')
+
+            ->join('deduction_types', 'deduction_types.id','deductions.deduction_type_id')
+            
+            ->select('deductions.*','deductions.id as deduction_id')
+            
+                ->where('deductions.employee_id',$employee_id)  
+            
+            ->where('deductions.company_id', $company->id) 
+            
+            ->where('deductions.start_date','<=', Carbon::now()->format('Y-m-d')) 
+            
+            ->where('deductions.end_date','>=', Carbon::now()->format('Y-m-d')) 
+            
+            ->get();
 
   foreach($deductions as $deduction){
      if(($deduction->balance > 0) && ($deduction->balance >= $deduction->monthly_amount)){
@@ -829,105 +719,82 @@ private function deductionSum($employee_id = null,$company_id = null){
    
           }
 
-
-  $allowances = DB::table('allowances')
-
-   ->join('allowance_types', 'allowance_types.id','allowances.allowance_type_id')
-
-   ->select('allowances.*','allowances.id as allowance_id')
-
-    ->where('allowances.employee_id',$employee_id)  
-
-  ->where('allowances.company_id', $company->id)  
-
-  ->where('allowances.start_date','<=', Carbon::now()->format('Y-m-d')) 
-
-  ->where('allowances.end_date','>=', Carbon::now()->format('Y-m-d')) 
-
-  ->get();
-
-
-  foreach($allowances as $allowance){
-  
-            DB::table('pay_allowances')->insert([
-                    'company_id' => $company->id,
-                    'employee_id' => $employee_id,
-                    'pay_id' => $lastPayId,
-                    'pay_number' => $pay_number,
-                    'allowance_type_id' =>  $allowance->allowance_type_id,
-                    'amount' =>   $allowance->amount,
-                    'allowance_id' =>   $allowance->allowance_id,                    
-                    'created_at' =>now(),
-                    'updated_at' =>now(),
-                ]);
-          }
-
-
-    $statutories = DB::table('employee_statutories')
-
-   ->join('statutories', 'statutories.id','employee_statutories.statutory_id')
-
-   ->select('statutories.*', 'employee_statutories.id as employee_statutories_id')
-
-    ->where('employee_statutories.employee_id',$employee_id)  
-
-  ->where('employee_statutories.company_id', $company->id)  
-
-  ->get();
+          
 
 
 
+                    $allowances = DB::table('allowances')
 
-foreach($statutories as $statutory){
+                        ->join('allowance_types', 'allowance_types.id', 'allowances.allowance_type_id')
 
-  if($statutory->base_id == 1){
-    $statutory_employee = $statutory->employee * $basic_salary;
-    $statutory_employer = $statutory->employer * $basic_salary;
-  }else {
-    $statutory_employee = $statutory->employee * $gloss;
-    $statutory_employer = $statutory->employer * $gloss;
-  }
+                        ->select('allowances.*', 'allowances.id as allowance_id')
 
-  $employee_statutory_no = EmployeeStatutory::where('company_id', $company->id)
-                                            ->where('employee_id',$employee_id)
-                                            ->where('statutory_id', $statutory->id)                                            
-                                            ->value('employee_statutory_no');
+                        ->where('allowances.employee_id', $employee_id)
 
-  //select employee_statutory_no where company_id,employee_idstatutory_id
-            DB::table('pay_statutories')->insert([
-                    'company_id' => $company->id,
-                    'employee_id' => $employee_id,
-                    'pay_id' => $lastPayId,
-                    'pay_number' => $pay_number,
-                    'employee' =>   $statutory_employee,
-                    'employer' =>   $statutory_employer,
-                    'total' =>   $statutory_employer + $statutory_employee,
-                    'statutory_id' => $statutory->id,
-                    'employee_statutory_no'=> $employee_statutory_no,
-                    'created_at' =>now(),
-                    'updated_at' =>now(),
-                ]);
-          }
+                        ->where('allowances.company_id', $company->id)
+
+                        ->get();
+
+                    foreach ($allowances as $allowance) {
+
+                        DB::table('pay_allowances')->insert([
+                            'company_id' => $company->id,
+                            'employee_id' => $employee_id,
+                            'pay_id' => $lastPayId,
+                            'pay_number' => $pay_number,
+                            'allowance_type_id' => $allowance->allowance_type_id,
+                            'amount' => $allowance->amount,
+                            'allowance_id' => $allowance->allowance_id,
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ]);
+                    }
+
+                    $statutories = DB::table('employee_statutories')
+
+                        ->join('statutories', 'statutories.id', 'employee_statutories.statutory_id')
+
+                        ->select('statutories.*', 'employee_statutories.id as employee_statutories_id')
+
+                        ->where('employee_statutories.company_id', $company->id)
+
+                        ->get();
 
 
 
+                       
 
+                    foreach ($statutories as $statutory) {
+
+                        if ($statutory->base_id == 1) {
+                            $statutory_employee = $statutory->employee * $basic_salary;
+                            $statutory_employer = $statutory->employer * $basic_salary;
+                        } else {
+                            $statutory_employee = $statutory->employee * $gloss;
+                            $statutory_employer = $statutory->employer * $gloss;
+                        }
+                        DB::table('pay_statutories')->insert([
+                            'company_id' => $company->id,
+                            'employee_id' => $employee_id,
+                            'pay_id' => $lastPayId,
+                            'pay_number' => $pay_number,
+                            'employee' => $statutory_employee,
+                            'employer' => $statutory_employer,
+                            'total' => $statutory_employer + $statutory_employee,
+                            'statutory_id' => $statutory->id,
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ]);
+                    }
 
 // $this->sendSalarySlipEmail($employee->user_id,$company,$fromPaySlipEmail,$fromPaySlipName,$paySlipSubject,$lastPayId);
 
-}
-}
+                }
+            }
 
-});
+        });
 
-
-
-return redirect('pays');
-
-
-
-
-
+        return redirect('pays');
 
     }
 
@@ -940,15 +807,15 @@ return redirect('pays');
     public function show(Pay $pay)
     {
 
-      $company = $this->company();
+        $company = $this->company();
 
-          $employeeExist = Employee::where('company_id', $company->id)->exists();
+        $employeeExist = Employee::where('company_id', $company->id)->exists();
 
-          if(!$employeeExist){
+        if (!$employeeExist) {
 
-            return redirect('users')->withInput()->with('error','Please add at least one employee to view employees');
-          }
-        return view('pays.show',compact('pay'));
+            return redirect('users')->withInput()->with('error', 'Please add at least one employee to view employees');
+        }
+        return view('pays.show', compact('pay'));
     }
 
     /**
@@ -961,14 +828,14 @@ return redirect('pays');
     {
         $company = $this->company();
 
-          $employeeExist = Employee::where('company_id', $company->id)->exists();
+        $employeeExist = Employee::where('company_id', $company->id)->exists();
 
-          if(!$employeeExist){
+        if (!$employeeExist) {
 
-            return redirect('users')->withInput()->with('error','Please add at least one employee to view employees');
-          }
+            return redirect('users')->withInput()->with('error', 'Please add at least one employee to view employees');
+        }
 
-          //return view('pays.edit');
+        //return view('pays.edit');
     }
 
     /**
@@ -981,233 +848,207 @@ return redirect('pays');
     public function post($max_pay)
     {
 
-       $company = $this->company();
-        
+        $company = $this->company();
 
         DB::table('pays')
 
-       ->where('pay_number', $max_pay)
+            ->where('pay_number', $max_pay)
 
-       ->where('company_id',$company->id)
+            ->where('company_id', $company->id)
 
-       ->update([
-         'posted' => 1,       
+            ->update([
+                'posted' => 1,
 
-       ]);
+            ]);
 
-       
+        $pays = Pay::where('pay_number', $max_pay)->get();
 
-       $pays = Pay::where('pay_number', $max_pay)->get();
+        foreach ($pays as $pay) {
 
-       
+            $fromPaySlipEmail = 'payroll@datahousetza.com';
+            $fromPaySlipName = 'Payroll Datahouse';
+            $paySlipSubject = 'Pay Slip';
 
-      foreach($pays as $pay){
+            $employee = Employee::findOrFail($pay->employee_id);
 
-         $fromPaySlipEmail = 'payroll@datahousetza.com';
-          $fromPaySlipName = 'Payroll Datahouse';
-          $paySlipSubject = 'Pay Slip';
+            $user = User::findOrFail(2);
 
-      $employee = Employee::findOrFail($pay->employee_id);
+            dispatch(new SendEmailPaySlip($pay, $company, $user))->delay(now()->addMinutes(60));
 
-      $user = User::findOrFail(2);
+            // $this->sendSalarySlipEmail($employee->user_id,$pay->company_id,$fromPaySlipEmail,$fromPaySlipName,$paySlipSubject,$pay->pay_number);
 
-      dispatch(new SendEmailPaySlip($pay,$company,$user))->delay(now()->addMinutes(60));;
+        }
 
-        // $this->sendSalarySlipEmail($employee->user_id,$pay->company_id,$fromPaySlipEmail,$fromPaySlipName,$paySlipSubject,$pay->pay_number);
-
-      }
-      
-
-       return back();
+        return back();
 
     }
 
-
-    public function update($id,$pay_number)
+    public function update($id, $pay_number)
     {
 
-       $pay = Pay::find($id);
+        $pay = Pay::find($id);
 
-       $company = $this->company();
+        $company = $this->company();
 
+        $salary = Salary::where('employee_id', $pay->employee_id)
 
+            ->where('company_id', $pay->company_id)
 
-       $salary = Salary::where('employee_id', $pay->employee_id)
+            ->first();
 
+        $employee_id = $salary->employee_id;
 
+        //$company->id = $salary->company_id;
 
-       ->where('company_id',$pay->company_id)
+        $basic_salary = $salary->amount;
 
-       ->first();
+        $allowance = $this->allowanceSum($employee_id, $company->id);
 
-       $employee_id = $salary->employee_id;
+        $statutory_before_paye = $this->statutoryBeforePaye($employee_id, $company->id, $basic_salary);
 
-     
+        $statutory_after_paye = $this->statutoryAfterPaye($employee_id, $pay_number, $basic_salary);
 
-       //$company->id = $salary->company_id;
+        $salary_after_statutory_before_paye = $basic_salary - $statutory_before_paye['employee'];
 
-       $basic_salary = $salary->amount;
+        $taxable = $salary_after_statutory_before_paye + $allowance;
 
-       $allowance = $this->allowanceSum($employee_id, $company->id);
+        $gloss = $basic_salary + $allowance;
 
-       $statutory_before_paye = $this->statutoryBeforePaye($employee_id, $company->id,$basic_salary);
+        $paye = $this->paye($employee_id, $company->id, $taxable);
 
-       $statutory_after_paye = $this->statutoryAfterPaye($employee_id, $pay_number,$basic_salary);
+        $monthly_earning = $taxable - $paye - $statutory_after_paye['employee'];
 
-       $salary_after_statutory_before_paye = $basic_salary -   $statutory_before_paye['employee'];
+        $deduction = $this->deductionSum($employee_id, $company->id);
 
-       $taxable =   $salary_after_statutory_before_paye + $allowance;
+        $net = $monthly_earning - $deduction;
 
-       $gloss = $basic_salary + $allowance;
+        DB::table('pays')
 
-       $paye = $this->paye($employee_id,$company->id, $taxable);
+            ->where('id', $id)
 
-       $monthly_earning =   $taxable - $paye -   $statutory_after_paye['employee'];
-
-       $deduction = $this->deductionSum($employee_id, $company->id);
-
-       $net =   $monthly_earning - $deduction;
-
-
-
-       DB::table('pays')
-
-       ->where('id',$id)
-
-       ->where('company_id',$company->id)
-
-       ->update([
-
-
-         'run_date' => Carbon::now(),
-
-
-         'basic_salary' => $basic_salary,
-
-         'allowance' => $allowance,
-
-         'gloss' => $basic_salary + $allowance,
-
-         'taxable' => $taxable,
-
-         'paye' => $paye,
-
-         'monthly_earning' => $monthly_earning,
-
-         'deduction' => $deduction,
-
-         'net' => $net,
-
-         'updated_at' =>now(),
-
-       ]);
-
-
-      //  $statutories = Employee::find($employee_id)->statutories()
-      // ->where('statutories.company_id', $company->id)
-      // ->get();
-   $deductions = DB::table('deductions')
-
-   ->join('deduction_types', 'deduction_types.id','deductions.deduction_type_id')
-
-   ->select('deductions.*','deductions.id as deduction_id')
-
-    ->where('deductions.employee_id',$employee_id)  
-
-  ->where('deductions.company_id', $company->id)  
-
-  ->get();
-
-
-  foreach($deductions as $deduction){
-  
-            DB::table('pay_deductions')
-            ->where('pay_id',$id)
-            ->where('employee_id', $employee_id)
             ->where('company_id', $company->id)
-            ->where('deduction_type_id', $deduction->deduction_type_id)
-            ->update([                   
-                    'pay_number' => $pay_number,
-                    'deduction_type_id' =>  $deduction->deduction_type_id,
-                    'amount' =>   $deduction->amount,
-                    'deduction_id' =>   $deduction->deduction_id,  
-                   
-                    'updated_at' =>now(),
-                ]);
-          }
 
-
-  $allowances = DB::table('allowances')
-
-   ->join('allowance_types', 'allowance_types.id','allowances.allowance_type_id')
-
-   ->select('allowances.*','allowances.id as allowance_id')
-
-    ->where('allowances.employee_id',$employee_id)  
-
-  ->where('allowances.company_id', $company->id)  
-
-  ->get();
-
-
-  foreach($allowances as $allowance){
-  
-            DB::table('pay_allowances')
-            ->where('pay_id',$id)
-            ->where('employee_id', $employee_id)
-            ->where('company_id', $company->id)
-            ->where('allowance_type_id', $allowance->allowance_type_id)
             ->update([
-                    
+
+                'run_date' => Carbon::now(),
+
+                'basic_salary' => $basic_salary,
+
+                'allowance' => $allowance,
+
+                'gloss' => $basic_salary + $allowance,
+
+                'taxable' => $taxable,
+
+                'paye' => $paye,
+
+                'monthly_earning' => $monthly_earning,
+
+                'deduction' => $deduction,
+
+                'net' => $net,
+
+                'updated_at' => now(),
+
+            ]);
+
+        //  $statutories = Employee::find($employee_id)->statutories()
+        // ->where('statutories.company_id', $company->id)
+        // ->get();
+        $deductions = DB::table('deductions')
+
+            ->join('deduction_types', 'deduction_types.id', 'deductions.deduction_type_id')
+
+            ->select('deductions.*', 'deductions.id as deduction_id')
+
+            ->where('deductions.employee_id', $employee_id)
+
+            ->where('deductions.company_id', $company->id)
+
+            ->get();
+
+        foreach ($deductions as $deduction) {
+
+            DB::table('pay_deductions')
+                ->where('pay_id', $id)
+                ->where('employee_id', $employee_id)
+                ->where('company_id', $company->id)
+                ->where('deduction_type_id', $deduction->deduction_type_id)
+                ->update([
                     'pay_number' => $pay_number,
-                    'allowance_type_id' =>  $allowance->allowance_type_id,
-                    'amount' =>   $allowance->amount,
-                    'allowance_id' =>   $allowance->allowance_id,                  
-                   
-                    'updated_at' =>now(),
+                    'deduction_type_id' => $deduction->deduction_type_id,
+                    'amount' => $deduction->amount,
+                    'deduction_id' => $deduction->deduction_id,
+
+                    'updated_at' => now(),
                 ]);
-          }
+        }
 
+        $allowances = DB::table('allowances')
 
-    $statutories = DB::table('employee_statutories')
+            ->join('allowance_types', 'allowance_types.id', 'allowances.allowance_type_id')
 
-   ->join('statutories', 'statutories.id','employee_statutories.statutory_id')
+            ->select('allowances.*', 'allowances.id as allowance_id')
 
-   ->select('statutories.*', 'employee_statutories.id as employee_statutories_id')
+            ->where('allowances.employee_id', $employee_id)
 
-    ->where('employee_statutories.employee_id',$employee_id)  
+            ->where('allowances.company_id', $company->id)
 
-  ->where('employee_statutories.company_id', $company->id)  
+            ->get();
 
-  ->get();
+        foreach ($allowances as $allowance) {
 
-              foreach($statutories as $statutory){
+            DB::table('pay_allowances')
+                ->where('pay_id', $id)
+                ->where('employee_id', $employee_id)
+                ->where('company_id', $company->id)
+                ->where('allowance_type_id', $allowance->allowance_type_id)
+                ->update([
 
-              if($statutory->base_id == 1){
-              $statutory_employee = $statutory->employee * $basic_salary;
-              $statutory_employer = $statutory->employer * $basic_salary;
-              }else {
-              $statutory_employee = $statutory->employee * $gloss;
-              $statutory_employer = $statutory->employer * $gloss;
-              }
-                   
-                    DB::table('pay_statutories')
-                    ->where('pay_id',$id)
-                    ->where('employee_id', $employee_id)
-                    ->where('company_id', $company->id)
-                    ->where('statutory_id',$statutory->id)
-                    ->update([
+                    'pay_number' => $pay_number,
+                    'allowance_type_id' => $allowance->allowance_type_id,
+                    'amount' => $allowance->amount,
+                    'allowance_id' => $allowance->allowance_id,
 
-                            'employee' =>   $statutory_employee,
-                            'employer' =>   $statutory_employer,
+                    'updated_at' => now(),
+                ]);
+        }
 
-                            'updated_at' =>now(),
-                        ]);
-    }
+        $statutories = DB::table('employee_statutories')
 
+            ->join('statutories', 'statutories.id', 'employee_statutories.statutory_id')
 
+            ->select('statutories.*', 'employee_statutories.id as employee_statutories_id')
 
+            ->where('employee_statutories.employee_id', $employee_id)
 
+            ->where('employee_statutories.company_id', $company->id)
+
+            ->get();
+
+        foreach ($statutories as $statutory) {
+
+            if ($statutory->base_id == 1) {
+                $statutory_employee = $statutory->employee * $basic_salary;
+                $statutory_employer = $statutory->employer * $basic_salary;
+            } else {
+                $statutory_employee = $statutory->employee * $gloss;
+                $statutory_employer = $statutory->employer * $gloss;
+            }
+
+            DB::table('pay_statutories')
+                ->where('pay_id', $id)
+                ->where('employee_id', $employee_id)
+                ->where('company_id', $company->id)
+                ->where('statutory_id', $statutory->id)
+                ->update([
+
+                    'employee' => $statutory_employee,
+                    'employer' => $statutory_employer,
+
+                    'updated_at' => now(),
+                ]);
+        }
 
     }
 
@@ -1219,41 +1060,39 @@ return redirect('pays');
      */
     public function destroy(Pay $pay)
     {
-      // TODO: delete with its statutory, allowance and deductions
-      $is_unposted_pay = Pay::uposted('id',$pay->id)->exixts();
+        // TODO: delete with its statutory, allowance and deductions
+        $is_unposted_pay = Pay::uposted('id', $pay->id)->exixts();
 
-      if ($is_unposted_pay){
+        if ($is_unposted_pay) {
 
-          DB::transaction( function() use ($pay) {
+            DB::transaction(function () use ($pay) {
 
-            DB::table('pays')
-            ->where('id', $pay->id)
-            ->delete();
+                DB::table('pays')
+                    ->where('id', $pay->id)
+                    ->delete();
 
-            DB::table('pay_statutories')
-            ->where('pay_id', $pay->id)
-            ->delete();
+                DB::table('pay_statutories')
+                    ->where('pay_id', $pay->id)
+                    ->delete();
 
-            DB::table('pay_allowances')
-            ->where('pay_id', $pay->id)
-            ->delete();
+                DB::table('pay_allowances')
+                    ->where('pay_id', $pay->id)
+                    ->delete();
 
-            DB::table('pay_deductions')
-            ->where('pay_id', $pay->id)
-            ->delete();
+                DB::table('pay_deductions')
+                    ->where('pay_id', $pay->id)
+                    ->delete();
 
-          });
+            });
 
+            return redirect('pays.index')
 
+                ->with('success', 'Pay deleted successfully');
 
-        return redirect('pays.index')
+        } else {
 
-        ->with('success','Pay deleted successfully');
+            return back()->withInput()->with('error', 'Pay could not be deleted');
 
-      }else{
-
-        return back()->withInput()->with('error','Pay could not be deleted');
-
-      }
+        }
     }
 }

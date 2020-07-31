@@ -13,6 +13,8 @@
 
                     {{ Form::bsHidden('user_id', request('user_id')) }}
 
+                    <input class="typeahead form-control" type="text">
+
 
 
                     <div class="form-group">
@@ -47,4 +49,18 @@
     </div>
 </div>    
 @endsection
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
+
+
+          <script type="text/javascript">
+            var path = "{{ route('allow_typ_auto') }}";
+            $('input.typeahead').typeahead({              
+                source:  function (query, process) {
+                return $.get(path, { query: query }, function (data) {
+                    return process(data);
+                    });
+                }
+            });
+        </script>
 
