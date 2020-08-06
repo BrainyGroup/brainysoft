@@ -11,6 +11,7 @@
                     {{ session('status') }}
                 </div>
             @endif
+
 {!! Form::open(['action' => 'PayController@store','method' => 'POST']) !!}
 
                     <div class="form-group">
@@ -19,7 +20,7 @@
 
                      <select class="form-control" id="year" name="year" required >
 
-                     {{  define("YEAR", date("y") ) }}
+                     {{  define("YEAR", date("Y") ) }}
                      {{  define("MONTH", date("n") ) }}
 
 
@@ -28,7 +29,7 @@
                        
                        
 
-                       @for($i = YEAR - 3; $i<=YEAR; $i++)
+                       @for($i = YEAR - 1; $i>=YEAR -3; $i--)
 
                       
 
@@ -66,7 +67,7 @@
                        
                        @for($i = 1 ; $i<=11; $i++)
 
-                       <option value="{{ $i }}">{{ $months[$i - 1] }}</option>
+                       <option value="{{ $i }}">{{ $months[$i ] }}</option>
 
                        @endfor
 

@@ -67,9 +67,11 @@ class UserController extends Controller
 
    
 
-        $users = User::where('company_id',$company->id)
-        ->where('employee',false)
-        ->get();    
+        // $users = User::where('company_id',$company->id)
+        // ->where('employee',false)
+        // ->get();  
+        
+        $users = User::where('company_id',$company->id)->get();   
         
         
 

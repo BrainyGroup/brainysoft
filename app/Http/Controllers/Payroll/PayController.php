@@ -9,6 +9,7 @@ use BrainySoft\Deduction;
 use BrainySoft\Designation;
 use BrainySoft\Employee;
 use BrainySoft\Employment_type;
+use BrainySoft\EmployeeStatutory;
 use BrainySoft\Jobs\SendEmailPaySlip;
 use BrainySoft\Level;
 use BrainySoft\Pay;
@@ -510,6 +511,8 @@ private function deductionSum($employee_id = null,$company_id = null){
     public function store(Request $request)
     {
 
+        dd('test')
+
         DB::transaction(function () {
 
             // TODO: below item should be company variable or setting
@@ -546,10 +549,12 @@ private function deductionSum($employee_id = null,$company_id = null){
             $company = Company::find($company->id);
 
             $country_id = $company->country_id;
+           
 
             $payPosted = Pay::where('pay_number', $pay_number)
                 ->where('company_id', $company->id)
                 ->where('posted', true)->exists();
+           
 
             $payNotPosted = Pay::where('pay_number', $pay_number)
                 ->where('company_id', $company->id)
@@ -558,6 +563,7 @@ private function deductionSum($employee_id = null,$company_id = null){
             if ($payPosted) {
                 return back()->withInput()->with('error', 'Pay for selected month exist');
             } elseif ($payNotPosted) {
+                
 
                 $pays = Pay::where('pay_number', $pay_number)->get();
 
@@ -603,6 +609,17 @@ private function deductionSum($employee_id = null,$company_id = null){
 
                     $net = $monthly_earning - $deduction;
 
+                    if($cash = 0)
+                    { 
+                        $net_balance = $net; 
+                    }else{
+                        $net_balance = 0;
+                    }
+
+                 
+
+               
+
                     $lastPayId = DB::table('pays')->insertGetId([
 
                         'company_id' => $company->id,
@@ -633,11 +650,30 @@ private function deductionSum($employee_id = null,$company_id = null){
 
                         'month' => $month,
 
+                        'net_balance' => $net_balance,
+
                         'created_at' =>now(),
 
                         'updated_at' =>now(),
 
                             ]);
+
+
+            if ($net_balance){
+
+                DB::table('employee_payments')->insert([
+                    'company_id' => $company->id,
+                    'employee_id' => $employee_id,                   
+                    'pay_number' => $pay_number,
+                    'month' =>  $month,
+                    'year' =>  $year,
+                    'amount' =>   $net_balance,
+                    'pay_date' =>   now(),                    
+                    'created_at' =>now(),
+                    'updated_at' =>now(),
+                ]);
+
+            }
                             
             $deductions = DB::table('deductions')
 
@@ -733,6 +769,10 @@ private function deductionSum($employee_id = null,$company_id = null){
 
                         ->where('allowances.company_id', $company->id)
 
+                        ->where('allowances.start_date','<=', Carbon::now()->format('Y-m-d')) 
+
+                        ->where('allowances.end_date','>=', Carbon::now()->format('Y-m-d')) 
+
                         ->get();
 
                     foreach ($allowances as $allowance) {
@@ -756,6 +796,8 @@ private function deductionSum($employee_id = null,$company_id = null){
 
                         ->select('statutories.*', 'employee_statutories.id as employee_statutories_id')
 
+                        ->where('employee_statutories.employee_id',$employee_id) 
+
                         ->where('employee_statutories.company_id', $company->id)
 
                         ->get();
@@ -773,6 +815,15 @@ private function deductionSum($employee_id = null,$company_id = null){
                             $statutory_employee = $statutory->employee * $gloss;
                             $statutory_employer = $statutory->employer * $gloss;
                         }
+
+                        $employee_statutory_no = EmployeeStatutory::where('company_id', $company->id)
+                        ->where('employee_id',$employee_id)
+                        ->where('statutory_id', $statutory->id)                                            
+                        ->value('employee_statutory_no');
+
+                        if(!$employee_statutory_no) $employee_statutory_no = "";
+
+                       
                         DB::table('pay_statutories')->insert([
                             'company_id' => $company->id,
                             'employee_id' => $employee_id,
@@ -782,6 +833,7 @@ private function deductionSum($employee_id = null,$company_id = null){
                             'employer' => $statutory_employer,
                             'total' => $statutory_employer + $statutory_employee,
                             'statutory_id' => $statutory->id,
+                            'employee_statutory_no'=> $employee_statutory_no,
                             'created_at' => now(),
                             'updated_at' => now(),
                         ]);
@@ -896,6 +948,8 @@ private function deductionSum($employee_id = null,$company_id = null){
 
             ->first();
 
+        
+
         $employee_id = $salary->employee_id;
 
         //$company->id = $salary->company_id;
@@ -922,6 +976,15 @@ private function deductionSum($employee_id = null,$company_id = null){
 
         $net = $monthly_earning - $deduction;
 
+        
+        if($cash = 0)
+        { 
+            $net_balance = $net; 
+        }else{
+            $net_balance = 0;
+        }
+
+
         DB::table('pays')
 
             ->where('id', $id)
@@ -947,6 +1010,8 @@ private function deductionSum($employee_id = null,$company_id = null){
                 'deduction' => $deduction,
 
                 'net' => $net,
+
+                'net_balance' => $net_balance,
 
                 'updated_at' => now(),
 

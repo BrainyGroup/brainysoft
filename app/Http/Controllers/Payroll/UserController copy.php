@@ -6,13 +6,15 @@ use BrainySoft\DataTables\UsersDataTable;
 
 use Exception;
 
-use Storage;
+//use Storage;
 
 use App\ImageModel;
 
 use Image;
 
 use Illuminate\Support\Facades\Hash;
+
+use Illuminate\Support\Facades\Storage;
 
 
 
