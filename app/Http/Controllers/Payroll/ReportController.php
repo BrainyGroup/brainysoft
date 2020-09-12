@@ -4,8 +4,6 @@ namespace BrainySoft\Http\Controllers;
 
 
 
-use DB;
-
 use PDF;
 
 use Mail;
@@ -40,6 +38,10 @@ use Illuminate\Http\Request;
 
 use BrainySoft\Pay_statutory;
 
+use BrainySoft\Pay_deduction;
+
+use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Facades\Log;
 
 
@@ -68,12 +70,24 @@ class ReportController extends Controller
 
         $company = $this->company();
 
+        $user = User::find(auth()->user()->id);
+
+        $employee = Employee::where('user_id',$user->id)->first();
+
+        if($employee){
+          $employee_id = $employee->id;
+        }else{
+          $employee_id = 0;
+        }
+
+        
+
         $max_pay = Pay::where('posted', 1)
         ->where('company_id', $company->id)
         ->max('pay_number');
 
 
-        return view('reports.index', compact('max_pay'));
+        return view('reports.index', compact('max_pay','employee_id'));
 
      }
 
@@ -125,11 +139,41 @@ class ReportController extends Controller
                   
                   ->first();
 
-      $pays = Pay::where('company_id',$company->id)
+                 
+                 
+                  $pay_deductions = DB::table('pay_deductions')
 
-                    ->where('employee_id', $employee->id )
+                  ->select(
+          
+                    'pay_id',
+          
+                    DB::raw('SUM(amount) as deduction'))
+          
+                    ->where('employee_id', $employee->id)    
+                   
+          
+                    ->groupBy('pay_id');
 
-                    ->get();
+                   
+       
+                    $pays = DB::table('Pays')
+
+                    ->joinSub($pay_deductions, 'pay_deductions', function($join) {
+            
+                    $join->on('pay_deductions.pay_id','pays.id');
+            
+                  })
+                  
+                  ->select(
+
+                    'pays.*',
+
+                    'pay_deductions.*'
+
+                  )
+                  ->get();              
+
+                    
 
 
       return view('reports.employee_pay', compact( 'pays', 'user'));
@@ -150,7 +194,19 @@ class ReportController extends Controller
 
             ->where('pay_number', $max_pay)
 
-            ->sum('pays.net');
+            ->sum('net');
+
+            $net_balance = DB::table('pays')
+
+            ->where('pays.company_id', $company->id)
+
+            ->where('pay_number', $max_pay)
+
+            ->sum('pays.net_balance');
+
+            $net_paid = $net_total - $net_balance;
+
+
 
             $nets = DB::table('pays')
 
@@ -178,8 +234,10 @@ class ReportController extends Controller
 
            
           
-            return view('reports.net', compact( 'nets','max_pay','company','net_total'));
+            return view('reports.net', compact( 'nets','max_pay','company','net_paid','net_balance','net_total'));
     }
+
+
 
     public function monthlyCreate()
     {
@@ -206,12 +264,6 @@ class ReportController extends Controller
         $years[] = $y;
        }
        
-
-    
-       
-     
-
-
     	 return view('reports.monthly_create', compact( 'years','months'));
 
     }
@@ -264,11 +316,42 @@ class ReportController extends Controller
 
             ->sum('net');
 
+            $month_net_balance = Pay::where('pay_number', $max_pay)
+
+            ->where('company_id', $company->id)
+    
+            ->sum('net_balance');
+    
+            $month_paid = $month_net -  $month_net_balance;
+
             $deduction_sum = Pay::where('pay_number', $max_pay)
 
              ->where('company_id',$company->id)
 
             ->sum('deduction');
+
+          
+
+            $month_paye_amount = DB::table('statutory_payments')
+
+            ->where('company_id',$company->id)
+
+            ->where('pay_number', $max_pay)
+
+           ->value('amount');
+
+
+           $month_paye_balance = DB::table('statutory_payments')
+
+           ->where('company_id',$company->id)
+
+           ->where('pay_number', $max_pay)
+
+          ->value('balance');
+
+
+$month_paye_paid = $month_paye_amount - $month_paye_balance; 
+ 
 
              $isPosted = Pay::where('company_id', $company->id)
 
@@ -300,6 +383,22 @@ class ReportController extends Controller
 
           ->groupBy('statutory_id');
 
+      $statutory_payments = DB::table('statutory_payments')
+
+          ->select(
+
+              'statutory_id',
+
+              DB::raw('SUM(balance) as balance'))
+
+ 
+
+          ->where('pay_number', $max_pay)
+
+          ->where('company_id', $company->id)
+
+          ->groupBy('statutory_id');
+
 
            $statutories = DB::table('statutories')
 
@@ -307,17 +406,28 @@ class ReportController extends Controller
 
         $join->on('statutories.id','pay_statutories.statutory_id');
 
-      })     
+      })   
+      
+      ->joinSub($statutory_payments, 'statutory_payments', function ($join) {
+
+        $join->on('statutories.id', 'statutory_payments.statutory_id');            
+
+    })
+
 
         ->select(
 
           'pay_statutories.*',        
 
-          'statutories.name as statutory_name'       
+          'statutories.name as statutory_name',
+          
+          'statutory_payments.*'
 
           )
 
-          ->get();       
+          ->get();   
+          
+       
 
 
             $pays = DB::table('pays')
@@ -338,22 +448,200 @@ class ReportController extends Controller
 
             
 
+            
+
           return view('pays.index', compact(
             'pays',
             'month_gross',
             'month_net',
             'month_paye',
+            'month_paye_paid',
+            'month_paye_balance',
             'month_sdl',
             'statutories',
             'max_pay',
             'deduction_sum',
             'isPosted',
+            'month_net_balance',
+            'month_paid',
             'total'
           ));
     }
 
+    public function yearlyCreate()
+    {
+      $company = $this->company(); 
+
+      $years = Pay::distinct('year')->where('company_id', $company->id)
+      ->where('posted', true)->get(['year']);
+
+      
+      return view('reports.yearly_create', compact( 'years'));
+
+    }
+
+    public function yearly_pay(Request $request)
+    {
+          $company = $this->company(); 
+
+          $year = request('year');
+
+          $months = Pay::distinct('month')->where('year',$year)->pluck('month')->toArray();;
+       
+         
+
+          $year_pays = DB::table('pays')      
+
+                     ->select( 'pay_number', DB::raw('sum(basic_salary) as basic_salary
+                                  ,sum(allowance) as allowance 
+                                  ,sum(gloss) as gloss 
+                                  ,sum(taxable) as taxable 
+                                  ,sum(paye) as paye 
+                                  ,sum(monthly_earning) as monthly_earning 
+                                  ,sum(deduction) as deduction                                  
+                                  ,sum(net) as net                                   
+                                  '))
+                     ->where('year', $year)
+                     ->where('posted', 1)
+                     ->groupBy('pay_number')
+                     ->get();
 
 
+
+                     $statutory_sum = [];
+                     $pay_statutories =[];
+                     $statutories = [];
+
+            foreach($months as $month){
+
+              if(strlen($month)==1){ $month = "0".$month; }
+
+              $pay_number = $year.$month;
+
+            }
+
+             
+              
+              $statutory_sum= Pay_statutory::where('pay_number', $pay_number )
+
+              ->where('company_id', $company->id)
+
+             
+  
+              ->sum('total');
+
+            
+
+              
+  
+          $pay_statutories = DB::table('pay_statutories')
+  
+              ->select(
+  
+                  'statutory_id','pay_number',
+  
+                  DB::raw('SUM(total) as total_amount'))
+  
+              
+              ->where('company_id', $company->id)
+  
+              ->groupBy('statutory_id')
+              
+              ->groupBy('pay_number');
+
+
+       
+            
+  
+          $statutories= DB::table('statutories')
+  
+              ->joinSub( $pay_statutories, 'pay_statutories', function ($join) {
+  
+                  $join->on('statutories.id', 'pay_statutories.statutory_id');
+  
+              })
+  
+              ->select(
+  
+                  'pay_statutories.*',
+  
+                  'statutories.name as statutory_name'
+  
+              )->orderBy('statutory_id')
+  
+              ->get();
+
+              $pay_statutory_ids = DB::table('pay_statutories')
+  
+              ->select(
+  
+                  //'statutory_id')
+  
+                  DB::raw('distinct(statutory_id) '))
+  
+              
+              ->where('company_id', $company->id)
+  
+           
+              
+              ->where('year', $year);
+
+          
+              $statutory_count = DB::table('pay_statutories')
+  
+              ->select(
+  
+                  //'statutory_id')
+  
+                  DB::raw('COUNT(distinct(statutory_id)) '))
+  
+              
+              ->where('company_id', $company->id)
+  
+           
+              
+              ->where('year', $year)->get();
+
+              
+
+
+       
+
+
+          $statutory_names= DB::table('statutories')
+  
+          ->joinSub( $pay_statutory_ids, 'pay_statutory_ids', function ($join) {
+
+              $join->on('statutories.id', 'pay_statutory_ids.statutory_id');
+
+          })
+
+          ->select(
+
+              'pay_statutory_ids.*',
+
+              'statutories.name as statutory_name'
+
+          )->orderBy('statutory_id')
+
+          ->get();
+          
+
+     
+
+
+                     //dd($year_pays);
+
+     return view('reports.yearly_pay', compact( 'year_pays','year','statutories','months','statutory_names','statutory_count'));
+
+
+         
+
+
+
+    }
+
+    
     public function statutoryList(Request $request)
     {
             $company = $this->company(); 
@@ -387,12 +675,14 @@ class ReportController extends Controller
             ->where('pay_statutories.statutory_id',  $statutory_id)
 
             ->join('employees', 'employees.id','pay_statutories.employee_id')
+            
+            ->join('users', 'users.id','employees.user_id')
 
-            ->join('employee_statutories', 'employee_statutories.statutory_id','pay_statutories.statutory_id')
+            //->join('employee_statutories', 'employee_statutories.statutory_id','pay_statutories.statutory_id')
 
          
 
-            ->join('users', 'users.id','employees.user_id')
+            
 
             ->select(
 
@@ -400,7 +690,7 @@ class ReportController extends Controller
 
               'employees.*',  
               
-              'employee_statutories.*',
+              //'employee_statutories.employee_statutory_no',
 
               'pay_statutories.*'
               )
@@ -465,6 +755,7 @@ class ReportController extends Controller
 
             $pays = DB::table('pays')
             ->where('pays.company_id', $company->id)
+            ->where('pays.pay_number', $max_pay)
             ->join('employees', 'employees.id','pays.employee_id')
             ->join('users', 'users.id','employees.user_id')
             ->select(
@@ -513,7 +804,7 @@ class ReportController extends Controller
     }
 
 
-           public function currentPay(Request $request)
+     public function currentPay(Request $request)
     	{
            
            	          $company = $this->company();        
@@ -671,6 +962,26 @@ class ReportController extends Controller
 
             $max_pay = request('max_pay');
 
+            $net_total = DB::table('pays')
+
+            ->where('pays.company_id', $company->id)
+
+            ->where('pay_number', $max_pay)
+
+            ->sum('net');
+
+            $net_balance = DB::table('pays')
+
+            ->where('pays.company_id', $company->id)
+
+            ->where('pay_number', $max_pay)
+
+            ->sum('pays.net_balance');
+
+            $net_paid = $net_total - $net_balance;
+
+            
+
 
 
             $net_by_banks = DB::table('pays')
@@ -687,7 +998,7 @@ class ReportController extends Controller
 
           	'banks.name as bank_name',
 
-          	DB::raw('SUM(net) as bank_amount'))
+          	DB::raw('SUM(net) as bank_amount,SUM(net_balance) as net_balance'))
 
              ->where('pays.company_id', $company->id)
 
@@ -701,10 +1012,10 @@ class ReportController extends Controller
 
 
           
-            return view('reports.net_by_bank', compact( 'net_by_banks','max_pay'));
+            return view('reports.net_by_bank', compact( 'net_by_banks','max_pay','net_total','net_balance','net_paid'));
         }
 
-        public function netListByBank(Request $request)
+    public function netListByBank(Request $request)
     {
             $company = $this->company(); 
 
@@ -715,6 +1026,38 @@ class ReportController extends Controller
             $bank = Bank::find($bank_id);
 
             $bank_name = $bank->name;
+
+
+            $net_total = DB::table('pays')
+
+            ->where('pays.company_id', $company->id)
+
+            ->where('pay_number', $max_pay)
+
+            ->where('bank_id', $bank_id)
+
+            ->join('employees', 'employees.id','pays.employee_id')
+
+            ->join('banks', 'banks.id','employees.bank_id')
+
+            ->sum('pays.net_balance');
+
+            $net_balance = DB::table('pays')
+
+            ->where('pays.company_id', $company->id)
+
+            ->where('pay_number', $max_pay)
+
+            ->where('bank_id', $bank_id)
+
+            ->join('employees', 'employees.id','pays.employee_id')
+
+            ->join('banks', 'banks.id','employees.bank_id')
+
+            ->sum('pays.net_balance');
+
+            $net_paid = $net_total - $net_balance;
+
 
 
             $net_list_by_banks = DB::table('pays')
@@ -745,6 +1088,298 @@ class ReportController extends Controller
 
            
           
-            return view('reports.net_list_by_bank', compact( 'net_list_by_banks','bank_name'));
+            return view('reports.net_list_by_bank', compact( 'net_list_by_banks','bank_name','net_total','net_paid','net_balance'));
     }
+
+    public function paye_yearly_create()
+    {
+      $company = $this->company(); 
+
+      $years = Pay::distinct('year')->where('company_id', $company->id)
+      ->where('posted', true)->get(['year']);
+
+      
+      return view('reports.paye_yearly_create', compact( 'years'));
+
+    }
+
+    public function paye_all(Request $request){
+
+      $company = $this->company(); 
+
+      
+
+      $paye_all =  DB::table('statutory_payments')
+
+      ->select(
+
+    'year',
+    
+
+    'month',
+    
+
+    DB::raw('SUM(amount) as paye_amount, SUM(balance) as paye_balance '))
+
+  
+
+     ->where('company_id',$company->id)
+
+     ->where('statutory_id',9999)
+
+     ->groupBy('year') 
+
+    ->groupBy('month')    
+
+    ->get();
+
+    $title = 'All Paye from to';
+
+    $months = ['January','February','March','April','May','June','July','August','September','Octobar','November','December'];
+
+    //dd( $paye_yearly);
+
+    return view('reports.paye_all', compact('paye_all','months','year','title'));
+
+
+
+    }
+
+    public function paye_yearly(Request $request){
+
+      $company = $this->company(); 
+
+      $year = request('year');
+
+      $paye_yearly =  DB::table('statutory_payments')
+
+      ->select(
+
+    
+
+    'month',
+    
+
+    DB::raw('SUM(amount) as paye_amount, SUM(balance) as paye_balance '))
+
+    ->where('year',$year)
+
+     ->where('company_id',$company->id)
+
+     ->where('statutory_id',9999)
+
+    ->groupBy('month')    
+
+    ->get();
+
+    $title = 'Paye for Year ' . $year;
+
+    $months = ['January','February','March','April','May','June','July','August','September','Octobar','November','December'];
+
+    //dd( $paye_yearly);
+
+    return view('reports.paye_all', compact('paye_yearly','months','year','title'));
+
+
+
+    }
+
+    
+    
+    public function statutory_yearly_create(Request $request){
+      $company = $this->company(); 
+
+      $years = Pay::distinct('year')->where('company_id', $company->id)
+      ->where('posted', true)->get(['year']);
+
+      $statutories = Statutory::
+      where('id', '<>', 9999)
+      ->where('company_id',$company->id)
+      ->get();
+
+
+      
+      return view('reports.statutory_yearly_create', compact( 'years','statutories'));
+
+    }
+
+    
+    public function statutory_yearly(Request $request){
+
+      $company = $this->company(); 
+
+      $year = request('year');
+
+      $statutory_id = request('statutory');
+
+      $statutory_yearly =  DB::table('statutory_payments')
+
+      ->select(
+
+    
+
+    'month',
+    
+
+    DB::raw('SUM(amount) as paye_amount, SUM(balance) as paye_balance '))
+
+    ->where('year',$year)
+
+     ->where('company_id',$company->id)
+
+     ->where('statutory_id',$statutory_id)
+
+    ->groupBy('month')    
+
+    ->get();
+
+    $statutory_name = Statutory::where('id',$statutory_id)->value('name');
+
+    $title = $statutory_name . ' for Year ' . $year;
+
+    $months = ['January','February','March','April','May','June','July','August','September','Octobar','November','December'];
+
+    //dd( $paye_yearly);
+
+    return view('reports.statutory_yearly', compact('statutory_yearly','months','year','title','statutory_name'));
+
+
+
+    }
+
+    public function statutory_all_create(Request $request){
+      $company = $this->company();
+
+      $statutories = Statutory::
+      where('id', '<>', 9999)
+      ->where('company_id',$company->id)
+      ->get();
+
+
+      
+      return view('reports.statutory_all_create', compact( 'statutories'));
+
+    }
+
+    
+    public function statutory_all(Request $request){
+
+      $company = $this->company(); 
+    
+
+      $statutory_id = request('statutory');
+
+      $statutory_all =  DB::table('statutory_payments')
+
+      ->select(
+
+    
+    'year',
+
+    'month',
+    
+
+    DB::raw('SUM(amount) as paye_amount, SUM(balance) as paye_balance '))
+
+   
+
+     ->where('company_id',$company->id)
+
+     ->where('statutory_id',$statutory_id)
+
+     ->groupBy('year') 
+
+    ->groupBy('month')    
+
+    ->get();
+
+    $statutory_name = Statutory::where('id',$statutory_id)->value('name');
+
+    $title = $statutory_name . ' all ';
+
+    $months = ['January','February','March','April','May','June','July','August','September','Octobar','November','December'];
+
+   
+
+    return view('reports.statutory_all', compact('statutory_all','months','title','statutory_name'));
+
+
+
+    }
+
+    public function statutory_employee_all_create(Request $request){
+      $company = $this->company();
+
+      $user = User::find(auth()->user()->id);
+
+      $employee = Employee::where('user_id',$user->id)->first();
+
+      $employee_id = $employee->id;
+
+      $statutories = Statutory::
+
+      where('company_id',$company->id)
+
+      ->get();
+
+
+      
+      return view('reports.statutory_employee_all_create', compact( 'statutories'));
+
+    }
+
+    public function statutory_employee_all(Request $request){
+
+      $company = $this->company(); 
+
+      $user = User::find(auth()->user()->id);
+
+      $employee = Employee::where('user_id',$user->id)->first();
+
+      $employee_id = $employee->id;
+
+    
+
+      $statutory_id = request('statutory');
+
+      $statutory_employee_all =  DB::table('pay_statutories')
+
+      ->select(
+
+    
+    'year',
+
+    'month',
+
+    'employee',
+
+    'employer',
+
+    'total')
+
+   
+
+     ->where('company_id',$company->id)
+
+     ->where('statutory_id',$statutory_id)
+
+     ->where('employee_id',$employee_id)
+   
+
+    ->get();
+
+    $statutory_name = Statutory::where('id',$statutory_id)->value('name');
+
+    $title = $statutory_name . ' all ';
+
+    $months = ['January','February','March','April','May','June','July','August','September','Octobar','November','December'];
+
+   
+
+    return view('reports.statutory_employee_all', compact('statutory_employee_all','months','title','statutory_name'));
+
+
+
+    }
+
 }

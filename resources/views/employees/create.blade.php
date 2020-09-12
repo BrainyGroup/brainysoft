@@ -127,6 +127,8 @@
 
                     {{ Form::bsText('account_number','',['placeholder' => 'Enter account number']) }}
 
+                    {{ Form::bsText('tin','',['placeholder' => 'Enter tin number']) }}
+
                   {{ Form::bsNumber('salary','',['placeholder' => 'Enter Salary Amount']) }}
 
                     {{ Form::bsDate('start_date') }}

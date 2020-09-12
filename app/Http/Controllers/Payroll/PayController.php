@@ -73,6 +73,26 @@ class PayController extends Controller
 
                 ->where('statutory_types.name', 'SSF')->first();
 
+                $pay_statutory_HI = Pay_statutory::where('pay_number', $pay->pay_number)
+
+                ->where('employee_id', $pay->employee->id)
+
+                ->join('statutories', 'statutories.id', 'pay_statutories.statutory_id')
+
+                ->join('statutory_types', 'statutory_types.id', 'statutories.statutory_type_id')
+
+                ->select(
+                    'pay_statutories.*',
+                    'statutory_types.name as statutory_type_name',
+                    'statutories.name as statutory_name')
+
+                ->where('statutory_types.name', 'HI')->first();
+
+
+
+
+               
+
             $pay_ssf_statutory_sum = Pay_statutory::where('employee_id', $pay->employee->id)
 
                 ->join('statutories', 'statutories.id', 'pay_statutories.statutory_id')
@@ -92,7 +112,10 @@ class PayController extends Controller
 
                 ->where('employee_id', $pay->employee->id)
 
+                ->where('amount','<>',0)
+
                 ->join('allowance_types', 'allowance_types.id', 'pay_allowances.allowance_type_id')->get();
+          
 
             //find pay deduction
 
@@ -100,7 +123,11 @@ class PayController extends Controller
 
                 ->where('employee_id', $pay->employee->id)
 
+                ->where('amount','<>',0)
+
                 ->join('deduction_types', 'deduction_types.id', 'pay_deductions.deduction_type_id')->get();
+
+            
 
             // load pdf and download
             $pdf = PDF::loadView('pdf.payslip', compact(
@@ -108,6 +135,8 @@ class PayController extends Controller
                 'pay_allowances',
                 'pay_deductions',
                 'pay_statutory',
+                'pay_statutory_HI',
+                'pay_statutory_loan',
                 'pay_ssf_statutory_sum')
             );
 
@@ -176,6 +205,7 @@ class PayController extends Controller
                     'statutories.name as statutory_name')
 
                 ->where('statutory_types.name', 'SSF')->first();
+
 
             $pay_ssf_statutory_sum = Pay_statutory::where('employee_id', $employee->id)
 
@@ -363,9 +393,38 @@ private function deductionSum($employee_id = null,$company_id = null){
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
+    public function previousCreate()
+    {
+         $company = $this->company(); 
+         
+        $min_year = Pay::where('company_id', $company->id)->min('year');
+
+       
+
+       $months = Pay::distinct('month')->where('company_id', $company->id)->get(['month']);
+
+       
+
+       //$month = DB::table('pays')->distinct('month')->get();
+
+       if(!$min_year) $min_year = Carbon::now()->format('Y');
+
+       $max_year = Carbon::now()->format('Y');
+
+       $years = [];
+       for ($y = $max_year;$y >=  $min_year; $y-- ){
+        $years[] = $y;
+       }
+       
+    	 return view('pays.create_previous', compact( 'years','months'));
+
+    }
+
+    public function index(Request $request)
     {
         $company = $this->company();
+
+
 
         $employeeExist = Employee::where('company_id', $company->id)->exists();
 
@@ -376,8 +435,23 @@ private function deductionSum($employee_id = null,$company_id = null){
 
         $login_user = Employee::where('user_id', auth()->user()->id)->first();
 
+        $year = request('year');
+
+        $month = request('month');
+
+        if (strlen($month) == 1) {
+            $month = '0' . $month;
+        } 
+
         // $pays = Pay::where('company_id', $login_user->company_id)->get();
+    if (request('other_month')){
+        $max_pay = $year . $month;
+        
+    }else{
         $max_pay = Pay::where('company_id', $company->id)->max('pay_number');
+    }
+       
+       //$max_pay = 202001;
 
         $pay_periods = DB::table('pays')->distinct()->select('pay_number')->get();
 
@@ -393,6 +467,8 @@ private function deductionSum($employee_id = null,$company_id = null){
 
             ->sum('paye');
 
+            
+
         $month_net = Pay::where('pay_number', $max_pay)
 
             ->where('company_id', $company->id)
@@ -404,6 +480,39 @@ private function deductionSum($employee_id = null,$company_id = null){
             ->where('company_id', $company->id)
 
             ->sum('deduction');
+
+        $month_net_balance = Pay::where('pay_number', $max_pay)
+
+        ->where('company_id', $company->id)
+
+        ->sum('net_balance');
+
+        $month_paid = $month_net -  $month_net_balance;
+
+        $month_paye_amount = DB::table('statutory_payments')
+
+        ->where('company_id',$company->id)
+
+        ->where('pay_number', $max_pay)
+
+       ->value('amount');
+
+
+       $month_paye_balance = DB::table('statutory_payments')
+
+       ->where('company_id',$company->id)
+
+       ->where('pay_number', $max_pay)
+
+      ->value('balance');
+
+      
+
+
+        $month_paye_paid = $month_paye_amount - $month_paye_balance; 
+
+        
+
 
         $isPosted = Pay::where('company_id', $company->id)
 
@@ -433,11 +542,35 @@ private function deductionSum($employee_id = null,$company_id = null){
 
             ->groupBy('statutory_id');
 
+            $statutory_payments = DB::table('statutory_payments')
+
+            ->select(
+
+                'statutory_id',
+
+                DB::raw('SUM(balance) as balance'))
+
+   
+
+            ->where('pay_number', $max_pay)
+
+            ->where('company_id', $company->id)
+
+            ->groupBy('statutory_id');
+
         $statutories = DB::table('statutories')
+
+            
 
             ->joinSub($pay_statutories, 'pay_statutories', function ($join) {
 
-                $join->on('statutories.id', 'pay_statutories.statutory_id');
+                $join->on('statutories.id', 'pay_statutories.statutory_id');            
+
+            })
+
+            ->joinSub($statutory_payments, 'statutory_payments', function ($join) {
+
+                $join->on('statutories.id', 'statutory_payments.statutory_id');            
 
             })
 
@@ -445,11 +578,15 @@ private function deductionSum($employee_id = null,$company_id = null){
 
                 'pay_statutories.*',
 
-                'statutories.name as statutory_name'
+                'statutories.name as statutory_name',
+
+                'statutory_payments.*'
 
             )
 
             ->get();
+
+          
 
         $pays = DB::table('pays')
             ->where('pays.company_id', $company->id)
@@ -465,7 +602,11 @@ private function deductionSum($employee_id = null,$company_id = null){
             )
             ->get();
 
+    
+
         $total = $month_net + $month_paye + $statutory_sum + $deduction_sum;
+
+        
 
         return view('pays.index', compact(
             'pays',
@@ -477,9 +618,14 @@ private function deductionSum($employee_id = null,$company_id = null){
             'max_pay',
             'deduction_sum',
             'isPosted',
+            'month_net_balance',
+            'month_paid',
+            'month_paye_paid',
+            'month_paye_balance',
             'total'
         ));
     }
+    
 
 
 
@@ -511,7 +657,7 @@ private function deductionSum($employee_id = null,$company_id = null){
     public function store(Request $request)
     {
 
-        dd('test')
+
 
         DB::transaction(function () {
 
@@ -519,8 +665,14 @@ private function deductionSum($employee_id = null,$company_id = null){
             $fromPaySlipEmail = 'payroll@datahousetza.com';
             $fromPaySlipName = 'Payroll Datahouse';
             $paySlipSubject = 'Pay Slip';
+            $paye_sum = 0;
+
+            
 
             //end of todo
+            $net_pay = request('net_pay');
+
+            
 
             $year = request('year');
 
@@ -569,8 +721,36 @@ private function deductionSum($employee_id = null,$company_id = null){
 
                 foreach ($pays as $pay) {
 
-                    $this->update($pay->id, $pay_number);
+                    $this->update($pay->id, $pay_number,$net_pay);
                 }
+
+                $pay_sum = Pay::where('pay_number', $pay_number)
+
+                ->where('company_id', $company->id)
+    
+                ->sum('paye');
+
+                DB::table('statutory_payments')              
+                ->where('company_id', $company->id)
+                ->where('pay_number', $pay_number)   
+                ->where('statutory_id', 9999)             
+            
+                ->update(['amount' => $pay_sum,
+                          'balance' => $pay_sum,
+                          'updated_at' => now()]);
+
+
+                // DB::table('statutory_payment_history')              
+                // ->where('company_id', $company->id)
+                // ->where('pay_number', $pay_number)   
+                // ->where('statutory_id', 9999)             
+            
+                // ->update(['amount' => $pay_sum,                         
+                //           'updated_at' => now()]);
+                
+                return redirect('pays');
+
+
 
             } else {
 
@@ -603,18 +783,35 @@ private function deductionSum($employee_id = null,$company_id = null){
 
                     $paye = $this->paye($employee_id, $country_id, $taxable);
 
-                    $monthly_earning = $taxable - $paye - $statutory_after_paye['employee'];
+                    //dd( $statutory_after_paye['employee']);
+
+                    //dd($taxable);
+
+                    //dd($paye);
+                    $statutury_after_pay_value = $statutory_after_paye['employee'];
+
+                    $monthly_earning = $taxable - $paye - $statutury_after_pay_value;
+
+                    //dd( $monthly_earning);
 
                     $deduction = $this->deductionSum($employee_id, $company->id);
 
                     $net = $monthly_earning - $deduction;
 
-                    if($cash = 0)
+                    
+
+                    $paye_sum = $paye_sum + $paye;
+
+                    if($net_pay)
                     { 
-                        $net_balance = $net; 
+                        $net_balance = 0; 
                     }else{
-                        $net_balance = 0;
-                    }
+                        $net_balance = $net;
+                    }              
+
+
+
+                  
 
                  
 
@@ -640,6 +837,8 @@ private function deductionSum($employee_id = null,$company_id = null){
 
                         'paye' => $paye,
 
+                        'statutory_after_paye' => $statutury_after_pay_value,
+
                         'monthly_earning' => $monthly_earning,
 
                         'deduction' => $deduction,           
@@ -656,24 +855,24 @@ private function deductionSum($employee_id = null,$company_id = null){
 
                         'updated_at' =>now(),
 
-                            ]);
+                            ]);         
+                    
+     
 
+                // DB::table('employee_payments')->insert([
+                //     'company_id' => $company->id,
+                //     'employee_id' => $employee_id,                   
+                //     'pay_number' => $pay_number,
+                //     'month' =>  $month,
+                //     'year' =>  $year,
+                //     'balance' =>   $net_balance,
+                //     'amount' =>   $net,
+                //     'pay_date' =>   now(),                    
+                //     'created_at' =>now(),
+                //     'updated_at' =>now(),
+                // ]);
 
-            if ($net_balance){
-
-                DB::table('employee_payments')->insert([
-                    'company_id' => $company->id,
-                    'employee_id' => $employee_id,                   
-                    'pay_number' => $pay_number,
-                    'month' =>  $month,
-                    'year' =>  $year,
-                    'amount' =>   $net_balance,
-                    'pay_date' =>   now(),                    
-                    'created_at' =>now(),
-                    'updated_at' =>now(),
-                ]);
-
-            }
+            
                             
             $deductions = DB::table('deductions')
 
@@ -700,7 +899,9 @@ private function deductionSum($employee_id = null,$company_id = null){
         'pay_number' => $pay_number,
         'deduction_type_id' =>  $deduction->deduction_type_id,
         'amount' =>   $deduction->monthly_amount,
-        'deduction_id' =>   $deduction->deduction_id,                    
+        'deduction_id' =>   $deduction->deduction_id, 
+        'year' => $year,
+        'month' => $month,                   
         'created_at' =>now(),
         'updated_at' =>now(),
     ]);
@@ -732,7 +933,9 @@ private function deductionSum($employee_id = null,$company_id = null){
         'pay_number' => $pay_number,
         'deduction_type_id' =>  $deduction->deduction_type_id,
         'amount' =>   $deduction->balance,
-        'deduction_id' =>   $deduction->deduction_id,                    
+        'deduction_id' =>   $deduction->deduction_id,  
+        'year' => $year,
+        'month' => $month,                  
         'created_at' =>now(),
         'updated_at' =>now(),
     ]);
@@ -753,13 +956,11 @@ private function deductionSum($employee_id = null,$company_id = null){
      }
   
    
-          }
-
-          
+          }        
 
 
 
-                    $allowances = DB::table('allowances')
+                $allowances = DB::table('allowances')
 
                         ->join('allowance_types', 'allowance_types.id', 'allowances.allowance_type_id')
 
@@ -785,6 +986,8 @@ private function deductionSum($employee_id = null,$company_id = null){
                             'allowance_type_id' => $allowance->allowance_type_id,
                             'amount' => $allowance->amount,
                             'allowance_id' => $allowance->allowance_id,
+                            'year' => $year,
+                            'month' => $month, 
                             'created_at' => now(),
                             'updated_at' => now(),
                         ]);
@@ -821,7 +1024,11 @@ private function deductionSum($employee_id = null,$company_id = null){
                         ->where('statutory_id', $statutory->id)                                            
                         ->value('employee_statutory_no');
 
+                       // dd( $statutory_employer + $statutory_employee);
+
                         if(!$employee_statutory_no) $employee_statutory_no = "";
+
+
 
                        
                         DB::table('pay_statutories')->insert([
@@ -834,6 +1041,8 @@ private function deductionSum($employee_id = null,$company_id = null){
                             'total' => $statutory_employer + $statutory_employee,
                             'statutory_id' => $statutory->id,
                             'employee_statutory_no'=> $employee_statutory_no,
+                            'year' => $year,
+                            'month' => $month, 
                             'created_at' => now(),
                             'updated_at' => now(),
                         ]);
@@ -842,9 +1051,73 @@ private function deductionSum($employee_id = null,$company_id = null){
 // $this->sendSalarySlipEmail($employee->user_id,$company,$fromPaySlipEmail,$fromPaySlipName,$paySlipSubject,$lastPayId);
 
                 }
+
+                DB::table('statutory_payments')->insert([
+                    'company_id' => $company->id,                               
+                    'pay_number' => $pay_number,
+                    'statutory_id' => 9999,
+                    'month' =>  $month,
+                    'year' =>  $year,
+                    'amount' =>   $paye_sum,
+                    'balance' =>   $paye_sum,
+                    'pay_date' =>   now(),                    
+                    'created_at' =>now(),
+                    'updated_at' =>now(),
+                ]);
+
+
+                $pay_statutories = DB::table('pay_statutories')
+
+                ->select(
+        
+                  'statutory_id',
+        
+                  DB::raw('SUM(total) as total_amount'))
+        
+                  ->where('pay_number',$pay_number)
+        
+                   ->where('company_id',$company->id)
+        
+                  ->groupBy('statutory_id')->get();
+
+                  foreach($pay_statutories as $pay_statutory){
+
+                  DB::table('statutory_payments')->insert([
+                    'company_id' => $company->id,                               
+                    'pay_number' => $pay_number,
+                    'statutory_id' => $pay_statutory->statutory_id,
+                    'month' =>  $month,
+                    'year' =>  $year,
+                    'amount' =>   $pay_statutory->total_amount,
+                    'balance' =>   $pay_statutory->total_amount,
+                    'pay_date' =>   now(),                    
+                    'created_at' =>now(),
+                    'updated_at' =>now(),
+                ]);
+                  }
+    
+                // DB::table('statutory_payment_history')->insert([
+                //     'company_id' => $company->id,                               
+                //     'pay_number' => $pay_number,
+                //     'statutory_id' => 9999,
+                //     'month' =>  $month,
+                //     'year' =>  $year,
+                //     'amount' =>   $paye_sum,
+                //     'pay_date' =>   now(),                    
+                //     'created_at' =>now(),
+                //     'updated_at' =>now(),
+                // ]);
             }
 
+           
+    
+
         });
+
+
+        
+
+       
 
         return redirect('pays');
 
@@ -913,6 +1186,17 @@ private function deductionSum($employee_id = null,$company_id = null){
 
             ]);
 
+            // DB::table('employee_payments')
+
+            // ->where('pay_number', $max_pay)
+
+            // ->where('company_id', $company->id)
+
+            // ->update([
+            //     'posted' => 1,
+
+            // ]);
+
         $pays = Pay::where('pay_number', $max_pay)->get();
 
         foreach ($pays as $pay) {
@@ -935,7 +1219,7 @@ private function deductionSum($employee_id = null,$company_id = null){
 
     }
 
-    public function update($id, $pay_number)
+    public function update($id, $pay_number,$net_pay)
     {
 
         $pay = Pay::find($id);
@@ -960,7 +1244,9 @@ private function deductionSum($employee_id = null,$company_id = null){
 
         $statutory_before_paye = $this->statutoryBeforePaye($employee_id, $company->id, $basic_salary);
 
-        $statutory_after_paye = $this->statutoryAfterPaye($employee_id, $pay_number, $basic_salary);
+        $statutory_after_paye = $this->statutoryAfterPaye($employee_id,  $company->id, $basic_salary);
+
+       
 
         $salary_after_statutory_before_paye = $basic_salary - $statutory_before_paye['employee'];
 
@@ -970,6 +1256,9 @@ private function deductionSum($employee_id = null,$company_id = null){
 
         $paye = $this->paye($employee_id, $company->id, $taxable);
 
+        $statutury_after_pay_value = $statutory_after_paye['employee'];
+
+        
         $monthly_earning = $taxable - $paye - $statutory_after_paye['employee'];
 
         $deduction = $this->deductionSum($employee_id, $company->id);
@@ -977,11 +1266,11 @@ private function deductionSum($employee_id = null,$company_id = null){
         $net = $monthly_earning - $deduction;
 
         
-        if($cash = 0)
+        if($net_pay)
         { 
-            $net_balance = $net; 
+            $net_balance = 0; 
         }else{
-            $net_balance = 0;
+            $net_balance = $net;
         }
 
 
@@ -1005,6 +1294,8 @@ private function deductionSum($employee_id = null,$company_id = null){
 
                 'paye' => $paye,
 
+                'statutory_after_paye' => $statutury_after_pay_value,
+
                 'monthly_earning' => $monthly_earning,
 
                 'deduction' => $deduction,
@@ -1016,6 +1307,24 @@ private function deductionSum($employee_id = null,$company_id = null){
                 'updated_at' => now(),
 
             ]);
+
+            
+
+            // DB::table('employee_payments')
+
+            // ->where('company_id', $company->id)
+
+            // ->where('employee_id', $employee_id)
+
+            // ->where('pay_number', $pay_number)
+
+            // ->update([
+
+            //     'balance' =>   $net_balance,
+            //     'pay_date' =>   now(),                    
+                
+            //     'updated_at' =>now(),
+            // ]);
 
         //  $statutories = Employee::find($employee_id)->statutories()
         // ->where('statutories.company_id', $company->id)
@@ -1110,10 +1419,45 @@ private function deductionSum($employee_id = null,$company_id = null){
 
                     'employee' => $statutory_employee,
                     'employer' => $statutory_employer,
+                    'total' => $statutory_employer + $statutory_employee,
 
                     'updated_at' => now(),
                 ]);
         }
+
+        
+        $pay_statutories = DB::table('pay_statutories')
+
+        ->select(
+
+          'statutory_id',
+
+          DB::raw('SUM(total) as total_amount'))
+
+          ->where('pay_number',$pay_number)
+
+           ->where('company_id',$company->id)
+
+          ->groupBy('statutory_id')->get();
+
+
+          foreach($pay_statutories as $pay_statutory){
+
+            DB::table('statutory_payments')
+            ->where('pay_number',$pay_number)         
+         
+            ->where('company_id', $company->id)
+            ->where('statutory_id', $pay_statutory->statutory_id)
+            ->update([
+
+                'amount' => $pay_statutory->total_amount,
+                'balance' => $pay_statutory->total_amount,
+
+                'updated_at' => now(),
+            ]);
+
+        
+          }
 
     }
 

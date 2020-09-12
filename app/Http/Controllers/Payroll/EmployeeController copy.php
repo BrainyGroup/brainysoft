@@ -53,7 +53,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 
-class EmployeeController extends Controller
+class EmployeeControllerCopy extends Controller
 {
     public function __construct()
     {

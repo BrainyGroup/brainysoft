@@ -12,7 +12,7 @@
                 </div>
             @endif
 
-{!! Form::open(['action' => 'PayController@store','method' => 'POST']) !!}
+                  {!! Form::open(['action' => 'PayController@store','method' => 'POST']) !!}
 
                     <div class="form-group">
 
@@ -65,15 +65,31 @@
                        <option value="{{ MONTH }}">{{ $months[MONTH - 1]}}</option>
 
                        
-                       @for($i = 1 ; $i<=11; $i++)
+                       @for($i = 1 ; $i<=12; $i++)
 
-                       <option value="{{ $i }}">{{ $months[$i ] }}</option>
+                       <option value="{{ $i }}">{{ $months[$i - 1 ] }}</option>
 
                        @endfor
 
                      </select>
 
                     </div>
+
+                    
+                    <div class="form-group">
+
+                        <label for="net_pay" class="control-label">Net Paid</label>
+    
+                         <select class="form-control" id="net_pay" name="net_pay" required >
+    
+                           <option value="1">Yes</option>
+
+                           <option value="0">No</option>  
+  
+                         </select>
+    
+                        </div>
+    
 
 
                     {{ Form::bsSubmit('Submit',['class' => 'btn btn-primary']) }}

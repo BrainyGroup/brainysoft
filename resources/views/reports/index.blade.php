@@ -31,20 +31,20 @@
 
                     <tr>
                       <td><a href="/reports/monthly_create">Monthly</a></td>
-                      <td><a href="/departments">Departments</a></td>
-                      <td><a href="/designations">Designations</a></td>
+                      <td><a href="/reports/yearly_create">Yearly</a></td>
+                      <td><a href="/employees/{{ $employee_id}}">Employee Details</a></td>
                     </tr>
 
                     <tr>
-                      <td><a href="/kin_types">Kin types</a></td>
+                      <td><a href="/reports/paye_yearly_create">Paye yearly</a></td>
                       <td><a href="/levels">Levels</a></td>
-                      <td><a href="/organizations">Organizations</a></td>
+                      <td><a href="/reports/statutory_employee_all_create">Statutory employee</a></td>
                     </tr>
 
                     <tr>
-                      <td><a href="/payes">Payes</a></td>
-                      <td><a href="/salary_bases">Salary types</a></td>
-                      <td><a href="/scales">Scales</a></td>
+                      <td><a href="/reports/paye_all">Paye all</a></td>
+                      <td><a href="/reports/statutory_yearly_create">Statutory yearly</a></td>
+                      <td><a href="/reports/statutory_all_create">Statutory all</a></td>
 
                     </tr>
 

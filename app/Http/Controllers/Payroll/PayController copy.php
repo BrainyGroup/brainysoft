@@ -2,11 +2,11 @@
 
 namespace BrainySoft\Http\Controllers;
 
-use DB;
+use Illuminate\Support\Facades\DB;
 
 use PDF;
 
-use Mail;
+use Illuminate\Support\Facades\Mail;
 
 use BrainySoft\Jobs\SendEmailPaySlip;
 
@@ -66,7 +66,7 @@ use Illuminate\Support\Facades\Log;
 
 
 
-class PayController extends Controller
+class PayControllerCopy extends Controller
 {
 
     public function __construct()
@@ -533,7 +533,9 @@ private function deductionSum($employee_id = null,$company_id = null){
 
           )
 
-          ->get();       
+          ->get(); 
+          
+    
 
 
             $pays = DB::table('pays')

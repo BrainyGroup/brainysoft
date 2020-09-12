@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">{{ __('messages.employment_type') }}<span class="pull-right"> <a href="/employment_types/create">{{ __('messages.add') }}</a></span></div>
+        <div class="card-header">{{ __('messages.employment type') }}<span class="pull-right"> <a href="/employment_types/create">{{ __('messages.add') }}</a></span></div>
 
         <div class="card-body">
             @if (session('status'))
@@ -11,6 +11,7 @@
                     {{ session('status') }}
                 </div>
             @endif
+          
 
   @if(count ($employment_types) > 0)
       <div class="table-responsive">

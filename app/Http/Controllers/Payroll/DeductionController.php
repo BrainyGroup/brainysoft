@@ -96,7 +96,7 @@ class DeductionController extends Controller
 
             //->where('balance','>', 0 )
 
-            ->where('status','!=',0 )            
+            //->where('status','!=',0 )            
 
             ->orderBy('employee_id')
 
@@ -203,7 +203,7 @@ public function deductionDetails()
 
         'start_date' => 'required|date',
 
-        'end_date' => 'required|date',
+        
 
       ]);
 

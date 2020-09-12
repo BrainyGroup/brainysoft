@@ -21,6 +21,8 @@
             
                     <tr>
                        <th scope="col" >S/NO</th>
+
+                       <th scope="col" >TIN NUMBER</th>
                    
                        <th >NAME OF EMPLOYEE</th>  
                                 
@@ -45,6 +47,8 @@
           
                      <tr>
                        <td>{{$key + 1 }}</td>
+                       <td>{{ $pay->tin}}</td>
+
                        <td >{{ $pay->title.'. '.$pay->firstname.' '.$pay->middlename.' '.$pay->lastname }}</td>  
                                
                        <td>{{ $pay->pay_number}}</td>

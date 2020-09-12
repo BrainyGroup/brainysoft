@@ -47,9 +47,16 @@
 
                     <tr>
                         <td>Identity</td>
-                        <td><a href="/employees/{employee}">{{ $employee->identity }}  </a></td>
+                        <td>{{ $employee->identity }}  </td>
                         <td></td>
                     </tr>
+
+                    <tr>
+                        <td>TIN Number</td>
+                        <td>{{ $employee->tin }}  </td>
+                        <td></td>
+                    </tr>
+
 
                      <tr>
                         <td>Age</td>

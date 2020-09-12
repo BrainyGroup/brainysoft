@@ -19,6 +19,8 @@ class CreatePayStatutoriesTable extends Migration
             $table->integer('employee_id')->unsigned()->foreign()->references('id')->on('employees');
             $table->integer('pay_id')->unsigned()->foreign()->references('id')->on('pays');
             $table->integer('pay_number');
+            $table->integer('month');
+            $table->integer('year');
             $table->decimal('employee',11,2);
             $table->decimal('employer',11,2);
             $table->decimal('total',11,2);

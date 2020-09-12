@@ -14,7 +14,7 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Earnings (Monthly)</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800"><count-up :to="9000"></count-up></div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">TZS <count-up :to="{{ $monthly_net }}"></count-up></div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -31,7 +31,7 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Earnings (Annual)</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">TZS <count-up :to="{{$annual_net}}"></div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -50,11 +50,11 @@
                       <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks</div>
                       <div class="row no-gutters align-items-center">
                         <div class="col-auto">
-                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">80%</div>
                         </div>
                         <div class="col">
                           <div class="progress progress-sm mr-2">
-                            <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 80%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                           </div>
                         </div>
                       </div>
@@ -100,56 +100,62 @@
 
                           
                             
-                            <div class="border border-primary col-lg-2 col-md-2 col-sm-5 col-xs-12">
+                            <div class="col-lg-3 col-md-3 col-sm-5 col-xs-12">
                                 <a class="dashboard-stat dashboard-stat-v2 blue" href="#">
                                     <div class="visual">
                                         <i class="fa fa-comments"></i>
                                     </div>
                                     <div class="details">
                                         <div class="number">
-                                            <span class="counter">1349</span>
+                                          <span class="h5 mb-0 font-weight-bold text-gray-800"> <count-up :to="{{ $monthly_total }}"></count-up></span>
                                         </div>
                                         <div class="desc"> Salary </div>
                                     </div>
                                 </a>
                             </div>
-                            <div class="col-lg-1 col-md-1 col-sm-1"></div>
-                            <div class="border border-primary col-lg-2 col-md-2 col-sm-5 col-xs-12">
-                                <a class="label-danger" href="#">
+
+                            {{-- <div class="col-lg-1 col-md-1 col-sm-1"></div> --}}
+
+                            <div class="col-lg-3 col-md-3 col-sm-5 col-xs-12">
+                              <a class="dashboard-stat dashboard-stat-v2 yellow" href="#">
                                     <div class="visual">
                                         <i class="fa fa-bar-chart"></i>
                                     </div>
                                     <div class="details">
-                                        <div>
-                                            <span class="counter">12,5 </span> M$ </div>
-                                        <div class="desc"> Net </div>
+                                        <div class="number">
+                                            <span class="h5 mb-0 font-weight-bold text-gray-800"> <count-up :to="{{ $monthly_statutory }}"></count-up> </span> 
+                                        </div>
+                                        <div class="desc"> Statutory </div>
                                     </div>
                                 </a>
                             </div>
-                            <div class="col-lg-1 col-md-1 col-sm-1"></div>
-                            <div class="border border-primary col-lg-2 col-md-2 col-sm-5 col-xs-12">
+
+                            {{-- <div class="col-lg-1 col-md-1 col-sm-1"></div> --}}
+                            <div class="col-lg-3 col-md-3 col-sm-5 col-xs-12">
                                 <a class="dashboard-stat dashboard-stat-v2 green" href="#">
                                     <div class="visual">
                                         <i class="fa fa-shopping-cart"></i>
                                     </div>
                                     <div class="details">
-                                        <div class="counter">
-                                            <span class="counter" >299</span>
+                                        <div class="number">
+                                            <span class="h5 mb-0 font-weight-bold text-gray-800" > <count-up :to="{{ $monthly_paye }}"></count-up></span>
                                         </div>
                                         <div class="desc"> Paye </div>
                                     </div>
                                 </a>
                             </div>
-                            <div class="col-lg-1 col-md-1 col-sm-1"></div>
-                            <div class="border border-primary col-lg-2 col-md-2 col-sm-5 col-xs-12">
+                            {{-- <div class="col-lg-1 col-md-1 col-sm-1"></div> --}}
+                            <div class="col-lg-3 col-md-3 col-sm-5 col-xs-12">
                                 <a class="dashboard-stat dashboard-stat-v2 purple" href="#">
                                     <div class="visual">
                                         <i class="fa fa-globe"></i>
                                     </div>
                                     <div class="details">
-                                        <div class="counter"> +
-                                            <span data-counter="counterup" data-value="89"></span>% </div>
-                                        <div class="desc"> SDL </div>
+                                        <div class="number"> 
+                                            {{-- <span data-counter="counterup" data-value="89"></span>% </div> --}}
+                                            <span class="h5 mb-0 font-weight-bold text-gray-800"> <count-up :to="{{ $monthly_deduction }}"></count-up></span>
+                                         </div>
+                                        <div class="desc"> Deduction </div>
                                     </div>
                                 </a>
                             </div>
@@ -161,29 +167,32 @@
 
 <div class="row">
 
-    <span class="counter">1,234,567.00</span>
+   {{--  <span class="counter">1,234,567.00</span> --}}
 
-    <canvas id="graph"></canvas>
+    {{-- <canvas id="graph"></canvas> --}}
 
     
-        <graph-line :labels="['January', 'February', 'March', 'April', 'May', 'June', 'July']"
-                    :values="[0, 10, 5, 2, 20, 30, 45]"
-                    :color="'red'"
+        <graph-line :labels="['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August','September','October','November','December']"
+                  
+                    :values="[{{implode(',', $value)}}]"
+                    :color="'#5DADE2'"
                     :type="'line'"
                     :legend="'This legend red'"
                     ></graph-line>
 
         <graph-line :labels="['January', 'February', 'March']"
                     :values="[0, 10, 5]"
-                    :color="'green'"
+                   
+                    :borderColor="'red'"
+                    :borderWidth="2"
                     :type="'bar'"
                     :legend="'This legend green'"
         ></graph-line>
 
-        <data-table
+{{--         <data-table
 			fetch-url="{{ route('users.table') }}"
 			:columns="['company id','title','name','gender','married','email','firstname','middlename','lastname','photo','dod','employee','created','updated']"
-		></data-table>  
+		></data-table>   --}}
 </div>     
            
         </div>

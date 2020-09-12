@@ -36,7 +36,7 @@
 
                     {{ Form::bsNumber('maximum', $paye->maximum,['placeholder' => 'Enter maximum salary','required' => 'true','step' => '0.01','min' => '0.00']) }}
 
-                    {{ Form::bsNumber('ratio', $paye->ratio,['placeholder' => 'Enter ratio', 'required' => 'true','step' => '0.001','max' => '0.999']) }}
+                    {{ Form::bsNumber('ratio', $paye->ratio,['placeholder' => 'Enter ratio', 'required' => 'true','step' => '0.001','min' => '0.000']) }}
 
                     {{ Form::bsNumber('offset',$paye->offset,['placeholder' => 'Enter offset', 'required' => 'true','step' => '0.01','min' => '0.00']) }}
 

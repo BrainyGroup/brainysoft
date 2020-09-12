@@ -26,10 +26,12 @@ class CreatePaysTable extends Migration
             $table->decimal('allowance',11,2);
             $table->decimal('gloss',11,2);
             $table->decimal('taxable',11,2);
-            $table->decimal('paye',11,2);
+            $table->decimal('paye',11,2);  
+            $table->decimal('statutory_after_paye',11,2);          
             $table->decimal('monthly_earning',11,2);
             $table->decimal('deduction',11,2);
-            $table->decimal('net',11,2);
+            $table->decimal('net',11,2); 
+            $table->decimal('net_balance',11,2);           
             $table->timestamps();
         });
     }

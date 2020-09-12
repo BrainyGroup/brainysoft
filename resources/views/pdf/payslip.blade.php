@@ -184,6 +184,7 @@
                       <td></td>
                      
                     </tr>
+                    
                      @foreach($pay_allowances as $pay_allowance)
                     <tr>
 
@@ -218,13 +219,17 @@
                       <td>Paye</td>
                       <td class="amount">{{number_format($pay->paye, 2)}}</td>
                      
-                    </tr>
+                    </tr>$pay_statutory_loan
                     <tr>
                       <td>{{$pay_statutory->statutory_name}}</td>
                       <td class="amount">{{number_format($pay_statutory->employee,2)}}</td>                     
                     </tr>
-
+                    <tr>
+                      <td>{{$pay_statutory_HI->statutory_name}}</td>
+                      <td class="amount">{{number_format($pay_statutory_HI->employee,2)}}</td>                     
                     </tr>
+
+
                     <tr>
                       <td>Net pay</td>
                       <td class="amount">{{number_format($pay->net, 2)}}</td>

@@ -140,6 +140,7 @@ class RegisterController extends Controller
             'firstname' => $data['firstname'], 
             'middlename' => $data['middlename'],
             'lastname' => $data['lastname'], 
+            'employee' => false, 
 
 
 

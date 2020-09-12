@@ -94,6 +94,8 @@
 
                     {{ Form::bsText('account_number', $employee->account_number,['placeholder' => 'Enter account number']) }}
 
+                    {{ Form::bsText('tin', $employee->tin,['placeholder' => 'Enter tin number']) }}
+
                   {{ Form::bsNumber('salary', $employee_salary->amount ,['placeholder' => 'Enter Salary Amount']) }}
 
 

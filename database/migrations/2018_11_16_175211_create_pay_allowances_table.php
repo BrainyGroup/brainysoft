@@ -19,6 +19,8 @@ class CreatePayAllowancesTable extends Migration
             $table->integer('employee_id')->unsigned()->foreign()->references('id')->on('employees');
             $table->integer('pay_id')->unsigned()->foreign()->references('id')->on('pays');
             $table->integer('pay_number');
+            $table->integer('month');
+            $table->integer('year');
             $table->integer('allowance_id');
             $table->decimal('amount',11,2);          
             $table->integer('allowance_type_id');

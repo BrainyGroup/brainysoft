@@ -73,13 +73,15 @@
                     </div>
 
 
+
+
                     <div class="form-group">
 
                     <label for="statutory_type" class="control-label">Statutory type</label>
 
                      <select class="form-control" id="statutory_type" name="statutory_type_id" required >
 
-                       <option value="">Select statutory_type</option>
+                       <option value="">Select statutory type</option>
 
                        @foreach($statutory_types as $statutory_type)
 
@@ -97,10 +99,10 @@
 
                      <select class="form-control" id="selection" name="selection" required >
 
-                       <option value="true">true</option>                      
+                       <option value="1">true</option>                      
 
-                       <option value="false">false</option>
-                      <option value=true">true</option>
+                       <option value="0">false</option>
+                      <option value="1">true</option>
 
                      
 
@@ -114,10 +116,10 @@
 
                      <select class="form-control" id="mandatory" name="mandatory" required >
 
-                      <option value="false">false</option>                      
+                      <option value="0">false</option>                      
 
-                       <option value="true">true</option>
-                      <option value="false">false</option>
+                       <option value="1">true</option>
+                      <option value="0">false</option>
 
 
                      </select>

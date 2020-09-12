@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use BrainySoft\User;
 use Carbon\Carbon;
 
@@ -62,7 +63,8 @@ class EmployeesTableSeeder extends Seeder
               'department_id' => 1,
               'start_date' => '2011-01-01',
               'end_date' => $end_date1,
-              'account_number' => '1111111',              
+              'account_number' => '1111111', 
+              'tin' => '111-111-111',              
               'bank_id' => 2,
               'created_at' =>now(),
               'updated_at' =>now(),
@@ -78,6 +80,7 @@ class EmployeesTableSeeder extends Seeder
               'start_date' => '2011-01-01',
               'end_date' => $end_date2,
               'account_number' => '53379113731',
+              'tin' => '111-111-111',
               'bank_id' => 1,
               'created_at' =>now(),
               'updated_at' =>now(),
@@ -93,6 +96,7 @@ class EmployeesTableSeeder extends Seeder
               'start_date' => '2011-01-01',
               'end_date' => $end_date3,
               'account_number' => '53379113731',
+              'tin' => '111-111-111',
               'bank_id' => 1,
               'created_at' =>now(),
               'updated_at' =>now(),
@@ -108,6 +112,7 @@ class EmployeesTableSeeder extends Seeder
               'start_date' => '2011-01-01',
               'end_date' => $end_date4,
               'account_number' => '53379113731',
+              'tin' => '111-111-111',
               'bank_id' => 1,
               'created_at' =>now(),
               'updated_at' =>now(),
@@ -123,6 +128,7 @@ class EmployeesTableSeeder extends Seeder
               'start_date' => '2011-01-01',
               'end_date' => $end_date5,
               'account_number' => '53379113731',
+              'tin' => '111-111-111',
               'bank_id' => 1,
               'created_at' =>now(),
               'updated_at' =>now(),
@@ -138,6 +144,7 @@ class EmployeesTableSeeder extends Seeder
           'start_date' => '2011-01-01',
           'end_date' => $end_date6,
           'account_number' => '53379113731',
+          'tin' => '111-111-111',
           'bank_id' => 1,
           'created_at' =>now(),
           'updated_at' =>now(),
@@ -153,6 +160,7 @@ class EmployeesTableSeeder extends Seeder
           'start_date' => '2011-01-01',
           'end_date' => $end_date7,
           'account_number' => '53379113731',
+          'tin' => '111-111-111',
           'bank_id' => 1,
           'created_at' =>now(),
           'updated_at' =>now(),
@@ -169,6 +177,7 @@ class EmployeesTableSeeder extends Seeder
           'start_date' => '2011-01-01',
           'end_date' => $end_date8,
           'account_number' => '53379113731',
+          'tin' => '111-111-111',
           'bank_id' => 1,
           'created_at' =>now(),
           'updated_at' =>now(),
@@ -184,6 +193,7 @@ class EmployeesTableSeeder extends Seeder
           'start_date' => '2011-01-01',
           'end_date' => $end_date9,
           'account_number' => '53379113731',
+          'tin' => '111-111-111',
           'bank_id' => 1,
           'created_at' =>now(),
           'updated_at' =>now(),

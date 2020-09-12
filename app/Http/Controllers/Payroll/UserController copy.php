@@ -29,7 +29,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 
-class UserController extends Controller
+class UserControllerCopy extends Controller
 {
     public function __construct()
     {
@@ -194,7 +194,9 @@ class UserController extends Controller
 
           $user->lastname         = request('lastname');
 
-          $user->national_id         = request('national_id');         
+          $user->national_id         = request('national_id');   
+          
+          $user->tin         = request('tin');   
 
           $user->dob          = request('dob');
 
@@ -257,6 +259,8 @@ class UserController extends Controller
         'middlename' => 'required|string',
 
         'lastname' =>'required|string',
+
+        'tin' =>'required|string',
 
         'photo' => 'file|image|mimes:jpeg,png,gif,webp|nullable|max:1999',
         
@@ -334,6 +338,8 @@ class UserController extends Controller
           'photo' => $filename,
 
           'dob'            =>$request->input('dob'),
+
+          'tin'         => $request->input('tin'),
 
           'mobile' =>$request->input('mobile'),
 

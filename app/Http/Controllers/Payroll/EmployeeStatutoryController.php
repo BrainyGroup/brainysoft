@@ -121,6 +121,7 @@ class EmployeeStatutoryController extends Controller
 
          ->get();
 
+     
 
          return view('employee_statutories.create', compact( 'statutories'));
 

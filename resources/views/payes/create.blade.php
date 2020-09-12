@@ -37,7 +37,7 @@
 
                     {{ Form::bsNumber('maximum','',['placeholder' => 'Enter maximum salary','required' => 'true','step' => '0.01','min' => '0.00']) }}
 
-                    {{ Form::bsNumber('ratio','',['placeholder' => 'Enter ratio', 'required' => 'true','step' => '0.001','max' => '0.999']) }}
+                    {{ Form::bsNumber('ratio','',['placeholder' => 'Enter ratio', 'required' => 'true','step' => '0.000','max' => '0.999']) }}
 
                     @if($errors->has('ratio'))
 

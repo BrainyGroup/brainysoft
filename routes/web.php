@@ -104,8 +104,12 @@ Route::resource('levels', 'LevelController');
 //Organization
 Route::resource('organizations', 'OrganizationController');
 
+Route::get('/pays/create_previous', 'PayController@previousCreate');
+
 //pay routes
 Route::resource('pays', 'PayController');
+
+
 
 Route::match(['put', 'patch'], '/pays/update/{id}','PayController@post');
 
@@ -120,6 +124,8 @@ Route::resource('payroll_groups', 'PayrollGroupController');
 
 //pay base routes
 Route::resource('pay_types', 'PayBaseController');
+
+
 
 
 //employment type routes
@@ -170,6 +176,7 @@ Route::get('/reports/net','ReportController@net');
  Route::get('/reports/net_list_by_bank','ReportController@netListByBank');
 
  Route::get('/reports/create_user', 'ReportController@createUser');
+
 Route::get('/reports/index_user', 'ReportController@indexUser');
 
 Route::resource('/reports/users', 'UsersController');
@@ -181,6 +188,50 @@ Route::get('/reports/employee_pay', 'ReportController@pay_by_employee');
 Route::get('/reports/monthly_summary', 'ReportController@monthly_summary');
 
 Route::get('/reports/monthly_create', 'ReportController@monthlyCreate');
+
+Route::get('/reports/yearly_create', 'ReportController@yearlyCreate');
+
+Route::get('/reports/yearly_pay', 'ReportController@yearly_pay');
+
+Route::get('/employee_payments/create', 'EmployeePaymentController@create');
+
+Route::post('/employee_payments', 'EmployeePaymentController@store');
+
+Route::get('/statutory_payments/create', 'StatutoryPaymentController@create');
+
+
+
+Route::post('/statutory_payments', 'StatutoryPaymentController@store');
+
+
+Route::get('/reports/paye_yearly_create', 'ReportController@paye_yearly_create');
+
+Route::get('/reports/paye_yearly', 'ReportController@paye_yearly');
+
+
+
+Route::get('/reports/paye_all', 'ReportController@paye_all');
+
+
+
+Route::get('/reports/statutory_yearly_create', 'ReportController@statutory_yearly_create');
+
+Route::get('/reports/statutory_yearly', 'ReportController@statutory_yearly');
+
+
+Route::get('/reports/statutory_all_create', 'ReportController@statutory_all_create');
+
+Route::get('/reports/statutory_all', 'ReportController@statutory_all');
+
+
+
+Route::get('/reports/statutory_employee_all_create', 'ReportController@statutory_employee_all_create');
+
+Route::get('/reports/statutory_employee_all', 'ReportController@statutory_employee_all');
+
+
+
+
 
 
 //Route::view('/admin', 'admin.dashboard.index');

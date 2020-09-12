@@ -14,14 +14,14 @@
             
             @if(count($pay_statutories) > 0)
        <div class="table-responsive">
-               <table class="table table-hover table-striped table-bordered table-sm">
+               <table class="table table-hover table-striped table-bordered table-sm" id="sample_1">
                     <caption></caption>
                    <thead>
                     <tr>
                        <th scope="col">#</th>
                        <th scope="col">Name of Employee</th>               
                        <th scope="col">Pay#</th>     
-                       <th scope="col">NSF Number</th>       
+                       <th scope="col">{{ $statutory_name }} Number</th>       
                        <th scope="col"><span class="pull-right">Amount</span></th>
                     </tr>
                   </thead>
@@ -35,21 +35,27 @@
                        <td>{{ $pay->pay_number }}</td>
                        <td>{{ $pay->employee_statutory_no }}</td>
                        
-                      <td ><span class="pull-right">{{ number_format($pay->total,2) }}</span></td>
+                      <td style="text-align:left" ><span class="pull-right">{{ number_format($pay->total,2) }}</span></td>
                        
                      </tr>
 
                 
            @endforeach
 
-           <tr>
-            <td></td>
-            <td></td>
-            <td>Total (Tsh.)</td>
-            <td><span class="pull-right">{{ number_format( $total_statutory,2) }}</span></td>
+           
+         </tbody>
+
+         <tfoot>
+   
+          <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>Total (Tsh.)</th>
+            <th style="text-align:left"><span class="pull-right">{{ number_format( $total_statutory,2) }}</span></th>
           
           </tr>
-         </tbody>
+      </tfoot>
       </table>
   </div>
          @else

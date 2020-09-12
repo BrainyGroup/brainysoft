@@ -37,10 +37,24 @@
                       <th scope="col">Account#</th>
 
                       <th scope="col"><span class = "pull-right">Amount</span></th>
+
+                      <th scope="col"><span class = "pull-right">Paid</span></th>
+
+                      <th scope="col"><span class = "pull-right">Balance</span></th>
                       
 
                     </tr>
                   </thead>
+                  <tfoot class="thead-dark">
+                  <tr>
+                    <th></th>
+                    <th colspan="3">Total</th>
+                  <th><span class = "pull-right">{{ number_format($net_total,2)}}</span></th>
+                  <th><span class = "pull-right">{{ number_format($net_paid,2) }}</span></th> 
+                  <th><span class = "pull-right">{{ number_format($net_balance,2) }}</span></th> 
+        
+                  </tr>
+                  </tfoot>
                   <tbody>
         @if(count($nets)>0)
 
@@ -48,6 +62,7 @@
 
                     <tr>
                     <td>{{ $key+1}}</td>
+                
 
                       <td>{{ $net->title.'. '.$net->firstname.' '.$net->middlename.' '.$net->lastname }}</td>          
 
@@ -55,21 +70,13 @@
 
                     <td>{{$net->account_number}}</td>
 
-                      <td><span class = "pull-right">{{ number_format($net->net,2) }}</span></td>           
+                      <td><span class = "pull-right">{{ number_format($net->net,2) }}</span></td>    
+                      
+                      <td><span class = "pull-right">{{ number_format($net->net - $net->net_balance,2) }}</span></td>   
+
+                      <td><span class = "pull-right"><a href="/employee_payments/create?employee_id={{$net->employee_id}}&pay_number={{$net->pay_number}}&employee_balance={{$net->net_balance}}">{{ number_format($net->net_balance,2) }}</a></span></td>   
                     </tr>
           @endforeach
-          <tr>
-            <td></td>
-            <td colspan="3">Total</td>
-          <td><span class = "pull-right">{{ number_format($net_total,2)}}</span></td>
-
-          </tr>
-
-          <tr>
-
-            <td><a href="">PDF</a></td>
-            
-          </tr>
 
         </tbody>
       </table>

@@ -73,6 +73,8 @@
                     </div>
 
 
+
+
                     <div class="form-group">
 
                     <label for="statutory_type" class="control-label">Statutory type</label>

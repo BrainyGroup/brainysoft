@@ -6,7 +6,7 @@ namespace BrainySoft\Http\Controllers;
 //use Mail;
 use BrainySoft\User;
 use BrainySoft\Pay;
-use Carbon;
+
 
 use BrainySoft\Bank;
 use BrainySoft\Scale;
@@ -21,14 +21,16 @@ use BrainySoft\Pay_base;
 use BrainySoft\Department;
 use BrainySoft\Designation;
 use BrainySoft\Salary_base;
+use BrainySoft\Pay_statutory;
 use BrainySoft\Payroll_group;
 use BrainySoft\Allowance_type;
 use BrainySoft\Deduction_type;
 use BrainySoft\Statutory_type;
 use BrainySoft\Employment_type;
+use Carbon\Carbon;
 
 use Mail;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 
 use BrainySoft\Mail\Salaryslip;
@@ -545,13 +547,101 @@ class HomeController extends Controller
 
         //   ->groupBy('month')->get();
 
-        $pays = Pay::thisYear()
+        $max_pay_number = Pay::where('company_id', $company->id)
+        ->where('posted', true)
+        ->max('pay_number');
+
+
+
+        $monthly_gloss =  Pay::where('company_id', $company->id)
+
+        ->where('pay_number', $max_pay_number )
+
+       ->sum('gloss');  
+
+
+        $monthly_net =  Pay::where('company_id', $company->id)
+
+                   ->where('pay_number', $max_pay_number )
+        
+                  ->sum('net');
+
+        $monthly_paye = Pay::where('company_id', $company->id)
+
+                      ->where('pay_number', $max_pay_number )
+
+                     ->sum('paye');
+
+        $monthly_balance = Pay::where('company_id', $company->id)
+
+                  ->where('pay_number', $max_pay_number )
+
+                  ->sum('net_balance');
+
+        $monthly_deduction = Pay::where('company_id', $company->id)
+
+            ->where('pay_number', $max_pay_number )
+
+            ->sum('deduction');
+
+        $monthly_allowance = Pay::where('company_id', $company->id)
+
+            ->where('pay_number', $max_pay_number )
+
+            ->sum('allowance');
+
+        $monthly_basic_salary = Pay::where('company_id', $company->id)
+
+            ->where('pay_number', $max_pay_number )
+
+            ->sum('basic_salary');
+
+
+        $monthly_deduction = Pay::where('pay_number', $max_pay_number)
+
+          ->where('company_id',$company->id)
+
+          ->sum('deduction');
+
+
+
+
+   $monthly_statutory = Pay_statutory::where('pay_number', $max_pay_number)
+
+   ->where('company_id',$company->id)
+
+   ->sum('total');
+
+
+        $current_year = Carbon::now()->year;
+
+        $annual_net =  Pay::where('company_id', $company->id)
+
+                ->where('year', $current_year )
+
+                ->sum('net');
+
+                  
+
+        $pays = Pay::where('pay_number',$max_pay_number)
 
         ->selectRaw('month, sum(gloss) as gloss')
 
         ->groupBy('month')
 
         ->pluck('gloss','month');
+
+       // dd($pays);
+
+       $monthly_total = $monthly_net + $monthly_paye + $monthly_statutory + $monthly_deduction;
+
+      
+
+       
+
+        $value = [0, 10, 5, 2, 20, 30, 60];
+
+        //dd(implode(',', $value));
 
        
 
@@ -560,9 +650,20 @@ class HomeController extends Controller
         // $pay = Pay::where('year', 2018)->groupBy('month')->sum('gloss');
 
      
+//dd($pays);
 
+        return view('home',compact(
+          'pays',
+          'monthly_net',
+          'annual_net',
+          'value',
+          'monthly_paye',
+          'monthly_statutory',
+          'monthly_deduction',
+          'monthly_total',
 
-        return view('home',compact('pays'));
+          'monthly_gloss')
+        );
         // Mail::send('emails.mailtrap', [], function($m){
         //   $m->to('yahaya.frezier@datahousetza.com','Yahaya Frezier')
         //   ->subject('You have registered')

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class Deduction_typesTableSeeder extends Seeder
 {
@@ -12,6 +13,14 @@ class Deduction_typesTableSeeder extends Seeder
     public function run()
     {
       DB::table('deduction_types')->truncate();
+
+      DB::table('deduction_types')->insert([
+        'name' => 'Advance Salary',
+        'description' => 'Advance Salary Deduction',
+        'company_id' => 1,
+        'created_at' =>now(),
+        'updated_at' =>now(),
+    ]);
 
       DB::table('deduction_types')->insert([
               'name' => 'Loan',

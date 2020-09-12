@@ -15,15 +15,28 @@
        <div class="table-responsive">
                <table class="table table-hover table-striped table-bordered table-sm">
                     <caption></caption>
-                   <thead>
+                   <thead class="thead-dark">
                     <tr>
                       <th scope="col">#</th>
                      
                        <th scope="col">Bank</th>                    
-                       <th scope="col">Amount</th>
-                       <th scope="col"></th>
+                       <th scope="col"><span class = "pull-right">Amount</span></th>
+                       <th scope="col"><span class = "pull-right">Paid</span></th>                    
+                       <th scope="col"><span class = "pull-right">Balance</span></th>
+                       <th scope="col">Details</th>
                      </tr>
                   </thead>
+
+                  <tfoot class="thead-dark">
+                    <tr>
+                   <th></th>
+                   <th>Total</th>
+                 <th><span class = "pull-right">{{ number_format($net_total,2)}}</span></th>
+                 <th><span class = "pull-right">{{ number_format($net_paid,2) }}</span></th> 
+                 <th><span class = "pull-right">{{ number_format($net_balance,2) }}</span></th>
+                 <th></th>
+                    </tr> 
+                  </tfoot>
                   <tbody>
         @if(count($net_by_banks)>0)
          @foreach($net_by_banks as $key => $net)
@@ -33,18 +46,16 @@
                       
                        <td>{{ $net->bank_name }}</td>
                       
-                       <td>{{ number_format($net->bank_amount,2) }}</td>
+                       <td><span class = "pull-right">{{ number_format($net->bank_amount,2) }}</span></td>
+
+                       <td><span class = "pull-right">{{ number_format($net->bank_amount - $net->net_balance,2) }}</span></td>
+
+                       <td><span class = "pull-right">{{ number_format($net->bank_amount,2) }}</span></td>
+
                         <td><a href="/reports/net_list_by_bank?max_pay={{$max_pay}}&bank_id={{$net->bank_id}}">Bank list</a></td>                
                      </tr>
            @endforeach
-           <tr>
-             <td><a href="">PDF</a></td>
-             <td><a href="">PDF</a></td>
-             <td><a href="">PDF</a></td>
-             <td><a href="">PDF</a></td>
-
-            
-          </tr>
+         
          </tbody>
       </table>
   </div>

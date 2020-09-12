@@ -19,6 +19,8 @@
 
     <title>{{ config('app.name', 'BrainySoft') }}</title>
 
+    {{-- <title>{{ $title }}</title> --}}
+
     
 
 

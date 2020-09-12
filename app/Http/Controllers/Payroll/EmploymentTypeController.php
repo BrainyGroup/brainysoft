@@ -49,14 +49,12 @@ class EmploymentTypeController extends Controller
 
         $company = $this->company();
 
-        Log::debug($company->name.': Start employment type index');        
+        Log::debug($company->name.': Start employment type index');          
+        
 
         $employment_types = Employment_type::all();
 
-
-        return view('employement_types.index');
-
-     
+        return view('employment_types.index', compact('employment_types'));     
 
       }catch(Exception $e){
 
@@ -130,7 +128,7 @@ class EmploymentTypeController extends Controller
      */
     public function edit(Employment_type $employment_type)
     {
-        //
+      return view('employment_types.edit',compact('employment_type'));
     }
 
     /**

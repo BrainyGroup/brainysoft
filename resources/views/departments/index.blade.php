@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">{{ __('messages.deparment') }} <span class="pull-right"> <a href="/departments/create">{{ __('messages.add') }}</a></span></div>
+        <div class="card-header">{{ __('messages.department') }} <span class="pull-right"> <a href="/departments/create">{{ __('messages.add') }}</a></span></div>
 
         <div class="card-body">
             @if (session('status'))

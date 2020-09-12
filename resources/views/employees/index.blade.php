@@ -23,6 +23,7 @@
                       <th scope="col">#</th>
                       <th scope="col">Name</th>
                       <th scope="col">Id</th>
+                      <th scope="col">TIN Number</th>
                       <th scope="col">Designation</th>
                       <th scope="col">Mobile</th>
                       <th scope="col">salary</th>
@@ -46,6 +47,8 @@
                       <td>{{ $employee->title.'. '.$employee->firstname.' '.$employee->middlename.' '.$employee->lastname }}</td>
 
                       <td><a href="/employees/{employee}">{{ $employee->identity }}  </a></td>
+
+                      <td>{{ $employee->tin }}</td>
 
                       <td>{{ $employee->designation }}</td>
 

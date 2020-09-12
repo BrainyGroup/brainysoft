@@ -36,7 +36,7 @@
                        <th scope="col">#</th>
 
 
-                      <th scope="col">Name</th>
+                    
 
                       <th scope="col">Run Date</th>
 
@@ -70,6 +70,10 @@
 
                       <th scope="col">Net Earning</th>
 
+                      <th scope="col">Paid</th>
+
+                      <th scope="col">Balance</th>
+
                       <th scope="col">Print</th>
 
 
@@ -80,12 +84,14 @@
                     </tr>
                   </thead>
                   <tbody>
+
+                    
         @foreach($pays as $key => $pay)
 
                     <tr>
                       <td>{{ $key + 1 }}</td>
 
-                      <td>{{ $user->title.'. '.$user->firstname.' '.$user->middlename.' '.$user->lastname }}</td>
+                    
 
                       <td>{{ $pay->run_date }}</td>
 
@@ -110,6 +116,10 @@
                       <td>{{  number_format($pay->deduction,2) }}</td>
 
                       <td>{{  number_format($pay->net,2) }}</td>
+
+                      <td>{{  number_format($pay->net - $pay->net_balance,2) }}</td>
+
+                      <td>{{  number_format($pay->net_balance,2) }}</td>
 
 
                       <td><a href="{{action('PayController@downloadPDF', $pay->id)}}">PDF</a></td>
