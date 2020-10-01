@@ -1,6 +1,5 @@
 <?php
 
-use BrainySoft\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -31,7 +30,7 @@ class DatabaseSeeder extends Seeder
            Allowance_typesTableSeeder::class,
            DeductionsTableSeeder::class,
            AllowancesTableSeeder::class,
-           LevelsTableSeeder::class,
+           //LevelsTableSeeder::class,
            DesignationsTableSeeder::class,
            Employee_statutoriesTableSeeder::class,
            PaysTableSeeder::class,
