@@ -25,7 +25,8 @@ class BankController extends Controller
     public function __construct()
     {
 
-        $this->middleware('auth');
+        //$this->middleware('auth');
+        $this->middleware('role');
 
     }
 
@@ -154,6 +155,7 @@ class BankController extends Controller
     public function update(Request $request, Bank $bank)
     {
       //Validation
+     
       $this->validate(request(),[
 
         'name' =>'required|string',

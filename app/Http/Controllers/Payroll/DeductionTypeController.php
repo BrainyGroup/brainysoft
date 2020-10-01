@@ -11,6 +11,8 @@ use BrainySoft\Company;
 
 use BrainySoft\Employee;
 
+use BrainySoft\Deduction;
+
 use Illuminate\Http\Request;
 
 use BrainySoft\Deduction_type;
@@ -24,7 +26,8 @@ class DeductionTypeController extends Controller
     public function __construct()
     {
 
-        $this->middleware('auth');
+        //$this->middleware('auth');
+        $this->middleware('role');
 
     }
 

@@ -2,7 +2,7 @@
 
 namespace BrainySoft\Http\Controllers;
 
-use DB;
+//use DB;
 
 use Exception;
 
@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 
 use BrainySoft\Allowance_type;
 
-//se Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Log;
 
@@ -32,7 +32,8 @@ class AllowanceController extends Controller
     public function __construct()
     {
 
-        $this->middleware('auth');
+        //$this->middleware('auth');
+        $this->middleware('role');
 
     }
       /**

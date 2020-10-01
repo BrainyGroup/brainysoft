@@ -29,7 +29,8 @@ class CompanyController extends Controller
     public function __construct()
     {
 
-        $this->middleware('auth');
+        //$this->middleware('auth');
+        $this->middleware('role');
 
     }
 
@@ -161,7 +162,7 @@ class CompanyController extends Controller
 
 
 
-      /**
+      /*
       / it is batter to put these information on table based on country for easy update
       / Allowance types
       / banks

@@ -30,12 +30,13 @@ use Illuminate\Support\Facades\Log;
 
 class StatutoryController extends Controller
 {
-    public function __construct()
-    {
+  public function __construct()
+  {
 
-        $this->middleware('auth');
+      //$this->middleware('auth');
+      $this->middleware('role');
 
-    }
+  }
 
     private function company()
     {

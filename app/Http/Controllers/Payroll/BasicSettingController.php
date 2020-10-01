@@ -16,6 +16,14 @@ class BasicSettingController extends BaseController
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
+    public function __construct()
+    {
+
+        //$this->middleware('auth');
+        $this->middleware('role');
+
+    }
+    
     public function index()
     {
         $this->setPageTitle('Settings', 'Manage Settings');

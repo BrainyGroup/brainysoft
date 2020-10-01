@@ -12,6 +12,14 @@ class PayDeductionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+
+        //$this->middleware('auth');
+        $this->middleware('role');
+
+    }
+    
     public function index()
     {
         //

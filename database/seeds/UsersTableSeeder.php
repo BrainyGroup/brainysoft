@@ -30,6 +30,7 @@ class UsersTableSeeder extends Seeder
               'employee' => true,
               'password' => bcrypt('123456'),
               'national_id' => '255754744254',
+              'role_id' => 2,
               'created_at' =>now(),
               'updated_at' =>now(),
           ]);
@@ -50,6 +51,7 @@ class UsersTableSeeder extends Seeder
               'employee' => true,
               'password' => bcrypt('123456'),
               'national_id' => '19750615-15130-00002-22',
+              'role_id' => 1,
               'created_at' =>now(),
               'updated_at' =>now(),
           ]);
@@ -70,6 +72,7 @@ class UsersTableSeeder extends Seeder
               'employee' => true,
               'password' => bcrypt('123456'),
               'national_id' => '255754744254',
+              'role_id' => 5,
               'created_at' =>now(),
               'updated_at' =>now(),
           ]);
@@ -90,6 +93,7 @@ class UsersTableSeeder extends Seeder
                 'employee' => true,
                 'password' => bcrypt('123456'),
                 'national_id' => '255754744254',
+                'role_id' => 4,
                 'created_at' =>now(),
                 'updated_at' =>now(),
             ]);
@@ -110,6 +114,7 @@ class UsersTableSeeder extends Seeder
                 'employee' => true,
                 'password' => bcrypt('123456'),
                 'national_id' => '255754744254',
+                'role_id' => 3,
                 'created_at' =>now(),
                 'updated_at' =>now(),
             ]);
@@ -132,6 +137,7 @@ class UsersTableSeeder extends Seeder
                 'employee' => true,
                 'password' => bcrypt('123456'),
                 'national_id' => '255754744254',
+                'role_id' => 3,
                 'created_at' =>now(),
                 'updated_at' =>now(),
             ]);
@@ -153,6 +159,7 @@ class UsersTableSeeder extends Seeder
                 'employee' => true,
                 'password' => bcrypt('123456'),
                 'national_id' => '255754744254',
+                'role_id' => 3,
                 'created_at' =>now(),
                 'updated_at' =>now(),
             ]);
@@ -173,6 +180,7 @@ class UsersTableSeeder extends Seeder
                 'employee' => true,
                 'password' => bcrypt('123456'),
                 'national_id' => '255754744254',
+                'role_id' => 3,
                 'created_at' =>now(),
                 'updated_at' =>now(),
             ]);
@@ -195,6 +203,7 @@ class UsersTableSeeder extends Seeder
                 'employee' => false,
                 'password' => bcrypt('123456'),
                 'national_id' => '255754744254',
+                'role_id' => 3,
                 'created_at' =>now(),
                 'updated_at' =>now(),
             ]);
@@ -215,6 +224,7 @@ class UsersTableSeeder extends Seeder
                     'employee' => false,
                     'password' => bcrypt('123456'),
                     'national_id' => '255754744254',
+                    'role_id' => 3,
                     'created_at' =>now(),
                     'updated_at' =>now(),
                 ]);
@@ -236,6 +246,7 @@ class UsersTableSeeder extends Seeder
                         'employee' => true,
                         'password' => bcrypt('123456'),
                         'national_id' => '255754744254',
+                        'role_id' => 3,
                         'created_at' =>now(),
                         'updated_at' =>now(),
                     ]);
@@ -256,6 +267,7 @@ class UsersTableSeeder extends Seeder
                             'employee' => false,
                             'password' => bcrypt('123456'),
                             'national_id' => '255754744254',
+                            'role_id' => 3,
                             'created_at' =>now(),
                             'updated_at' =>now(),
                         ]);

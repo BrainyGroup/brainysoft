@@ -2,25 +2,25 @@
 
 namespace BrainySoft\Http\Controllers;
 
-
-
 use Exception;
 
 use BrainySoft\User;
+
+use BrainySoft\Role;
 
 use BrainySoft\Company;
 
 use BrainySoft\Employee;
 
-use BrainySoft\Department;
+use BrainySoft\Organization;
 
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Log;
 
+use BrainySoft\Http\Controllers\Controller;
 
-
-class DepartmentController extends Controller
+class RoleController extends Controller
 {
     public function __construct()
     {
@@ -29,6 +29,7 @@ class DepartmentController extends Controller
         $this->middleware('role');
 
     }
+
 
     private function company()
     {
@@ -44,25 +45,32 @@ class DepartmentController extends Controller
     public function index()
     {
 
-      try{
+    try{
 
-        $company = $this->company();
+          $company = $this->company();
 
-        Log::debug($company->name.': Start department index');       
+          Log::debug($company->name.': Start role index');
 
-        $departments = Department::where('company_id', $company->id)->get();
+          // $employee = Employee::find(auth()->user()->id);
 
-        return view('departments.index', compact('departments'));
+          $roles = Role::all();
 
-      }catch(Exception $e){
+          return view('roles.index', compact('roles'));
 
-        $company = $this->company();
+         
 
-        Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+        }catch(Exception $e){
 
-        Log::debug($company->name.': End department index');
+          $company = $this->company();
 
-      }
+          Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+
+          Log::debug($company->name.': End role index');
+
+          //return false;
+        }
+
+
 
     }
 
@@ -74,7 +82,7 @@ class DepartmentController extends Controller
     public function create()
     {
 
-        return view('departments.create');
+        return view('roles.create');
 
     }
 
@@ -86,6 +94,7 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
+
       //Validation
       $this->validate(request(),[
 
@@ -95,55 +104,56 @@ class DepartmentController extends Controller
 
       ]);
 
+      //get user id
+
       $company = $this->company();
 
-      $department = new Department;
+      $role = new Role;
 
-      $department->name = request('name');
+      $role->name = request('name');
 
-      $department->description = request('description');
+      $role->description = request('description');     
 
-      $department->company_id = $company->id;
+      $role->company_id = $company->id;
 
-      $department->save();
+      $role->save();
 
-      return back()->with('success','Department added successfully');
-
+      return back()->with('success','Role added successfully');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \BrainySoft\Department  $department
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Department $department)
+    public function show(Role $role)
     {
-        return view('departments.show',compact('department'));
+        return view('roles.show',compact('role'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \BrainySoft\Department  $department
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Department $department)
+    public function edit(Role $role)
     {
-        return view('departments.edit',compact('department'));
+        return view('roles.edit',compact('role'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \BrainySoft\Department  $department
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Department $department)
+    public function update(Request $request, Role $role)
     {
-
       //Validation
+      
       $this->validate(request(),[
 
         'name' =>'required|string',
@@ -152,7 +162,7 @@ class DepartmentController extends Controller
 
       ]);
 
-      $departmentUpdate = Department::where('id', $department->id)
+      $roleUpdate = Role::where('id', $role->id)
 
       ->update([
 
@@ -162,34 +172,37 @@ class DepartmentController extends Controller
 
       ]);
 
-      if($departmentUpdate)
+      if($roleUpdate)
 
-        return redirect('departments')
+        return redirect('roles')
 
-        ->with('success','Department updated successfully');
+        ->with('success','Role updated successfully');
         //redirect
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \BrainySoft\Department  $department
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Department $department)
+    public function destroy(Role $role)
     {
+      $role_employee_exist = Employee::where('role_id',$role->id)->exists();
 
-      $department_exist = Employee::where('department_id',$department->id)->exists();
+      $role_organization_exist = Organization::where('role_id',$role->id)->exists();
 
-        if (!$department_exist && $department->delete()){
+      $role = Role::find($role->id);
 
-        return redirect('departments')
+      if (!$role_employee_exist && !$role_employee_exist && $role->delete()){
 
-        ->with('success','Department deleted successfully');
+        return redirect('roles')
+
+        ->with('success','Role deleted successfully');
 
       }else{
 
-        return back()->withInput()->with('error','Department could not be deleted');
+        return back()->with('error','Role could not be deleted');
 
       }
     }

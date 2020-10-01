@@ -16,7 +16,14 @@ class StatutoryPaymentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    private function company()
+    public function __construct()
+    {
+  
+        //$this->middleware('auth');
+        $this->middleware('role');
+  
+    }
+     private function company()
     {
       $user = User::find(auth()->user()->id);
 

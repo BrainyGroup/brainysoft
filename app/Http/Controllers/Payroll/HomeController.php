@@ -49,6 +49,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        //$this->middleware('role');
     }
 
     private function company()
@@ -644,7 +645,6 @@ class HomeController extends Controller
         //dd(implode(',', $value));
 
        
-
 
 
         // $pay = Pay::where('year', 2018)->groupBy('month')->sum('gloss');

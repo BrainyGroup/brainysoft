@@ -16,6 +16,13 @@ class EmployeePaymentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+
+       // $this->middleware('auth');
+        $this->middleware('role');
+
+    }
     private function company()
     {
         $user = User::find(auth()->user()->id);

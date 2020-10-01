@@ -50,12 +50,13 @@ use Illuminate\Support\Facades\Log;
 class ReportController extends Controller
 {
 
-	public function __construct()
-    {
+  public function __construct()
+  {
 
-        $this->middleware('auth');
+      //$this->middleware('auth');
+      $this->middleware('role');
 
-    }
+  }
 
  	private function company()
     {
@@ -96,7 +97,7 @@ class ReportController extends Controller
 
         $company = $this->company();
 
-        return DataTables::of(User::query()->where('company_id',$company->id))->make(true);        
+        //return DataTables::of(User::query()->where('company_id',$company->id))->make(true);        
 
      }
 
@@ -112,7 +113,7 @@ class ReportController extends Controller
 
         $company = $this->company();
 
-        return DataTables::of(Pay::query())->make(true);        
+        //return DataTables::of(Pay::query())->make(true);        
 
      }
 
@@ -138,6 +139,13 @@ class ReportController extends Controller
                   ->where('company_id', $company->id)
                   
                   ->first();
+      if($employee){
+        $employee_id = $employee->id;
+
+      }else{
+        $employee_id = 0;
+
+      }
 
                  
                  
@@ -149,7 +157,7 @@ class ReportController extends Controller
           
                     DB::raw('SUM(amount) as deduction'))
           
-                    ->where('employee_id', $employee->id)    
+                    ->where('employee_id', $employee_id)    
                    
           
                     ->groupBy('pay_id');
@@ -1314,7 +1322,12 @@ $month_paye_paid = $month_paye_amount - $month_paye_balance;
 
       $employee = Employee::where('user_id',$user->id)->first();
 
-      $employee_id = $employee->id;
+      if($employee){
+
+        $employee_id = $employee->id;
+      }
+
+     
 
       $statutories = Statutory::
 
@@ -1336,7 +1349,12 @@ $month_paye_paid = $month_paye_amount - $month_paye_balance;
 
       $employee = Employee::where('user_id',$user->id)->first();
 
-      $employee_id = $employee->id;
+      if($employee){
+
+        $employee_id = $employee->id;
+      }else{
+        $employee_id = 0;
+      }
 
     
 

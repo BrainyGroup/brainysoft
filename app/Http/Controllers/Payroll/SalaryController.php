@@ -9,6 +9,8 @@ use BrainySoft\User;
 
 use BrainySoft\Salary;
 
+use BrainySoft\Salary_base;
+
 use BrainySoft\Company;
 
 use BrainySoft\Employee;
@@ -21,12 +23,13 @@ use Illuminate\Support\Facades\Log;
 
 class SalaryController extends Controller
 {
-    public function __construct()
-    {
+  public function __construct()
+  {
 
-        $this->middleware('auth');
+      //$this->middleware('auth');
+      $this->middleware('role');
 
-    }
+  }
 
     private function company()
     {

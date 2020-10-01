@@ -28,7 +28,8 @@ class Bank2Controller extends BaseController
      */
     public function __construct(BankContract $bankRepository)
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
+        $this->middleware('role');
         $this->bankRepository = $bankRepository;
 
     }

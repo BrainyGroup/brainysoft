@@ -1,5 +1,6 @@
 <?php
 
+use BrainySoft\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -41,6 +42,9 @@ class DatabaseSeeder extends Seeder
            Employment_typeTableSeeder::class,
            Pay_baseTableSeeder::class,
            BasicSettingsTableSeeder::class,
+           RolesTableSeeder::class,
+           PermissionTableSeeder::class,
+
          ]);
     }
 }

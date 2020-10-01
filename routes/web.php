@@ -125,6 +125,9 @@ Route::resource('payroll_groups', 'PayrollGroupController');
 //pay base routes
 Route::resource('pay_types', 'PayBaseController');
 
+//role routes
+Route::resource('roles', 'RoleController');
+
 
 
 
