@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
            DeductionsTableSeeder::class,
            AllowancesTableSeeder::class,
            //LevelsTableSeeder::class,
-           DesignationsTableSeeder::class,
+          // DesignationsTableSeeder::class,
            Employee_statutoriesTableSeeder::class,
            PaysTableSeeder::class,
            Pay_statutoriesTableSeeder::class,
