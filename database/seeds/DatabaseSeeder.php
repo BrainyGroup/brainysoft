@@ -39,10 +39,10 @@ class DatabaseSeeder extends Seeder
            //Payroll_groupTableSeeder::class,
            //Kin_typeTableSeeder::class,
            //Employment_typeTableSeeder::class,
-           Pay_baseTableSeeder::class,
-           BasicSettingsTableSeeder::class,
-           RolesTableSeeder::class,
-           PermissionTableSeeder::class,
+           //Pay_baseTableSeeder::class,
+           //BasicSettingsTableSeeder::class,
+           //RolesTableSeeder::class,
+           //PermissionTableSeeder::class,
 
          ]);
     }
