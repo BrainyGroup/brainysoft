@@ -156,7 +156,7 @@ Route::resource('statutories', 'StatutoryController');
 Route::resource('employee_statutories', 'EmployeeStatutoryController');
 
 //users
-Route::resource('users', 'UserController');
+Route::resource('/users', 'UserController');
 
 //  Route::get('/users', 'UserController@getUsers');
 // Route::delete('/users/{user}/delete', 'UserController@deleteUser');
