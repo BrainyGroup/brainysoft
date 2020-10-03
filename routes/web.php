@@ -91,7 +91,7 @@ Route::resource('departments', 'DepartmentController');
 Route::resource('designations', 'DesignationController');
 
 //employees routes
-Route::resource('employees', 'EmployeeController');
+Route::resource('employees', '\App\Http\Controllers\Payroll\EmployeeController');
 
 //Kin type routes
 Route::resource('kin_types', 'KinTypeController');
@@ -157,7 +157,7 @@ Route::resource('statutories', 'StatutoryController');
 Route::resource('employee_statutories', 'EmployeeStatutoryController');
 
 //users
-Route::resource('/users', 'UserController');
+Route::resource('/users', '\App\Http\Controllers\Payroll\UserController');
 
 //  Route::get('/users', 'UserController@getUsers');
 // Route::delete('/users/{user}/delete', 'UserController@deleteUser');
