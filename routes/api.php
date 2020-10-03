@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+/* 
 Route::group(["middleware" => "api"], function(){
 
 	//Route::get('allowance_types','AllowanceTypeController@indexAPI');
@@ -49,3 +49,4 @@ Route::group(["middleware" => "api"], function(){
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+ */
