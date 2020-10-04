@@ -22,11 +22,11 @@ use BrainySoft\Http\Resources\UserResource;
 
 
 
-use BrainySoft\User;
+use BrainySoft\Payroll\User;
 
 use BrainySoft\Company;
 
-use BrainySoft\Employee;
+use BrainySoft\Payroll\Employee;
 
 use Illuminate\Http\Request;
 

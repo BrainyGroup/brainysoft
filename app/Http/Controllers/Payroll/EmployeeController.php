@@ -13,14 +13,14 @@ use BrainySoft\Center;
 use BrainySoft\Company;
 use BrainySoft\Department;
 use BrainySoft\Designation;
-use BrainySoft\Employee;
+use BrainySoft\Payroll\Employee;
 use BrainySoft\Level;
 use BrainySoft\Pay;
 use BrainySoft\Salary;
 use BrainySoft\Scale;
 use BrainySoft\Statutory;
 use BrainySoft\Statutory_type;
-use BrainySoft\User;
+use BrainySoft\Payroll\User;
 use Carbon\Carbon;
 
 use Illuminate\Http\Request;
