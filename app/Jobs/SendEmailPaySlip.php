@@ -3,20 +3,20 @@
 namespace BrainySoft\Jobs;
 
 use Mail;
-use BrainySoft\User;
-use BrainySoft\Pay;
-use BrainySoft\Company;
-use BrainySoft\Employee;
+use BrainySoft\Payroll\User;
+use BrainySoft\Payroll\Pay;
+use BrainySoft\Payroll\Company;
+use BrainySoft\Payroll\Employee;
 use BrainySoft\Mail\Payslip;
-use BrainySoft\Designation;
-use BrainySoft\Scale;
-use BrainySoft\Center;
-use BrainySoft\Level;
-use BrainySoft\Payroll_group;
-use BrainySoft\Pay_statutory;
-use BrainySoft\Pay_allowance;
-use BrainySoft\Pay_deduction;
-use BrainySoft\Employment_type;
+use BrainySoft\Payroll\Designation;
+use BrainySoft\Payroll\Scale;
+use BrainySoft\Payroll\Center;
+use BrainySoft\Payroll\Level;
+use BrainySoft\Payroll\Payroll_group;
+use BrainySoft\Payroll\Pay_statutory;
+use BrainySoft\Payroll\Pay_allowance;
+use BrainySoft\Payroll\Pay_deduction;
+use BrainySoft\Payroll\Employment_type;
 
 use Illuminate\Contracts\Mail\Mailer;
 

@@ -52,7 +52,7 @@ Route::get('welcome', 'AllowanceController@welcome')->name('welcome');
 Route::get('allow_typ_auto', 'AllowanceController@allow_type_autocomp')->name('allow_typ_auto');
 
 
-$this->get('users/index', 'UserController@getUsersForDataTable')->name('users.table');
+//$this->get('users/index', 'UserController@getUsersForDataTable')->name('users.table');
 
 
 
@@ -64,7 +64,7 @@ Route::resource('allowances', 'AllowanceController');
 Route::resource('allowance_types', 'AllowanceTypeController');
 
 //bank routes
-Route::resource('banks', 'BankController');
+Route::resource('banks', 'Payroll\BankController');
 
 //center routes
 Route::resource('centers', 'CenterController');
@@ -157,7 +157,7 @@ Route::resource('statutories', 'StatutoryController');
 Route::resource('employee_statutories', 'EmployeeStatutoryController');
 
 //users
-Route::resource('/users', 'UserController');
+Route::resource('/users', 'Payroll\UserController');
 
 //  Route::get('/users', 'UserController@getUsers');
 // Route::delete('/users/{user}/delete', 'UserController@deleteUser');

@@ -67,7 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => BrainySoft\User::class,
+            'model' => BrainySoft\Payroll\User::class,
         ],
 
         // 'users' => [

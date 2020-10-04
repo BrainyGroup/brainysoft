@@ -1,6 +1,6 @@
 <?php
 
-namespace BrainySoft\Http\Controllers;
+namespace BrainySoft\Payroll\Http\Controllers\Payroll;
 
 
 
@@ -14,35 +14,37 @@ use DataTables;
 
 use Carbon\Carbon;
 
-use BrainySoft\Pay;
+use BrainySoft\Payroll\Pay;
 
-use BrainySoft\User;
+use BrainySoft\Payroll\User;
 
-use BrainySoft\Bank;
+use BrainySoft\Payroll\Bank;
 
-use BrainySoft\Paye;
+use BrainySoft\Payroll\Paye;
 
-use BrainySoft\Salary;
+use BrainySoft\Payroll\Salary;
 
-use BrainySoft\Company;
+use BrainySoft\Payroll\Company;
 
-use BrainySoft\Employee;
+use BrainySoft\Payroll\Employee;
 
-use BrainySoft\Statutory;
+use BrainySoft\Payroll\Statutory;
 
-use BrainySoft\Deduction;
+use BrainySoft\Payroll\Deduction;
 
-use BrainySoft\Allowance;
+use BrainySoft\Payroll\Allowance;
 
 use Illuminate\Http\Request;
 
-use BrainySoft\Pay_statutory;
+use BrainySoft\Payroll\Pay_statutory;
 
-use BrainySoft\Pay_deduction;
+use BrainySoft\Payroll\Pay_deduction;
 
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Log;
+
+use BrainySoft\Http\Controllers\Controller;
 
 
 

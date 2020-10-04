@@ -1,9 +1,12 @@
 <?php
 
-namespace BrainySoft\Http\Controllers;
+namespace BrainySoft\Http\Controllers\Payroll;
 
-use BrainySoft\Payment;
+use BrainySoft\Payroll\Payment;
+
 use Illuminate\Http\Request;
+
+use BrainySoft\Http\Controllers\Controller;
 
 class PaymentController extends Controller
 {

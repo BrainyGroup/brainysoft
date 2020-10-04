@@ -1,12 +1,17 @@
 <?php
 
-namespace BrainySoft\Http\Controllers;
+namespace BrainySoft\Http\Controllers\Payroll;
 
 use Illuminate\Support\Facades\DB;
-use BrainySoft\User;
-use BrainySoft\Company;
-use BrainySoft\Statutory;
+
+use BrainySoft\Payroll\User;
+
+use BrainySoft\Payroll\Company;
+
+use BrainySoft\Payroll\Statutory;
+
 use Illuminate\Http\Request;
+
 use BrainySoft\Http\Controllers\Controller;
 
 class StatutoryPaymentController extends Controller

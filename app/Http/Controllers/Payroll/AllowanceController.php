@@ -8,15 +8,15 @@ use Exception;
 
 use BrainySoft\Payroll\User;
 
-use BrainySoft\Company;
+use BrainySoft\Payroll\Company;
 
-use BrainySoft\Payroll\Employee;
+use BrainySoft\Payroll\Payroll\Employee;
 
-use BrainySoft\Allowance;
+use BrainySoft\Payroll\Allowance;
 
 use Illuminate\Http\Request;
 
-use BrainySoft\Allowance_type;
+use BrainySoft\Payroll\Allowance_type;
 
 use Illuminate\Support\Facades\DB;
 

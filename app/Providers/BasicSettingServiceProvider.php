@@ -2,7 +2,7 @@
 
 namespace BrainySoft\Providers;
 
-use BrainySoft\BasicSetting;
+use BrainySoft\Payroll\BasicSetting;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\App;

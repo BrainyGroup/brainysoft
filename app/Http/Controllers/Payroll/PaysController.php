@@ -1,11 +1,12 @@
 <?php
 
-namespace BrainySoft\Http\Controllers;
+namespace BrainySoft\Http\Controllers\Payroll;
 
 use BrainySoft\DataTables\PaysDataTable;
 
 use Illuminate\Http\Request;
 // use BrainySoft\Http\Controllers\Controller;
+use BrainySoft\Http\Controllers\Controller;
 
 
 class PaysController extends Controller

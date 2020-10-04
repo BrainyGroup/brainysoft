@@ -81,7 +81,7 @@
                             }"><i class="fa fa-trash text-secondary" aria-hidden="true"></i>
                           </a>
 
-                          {!! Form::open(['action' => ['UserController@destroy',$user->id],'method' => 'DELETE','id' => $user->id]) !!}
+                          {!! Form::open(['action' => ['Payroll\UserController@destroy',$user->id],'method' => 'DELETE','id' => $user->id]) !!}
 
                           {!! Form::close() !!}
                       </td>

@@ -1,6 +1,6 @@
 <?php
 
-namespace BrainySoft\Http\Controllers;
+namespace BrainySoft\Http\Controllers\Payroll;
 
 use BrainySoft\DataTables\UsersDataTable;
 
@@ -18,15 +18,17 @@ use Illuminate\Support\Facades\Storage;
 
 
 
-use BrainySoft\User;
+use BrainySoft\Payroll\User;
 
-use BrainySoft\Company;
+use BrainySoft\Payroll\Company;
 
-use BrainySoft\Employee;
+use BrainySoft\Payroll\Employee;
 
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Log;
+
+use BrainySoft\Http\Controllers\Controller;
 
 
 class UserControllerCopy extends Controller

@@ -1,6 +1,6 @@
 <?php
 
-namespace BrainySoft\Http\Controllers;
+namespace BrainySoft\Http\Controllers\Payroll;
 
 use DB;
 
@@ -8,19 +8,21 @@ use Exception;
 
 use Carbon\Carbon;
 
-use BrainySoft\User;
+use BrainySoft\Payroll\User;
 
-use BrainySoft\Company;
+use BrainySoft\Payroll\Company;
 
-use BrainySoft\Employee;
+use BrainySoft\Payroll\Employee;
 
-use BrainySoft\Deduction;
+use BrainySoft\Payroll\Deduction;
 
 use Illuminate\Http\Request;
 
-use BrainySoft\Deduction_type;
+use BrainySoft\Payroll\Deduction_type;
 
 use Illuminate\Support\Facades\Log;
+
+use BrainySoft\Http\Controllers\Controller;
 
 
 class DeductionController extends Controller

@@ -2,7 +2,7 @@
 
 namespace BrainySoft\Repositories;
 
-use BrainySoft\Bank;
+use BrainySoft\Payroll\Bank;
 use BrainySoft\Traits\UploadAble;
 use Illuminate\Http\UploadedFile;
 use BrainySoft\Contracts\BankContract;

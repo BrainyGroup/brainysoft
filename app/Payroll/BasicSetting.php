@@ -1,6 +1,6 @@
 <?php
 
-namespace BrainySoft;
+namespace BrainySoft\Payroll;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;

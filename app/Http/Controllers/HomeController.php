@@ -4,29 +4,29 @@ namespace BrainySoft\Http\Controllers;
 
 
 //use Mail;
-use BrainySoft\User;
-use BrainySoft\Pay;
+use BrainySoft\Payroll\User;
+use BrainySoft\Payroll\Pay;
 
 
-use BrainySoft\Bank;
-use BrainySoft\Scale;
-use BrainySoft\Level;
-use BrainySoft\Center;
-use BrainySoft\Company;
-//use BrainySoft\Pay_type;
-use BrainySoft\Kin_type;
-use BrainySoft\Employee;
-use BrainySoft\Statutory;
-use BrainySoft\Pay_base;
-use BrainySoft\Department;
-use BrainySoft\Designation;
-use BrainySoft\Salary_base;
-use BrainySoft\Pay_statutory;
-use BrainySoft\Payroll_group;
-use BrainySoft\Allowance_type;
-use BrainySoft\Deduction_type;
-use BrainySoft\Statutory_type;
-use BrainySoft\Employment_type;
+use BrainySoft\Payroll\Bank;
+use BrainySoft\Payroll\Scale;
+use BrainySoft\Payroll\Level;
+use BrainySoft\Payroll\Center;
+use BrainySoft\Payroll\Company;
+//use BrainySoft\Payroll\Pay_type;
+use BrainySoft\Payroll\Kin_type;
+use BrainySoft\Payroll\Employee;
+use BrainySoft\Payroll\Statutory;
+use BrainySoft\Payroll\Pay_base;
+use BrainySoft\Payroll\Department;
+use BrainySoft\Payroll\Designation;
+use BrainySoft\Payroll\Salary_base;
+use BrainySoft\Payroll\Pay_statutory;
+use BrainySoft\Payroll\Payroll_group;
+use BrainySoft\Payroll\Allowance_type;
+use BrainySoft\Payroll\Deduction_type;
+use BrainySoft\Payroll\Statutory_type;
+use BrainySoft\Payroll\Employment_type;
 use Carbon\Carbon;
 
 use Mail;
@@ -36,6 +36,8 @@ use Illuminate\Support\Facades\DB;
 use BrainySoft\Mail\Salaryslip;
 
 use Illuminate\Http\Request;
+
+use BrainySoft\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {

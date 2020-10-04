@@ -3,7 +3,7 @@
 namespace BrainySoft\Http\Middleware;
 
 use Closure;
-use BrainySoft\Role;
+use BrainySoft\Payroll\Role;
 
 class RolesAuth
 {

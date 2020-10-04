@@ -1,6 +1,6 @@
 <?php
 
-namespace BrainySoft\Http\Controllers;
+namespace BrainySoft\Http\Controllers\Payroll;
 
 use Illuminate\Support\Facades\DB;
 
@@ -16,33 +16,31 @@ use Exception;
 
 use Carbon\Carbon;
 
-use BrainySoft\Pay;
+use BrainySoft\Payroll\Pay;
 
-use BrainySoft\Payroll_group;
+use BrainySoft\Payroll\Payroll_group;
 
-use BrainySoft\Pay_allowance;
+use BrainySoft\Payroll\Pay_allowance;
 
-use BrainySoft\Pay_deduction;
+use BrainySoft\Payroll\Pay_deduction;
 
-use BrainySoft\Employment_type;
+use BrainySoft\Payroll\Employment_type;
 
-use BrainySoft\Scale;
+use BrainySoft\Payroll\Scale;
 
-use BrainySoft\Center;
+use BrainySoft\Payroll\Center;
 
-use BrainySoft\Level;
+use BrainySoft\Payroll\Level;
 
-use BrainySoft\User;
+use BrainySoft\Payroll\User;
 
-use BrainySoft\Paye;
+use BrainySoft\Payroll\Paye;
 
-use BrainySoft\Salary;
+use BrainySoft\Payroll\Salary;
 
-use BrainySoft\Company;
+use BrainySoft\Payroll\Company;
 
-use BrainySoft\Employee;
-
-
+use BrainySoft\Payroll\Employee;
 
 
 
@@ -50,19 +48,23 @@ use BrainySoft\Employee;
 
 
 
-use BrainySoft\Designation;
 
-use BrainySoft\Statutory;
 
-use BrainySoft\Deduction;
+use BrainySoft\Payroll\Designation;
 
-use BrainySoft\Allowance;
-use BrainySoft\EmployeeStatutory;
+use BrainySoft\Payroll\Statutory;
+
+use BrainySoft\Payroll\Deduction;
+
+use BrainySoft\Payroll\Allowance;
+use BrainySoft\Payroll\EmployeeStatutory;
 use Illuminate\Http\Request;
 
-use BrainySoft\Pay_statutory;
+use BrainySoft\Payroll\Pay_statutory;
 
 use Illuminate\Support\Facades\Log;
+
+use BrainySoft\Http\Controllers\Controller;
 
 
 

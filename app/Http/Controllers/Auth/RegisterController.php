@@ -4,9 +4,9 @@ namespace BrainySoft\Http\Controllers\Auth;
 
 use DB;
 use Carbon\Carbon;
-use BrainySoft\User;
-use BrainySoft\Country;
-use BrainySoft\Company;
+use BrainySoft\Payroll\User;
+use BrainySoft\Payroll\Country;
+use BrainySoft\Payroll\Company;
 use BrainySoft\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;

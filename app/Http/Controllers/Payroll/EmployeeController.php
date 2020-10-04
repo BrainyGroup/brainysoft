@@ -6,24 +6,38 @@
 // TODO: list next of kin for employees
 //// TODO: list statutory for employees
 
-namespace BrainySoft\Http\Controllers\Payroll;
+namespace BrainySoft\Payroll\Http\Controllers\Payroll;
 
-use BrainySoft\Bank;
-use BrainySoft\Center;
-use BrainySoft\Company;
-use BrainySoft\Department;
-use BrainySoft\Designation;
+use BrainySoft\Payroll\Bank;
+
+use BrainySoft\Payroll\Center;
+
+use BrainySoft\Payroll\Company;
+
+use BrainySoft\Payroll\Department;
+
+use BrainySoft\Payroll\Designation;
+
 use BrainySoft\Payroll\Employee;
-use BrainySoft\Level;
-use BrainySoft\Pay;
-use BrainySoft\Salary;
-use BrainySoft\Scale;
-use BrainySoft\Statutory;
-use BrainySoft\Statutory_type;
+
+use BrainySoft\Payroll\Level;
+
+use BrainySoft\Payroll\Pay;
+
+use BrainySoft\Payroll\Salary;
+
+use BrainySoft\Payroll\Scale;
+
+use BrainySoft\Payroll\Statutory;
+
+use BrainySoft\Payroll\Statutory_type;
+
 use BrainySoft\Payroll\User;
+
 use Carbon\Carbon;
 
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Log;
 
 use Illuminate\Support\Facades\DB;

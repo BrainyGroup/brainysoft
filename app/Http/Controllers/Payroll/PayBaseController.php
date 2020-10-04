@@ -1,14 +1,16 @@
 <?php
 
-namespace BrainySoft\Http\Controllers;
+namespace BrainySoft\Http\Controllers\Payroll;
 
-use BrainySoft\User;
+use BrainySoft\Payroll\User;
 
-use BrainySoft\Company;
+use BrainySoft\Payroll\Company;
 
-use BrainySoft\Pay_base;
+use BrainySoft\Payroll\Pay_base;
 
 use Illuminate\Http\Request;
+
+use BrainySoft\Http\Controllers\Controller;
 
 class PayBaseController extends Controller
 {

@@ -1,12 +1,13 @@
 <?php
 
-namespace BrainySoft\Http\Controllers;
+namespace BrainySoft\Http\Controllers\Payroll;
 
 use Illuminate\Http\Request;
-use BrainySoft\BasicSetting;
+use BrainySoft\Payroll\BasicSetting;
 use BrainySoft\Http\Controllers\BaseController;
 use Illuminate\Http\UploadedFile;
 use BrainySoft\Traits\UploadAble;
+use BrainySoft\Http\Controllers\Controller;
 
 
 class BasicSettingController extends BaseController

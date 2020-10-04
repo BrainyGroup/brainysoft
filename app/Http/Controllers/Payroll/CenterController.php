@@ -1,6 +1,6 @@
 <?php
 
-namespace BrainySoft\Http\Controllers;
+namespace BrainySoft\Http\Controllers\Payroll;
 
 use Illuminate\Http\Request;
 
@@ -8,13 +8,15 @@ use Illuminate\Support\Facades\Log;
 
 use Exception;
 
-use BrainySoft\User;
+use BrainySoft\Payroll\User;
 
-use BrainySoft\Center;
+use BrainySoft\Payroll\Center;
 
-use BrainySoft\Company;
+use BrainySoft\Payroll\Company;
 
-use BrainySoft\Employee;
+use BrainySoft\Payroll\Employee;
+
+use BrainySoft\Http\Controllers\Controller;
 
 class CenterController extends Controller
 {

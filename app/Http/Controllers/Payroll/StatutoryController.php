@@ -1,29 +1,31 @@
 <?php
 
-namespace BrainySoft\Http\Controllers;
+namespace BrainySoft\Http\Controllers\Payroll;
 
 
-use DB;
+use Illuminate\Support\Facades\DB;
 
 use Exception;
 
-use BrainySoft\User;
+use BrainySoft\Payroll\User;
 
-use BrainySoft\Company;
+use BrainySoft\Payroll\Company;
 
-use BrainySoft\Statutory;
+use BrainySoft\Payroll\Statutory;
 
-use BrainySoft\Employee;
+use BrainySoft\Payroll\Employee;
 
-use BrainySoft\Salary_base;
+use BrainySoft\Payroll\Salary_base;
 
-use BrainySoft\Organization;
+use BrainySoft\Payroll\Organization;
 
 use Illuminate\Http\Request;
 
-use BrainySoft\Statutory_type;
+use BrainySoft\Payroll\Statutory_type;
 
 use Illuminate\Support\Facades\Log;
+
+use BrainySoft\Http\Controllers\Controller;
 
 
 

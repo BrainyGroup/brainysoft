@@ -24,7 +24,7 @@ use BrainySoft\Http\Resources\UserResource;
 
 use BrainySoft\Payroll\User;
 
-use BrainySoft\Company;
+use BrainySoft\Payroll\Company;
 
 use BrainySoft\Payroll\Employee;
 

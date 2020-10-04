@@ -1,23 +1,25 @@
 <?php
 
-namespace BrainySoft\Http\Controllers;
+namespace BrainySoft\Http\Controllers\Payroll;
 
 
 use Exception;
 
-use BrainySoft\User;
+use BrainySoft\Payroll\User;
 
-use BrainySoft\Company;
+use BrainySoft\Payroll\Company;
 
-use BrainySoft\Employee;
+use BrainySoft\Payroll\Employee;
 
 use Illuminate\Http\Request;
 
-use BrainySoft\Allowance_type;
+use BrainySoft\Payroll\Allowance_type;
 
-use BrainySoft\Allowance;
+use BrainySoft\Payroll\Allowance;
 
 use Illuminate\Support\Facades\Log;
+
+use BrainySoft\Http\Controllers\Controller;
 
 
 class AllowanceTypeController extends Controller

@@ -1,14 +1,16 @@
 <?php
 
-namespace BrainySoft\Http\Controllers;
+namespace BrainySoft\Http\Controllers\Payroll;
 
 use Illuminate\Http\Request;
 //use BrainySoft\Http\Controllers\Controller;
 use BrainySoft\Contracts\BankContract;
 use BrainySoft\Http\Controllers\BaseController;
-use BrainySoft\Bank;
-use BrainySoft\Company;
-use BrainySoft\User;
+use BrainySoft\Payroll\Bank;
+use BrainySoft\Payroll\Company;
+use BrainySoft\Payroll\User;
+
+use BrainySoft\Http\Controllers\Controller;
 /**
  * Class BankController
  * @package Brainysoft\Http\Controllers\Admin

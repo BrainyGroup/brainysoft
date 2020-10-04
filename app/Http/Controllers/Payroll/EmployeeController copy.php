@@ -6,51 +6,53 @@
 // TODO: list next of kin for employees
 //// TODO: list statutory for employees
 
-namespace BrainySoft\Http\Controllers;
+namespace BrainySoft\Http\Controllers\Payroll;
 
 use Exception;
 
 use Carbon\Carbon;
 
-use BrainySoft\Pay;
+use BrainySoft\Payroll\Pay;
 
-use BrainySoft\User;
+use BrainySoft\Payroll\User;
 
-use BrainySoft\Bank;
+use BrainySoft\Payroll\Bank;
 
-use BrainySoft\Level;
+use BrainySoft\Payroll\Level;
 
-use BrainySoft\Scale;
+use BrainySoft\Payroll\Scale;
 
-use BrainySoft\Center;
+use BrainySoft\Payroll\Center;
 
-use BrainySoft\Salary;
+use BrainySoft\Payroll\Salary;
 
-use BrainySoft\Company;
+use BrainySoft\Payroll\Company;
 
-use BrainySoft\Employee;
+use BrainySoft\Payroll\Employee;
 
-use BrainySoft\Pay_base;
+use BrainySoft\Payroll\Pay_base;
 
-use BrainySoft\Deduction;
+use BrainySoft\Payroll\Deduction;
 
-use BrainySoft\Statutory;
+use BrainySoft\Payroll\Statutory;
 
-use BrainySoft\Department;
+use BrainySoft\Payroll\Department;
 
-use BrainySoft\Designation;
+use BrainySoft\Payroll\Designation;
 
 use Illuminate\Http\Request;
 
-use BrainySoft\Payroll_group;
+use BrainySoft\Payroll\Payroll_group;
 
-use BrainySoft\Statutory_type;
+use BrainySoft\Payroll\Statutory_type;
 
-use BrainySoft\Employment_type;
+use BrainySoft\Payroll\Employment_type;
 
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Log;
+
+use BrainySoft\Http\Controllers\Controller;
 
 
 class EmployeeControllerCopy extends Controller

@@ -1,9 +1,12 @@
 <?php
 
-namespace BrainySoft\Http\Controllers;
+namespace BrainySoft\Http\Controllers\Payroll;
 
-use BrainySoft\Pay_deduction;
+use BrainySoft\Payroll\Pay_deduction;
+
 use Illuminate\Http\Request;
+
+use BrainySoft\Http\Controllers\Controller;
 
 class PayDeductionController extends Controller
 {

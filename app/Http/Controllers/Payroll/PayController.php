@@ -1,30 +1,54 @@
 <?php
 
-namespace BrainySoft\Http\Controllers;
+namespace BrainySoft\Http\Controllers\Payroll;
 
-use BrainySoft\Allowance;
-use BrainySoft\Center;
-use BrainySoft\Company;
-use BrainySoft\Deduction;
-use BrainySoft\Designation;
-use BrainySoft\Employee;
-use BrainySoft\Employment_type;
-use BrainySoft\EmployeeStatutory;
-use BrainySoft\Jobs\SendEmailPaySlip;
-use BrainySoft\Level;
-use BrainySoft\Pay;
-use BrainySoft\Paye;
-use BrainySoft\Payroll_group;
-use BrainySoft\Pay_allowance;
-use BrainySoft\Pay_deduction;
-use BrainySoft\Pay_statutory;
-use BrainySoft\Salary;
-use BrainySoft\Scale;
-use BrainySoft\User;
+use BrainySoft\Payroll\Allowance;
+
+use BrainySoft\Payroll\Center;
+
+use BrainySoft\Payroll\Company;
+
+use BrainySoft\Payroll\Deduction;
+
+use BrainySoft\Payroll\Designation;
+
+use BrainySoft\Payroll\Employee;
+
+use BrainySoft\Payroll\Employment_type;
+
+use BrainySoft\Payroll\EmployeeStatutory;
+
+use BrainySoft\Payroll\Jobs\SendEmailPaySlip;
+
+use BrainySoft\Payroll\Level;
+
+use BrainySoft\Payroll\Pay;
+
+use BrainySoft\Payroll\Paye;
+
+use BrainySoft\Payroll\Payroll_group;
+
+use BrainySoft\Payroll\Pay_allowance;
+
+use BrainySoft\Payroll\Pay_deduction;
+
+use BrainySoft\Payroll\Pay_statutory;
+
+use BrainySoft\Payroll\Salary;
+
+use BrainySoft\Payroll\Scale;
+
+use BrainySoft\Payroll\User;
+
 use Carbon\Carbon;
+
 use Illuminate\Support\Facades\DB;
+
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Mail;
+
+use BrainySoft\Http\Controllers\Controller;
 
 use PDF;
 
