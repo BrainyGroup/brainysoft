@@ -91,19 +91,19 @@ Route::resource('departments', 'DepartmentController');
 Route::resource('designations', 'DesignationController');
 
 //employees routes
-Route::resource('employees', '\Brainysoft\Http\Controllers\Payroll\EmployeeController');
+Route::resource('employees', 'EmployeeController');
 
 //Kin type routes
 Route::resource('kin_types', 'KinTypeController');
 
 //kin routes
-Route::resource('kins', '\Brainysoft\Http\Controllers\KinController');
+Route::resource('kins', 'KinController');
 
 //Level routes
 Route::resource('levels', 'LevelController');
 
 //Organization
-Route::resource('organizations', '\app\Http\Controllers\OrganizationController');
+Route::resource('organizations', 'OrganizationController');
 
 Route::get('/pays/create_previous', 'PayController@previousCreate');
 
@@ -145,7 +145,7 @@ Route::resource('salaries', 'SalaryController');
 Route::resource('scales', 'ScaleController');
 
 //setting route
-Route::resource('settings', '\App\Http\Controllers\SettingController');
+Route::resource('settings', 'SettingController');
 
 //statutory type route
 Route::resource('statutory_types', 'StatutoryTypeController');
@@ -157,7 +157,7 @@ Route::resource('statutories', 'StatutoryController');
 Route::resource('employee_statutories', 'EmployeeStatutoryController');
 
 //users
-Route::resource('/users', '\App\Http\Controllers\Payroll\UserController');
+Route::resource('/users', 'UserController');
 
 //  Route::get('/users', 'UserController@getUsers');
 // Route::delete('/users/{user}/delete', 'UserController@deleteUser');

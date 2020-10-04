@@ -6,7 +6,7 @@
 // TODO: list next of kin for employees
 //// TODO: list statutory for employees
 
-namespace BrainySoft\Http\Controllers;
+namespace BrainySoft\Http\Controllers\Payroll;
 
 use BrainySoft\Bank;
 use BrainySoft\Center;
@@ -27,6 +27,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 use Illuminate\Support\Facades\DB;
+
+use BrainySoft\Http\Controllers\Controller;
 
 
 class EmployeeController extends Controller

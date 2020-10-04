@@ -1,6 +1,6 @@
 <?php
 
-namespace BrainySoft\Http\Controllers;
+namespace BrainySoft\Http\Controllers\Payroll;
 
 //use DB;
 
@@ -21,6 +21,8 @@ use BrainySoft\Allowance_type;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Log;
+
+use BrainySoft\Http\Controllers\Controller;
 
 use Carbon\Carbon;
 
