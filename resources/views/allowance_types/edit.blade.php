@@ -7,7 +7,7 @@
 
         <div class="card-body">
 
-            {!! Form::open(['action' => array('AllowanceTypeController@update', $allowance_type->id),'method' => 'PUT']) !!}
+            {!! Form::open(['action' => array('Payroll\AllowanceTypeController@update', $allowance_type->id),'method' => 'PUT']) !!}
 
             {{ Form::bsText('name',$allowance_type->name,['placeholder' => __('messages.enter name')]) }}         
 

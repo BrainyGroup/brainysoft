@@ -6,7 +6,7 @@
         <div class="card-header">{{ __('messages.allowance') }}</div>
 
         <div class="card-body">
-                {!! Form::open(['action' => array('AllowanceController@update', $allowance->id),'method' => 'PUT']) !!}
+                {!! Form::open(['action' => array('Payroll\AllowanceController@update', $allowance->id),'method' => 'PUT']) !!}
 
                 {{ Form::bsText('allowance_amount',$allowance->amount,['placeholder' => 'Enter Allowance Amount']) }} 
 

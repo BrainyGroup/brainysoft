@@ -6,7 +6,7 @@
 // TODO: list next of kin for employees
 //// TODO: list statutory for employees
 
-namespace BrainySoft\Payroll\Http\Controllers\Payroll;
+namespace BrainySoft\Http\Controllers\Payroll;
 
 use BrainySoft\Payroll\Bank;
 

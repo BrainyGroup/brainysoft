@@ -13,7 +13,7 @@
             @endif
 
 
-                      {!! Form::open(['action' => array('EmployeeController@update', $employee->id),'method' => 'PUT']) !!}
+                      {!! Form::open(['action' => array('Payroll\EmployeeController@update', $employee->id),'method' => 'PUT']) !!}
 
 
 

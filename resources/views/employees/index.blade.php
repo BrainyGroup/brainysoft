@@ -80,7 +80,7 @@
                           }">Delete
                         </a>
 
-                        {!! Form::open(['action' => ['EmployeeController@destroy',$employee->id],'method' => 'DELETE','id' => $employee->id]) !!}
+                        {!! Form::open(['action' => ['Payroll\EmployeeController@destroy',$employee->id],'method' => 'DELETE','id' => $employee->id]) !!}
 
                         {!! Form::close() !!}
                     </td>

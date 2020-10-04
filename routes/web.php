@@ -48,113 +48,113 @@ Route::get('/logout', function()
 
 //Allowance routes
 
-Route::get('welcome', 'AllowanceController@welcome')->name('welcome');
-Route::get('allow_typ_auto', 'AllowanceController@allow_type_autocomp')->name('allow_typ_auto');
+Route::get('welcome', 'Payroll\AllowanceController@welcome')->name('welcome');
+Route::get('allow_typ_auto', 'Payroll\AllowanceController@allow_type_autocomp')->name('allow_typ_auto');
 
 
 //$this->get('users/index', 'UserController@getUsersForDataTable')->name('users.table');
 
 
 
-Route::resource('allowances', 'AllowanceController');
+Route::resource('allowances', 'Payroll\AllowanceController');
 
 // Route::get('allowance_details', 'AllowanceController@allowanceDetails');
 
 //allowance types routes
-Route::resource('allowance_types', 'AllowanceTypeController');
+Route::resource('allowance_types', 'Payroll\AllowanceTypeController');
 
 //bank routes
 Route::resource('banks', 'Payroll\BankController');
 
 //center routes
-Route::resource('centers', 'CenterController');
+Route::resource('centers', 'Payroll\CenterController');
 
 //company routes
-Route::resource('companies', 'CompanyController');
+Route::resource('companies', 'Payroll\CompanyController');
 
 //contribution route
 // Route::resource('contributions', 'ContributionController');
 
 //country routes
-Route::resource('countries', 'CountryController');
+Route::resource('countries', 'Payroll\CountryController');
 
 //deduction routes
-Route::resource('deductions', 'DeductionController');
+Route::resource('deductions', 'Payroll\DeductionController');
 
 //deduction type routes
-Route::resource('deduction_types', 'DeductionTypeController');
+Route::resource('deduction_types', 'Payroll\DeductionTypeController');
 
 //department routes
-Route::resource('departments', 'DepartmentController');
+Route::resource('departments', 'Payroll\DepartmentController');
 
 //designation routes
-Route::resource('designations', 'DesignationController');
+Route::resource('designations', 'Payroll\DesignationController');
 
 //employees routes
-Route::resource('employees', 'EmployeeController');
+Route::resource('employees', 'Payroll\EmployeeController');
 
 //Kin type routes
-Route::resource('kin_types', 'KinTypeController');
+Route::resource('kin_types', 'Payroll\KinTypeController');
 
 //kin routes
-Route::resource('kins', 'KinController');
+Route::resource('kins', 'Payroll\KinController');
 
 //Level routes
-Route::resource('levels', 'LevelController');
+Route::resource('levels', 'Payroll\LevelController');
 
 //Organization
-Route::resource('organizations', 'OrganizationController');
+Route::resource('organizations', 'Payroll\OrganizationController');
 
-Route::get('/pays/create_previous', 'PayController@previousCreate');
+Route::get('/pays/create_previous', 'Payroll\PayController@previousCreate');
 
 //pay routes
-Route::resource('pays', 'PayController');
+Route::resource('pays', 'Payroll\PayController');
 
 
 
-Route::match(['put', 'patch'], '/pays/update/{id}','PayController@post');
+Route::match(['put', 'patch'], '/pays/update/{id}','Payroll\PayController@post');
 
-Route::get('/downloadPDF/{id}','PayController@downloadPDF');
+Route::get('/downloadPDF/{id}','Payroll\PayController@downloadPDF');
 
 //paye routes
-Route::resource('payes', 'PayeController');
+Route::resource('payes', 'Payroll\PayeController');
 
 //payroll groups routes
-Route::resource('payroll_groups', 'PayrollGroupController');
+Route::resource('payroll_groups', 'Payroll\PayrollGroupController');
 
 
 //pay base routes
-Route::resource('pay_types', 'PayBaseController');
+Route::resource('pay_types', 'Payroll\PayBaseController');
 
 //role routes
-Route::resource('roles', 'RoleController');
+Route::resource('roles', 'Payroll\RoleController');
 
 
 
 
 //employment type routes
-Route::resource('employment_types', 'EmploymentTypeController');
+Route::resource('employment_types', 'Payroll\EmploymentTypeController');
 
 //salary type route
-Route::resource('salary_bases', 'SalaryBaseController');
+Route::resource('salary_bases', 'Payroll\SalaryBaseController');
 
 //salary route
-Route::resource('salaries', 'SalaryController');
+Route::resource('salaries', 'Payroll\SalaryController');
 
 //scale routes
-Route::resource('scales', 'ScaleController');
+Route::resource('scales', 'Payroll\ScaleController');
 
 //setting route
-Route::resource('settings', 'SettingController');
+Route::resource('settings', 'Payroll\SettingController');
 
 //statutory type route
-Route::resource('statutory_types', 'StatutoryTypeController');
+Route::resource('statutory_types', 'Payroll\StatutoryTypeController');
 
 //statutory
-Route::resource('statutories', 'StatutoryController');
+Route::resource('statutories', 'Payroll\StatutoryController');
 
 //statutory
-Route::resource('employee_statutories', 'EmployeeStatutoryController');
+Route::resource('employee_statutories', 'Payroll\EmployeeStatutoryController');
 
 //users
 Route::resource('/users', 'Payroll\UserController');
@@ -167,71 +167,71 @@ Route::resource('/users', 'Payroll\UserController');
 
 //Reports
 
-Route::get('/reports/net','ReportController@net');
+Route::get('/reports/net','Payroll\ReportController@net');
 
 
- Route::get('/reports/net_by_bank','ReportController@netByBank');
- Route::get('/reports/paye','ReportController@paye');
- Route::get('/reports','ReportController@index');
- Route::post('/reports/current_pay','ReportController@currentPay');
- Route::get('/reports/pay_details','ReportController@payDetails');
- Route::get('/reports/monthly_create','ReportController@monthlyCreate');
- Route::get('/reports/statutory_list','ReportController@statutoryList');
- Route::get('/reports/net_list_by_bank','ReportController@netListByBank');
+ Route::get('/reports/net_by_bank','Payroll\ReportController@netByBank');
+ Route::get('/reports/paye','Payroll\ReportController@paye');
+ Route::get('/reports','Payroll\ReportController@index');
+ Route::post('/reports/current_pay','Payroll\ReportController@currentPay');
+ Route::get('/reports/pay_details','Payroll\ReportController@payDetails');
+ Route::get('/reports/monthly_create','Payroll\ReportController@monthlyCreate');
+ Route::get('/reports/statutory_list','Payroll\ReportController@statutoryList');
+ Route::get('/reports/net_list_by_bank','Payroll\ReportController@netListByBank');
 
- Route::get('/reports/create_user', 'ReportController@createUser');
+ Route::get('/reports/create_user', 'Payroll\ReportController@createUser');
 
-Route::get('/reports/index_user', 'ReportController@indexUser');
+Route::get('/reports/index_user', 'Payroll\ReportController@indexUser');
 
-Route::resource('/reports/users', 'UsersController');
+Route::resource('/reports/users', 'Payroll\UsersController');
 
-Route::resource('/reports/pays', 'PaysController');
+Route::resource('/reports/pays', 'Payroll\PaysController');
 
-Route::get('/reports/employee_pay', 'ReportController@pay_by_employee');
+Route::get('/reports/employee_pay', 'Payroll\ReportController@pay_by_employee');
 
-Route::get('/reports/monthly_summary', 'ReportController@monthly_summary');
+Route::get('/reports/monthly_summary', 'Payroll\ReportController@monthly_summary');
 
-Route::get('/reports/monthly_create', 'ReportController@monthlyCreate');
+Route::get('/reports/monthly_create', 'Payroll\ReportController@monthlyCreate');
 
-Route::get('/reports/yearly_create', 'ReportController@yearlyCreate');
+Route::get('/reports/yearly_create', 'Payroll\ReportController@yearlyCreate');
 
-Route::get('/reports/yearly_pay', 'ReportController@yearly_pay');
+Route::get('/reports/yearly_pay', 'Payroll\ReportController@yearly_pay');
 
-Route::get('/employee_payments/create', 'EmployeePaymentController@create');
+Route::get('/employee_payments/create', 'Payroll\EmployeePaymentController@create');
 
-Route::post('/employee_payments', 'EmployeePaymentController@store');
+Route::post('/employee_payments', 'Payroll\EmployeePaymentController@store');
 
-Route::get('/statutory_payments/create', 'StatutoryPaymentController@create');
-
-
-
-Route::post('/statutory_payments', 'StatutoryPaymentController@store');
-
-
-Route::get('/reports/paye_yearly_create', 'ReportController@paye_yearly_create');
-
-Route::get('/reports/paye_yearly', 'ReportController@paye_yearly');
+Route::get('/statutory_payments/create', 'Payroll\StatutoryPaymentController@create');
 
 
 
-Route::get('/reports/paye_all', 'ReportController@paye_all');
+Route::post('/statutory_payments', 'Payroll\StatutoryPaymentController@store');
+
+
+Route::get('/reports/paye_yearly_create', 'Payroll\ReportController@paye_yearly_create');
+
+Route::get('/reports/paye_yearly', 'Payroll\ReportController@paye_yearly');
 
 
 
-Route::get('/reports/statutory_yearly_create', 'ReportController@statutory_yearly_create');
-
-Route::get('/reports/statutory_yearly', 'ReportController@statutory_yearly');
-
-
-Route::get('/reports/statutory_all_create', 'ReportController@statutory_all_create');
-
-Route::get('/reports/statutory_all', 'ReportController@statutory_all');
+Route::get('/reports/paye_all', 'Payroll\ReportController@paye_all');
 
 
 
-Route::get('/reports/statutory_employee_all_create', 'ReportController@statutory_employee_all_create');
+Route::get('/reports/statutory_yearly_create', 'Payroll\ReportController@statutory_yearly_create');
 
-Route::get('/reports/statutory_employee_all', 'ReportController@statutory_employee_all');
+Route::get('/reports/statutory_yearly', 'Payroll\ReportController@statutory_yearly');
+
+
+Route::get('/reports/statutory_all_create', 'Payroll\ReportController@statutory_all_create');
+
+Route::get('/reports/statutory_all', 'Payroll\ReportController@statutory_all');
+
+
+
+Route::get('/reports/statutory_employee_all_create', 'Payroll\ReportController@statutory_employee_all_create');
+
+Route::get('/reports/statutory_employee_all', 'Payroll\ReportController@statutory_employee_all');
 
 
 
@@ -240,5 +240,5 @@ Route::get('/reports/statutory_employee_all', 'ReportController@statutory_employ
 
 //Route::view('/admin', 'admin.dashboard.index');
 
-Route::get('/basic_settings', 'BasicSettingController@index')->name('basic_settings');
-Route::post('/basic_settings', 'BasicSettingController@update')->name('basic_settings.update');
+Route::get('/basic_settings', 'Payroll\BasicSettingController@index')->name('basic_settings');
+Route::post('/basic_settings', 'Payroll\BasicSettingController@update')->name('basic_settings.update');
