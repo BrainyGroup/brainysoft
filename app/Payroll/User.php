@@ -1,9 +1,10 @@
 <?php
 
-namespace BrainySoft;
+namespace BrainySoft\Payroll;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -93,7 +94,7 @@ class User extends Authenticatable
     }
 
     public function age() {
-    return $this->dob->diffInYears(\Carbon::now());
+    return $this->dob->diffInYears(Carbon::now());
     }
 
     public function scaopeNotEmployee($id){

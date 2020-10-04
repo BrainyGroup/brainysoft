@@ -1,9 +1,9 @@
 <?php
 
-namespace BrainySoft;
+namespace BrainySoft\Payroll;
 
 use Illuminate\Database\Eloquent\Model;
-use Carbon;
+use Carbon\Carbon;
 
 class Employee extends Model
 {
