@@ -75,7 +75,7 @@ class UserController extends Controller
         
         $users = User::where('company_id',$company->id)->get();   
         
-        
+        dd("test");
 
         return view('users.index', compact('users','company'));
 
