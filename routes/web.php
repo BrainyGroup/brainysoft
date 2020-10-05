@@ -34,7 +34,7 @@ Route::get('/reports', 'ReportController@index')->name('reports');
 //     return view('contacts');
 // });
 
-/* Route::get('/', function () {
+Route::get('/', function () {
     return view('auth.login');
 });
 
@@ -44,7 +44,7 @@ Route::get('/logout', function()
 	  Session::flush();
 		return Redirect('login');
 	});
- */
+
 
 //Allowance routes
 
