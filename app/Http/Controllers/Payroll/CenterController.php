@@ -23,7 +23,7 @@ class CenterController extends Controller
     public function __construct()
     {
 
-      dd('test');
+     
 
         //$this->middleware('auth');
         $this->middleware('role');
@@ -32,6 +32,7 @@ class CenterController extends Controller
 
     private function company()
     {
+      dd('test');
       $user = User::find(auth()->user()->id);
 
       return Company::find($user->company_id);
