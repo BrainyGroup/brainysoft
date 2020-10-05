@@ -27,6 +27,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/reports', 'ReportController@index')->name('reports');
 
+Route::resource('/users', 'Payroll\UserController');
+
 
 // Auth::routes();
 
@@ -157,9 +159,9 @@ Route::resource('statutories', 'Payroll\StatutoryController');
 Route::resource('employee_statutories', 'Payroll\EmployeeStatutoryController');
 
 //users
-//Route::resource('/users', 'Payroll\UserController');
 
-Route::get('/users/index', 'Payroll\UserController@index')->name('users');
+
+//Route::get('/users/index', 'Payroll\UserController@index')->name('users');
 
 //  Route::get('/users', 'UserController@getUsers');
 // Route::delete('/users/{user}/delete', 'UserController@deleteUser');
