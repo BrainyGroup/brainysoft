@@ -157,7 +157,7 @@ Route::resource('statutories', 'Payroll\StatutoryController');
 Route::resource('employee_statutories', 'Payroll\EmployeeStatutoryController');
 
 //users
-Route::resource('/users', 'Payroll\UserController');
+//Route::resource('/users', 'Payroll\UserController');
 
 Route::get('/users/index', 'Payroll\UserController@index')->name('users');
 
