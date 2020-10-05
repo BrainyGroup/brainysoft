@@ -1,6 +1,6 @@
 <?php
 
-namespace BrainySoft\Payroll\Http\Controllers\Payroll;
+namespace BrainySoft\Http\Controllers\Payroll;
 
 
 
