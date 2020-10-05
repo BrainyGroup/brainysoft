@@ -26,7 +26,7 @@ Auth::routes();
 
 //Route::resource('centers', 'CenterController');
 
-Route::get('/centers', 'CenterController@index')->home('centers');
+Route::get('/centers', 'CenterController@index')->name('centers');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/reports', 'ReportController@index')->name('reports');
