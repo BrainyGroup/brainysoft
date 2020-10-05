@@ -24,7 +24,9 @@ use Illuminate\Support\Facades\Session;
 
 Auth::routes();
 
-Route::resource('centers', 'CenterController');
+//Route::resource('centers', 'CenterController');
+
+Route::get('/centers', 'CenterController@index')->home('centers');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/reports', 'ReportController@index')->name('reports');
