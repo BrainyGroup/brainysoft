@@ -10,7 +10,7 @@ use BrainySoft\Payroll\User;
 
 use BrainySoft\Payroll\Company;
 
-use BrainySoft\Payroll\Payroll\Employee;
+use BrainySoft\Payroll\Employee;
 
 use BrainySoft\Payroll\Allowance;
 

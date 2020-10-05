@@ -1,6 +1,6 @@
 <?php
 
-namespace BrainySoft\Http\Controllers\Payroll;
+namespace BrainySoft\Http\Controllers;
 
 use Illuminate\Http\Request;
 
@@ -32,7 +32,7 @@ class CenterController extends Controller
 
     private function company()
     {
-      dd('test');
+      
       $user = User::find(auth()->user()->id);
 
       return Company::find($user->company_id);
@@ -44,6 +44,7 @@ class CenterController extends Controller
      */
     public function index()
     {
+      dd('test');
           try{
 
             $company = $this->company();
