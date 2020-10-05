@@ -159,6 +159,8 @@ Route::resource('employee_statutories', 'Payroll\EmployeeStatutoryController');
 //users
 Route::resource('/users', 'Payroll\UserController');
 
+Route::get('/users/index', 'Payroll\UserController@index')->name('users');
+
 //  Route::get('/users', 'UserController@getUsers');
 // Route::delete('/users/{user}/delete', 'UserController@deleteUser');
 
