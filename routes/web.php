@@ -246,9 +246,9 @@ Route::post('/basic_settings', 'Payroll\BasicSettingController@update')->name('b
 //     return view('auth.login');
 // });
 
-Route::get('/logout', function()
-	{
-		Auth::logout();
-	  Session::flush();
-		return Redirect('login');
-	});
+// Route::get('/logout', function()
+// 	{
+// 		Auth::logout();
+// 	  Session::flush();
+// 		return Redirect('login');
+// 	});
