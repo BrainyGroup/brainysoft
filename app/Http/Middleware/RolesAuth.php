@@ -30,6 +30,8 @@ class RolesAuth
             $_namespaces_chunks = explode('\\', $permission->controller);
             $controller = end($_namespaces_chunks);
 
+            dd($controller);
+
             if ($actionName == $controller . '@' . $permission->method)
             {
                 // authorized request
