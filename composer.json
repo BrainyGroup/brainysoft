@@ -26,6 +26,8 @@
     },
     "autoload": {
         "classmap": [
+            "app/Payroll",
+            "app/Http/Controllers/Payroll",
             "database/seeds",
             "database/factories"
         ],
