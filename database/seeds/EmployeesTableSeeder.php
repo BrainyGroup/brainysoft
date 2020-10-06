@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use BrainySoft\User;
+use BrainySoft\Payroll\User;
 use Carbon\Carbon;
 
 class EmployeesTableSeeder extends Seeder
