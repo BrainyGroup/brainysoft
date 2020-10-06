@@ -18,6 +18,8 @@ class RolesAuth
     {
         // get user role permissions
         $role = Role::findOrFail(auth()->user()->role_id);
+
+        dd( $role);
         $permissions = $role->permissions;
 
        
@@ -30,7 +32,7 @@ class RolesAuth
             $_namespaces_chunks = explode('\\', $permission->controller);
             $controller = end($_namespaces_chunks);
 
-            dd($controller);
+            
 
             if ($actionName == $controller . '@' . $permission->method)
             {
