@@ -18,8 +18,8 @@ class PaymentController extends Controller
     public function __construct()
     {
 
-        //$this->middleware('auth');
-        $this->middleware('role');
+        $this->middleware('auth');
+        //$this->middleware('role');
 
     }
     public function index()

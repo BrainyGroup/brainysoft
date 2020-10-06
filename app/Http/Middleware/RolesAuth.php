@@ -19,7 +19,7 @@ class RolesAuth
         // get user role permissions
         $role = Role::findOrFail(auth()->user()->role_id);
 
-        dd( $role);
+        
         $permissions = $role->permissions;
 
        

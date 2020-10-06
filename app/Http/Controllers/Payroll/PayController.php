@@ -58,7 +58,8 @@ class PayController extends Controller
     public function __construct()
     {
 
-        $this->middleware('role');
+        //$this->middleware('role');
+        $this->middleware('auth');
      
 
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace BrainySoft\Http\Controllers;
+namespace BrainySoft\Http\Controllers\Payroll;
 
 use Illuminate\Http\Request;
 
