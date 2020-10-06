@@ -25,8 +25,8 @@ class CenterController extends Controller
 
      
 
-        //$this->middleware('auth');
-        $this->middleware('role');
+        $this->middleware('auth');
+        //$this->middleware('role');
 
     }
 
