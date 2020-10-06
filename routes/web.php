@@ -242,9 +242,9 @@ Route::get('/reports/statutory_employee_all', 'Payroll\ReportController@statutor
 Route::get('/basic_settings', 'Payroll\BasicSettingController@index')->name('basic_settings');
 Route::post('/basic_settings', 'Payroll\BasicSettingController@update')->name('basic_settings.update');
 
-Route::get('/', function () {
-    return view('auth.login');
-});
+// Route::get('/', function () {
+//     return view('auth.login');
+// });
 
 Route::get('/logout', function()
 	{
