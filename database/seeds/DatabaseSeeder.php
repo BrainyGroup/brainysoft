@@ -13,6 +13,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
          $this->call([
+          LevelsTableSeeder::class,
+          DesignationsTableSeeder::class,
+          Employee_statutoriesTableSeeder::class,
+          PaysTableSeeder::class,
            UsersTableSeeder::class,
            CountriesTableSeeder::class,
            Salary_basesTableSeeder::class,
@@ -30,10 +34,7 @@ class DatabaseSeeder extends Seeder
            Allowance_typesTableSeeder::class,
            DeductionsTableSeeder::class,
            AllowancesTableSeeder::class,
-           //LevelsTableSeeder::class,
-           DesignationsTableSeeder::class,
-           Employee_statutoriesTableSeeder::class,
-           PaysTableSeeder::class,
+
            Pay_statutoriesTableSeeder::class,
            DepartmentTableSeeder::class,
            Payroll_groupTableSeeder::class,
