@@ -404,7 +404,7 @@ class EmployeeController extends Controller
 
         $company = $this->company();
 
-        dd($employee->id);
+        
 
         $employeeExist = Employee::where('company_id', $company->id)->exists();
 
@@ -549,9 +549,13 @@ class EmployeeController extends Controller
 
             ->first();
 
+            dd($employee->id);
+
         $kins = DB::table('kin')
 
             ->where('kin.company_id', $company->id)
+
+           
 
             ->where('employee_id', $employee->id)
 
