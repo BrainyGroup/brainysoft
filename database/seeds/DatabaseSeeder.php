@@ -46,5 +46,7 @@ class DatabaseSeeder extends Seeder
            PermissionTableSeeder::class,
 
          ]);
+
+         $this->call('LevelsTableSeeder');
     }
 }
