@@ -166,7 +166,7 @@ class ReportController extends Controller
 
                    
        
-                    $pays = DB::table('Pays')
+                    $pays = DB::table('pays')
 
                     ->joinSub($pay_deductions, 'pay_deductions', function($join) {
             
