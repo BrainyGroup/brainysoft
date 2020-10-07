@@ -11,7 +11,7 @@
                     {{ session('status') }}
                 </div>
             @endif
-            {!! Form::open(['action' => array('SalaryBaseController@update', $salary_base->id),'method' => 'PUT']) !!}
+            {!! Form::open(['action' => array('Payroll\SalaryBaseController@update', $salary_base->id),'method' => 'PUT']) !!}
 
             {{ Form::bsText('name', $salary_base->name,['placeholder' => 'Enter salary name']) }}
 

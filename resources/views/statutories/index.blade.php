@@ -79,7 +79,7 @@
                             }">Delete
                           </a>
 
-                          {!! Form::open(['action' => ['StatutoryController@destroy',$statutory->id],'method' => 'DELETE','id' => $statutory->id]) !!}
+                          {!! Form::open(['action' => ['Payroll\StatutoryController@destroy',$statutory->id],'method' => 'DELETE','id' => $statutory->id]) !!}
 
                           {!! Form::close() !!}
                       </td>

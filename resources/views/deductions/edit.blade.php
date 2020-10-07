@@ -13,7 +13,7 @@
             @endif
 
 
-                  {!! Form::open(['action' => array('DeductionController@update', $deduction->id),'method' => 'PUT']) !!}
+                  {!! Form::open(['action' => array('Payroll\DeductionController@update', $deduction->id),'method' => 'PUT']) !!}
 
                     {{ Form::bsText('amount',$deduction->amount,['placeholder' => 'Enter Deduction Amount']) }}
 

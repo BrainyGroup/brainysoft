@@ -6,7 +6,7 @@
         <div class="card-header">Dashboard</div>
 
         <div class="card-body">
-           {!! Form::open(['action' => array('CountryController@update', $country->id),'method' => 'PUT']) !!}
+           {!! Form::open(['action' => array('Payroll\CountryController@update', $country->id),'method' => 'PUT']) !!}
 
              {{ Form::bsText('name',$country->name,['placeholder' => 'Enter country name']) }}
 

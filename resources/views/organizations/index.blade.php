@@ -57,7 +57,7 @@
                             }">Delete
                           </a>
 
-                          {!! Form::open(['action' => ['OrganizationController@destroy',$organization->id],'method' => 'DELETE','id' => $organization->id]) !!}
+                          {!! Form::open(['action' => ['Payroll\OrganizationController@destroy',$organization->id],'method' => 'DELETE','id' => $organization->id]) !!}
 
                           {!! Form::close() !!}
                       </td>

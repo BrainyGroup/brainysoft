@@ -53,7 +53,7 @@
                             }">Delete
                           </a>
 
-                          {!! Form::open(['action' => ['PayeController@destroy',$paye->id],'method' => 'DELETE','id' => $paye->id]) !!}
+                          {!! Form::open(['action' => ['Payroll\PayeController@destroy',$paye->id],'method' => 'DELETE','id' => $paye->id]) !!}
 
                           {!! Form::close() !!}
                       </td>

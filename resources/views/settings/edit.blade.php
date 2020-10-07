@@ -12,7 +12,7 @@
                 </div>
             @endif
 
-            {!! Form::open(['action' => 'SalaryBaseController@store','method' => 'POST']) !!}
+            {!! Form::open(['action' => 'Payroll\SalaryBaseController@store','method' => 'POST']) !!}
 
             {{ Form::bsText('name','',['placeholder' => 'Enter salary name']) }}
 

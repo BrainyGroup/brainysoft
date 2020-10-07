@@ -168,7 +168,7 @@
                             }"> Yes post
                           </a></span>
 
-                          {!! Form::open(['action' => ['PayController@post',$max_pay],'method' => 'PUT','id' => $max_pay]) !!}
+                          {!! Form::open(['action' => ['Payroll\PayController@post',$max_pay],'method' => 'PUT','id' => $max_pay]) !!}
 
                           {!! Form::close() !!}
             

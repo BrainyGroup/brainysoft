@@ -12,7 +12,7 @@
                 </div>
             @endif
 
-            {!! Form::open(['action' => array('PayeController@update', $paye->id),'method' => 'PUT']) !!}
+            {!! Form::open(['action' => array('Payroll\PayeController@update', $paye->id),'method' => 'PUT']) !!}
 
                     <div class="form-group">
 

@@ -14,7 +14,7 @@
 
     
 
-            {!! Form::open(['action' => array('EmployeeStatutoryController@update', $employee_statutory_id),'method' => 'PUT']) !!}
+            {!! Form::open(['action' => array('Payroll\EmployeeStatutoryController@update', $employee_statutory_id),'method' => 'PUT']) !!}
 
 
                 {{ Form::bsHidden('employee_statutory_id', $employee_statutory_id) }}

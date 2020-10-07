@@ -13,7 +13,7 @@
             @endif
 
 
-            {!! Form::open(['action' => array('ScaleController@update', $scale->id),'method' => 'PUT']) !!}
+            {!! Form::open(['action' => array('Payroll\ScaleController@update', $scale->id),'method' => 'PUT']) !!}
 
             {{ Form::bsText('name', $scale->name,['placeholder' => 'Enter scale name']) }}
 

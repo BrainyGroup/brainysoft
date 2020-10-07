@@ -13,7 +13,7 @@
             @endif
 
 
-           {!! Form::open(['action' => array('StatutoryTypeController@update', $statutory_type->id),'method' => 'PUT']) !!}
+           {!! Form::open(['action' => array('Payroll\StatutoryTypeController@update', $statutory_type->id),'method' => 'PUT']) !!}
 
             {{ Form::bsText('name', $statutory_type->name,['placeholder' => 'Enter Kin name']) }}
 

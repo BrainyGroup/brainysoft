@@ -12,7 +12,7 @@
                 </div>
             @endif
 
-            {!! Form::open(['action' => array('KinTypeController@update', $kin_type->id),'method' => 'PUT']) !!}
+            {!! Form::open(['action' => array('Payroll\KinTypeController@update', $kin_type->id),'method' => 'PUT']) !!}
 
             {{ Form::bsText('name', $kin_type->name,['placeholder' => 'Enter Kin name']) }}
 

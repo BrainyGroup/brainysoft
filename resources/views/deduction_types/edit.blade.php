@@ -6,7 +6,7 @@
         <div class="card-header">Edit Deduction types</div>
 
         <div class="card-body">
-          	{!! Form::open(['action' => array('DeductionTypeController@update', $deduction_type->id),'method' => 'PUT']) !!}
+          	{!! Form::open(['action' => array('Payroll\DeductionTypeController@update', $deduction_type->id),'method' => 'PUT']) !!}
 
 	        {{ Form::bsText('name', $deduction_type->name,['placeholder' => 'Enter Deduction name']) }}
 

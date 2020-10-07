@@ -48,7 +48,7 @@
                             }">Delete
                           </a>
 
-                          {!! Form::open(['action' => ['SalaryBaseController@destroy',$salary_base->id],'method' => 'DELETE','id' => $salary_base->id]) !!}
+                          {!! Form::open(['action' => ['Payroll\SalaryBaseController@destroy',$salary_base->id],'method' => 'DELETE','id' => $salary_base->id]) !!}
 
                           {!! Form::close() !!}
                       </td>

@@ -48,7 +48,7 @@
                             }">Delete
                           </a>
 
-                          {!! Form::open(['action' => ['KinTypeController@destroy',$kin_type->id],'method' => 'DELETE','id' => $kin_type->id]) !!}
+                          {!! Form::open(['action' => ['Payroll\KinTypeController@destroy',$kin_type->id],'method' => 'DELETE','id' => $kin_type->id]) !!}
 
                           {!! Form::close() !!}
                       </td>
