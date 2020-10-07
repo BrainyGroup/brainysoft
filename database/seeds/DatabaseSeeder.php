@@ -12,7 +12,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         $this->call([
+      $this->call('LevelsTableSeeder');   
+      $this->call([
 
            UsersTableSeeder::class,
            CountriesTableSeeder::class,
@@ -47,6 +48,6 @@ class DatabaseSeeder extends Seeder
 
          ]);
 
-         $this->call('LevelsTableSeeder');
+         
     }
 }
