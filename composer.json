@@ -29,7 +29,8 @@
             "app/Payroll",
             "app/Http/Controllers/Payroll",
             "database/seeds",
-            "database/factories"
+            "database/factories",
+            "database"
         ],
         "psr-4": {
             "BrainySoft\\": "app/"
