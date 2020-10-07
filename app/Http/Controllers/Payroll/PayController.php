@@ -1235,7 +1235,7 @@ private function deductionSum($employee_id = null,$company_id = null){
 
             $user = User::findOrFail(2);
 
-            dispatch(new SendEmailPaySlip($pay, $company, $user))->delay(now()->addMinutes(60));
+            dispatch(new \Brainysoft\Jobs\SendEmailPaySlip($pay, $company, $user))->delay(now()->addMinutes(60));
 
             // $this->sendSalarySlipEmail($employee->user_id,$pay->company_id,$fromPaySlipEmail,$fromPaySlipName,$paySlipSubject,$pay->pay_number);
 
