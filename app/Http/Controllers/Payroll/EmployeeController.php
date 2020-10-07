@@ -404,6 +404,8 @@ class EmployeeController extends Controller
 
         $company = $this->company();
 
+        dd($employee->id);
+
         $employeeExist = Employee::where('company_id', $company->id)->exists();
 
         if (!$employeeExist) {
