@@ -13,7 +13,7 @@
             @endif
 
 
-                    {!! Form::open(['action' => 'DeductionController@store','method' => 'POST']) !!}
+                    {!! Form::open(['action' => 'Payroll\DeductionController@store','method' => 'POST']) !!}
 
                     {{ Form::bsText('amount','',['placeholder' => 'Enter Deduction Amount']) }}
 

@@ -13,7 +13,7 @@
             @endif
 
 
-                    {!! Form::open(['action' => 'EmployeeController@store','method' => 'POST']) !!}
+                    {!! Form::open(['action' => 'Payroll\EmployeeController@store','method' => 'POST']) !!}
 
  
 

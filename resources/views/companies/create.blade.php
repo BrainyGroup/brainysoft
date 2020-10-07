@@ -6,7 +6,7 @@
         <div class="card-header">Add Company/div>
 
         <div class="card-body">
-            {!! Form::open(['action' => 'CompanyController@store','files' => true, 'method' => 'POST']) !!}
+            {!! Form::open(['action' => 'Payroll\CompanyController@store','files' => true, 'method' => 'POST']) !!}
 
                     {{ Form::bsText('name','',['placeholder' => 'Enter Company name']) }}
 

@@ -12,7 +12,7 @@
                 </div>
             @endif
 
-                  {!! Form::open(['action' => 'PayController@store','method' => 'POST']) !!}
+                  {!! Form::open(['action' => 'Payroll\PayController@store','method' => 'POST']) !!}
 
                     <div class="form-group">
 

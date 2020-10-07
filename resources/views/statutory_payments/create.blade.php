@@ -6,7 +6,7 @@
         <div class="card-header">{{ __('messages.add').' Payment for '. $max_pay . ' for ' . $statutory_name}}</div>
 
         <div class="card-body">
-            {!! Form::open(['action' => 'StatutoryPaymentController@store','method' => 'POST']) !!}
+            {!! Form::open(['action' => 'Payroll\StatutoryPaymentController@store','method' => 'POST']) !!}
 
             {{ Form::bsHidden('statutory_id', $statutory_id) }}
 

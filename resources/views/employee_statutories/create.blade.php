@@ -12,7 +12,7 @@
                 </div>
             @endif
 
-            {!! Form::open(['action' => 'EmployeeStatutoryController@store','method' => 'POST']) !!}
+            {!! Form::open(['action' => 'Payroll\EmployeeStatutoryController@store','method' => 'POST']) !!}
 
                 {{ Form::bsHidden('employee_id', request('employee_id')) }}
 

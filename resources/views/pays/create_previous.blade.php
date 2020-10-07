@@ -12,7 +12,7 @@
                 </div>
             @endif
 
-                  {!! Form::open(['action' => 'PayController@index','method' => 'GET']) !!}
+                  {!! Form::open(['action' => 'Payroll\PayController@index','method' => 'GET']) !!}
 
                   {{ Form::bsHidden('other_month', 1) }}
 

@@ -6,7 +6,7 @@
         <div class="card-header">{{ __('messages.add').' '.__('messages.role')}}</div>
 
         <div class="card-body">
-            {!! Form::open(['action' => 'RoleController@store','method' => 'POST']) !!}
+            {!! Form::open(['action' => 'Payroll\RoleController@store','method' => 'POST']) !!}
 
 
             {{ Form::bsText('name','',['placeholder' => __('messages.enter name')]) }}

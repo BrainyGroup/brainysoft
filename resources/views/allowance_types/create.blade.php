@@ -8,7 +8,7 @@
                 <div class="card-header">Add allowance type</div>
                 <div class="card-body">
 
-                    {!! Form::open(['action' => 'AllowanceTypeController@store','method' => 'POST']) !!}
+                    {!! Form::open(['action' => 'Payroll\AllowanceTypeController@store','method' => 'POST']) !!}
 
                     {{ Form::bsText('name','',['placeholder' => 'Enter Allowance name']) }}                  
 

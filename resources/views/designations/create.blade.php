@@ -11,7 +11,7 @@
                     {{ session('status') }}
                 </div>
             @endif
-                    {!! Form::open(['action' => 'DesignationController@store','method' => 'POST']) !!}
+                    {!! Form::open(['action' => 'Payroll\DesignationController@store','method' => 'POST']) !!}
 
                     {{ Form::bsText('name','',['placeholder' => 'Enter designation name']) }}
 

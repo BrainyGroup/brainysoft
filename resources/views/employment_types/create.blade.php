@@ -8,7 +8,7 @@
                 <div class="card-header">Add Employment type</div>
                 <div class="card-body">
 
-                    {!! Form::open(['action' => 'EmploymentTypeController@store','method' => 'POST']) !!}
+                    {!! Form::open(['action' => 'Payroll\EmploymentTypeController@store','method' => 'POST']) !!}
 
                     {{ Form::bsText('name','',['placeholder' => 'Enter Employment type name']) }}                  
 

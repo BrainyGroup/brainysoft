@@ -13,7 +13,7 @@
             @endif
 
 
-            {!! Form::open(['action' => 'KinTypeController@store','method' => 'POST']) !!}
+            {!! Form::open(['action' => 'Payroll\KinTypeController@store','method' => 'POST']) !!}
 
             {{ Form::bsText('name','',['placeholder' => 'Enter Kin name']) }}
 

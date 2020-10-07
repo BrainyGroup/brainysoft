@@ -6,7 +6,7 @@
         <div class="card-header">{{ __('messages.add').' '.__('messages.bank')}}</div>
 
         <div class="card-body">
-            {!! Form::open(['action' => 'BankController@store','method' => 'POST']) !!}
+            {!! Form::open(['action' => 'Payroll\BankController@store','method' => 'POST']) !!}
 
 
             {{ Form::bsText('name','',['placeholder' => __('messages.enter name')]) }}

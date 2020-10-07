@@ -6,7 +6,7 @@
         <div class="card-header">Add Allowance for {{ $user->title.'. '.$user->firstname.' '.$user->lastname }}</div>
 
         <div class="card-body">
-            {!! Form::open(['action' => 'AllowanceController@store','method' => 'POST']) !!}
+            {!! Form::open(['action' => 'Payroll\AllowanceController@store','method' => 'POST']) !!}
 
                     {{ Form::bsText('allowance_amount','',['placeholder' => 'Enter Allowance Amount']) }}  
 

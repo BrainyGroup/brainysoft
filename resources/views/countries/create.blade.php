@@ -7,7 +7,7 @@
 
         <div class="card-body">
 
-             {!! Form::open(['action' => 'CountryController@store','method' => 'POST']) !!}
+             {!! Form::open(['action' => 'Payroll\CountryController@store','method' => 'POST']) !!}
 
              {{ Form::bsText('name','',['placeholder' => 'Enter country name']) }}
 

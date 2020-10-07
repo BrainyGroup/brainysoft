@@ -6,7 +6,7 @@
         <div class="card-header">Add Deduction types</div>
 
         <div class="card-body">
-            {!! Form::open(['action' => 'DeductionTypeController@store','method' => 'POST']) !!}
+            {!! Form::open(['action' => 'Payroll\DeductionTypeController@store','method' => 'POST']) !!}
 
             {{ Form::bsText('name','',['placeholder' => 'Enter Deduction name']) }}
 

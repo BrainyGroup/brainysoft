@@ -16,7 +16,7 @@
 
           
 
-              {!! Form::open(['action' => 'UserController@store','files' => true, 'method' => 'POST']) !!}
+              {!! Form::open(['action' => 'Payroll\UserController@store','files' => true, 'method' => 'POST']) !!}
 
             <div class="form-group">
 

@@ -12,7 +12,7 @@
                 </div>
             @endif
 
-            {!! Form::open(['action' => 'LevelController@store','method' => 'POST']) !!}
+            {!! Form::open(['action' => 'Payroll\LevelController@store','method' => 'POST']) !!}
 
             {{ Form::bsText('name','',['placeholder' => 'Enter Kin name']) }}
 

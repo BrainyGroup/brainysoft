@@ -12,7 +12,7 @@
                 </div>
             @endif
 
-        {!! Form::open(['action' => 'ScaleController@store','method' => 'POST']) !!}
+        {!! Form::open(['action' => 'Payroll\ScaleController@store','method' => 'POST']) !!}
 
         {{ Form::bsText('name','',['placeholder' => 'Enter scale name']) }}
 

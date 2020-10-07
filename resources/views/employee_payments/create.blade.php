@@ -6,7 +6,7 @@
         <div class="card-header">{{ __('messages.add').' '.__('messages.bank')}}</div>
 
         <div class="card-body">
-            {!! Form::open(['action' => 'EmployeePaymentController@store','method' => 'POST']) !!}
+            {!! Form::open(['action' => 'Payroll\EmployeePaymentController@store','method' => 'POST']) !!}
 
             {{ Form::bsHidden('employee_id', $employee_id) }}
 
