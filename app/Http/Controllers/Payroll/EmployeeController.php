@@ -549,7 +549,7 @@ class EmployeeController extends Controller
 
             ->first();
 
-            dd($employee->id);
+            dd($employee);
 
         $kins = DB::table('kin')
 
