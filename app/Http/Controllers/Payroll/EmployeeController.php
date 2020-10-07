@@ -487,6 +487,8 @@ class EmployeeController extends Controller
 
             )->get();
 
+            dd($employee->id);
+
         $employee = DB::table('employees')
 
             ->where('employees.id', $employee->id)
