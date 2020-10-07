@@ -27,7 +27,7 @@
 
                           <td>{{ __('messages.number') }}</td>
 
-                          <td>{{ $bank->number }}</td>
+                          <td>{{ $deduction->number }}</td>
 
                         </tr>
 
@@ -35,7 +35,7 @@
 
                           <td>{{ __('messages.name') }}</td>
 
-                          <td>{{ $bank->name }}</td>
+                          <td>{{ $deduction->name }}</td>
 
                         </tr>
 
@@ -43,23 +43,23 @@
 
                           <td>{{ __('messages.description') }}</td>
 
-                          <td>{{ $bank->description }}</td>
+                          <td>{{ $deduction->description }}</td>
 
                     </tr>
 
                     <tr>
-                          <td><a href="/banks/{{$bank->id}}/edit">{{ __('messages.edit') }}</a></td>
+                          <td><a href="/deductions/{{$deduction->id}}/edit">{{ __('messages.edit') }}</a></td>
 
                           <td><a href=""
                               onclick="
-                              var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.bank')}}');
+                              var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.deduction')}}');
                               if (result){
                                   event.preventDefault();
-                                  document.getElementById({{$bank->id}}).submit();
+                                  document.getElementById({{$deduction->id}}).submit();
                                 }">{{ __('messages.delete') }}
                               </a>
 
-                              {!! Form::open(['action' => ['BankController@destroy',$bank->id],'method' => 'DELETE','id' => $bank->id]) !!}
+                              {!! Form::open(['action' => ['Payroll\DeductionController@destroy',$deduction->id],'method' => 'DELETE','id' => $deduction->id]) !!}
 
                               {!! Form::close() !!}
                           </td>

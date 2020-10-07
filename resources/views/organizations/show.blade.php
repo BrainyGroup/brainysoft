@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">{{ $bank->name  }}</div>
+        <div class="card-header">{{ $organization->name  }}</div>
 
         <div class="card-body">
             @if (session('status'))
@@ -28,7 +28,7 @@
 
                           <td>{{ __('messages.number') }}</td>
 
-                          <td>{{ $bank->number }}</td>
+                          <td>{{ $organization->number }}</td>
 
                         </tr>
 
@@ -36,7 +36,7 @@
 
                           <td>{{ __('messages.name') }}</td>
 
-                          <td>{{ $bank->name }}</td>
+                          <td>{{ $organization->name }}</td>
 
                         </tr>
 
@@ -44,23 +44,23 @@
 
                           <td>{{ __('messages.description') }}</td>
 
-                          <td>{{ $bank->description }}</td>
+                          <td>{{ $organization->description }}</td>
 
                     </tr>
 
                     <tr>
-                          <td><a href="/banks/{{$bank->id}}/edit">{{ __('messages.edit') }}</a></td>
+                          <td><a href="/organizations/{{$organization->id}}/edit">{{ __('messages.edit') }}</a></td>
 
                           <td><a href=""
                               onclick="
-                              var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.bank')}}');
+                              var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.organization')}}');
                               if (result){
                                   event.preventDefault();
-                                  document.getElementById({{$bank->id}}).submit();
+                                  document.getElementById({{$organization->id}}).submit();
                                 }">{{ __('messages.delete') }}
                               </a>
 
-                              {!! Form::open(['action' => ['BankController@destroy',$bank->id],'method' => 'DELETE','id' => $bank->id]) !!}
+                              {!! Form::open(['action' => ['Payroll\OrganizationController@destroy',$organization->id],'method' => 'DELETE','id' => $organization->id]) !!}
 
                               {!! Form::close() !!}
                           </td>

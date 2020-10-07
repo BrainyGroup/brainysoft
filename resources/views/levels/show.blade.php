@@ -28,7 +28,7 @@
 
                           <td>{{ __('messages.number') }}</td>
 
-                          <td>{{ $bank->number }}</td>
+                          <td>{{ $level->number }}</td>
 
                         </tr>
 
@@ -36,7 +36,7 @@
 
                           <td>{{ __('messages.name') }}</td>
 
-                          <td>{{ $bank->name }}</td>
+                          <td>{{ $level->name }}</td>
 
                         </tr>
 
@@ -44,23 +44,23 @@
 
                           <td>{{ __('messages.description') }}</td>
 
-                          <td>{{ $bank->description }}</td>
+                          <td>{{ $level->description }}</td>
 
                     </tr>
 
                     <tr>
-                          <td><a href="/banks/{{$bank->id}}/edit">{{ __('messages.edit') }}</a></td>
+                          <td><a href="/levels/{{$level->id}}/edit">{{ __('messages.edit') }}</a></td>
 
                           <td><a href=""
                               onclick="
-                              var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.bank')}}');
+                              var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.level')}}');
                               if (result){
                                   event.preventDefault();
-                                  document.getElementById({{$bank->id}}).submit();
+                                  document.getElementById({{$level->id}}).submit();
                                 }">{{ __('messages.delete') }}
                               </a>
 
-                              {!! Form::open(['action' => ['BankController@destroy',$bank->id],'method' => 'DELETE','id' => $bank->id]) !!}
+                              {!! Form::open(['action' => ['Payroll\LevelController@destroy',$level->id],'method' => 'DELETE','id' => $level->id]) !!}
 
                               {!! Form::close() !!}
                           </td>

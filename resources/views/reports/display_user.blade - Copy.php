@@ -25,7 +25,7 @@
                $('#table').DataTable({
                processing: true,
                serverSide: true,
-               ajax: '{{ url('/reports/index_user') }}',
+               ajax: '{{ url("/reports/index_user") }}',
                columns: [
                         { data: 'id', name: 'id' },
                         { data: 'name', name: 'name' },

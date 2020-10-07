@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-6">
     <div class="card">
-        <div class="card-header">{{ $bank->name  }}</div>
+        <div class="card-header">{{ $statutury_payment->name  }}</div>
 
         <div class="card-body">
            
@@ -23,7 +23,7 @@
 
                           <td>{{ __('messages.number') }}</td>
 
-                          <td>{{ $bank->number }}</td>
+                          <td>{{ $statutury_payment->number }}</td>
 
                         </tr>
 
@@ -31,7 +31,7 @@
 
                           <td>{{ __('messages.name') }}</td>
 
-                          <td>{{ $bank->name }}</td>
+                          <td>{{ $statutury_payment->name }}</td>
 
                         </tr>
 
@@ -39,23 +39,23 @@
 
                           <td>{{ __('messages.description') }}</td>
 
-                          <td>{{ $bank->description }}</td>
+                          <td>{{ $statutury_payment->description }}</td>
 
                     </tr>
 
                     <tr>
-                          <td><a href="/banks/{{$bank->id}}/edit">{{ __('messages.edit') }}</a></td>
+                          <td><a href="/statutury_payments/{{$statutury_payment->id}}/edit">{{ __('messages.edit') }}</a></td>
 
                           <td><a href=""
                               onclick="
-                              var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.bank')}}');
+                              var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.statutury_payment')}}');
                               if (result){
                                   event.preventDefault();
-                                  document.getElementById({{$bank->id}}).submit();
+                                  document.getElementById({{$statutury_payment->id}}).submit();
                                 }">{{ __('messages.delete') }}
                               </a>
 
-                              {!! Form::open(['action' => ['BankController@destroy',$bank->id],'method' => 'DELETE','id' => $bank->id]) !!}
+                              {!! Form::open(['action' => ['Payroll\StatutoryPaymentController@destroy',$statutury_payment->id],'method' => 'DELETE','id' => $statutury_payment->id]) !!}
 
                               {!! Form::close() !!}
                           </td>

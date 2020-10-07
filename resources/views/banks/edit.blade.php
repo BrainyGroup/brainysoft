@@ -6,7 +6,7 @@
         <div class="card-header">{{ __('messages.edit').' '.__('messages.role')}}</div>
 
         <div class="card-body">
-            {!! Form::open(['action' => array('Payroll\RoleController@update', $role->id),'method' => 'PUT']) !!}
+            {!! Form::open(['action' => array('Payroll\BankController@update', $role->id),'method' => 'PUT']) !!}
 
             {{ Form::bsText('name', $role->name,['placeholder' => __('messages.enter name')]) }}
 

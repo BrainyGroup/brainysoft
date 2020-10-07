@@ -16,7 +16,7 @@
 
                   <table class="table table-hover table-striped table-bordered table-sm">
 
-                    <caption><h1>{{ $bank->name  }}</h1></caption>
+                    <caption><h1>{{ $setting->name  }}</h1></caption>
 
                       <tbody>
 
@@ -24,7 +24,7 @@
 
                           <td>{{ __('messages.number') }}</td>
 
-                          <td>{{ $bank->number }}</td>
+                          <td>{{ $setting->number }}</td>
 
                         </tr>
 
@@ -32,7 +32,7 @@
 
                           <td>{{ __('messages.name') }}</td>
 
-                          <td>{{ $bank->name }}</td>
+                          <td>{{ $setting->name }}</td>
 
                         </tr>
 
@@ -40,23 +40,23 @@
 
                           <td>{{ __('messages.description') }}</td>
 
-                          <td>{{ $bank->description }}</td>
+                          <td>{{ $setting->description }}</td>
 
                     </tr>
 
                     <tr>
-                          <td><a href="/banks/{{$bank->id}}/edit">{{ __('messages.edit') }}</a></td>
+                          <td><a href="/settings/{{$setting->id}}/edit">{{ __('messages.edit') }}</a></td>
 
                           <td><a href=""
                               onclick="
-                              var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.bank')}}');
+                              var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.setting')}}');
                               if (result){
                                   event.preventDefault();
-                                  document.getElementById({{$bank->id}}).submit();
+                                  document.getElementById({{$setting->id}}).submit();
                                 }">{{ __('messages.delete') }}
                               </a>
 
-                              {!! Form::open(['action' => ['Payroll\BankController@destroy',$bank->id],'method' => 'DELETE','id' => $bank->id]) !!}
+                              {!! Form::open(['action' => ['Payroll\SettingController@destroy',$setting->id],'method' => 'DELETE','id' => $setting->id]) !!}
 
                               {!! Form::close() !!}
                           </td>

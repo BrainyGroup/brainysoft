@@ -55,7 +55,7 @@
                                 }">{{ __('messages.delete') }}
                               </a>
 
-                              {!! Form::open(['action' => ['BankController@destroy',$role->id],'method' => 'DELETE','id' => $role->id]) !!}
+                              {!! Form::open(['action' => ['Payroll\RoleController@destroy',$role->id],'method' => 'DELETE','id' => $role->id]) !!}
 
                               {!! Form::close() !!}
                           </td>

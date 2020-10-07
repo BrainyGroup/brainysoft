@@ -3,10 +3,10 @@
 @section('content')
 <div class="col-md-6">
     <div class="card">
-        <div class="card-header">{{ __('messages.bank') }} <span class="pull-right"> <a href="/banks/create">{{ __('messages.add') }}</a></span></div>
+        <div class="card-header">{{ __('messages.statutury_payment') }} <span class="pull-right"> <a href="/statutury_payments/create">{{ __('messages.add') }}</a></span></div>
 
         <div class="card-body">
-            @if( count($banks) > 0 )
+            @if( count($statutury_payments) > 0 )
       <div class="table-responsive">
 
 
@@ -26,31 +26,31 @@
                     </tr>
                   </thead>
                   <tbody>
-        @foreach($banks as $bank)
+        @foreach($statutury_payments as $statutury_payment)
 
                     <tr>
 
 
 
 
-                      <td><a href="/banks/{{$bank->id}}">{{ $bank->name }}</a></td>
+                      <td><a href="/statutury_payments/{{$statutury_payment->id}}">{{ $statutury_payment->name }}</a></td>
 
-                      <td><a href="/banks/{{$bank->id}}">{{ $bank->description}}</a></td>
+                      <td><a href="/statutury_payments/{{$statutury_payment->id}}">{{ $statutury_payment->description}}</a></td>
 
-                      <td><a href="/banks/{{$bank->id}}/edit">{{ __('messages.edit') }}</a></td>
+                      <td><a href="/statutury_payments/{{$statutury_payment->id}}/edit">{{ __('messages.edit') }}</a></td>
 
 
 
                     <td><a href=""
                         onclick="
-                        var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.bank')}}');
+                        var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.statutury_payment')}}');
                         if (result){
                             event.preventDefault();
-                            document.getElementById({{$bank->id}}).submit();
+                            document.getElementById({{$statutury_payment->id}}).submit();
                           }">{{ __('messages.delete') }}
                         </a>
 
-                        {!! Form::open(['action' => ['Payroll\BankController@destroy',$bank->id],'method' => 'DELETE','id' => $bank->id]) !!}
+                        {!! Form::open(['action' => ['Payroll\StatutoryPaymentController@destroy',$statutury_payment->id],'method' => 'DELETE','id' => $statutury_payment->id]) !!}
 
                         {!! Form::close() !!}
                     </td>
@@ -66,9 +66,9 @@
 
         @else
 
-          No bank defined
+          No statutury_payment defined
 
-          <a class="pull-right" href="/banks/create">{{ __('messages.add')}}</a>
+          <a class="pull-right" href="/statutury_payments/create">{{ __('messages.add')}}</a>
 
 
         @endif

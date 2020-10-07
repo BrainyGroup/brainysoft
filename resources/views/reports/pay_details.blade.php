@@ -106,7 +106,7 @@
                       <td>{{  number_format($pay->net,2) }}</td>
 
 
-                      <td><a href="{{action('PayController@downloadPDF', $pay->id)}}">PDF</a></td>
+                      <td><a href="{{action('Payroll\PayController@downloadPDF', $pay->id)}}">PDF</a></td>
 
 
 
