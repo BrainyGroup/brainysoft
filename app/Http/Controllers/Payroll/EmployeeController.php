@@ -487,8 +487,7 @@ class EmployeeController extends Controller
 
             )->get();
 
-            dd($employee->id);
-
+            
         $employee = DB::table('employees')
 
             ->where('employees.id', $employee->id)
@@ -551,7 +550,7 @@ class EmployeeController extends Controller
 
             ->first();
 
-            dd($employee);
+            
 
         $kins = DB::table('kin')
 
