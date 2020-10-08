@@ -146,7 +146,7 @@ class DatabaseSeeder extends Seeder
   ];
     public function run()
     {
-      $this->call('LevelsTableSeeder');   
+       
       $this->call([
 
            UsersTableSeeder::class,
