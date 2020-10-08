@@ -7,6 +7,7 @@ use BrainySoft\Payroll\Permission;
 use BrainySoft\Payroll\Permission_role;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Routing\Route as Router;
+use Illuminate\Support\Facades\Schema;
 
 class AllowancesTableSeeder extends Seeder
 {
@@ -120,697 +121,699 @@ class AllowancesTableSeeder extends Seeder
           ]);
 
 
-    //       DB::table('levels')->truncate();
+          DB::table('levels')->truncate();
 
-    //   DB::table('levels')->insert([
-    //           'name' => 'Excutive',
-    //           'description' => 'Chiefs',
-    //           'company_id' => 1,
-    //           'created_at' =>now(),
-    //           'updated_at' =>now(),
-    //       ]);
+      DB::table('levels')->insert([
+              'name' => 'Excutive',
+              'description' => 'Chiefs',
+              'company_id' => 1,
+              'created_at' =>now(),
+              'updated_at' =>now(),
+          ]);
 
-    //   DB::table('levels')->insert([
-    //           'name' => 'Directors',
-    //           'description' => 'Directors and Heads',
-    //           'company_id' => 1,
-    //           'created_at' =>now(),
-    //           'updated_at' =>now(),
+      DB::table('levels')->insert([
+              'name' => 'Directors',
+              'description' => 'Directors and Heads',
+              'company_id' => 1,
+              'created_at' =>now(),
+              'updated_at' =>now(),
 
-    //       ]);
+          ]);
 
-    //   DB::table('levels')->insert([
-    //           'name' => 'Managers',
-    //           'description' => 'Managers',
-    //           'company_id' => 1,
-    //           'created_at' =>now(),
-    //           'updated_at' =>now(),
+      DB::table('levels')->insert([
+              'name' => 'Managers',
+              'description' => 'Managers',
+              'company_id' => 1,
+              'created_at' =>now(),
+              'updated_at' =>now(),
 
-    //       ]);
+          ]);
 
 
-    //   DB::table('levels')->insert([
-    //           'name' => 'Supervisors',
-    //           'description' => 'Supervisors',
-    //           'company_id' => 1,
-    //           'created_at' =>now(),
-    //           'updated_at' =>now(),
+      DB::table('levels')->insert([
+              'name' => 'Supervisors',
+              'description' => 'Supervisors',
+              'company_id' => 1,
+              'created_at' =>now(),
+              'updated_at' =>now(),
 
-    //       ]);
+          ]);
 
-    //   DB::table('levels')->insert([
-    //           'name' => 'Officers',
-    //           'description' => 'Officers',
-    //           'company_id' => 1,
-    //           'created_at' =>now(),
-    //           'updated_at' =>now(),
+      DB::table('levels')->insert([
+              'name' => 'Officers',
+              'description' => 'Officers',
+              'company_id' => 1,
+              'created_at' =>now(),
+              'updated_at' =>now(),
 
-    //       ]);
+          ]);
 
-    //       DB::table('designations')->truncate();
+          DB::table('designations')->truncate();
 
-    //       DB::table('designations')->insert([
-    //               'name' => 'MD',
-    //               'description' => 'Managing Director',
-    //               'company_id' => 1,
-    //               'scale_id' => 1,
-    //               'level_id' => 1, 
-    //               'created_at' =>now(),
-    //               'updated_at' =>now(),
-    //           ]);
+          DB::table('designations')->insert([
+                  'name' => 'MD',
+                  'description' => 'Managing Director',
+                  'company_id' => 1,
+                  'scale_id' => 1,
+                  'level_id' => 1, 
+                  'created_at' =>now(),
+                  'updated_at' =>now(),
+              ]);
     
-    //       DB::table('designations')->insert([
-    //               'name' => 'BDM',
-    //               'description' => 'Business Development Manager',
-    //               'company_id' => 1,
-    //               'scale_id' => 1,
-    //               'level_id' => 1, 
-    //               'created_at' =>now(),
-    //               'updated_at' =>now(),                           
+          DB::table('designations')->insert([
+                  'name' => 'BDM',
+                  'description' => 'Business Development Manager',
+                  'company_id' => 1,
+                  'scale_id' => 1,
+                  'level_id' => 1, 
+                  'created_at' =>now(),
+                  'updated_at' =>now(),                           
     
-    //           ]);
+              ]);
     
-    //       DB::table('designations')->insert([
-    //               'name' => 'PS',
-    //               'description' => 'Project supervisor',
-    //               'company_id' => 1,
-    //               'scale_id' => 1,
-    //               'level_id' => 1,
-    //               'created_at' =>now(),
-    //               'updated_at' =>now(), 
-    //           ]);
+          DB::table('designations')->insert([
+                  'name' => 'PS',
+                  'description' => 'Project supervisor',
+                  'company_id' => 1,
+                  'scale_id' => 1,
+                  'level_id' => 1,
+                  'created_at' =>now(),
+                  'updated_at' =>now(), 
+              ]);
     
-    //       DB::table('designations')->insert([
-    //               'name' => 'PLO',
-    //               'description' => 'Procurement & Logistic Officer',
-    //               'company_id' => 1,
-    //               'scale_id' => 1,
-    //               'level_id' => 1,
-    //               'created_at' =>now(),
-    //               'updated_at' =>now(), 
-    //           ]);
+          DB::table('designations')->insert([
+                  'name' => 'PLO',
+                  'description' => 'Procurement & Logistic Officer',
+                  'company_id' => 1,
+                  'scale_id' => 1,
+                  'level_id' => 1,
+                  'created_at' =>now(),
+                  'updated_at' =>now(), 
+              ]);
     
-    //       DB::table('designations')->insert([
-    //               'name' => 'EE',
-    //               'description' => 'Electronic Engineer',
-    //               'company_id' => 1,
-    //               'scale_id' => 1,
-    //               'level_id' => 1, 
-    //               'created_at' =>now(),
-    //               'updated_at' =>now(),
-    //           ]);
+          DB::table('designations')->insert([
+                  'name' => 'EE',
+                  'description' => 'Electronic Engineer',
+                  'company_id' => 1,
+                  'scale_id' => 1,
+                  'level_id' => 1, 
+                  'created_at' =>now(),
+                  'updated_at' =>now(),
+              ]);
     
-    //       DB::table('designations')->insert([
-    //               'name' => 'SE',
-    //               'description' => 'Software Engineer',
-    //               'company_id' => 1,
-    //               'scale_id' => 1,
-    //               'level_id' => 1,
-    //               'created_at' =>now(),
-    //               'updated_at' =>now(), 
-    //           ]);
+          DB::table('designations')->insert([
+                  'name' => 'SE',
+                  'description' => 'Software Engineer',
+                  'company_id' => 1,
+                  'scale_id' => 1,
+                  'level_id' => 1,
+                  'created_at' =>now(),
+                  'updated_at' =>now(), 
+              ]);
     
-    //       DB::table('designations')->insert([
-    //               'name' => 'Developer',
-    //               'description' => 'Developer',
-    //               'company_id' => 1,
-    //               'scale_id' => 1,
-    //               'level_id' => 1, 
-    //               'created_at' =>now(),
-    //               'updated_at' =>now(),
-    //           ]);
+          DB::table('designations')->insert([
+                  'name' => 'Developer',
+                  'description' => 'Developer',
+                  'company_id' => 1,
+                  'scale_id' => 1,
+                  'level_id' => 1, 
+                  'created_at' =>now(),
+                  'updated_at' =>now(),
+              ]);
     
-    //       DB::table('designations')->insert([
-    //               'name' => 'Accountant',
-    //               'description' => 'Accountant',
-    //               'company_id' => 1,
-    //               'scale_id' => 1,
-    //               'level_id' => 1,
-    //               'created_at' =>now(),
-    //               'updated_at' =>now(), 
-    //           ]);
+          DB::table('designations')->insert([
+                  'name' => 'Accountant',
+                  'description' => 'Accountant',
+                  'company_id' => 1,
+                  'scale_id' => 1,
+                  'level_id' => 1,
+                  'created_at' =>now(),
+                  'updated_at' =>now(), 
+              ]);
     
-    //       DB::table('designations')->insert([
-    //               'name' => 'Office Administrator',
-    //               'description' => 'Office Administrator',
-    //               'company_id' => 1,
-    //               'scale_id' => 1,
-    //               'level_id' => 1,
-    //               'created_at' =>now(),
-    //               'updated_at' =>now(), 
-    //           ]);
+          DB::table('designations')->insert([
+                  'name' => 'Office Administrator',
+                  'description' => 'Office Administrator',
+                  'company_id' => 1,
+                  'scale_id' => 1,
+                  'level_id' => 1,
+                  'created_at' =>now(),
+                  'updated_at' =>now(), 
+              ]);
 
-    //           DB::table('employee_statutories')->truncate();
-
-
-    //   DB::table('employee_statutories')->insert([
-    //           'employee_id' => 1,
-    //           'statutory_id' => 1,
-    //           'company_id' => 1,
-    //           'employee_statutory_no' => '',
-    //           'created_at' =>now(),
-    //           'updated_at' =>now(),
-    //       ]);
-    //   DB::table('employee_statutories')->insert([
-    //           'employee_id' => 1,
-    //           'statutory_id' => 3,
-    //           'company_id' => 1,
-    //           'employee_statutory_no' => '',
-    //           'created_at' =>now(),
-    //           'updated_at' =>now(),
-    //       ]);
-
-    //   DB::table('employee_statutories')->insert([
-    //           'employee_id' => 1,
-    //           'statutory_id' => 4,
-    //           'company_id' => 1,
-    //           'employee_statutory_no' => '',
-    //           'created_at' =>now(),
-    //           'updated_at' =>now(),
-    //       ]);
-
-    //   DB::table('employee_statutories')->insert([
-    //           'employee_id' => 1,
-    //           'statutory_id' => 5,
-    //           'company_id' => 1,
-    //           'employee_statutory_no' => '',
-    //           'created_at' =>now(),
-    //           'updated_at' =>now(),
-    //       ]);
+              DB::table('employee_statutories')->truncate();
 
 
-    //   DB::table('employee_statutories')->insert([
-    //           'employee_id' => 2,
-    //           'statutory_id' => 1,
-    //           'company_id' => 1,
-    //           'employee_statutory_no' => '',
-    //           'created_at' =>now(),
-    //           'updated_at' =>now(),
-    //       ]);
-    //   DB::table('employee_statutories')->insert([
-    //           'employee_id' => 2,
-    //           'statutory_id' => 3,
-    //           'company_id' => 1,
-    //           'employee_statutory_no' => '',
-    //           'created_at' =>now(),
-    //           'updated_at' =>now(),
-    //       ]);
+      DB::table('employee_statutories')->insert([
+              'employee_id' => 1,
+              'statutory_id' => 1,
+              'company_id' => 1,
+              'employee_statutory_no' => '',
+              'created_at' =>now(),
+              'updated_at' =>now(),
+          ]);
+      DB::table('employee_statutories')->insert([
+              'employee_id' => 1,
+              'statutory_id' => 3,
+              'company_id' => 1,
+              'employee_statutory_no' => '',
+              'created_at' =>now(),
+              'updated_at' =>now(),
+          ]);
 
-    //   DB::table('employee_statutories')->insert([
-    //           'employee_id' => 2,
-    //           'statutory_id' => 4,
-    //           'company_id' => 1,
-    //           'employee_statutory_no' => '',
-    //           'created_at' =>now(),
-    //           'updated_at' =>now(),
-    //       ]);
+      DB::table('employee_statutories')->insert([
+              'employee_id' => 1,
+              'statutory_id' => 4,
+              'company_id' => 1,
+              'employee_statutory_no' => '',
+              'created_at' =>now(),
+              'updated_at' =>now(),
+          ]);
 
-    //   DB::table('employee_statutories')->insert([
-    //           'employee_id' => 2,
-    //           'statutory_id' => 5,
-    //           'company_id' => 1,
-    //           'employee_statutory_no' => '',
-    //           'created_at' =>now(),
-    //           'updated_at' =>now(),
-    //       ]);
-
-    //   DB::table('employee_statutories')->insert([
-    //           'employee_id' =>3,
-    //           'statutory_id' => 2,
-    //           'company_id' => 1,
-    //           'employee_statutory_no' => '',
-    //           'created_at' =>now(),
-    //           'updated_at' =>now(),
-    //           ]);
-
-    //   DB::table('employee_statutories')->insert([
-    //           'employee_id' => 3,
-    //           'statutory_id' => 3,
-    //           'company_id' => 1,
-    //           'employee_statutory_no' => '',
-    //           'created_at' =>now(),
-    //           'updated_at' =>now(),
-    //           ]);
-
-    //   DB::table('employee_statutories')->insert([
-    //           'employee_id' => 3,
-    //           'statutory_id' => 4,
-    //           'company_id' => 1,
-    //           'employee_statutory_no' => '',
-    //           'created_at' =>now(),
-    //           'updated_at' =>now(),
-    //       ]);
-
-    //   DB::table('employee_statutories')->insert([
-    //           'employee_id' => 3,
-    //           'statutory_id' => 5,
-    //           'company_id' => 1,
-    //           'employee_statutory_no' => '',
-    //           'created_at' =>now(),
-    //           'updated_at' =>now(),
-    //       ]);
+      DB::table('employee_statutories')->insert([
+              'employee_id' => 1,
+              'statutory_id' => 5,
+              'company_id' => 1,
+              'employee_statutory_no' => '',
+              'created_at' =>now(),
+              'updated_at' =>now(),
+          ]);
 
 
-    //       DB::table('employee_statutories')->insert([
-    //               'employee_id' => 4,
-    //               'statutory_id' => 2,
-    //               'company_id' => 1,
-    //               'employee_statutory_no' => '',
-    //               'created_at' =>now(),
-    //               'updated_at' =>now(),
-    //           ]);
-    //       DB::table('employee_statutories')->insert([
-    //               'employee_id' => 4,
-    //               'statutory_id' => 3,
-    //               'company_id' => 1,
-    //               'employee_statutory_no' => '',
-    //               'created_at' =>now(),
-    //               'updated_at' =>now(),
-    //           ]);
+      DB::table('employee_statutories')->insert([
+              'employee_id' => 2,
+              'statutory_id' => 1,
+              'company_id' => 1,
+              'employee_statutory_no' => '',
+              'created_at' =>now(),
+              'updated_at' =>now(),
+          ]);
+      DB::table('employee_statutories')->insert([
+              'employee_id' => 2,
+              'statutory_id' => 3,
+              'company_id' => 1,
+              'employee_statutory_no' => '',
+              'created_at' =>now(),
+              'updated_at' =>now(),
+          ]);
 
-    //       DB::table('employee_statutories')->insert([
-    //               'employee_id' => 4,
-    //               'statutory_id' => 4,
-    //               'company_id' => 1,
-    //               'employee_statutory_no' => '',
-    //                'created_at' =>now(),
-    //                'updated_at' =>now(),
-    //           ]);
+      DB::table('employee_statutories')->insert([
+              'employee_id' => 2,
+              'statutory_id' => 4,
+              'company_id' => 1,
+              'employee_statutory_no' => '',
+              'created_at' =>now(),
+              'updated_at' =>now(),
+          ]);
 
-    //       DB::table('employee_statutories')->insert([
-    //               'employee_id' => 4,
-    //               'statutory_id' => 5,
-    //               'company_id' => 1,
-    //               'employee_statutory_no' => '',
-    //               'created_at' =>now(),
-    //               'updated_at' =>now(),
-    //           ]);
+      DB::table('employee_statutories')->insert([
+              'employee_id' => 2,
+              'statutory_id' => 5,
+              'company_id' => 1,
+              'employee_statutory_no' => '',
+              'created_at' =>now(),
+              'updated_at' =>now(),
+          ]);
 
-    //           DB::table('employee_statutories')->insert([
-    //                   'employee_id' => 5,
-    //                   'statutory_id' => 1,
-    //                   'company_id' => 1,
-    //                   'employee_statutory_no' => '',
-    //                   'created_at' =>now(),
-    //                   'updated_at' =>now(),
-    //               ]);
-    //           DB::table('employee_statutories')->insert([
-    //                   'employee_id' => 5,
-    //                   'statutory_id' => 3, 
-    //                   'company_id' => 1,
-    //                   'employee_statutory_no' => '',
-    //                   'created_at' =>now(),
-    //                    'updated_at' =>now(),
-    //               ]);
+      DB::table('employee_statutories')->insert([
+              'employee_id' =>3,
+              'statutory_id' => 2,
+              'company_id' => 1,
+              'employee_statutory_no' => '',
+              'created_at' =>now(),
+              'updated_at' =>now(),
+              ]);
 
-    //           DB::table('employee_statutories')->insert([
-    //                   'employee_id' => 5,
-    //                   'statutory_id' => 4,
-    //                   'company_id' => 1,
-    //                   'employee_statutory_no' => '',
-    //                   'created_at' =>now(),
-    //                   'updated_at' =>now(),
-    //               ]);
+      DB::table('employee_statutories')->insert([
+              'employee_id' => 3,
+              'statutory_id' => 3,
+              'company_id' => 1,
+              'employee_statutory_no' => '',
+              'created_at' =>now(),
+              'updated_at' =>now(),
+              ]);
 
-    //           DB::table('employee_statutories')->insert([
-    //                   'employee_id' => 5,
-    //                   'statutory_id' => 5,
-    //                   'company_id' => 1,
-    //                   'employee_statutory_no' => '',
-    //                   'created_at' =>now(),
-    //                   'updated_at' =>now(),
-    //               ]);
+      DB::table('employee_statutories')->insert([
+              'employee_id' => 3,
+              'statutory_id' => 4,
+              'company_id' => 1,
+              'employee_statutory_no' => '',
+              'created_at' =>now(),
+              'updated_at' =>now(),
+          ]);
 
-
-    //           DB::table('employee_statutories')->insert([
-    //                   'employee_id' => 6,
-    //                   'statutory_id' => 1,
-    //                   'company_id' => 1,
-    //                   'employee_statutory_no' => '',
-    //                   'created_at' =>now(),
-    //                   'updated_at' =>now(),
-    //               ]);
-
-    //           DB::table('employee_statutories')->insert([
-    //                   'employee_id' => 6,
-    //                   'statutory_id' => 3,
-    //                   'company_id' => 1,
-    //                   'employee_statutory_no' => '',
-    //                   'created_at' =>now(),
-    //                   'updated_at' =>now(),
-    //               ]);
-
-    //           DB::table('employee_statutories')->insert([
-    //                   'employee_id' => 6,
-    //                   'statutory_id' => 4,
-    //                   'company_id' => 1,
-    //                   'employee_statutory_no' => '',
-    //                   'created_at' =>now(),
-    //                   'updated_at' =>now(),
-    //               ]);
-
-    //           DB::table('employee_statutories')->insert([
-    //                   'employee_id' => 6,
-    //                   'statutory_id' => 5,
-    //                   'company_id' => 1,
-    //                   'employee_statutory_no' => '',
-    //                   'created_at' =>now(),
-    //                   'updated_at' =>now(),
-    //               ]);
-    //               DB::table('employee_statutories')->insert([
-    //                       'employee_id' => 7,
-    //                       'statutory_id' => 1,
-    //                       'company_id' => 1,
-    //                       'employee_statutory_no' => '',
-    //                       'created_at' =>now(),
-    //                       'updated_at' =>now(),
-    //                   ]);
-    //               DB::table('employee_statutories')->insert([
-    //                       'employee_id' => 7,
-    //                       'statutory_id' => 3,
-    //                       'company_id' => 1,
-    //                       'employee_statutory_no' => '',
-    //                       'created_at' =>now(),
-    //                       'updated_at' =>now(),
-    //                   ]);
-
-    //               DB::table('employee_statutories')->insert([
-    //                       'employee_id' => 7,
-    //                       'statutory_id' => 4,
-    //                       'company_id' => 1,
-    //                       'employee_statutory_no' => '',
-    //                       'created_at' =>now(),
-    //                       'updated_at' =>now(),
-    //                   ]);
-
-    //               DB::table('employee_statutories')->insert([
-    //                       'employee_id' => 7,
-    //                       'statutory_id' => 5,
-    //                       'company_id' => 1,
-    //                       'employee_statutory_no' => '',
-    //                       'created_at' =>now(),
-    //                       'updated_at' =>now(),
-    //                   ]);
+      DB::table('employee_statutories')->insert([
+              'employee_id' => 3,
+              'statutory_id' => 5,
+              'company_id' => 1,
+              'employee_statutory_no' => '',
+              'created_at' =>now(),
+              'updated_at' =>now(),
+          ]);
 
 
-    //               DB::table('employee_statutories')->insert([
-    //                       'employee_id' => 8,
-    //                       'statutory_id' => 1,
-    //                       'company_id' => 1,
-    //                       'employee_statutory_no' => '',
-    //                       'created_at' =>now(),
-    //                       'updated_at' =>now(),
-    //                   ]);
+          DB::table('employee_statutories')->insert([
+                  'employee_id' => 4,
+                  'statutory_id' => 2,
+                  'company_id' => 1,
+                  'employee_statutory_no' => '',
+                  'created_at' =>now(),
+                  'updated_at' =>now(),
+              ]);
+          DB::table('employee_statutories')->insert([
+                  'employee_id' => 4,
+                  'statutory_id' => 3,
+                  'company_id' => 1,
+                  'employee_statutory_no' => '',
+                  'created_at' =>now(),
+                  'updated_at' =>now(),
+              ]);
 
-    //               DB::table('employee_statutories')->insert([
-    //                       'employee_id' => 8,
-    //                       'statutory_id' => 3,
-    //                       'company_id' => 1,
-    //                       'employee_statutory_no' => '',
-    //                       'created_at' =>now(),
-    //                       'updated_at' =>now(),
-    //                   ]);
+          DB::table('employee_statutories')->insert([
+                  'employee_id' => 4,
+                  'statutory_id' => 4,
+                  'company_id' => 1,
+                  'employee_statutory_no' => '',
+                   'created_at' =>now(),
+                   'updated_at' =>now(),
+              ]);
 
-    //               DB::table('employee_statutories')->insert([
-    //                       'employee_id' => 8,
-    //                       'statutory_id' => 4,
-    //                       'company_id' => 1,
-    //                       'employee_statutory_no' => '',
-    //                       'created_at' =>now(),
-    //                       'updated_at' =>now(),
-    //                   ]);
+          DB::table('employee_statutories')->insert([
+                  'employee_id' => 4,
+                  'statutory_id' => 5,
+                  'company_id' => 1,
+                  'employee_statutory_no' => '',
+                  'created_at' =>now(),
+                  'updated_at' =>now(),
+              ]);
 
-    //               DB::table('employee_statutories')->insert([
-    //                       'employee_id' => 8,
-    //                       'statutory_id' => 5,
-    //                       'company_id' => 1,
-    //                       'employee_statutory_no' => '',
-    //                       'created_at' =>now(),
-    //                       'updated_at' =>now(),
-    //                   ]);
+              DB::table('employee_statutories')->insert([
+                      'employee_id' => 5,
+                      'statutory_id' => 1,
+                      'company_id' => 1,
+                      'employee_statutory_no' => '',
+                      'created_at' =>now(),
+                      'updated_at' =>now(),
+                  ]);
+              DB::table('employee_statutories')->insert([
+                      'employee_id' => 5,
+                      'statutory_id' => 3, 
+                      'company_id' => 1,
+                      'employee_statutory_no' => '',
+                      'created_at' =>now(),
+                       'updated_at' =>now(),
+                  ]);
 
-    //                   DB::table('employee_statutories')->insert([
-    //                           'employee_id' => 9,
-    //                           'statutory_id' => 1,
-    //                           'company_id' => 1,
-    //                           'employee_statutory_no' => '',
-    //                           'created_at' =>now(),
-    //                           'updated_at' =>now(),
-    //                       ]);
+              DB::table('employee_statutories')->insert([
+                      'employee_id' => 5,
+                      'statutory_id' => 4,
+                      'company_id' => 1,
+                      'employee_statutory_no' => '',
+                      'created_at' =>now(),
+                      'updated_at' =>now(),
+                  ]);
 
-    //                   DB::table('employee_statutories')->insert([
-    //                           'employee_id' => 9,
-    //                           'statutory_id' => 3,
-    //                           'company_id' => 1,
-    //                           'employee_statutory_no' => '',
-    //                           'created_at' =>now(),
-    //                           'updated_at' =>now(),
-    //                       ]);
+              DB::table('employee_statutories')->insert([
+                      'employee_id' => 5,
+                      'statutory_id' => 5,
+                      'company_id' => 1,
+                      'employee_statutory_no' => '',
+                      'created_at' =>now(),
+                      'updated_at' =>now(),
+                  ]);
 
-    //                   DB::table('employee_statutories')->insert([
-    //                           'employee_id' => 9,
-    //                           'statutory_id' => 4,
-    //                           'company_id' => 1,
-    //                           'employee_statutory_no' => '',
-    //                           'created_at' =>now(),
-    //                           'updated_at' =>now(),
-    //                       ]);
 
-    //                   DB::table('employee_statutories')->insert([
-    //                           'employee_id' => 9,
-    //                           'statutory_id' => 5,
-    //                           'company_id' => 1,
-    //                           'employee_statutory_no' => '',
-    //                           'created_at' =>now(),
-    //                           'updated_at' =>now(),
-    //                       ]);
+              DB::table('employee_statutories')->insert([
+                      'employee_id' => 6,
+                      'statutory_id' => 1,
+                      'company_id' => 1,
+                      'employee_statutory_no' => '',
+                      'created_at' =>now(),
+                      'updated_at' =>now(),
+                  ]);
 
-    //                       DB::table('pays')->truncate();
+              DB::table('employee_statutories')->insert([
+                      'employee_id' => 6,
+                      'statutory_id' => 3,
+                      'company_id' => 1,
+                      'employee_statutory_no' => '',
+                      'created_at' =>now(),
+                      'updated_at' =>now(),
+                  ]);
 
-    //                       DB::table('pay_statutories')->truncate();
+              DB::table('employee_statutories')->insert([
+                      'employee_id' => 6,
+                      'statutory_id' => 4,
+                      'company_id' => 1,
+                      'employee_statutory_no' => '',
+                      'created_at' =>now(),
+                      'updated_at' =>now(),
+                  ]);
 
-    //                       DB::table('departments')->truncate();
+              DB::table('employee_statutories')->insert([
+                      'employee_id' => 6,
+                      'statutory_id' => 5,
+                      'company_id' => 1,
+                      'employee_statutory_no' => '',
+                      'created_at' =>now(),
+                      'updated_at' =>now(),
+                  ]);
+                  DB::table('employee_statutories')->insert([
+                          'employee_id' => 7,
+                          'statutory_id' => 1,
+                          'company_id' => 1,
+                          'employee_statutory_no' => '',
+                          'created_at' =>now(),
+                          'updated_at' =>now(),
+                      ]);
+                  DB::table('employee_statutories')->insert([
+                          'employee_id' => 7,
+                          'statutory_id' => 3,
+                          'company_id' => 1,
+                          'employee_statutory_no' => '',
+                          'created_at' =>now(),
+                          'updated_at' =>now(),
+                      ]);
 
-    //                       DB::table('departments')->insert([
-    //                               'name' => 'All',
-    //                               'description' => 'All staff',
-    //                               'company_id' => 1,
-    //                               'created_at' =>now(),
-    //                               'updated_at' =>now(),
-    //                           ]);
-    //                 DB::table('payroll_groups')->truncate();
+                  DB::table('employee_statutories')->insert([
+                          'employee_id' => 7,
+                          'statutory_id' => 4,
+                          'company_id' => 1,
+                          'employee_statutory_no' => '',
+                          'created_at' =>now(),
+                          'updated_at' =>now(),
+                      ]);
 
-    //                 DB::table('payroll_groups')->insert([
-    //                         'name' => 'All',
-    //                         'description' => 'All staff',
-    //                         'company_id' => 1,
-    //                         'created_at' =>now(),
-    //                         'updated_at' =>now(),
-    //                     ]);
+                  DB::table('employee_statutories')->insert([
+                          'employee_id' => 7,
+                          'statutory_id' => 5,
+                          'company_id' => 1,
+                          'employee_statutory_no' => '',
+                          'created_at' =>now(),
+                          'updated_at' =>now(),
+                      ]);
 
-    //                     DB::table('kin_types')->truncate();
 
-    //                     DB::table('kin_types')->insert([
-    //                             'name' => 'Mother',
-    //                             'description' => 'Parents',
-    //                             'company_id' => 1,
-    //                             'created_at' =>now(),
-    //                             'updated_at' =>now(),
-    //                         ]);
+                  DB::table('employee_statutories')->insert([
+                          'employee_id' => 8,
+                          'statutory_id' => 1,
+                          'company_id' => 1,
+                          'employee_statutory_no' => '',
+                          'created_at' =>now(),
+                          'updated_at' =>now(),
+                      ]);
+
+                  DB::table('employee_statutories')->insert([
+                          'employee_id' => 8,
+                          'statutory_id' => 3,
+                          'company_id' => 1,
+                          'employee_statutory_no' => '',
+                          'created_at' =>now(),
+                          'updated_at' =>now(),
+                      ]);
+
+                  DB::table('employee_statutories')->insert([
+                          'employee_id' => 8,
+                          'statutory_id' => 4,
+                          'company_id' => 1,
+                          'employee_statutory_no' => '',
+                          'created_at' =>now(),
+                          'updated_at' =>now(),
+                      ]);
+
+                  DB::table('employee_statutories')->insert([
+                          'employee_id' => 8,
+                          'statutory_id' => 5,
+                          'company_id' => 1,
+                          'employee_statutory_no' => '',
+                          'created_at' =>now(),
+                          'updated_at' =>now(),
+                      ]);
+
+                      DB::table('employee_statutories')->insert([
+                              'employee_id' => 9,
+                              'statutory_id' => 1,
+                              'company_id' => 1,
+                              'employee_statutory_no' => '',
+                              'created_at' =>now(),
+                              'updated_at' =>now(),
+                          ]);
+
+                      DB::table('employee_statutories')->insert([
+                              'employee_id' => 9,
+                              'statutory_id' => 3,
+                              'company_id' => 1,
+                              'employee_statutory_no' => '',
+                              'created_at' =>now(),
+                              'updated_at' =>now(),
+                          ]);
+
+                      DB::table('employee_statutories')->insert([
+                              'employee_id' => 9,
+                              'statutory_id' => 4,
+                              'company_id' => 1,
+                              'employee_statutory_no' => '',
+                              'created_at' =>now(),
+                              'updated_at' =>now(),
+                          ]);
+
+                      DB::table('employee_statutories')->insert([
+                              'employee_id' => 9,
+                              'statutory_id' => 5,
+                              'company_id' => 1,
+                              'employee_statutory_no' => '',
+                              'created_at' =>now(),
+                              'updated_at' =>now(),
+                          ]);
+
+                          DB::table('pays')->truncate();
+
+                          DB::table('pay_statutories')->truncate();
+
+                          DB::table('departments')->truncate();
+
+                          DB::table('departments')->insert([
+                                  'name' => 'All',
+                                  'description' => 'All staff',
+                                  'company_id' => 1,
+                                  'created_at' =>now(),
+                                  'updated_at' =>now(),
+                              ]);
+                    DB::table('payroll_groups')->truncate();
+
+                    DB::table('payroll_groups')->insert([
+                            'name' => 'All',
+                            'description' => 'All staff',
+                            'company_id' => 1,
+                            'created_at' =>now(),
+                            'updated_at' =>now(),
+                        ]);
+
+                        DB::table('kin_types')->truncate();
+
+                        DB::table('kin_types')->insert([
+                                'name' => 'Mother',
+                                'description' => 'Parents',
+                                'company_id' => 1,
+                                'created_at' =>now(),
+                                'updated_at' =>now(),
+                            ]);
                   
-    //                     DB::table('kin_types')->insert([
-    //                             'name' => 'Father',
-    //                             'description' => 'Parents',
-    //                             'company_id' => 1,
-    //                             'created_at' =>now(),
-    //                             'updated_at' =>now(),
-    //                         ]);
-    //                   DB::table('kin_types')->insert([
-    //                           'name' => 'Wife',
-    //                           'description' => 'Spouse',
-    //                           'company_id' => 1,
-    //                           'created_at' =>now(),
-    //                           'updated_at' =>now(),
-    //                       ]);
+                        DB::table('kin_types')->insert([
+                                'name' => 'Father',
+                                'description' => 'Parents',
+                                'company_id' => 1,
+                                'created_at' =>now(),
+                                'updated_at' =>now(),
+                            ]);
+                      DB::table('kin_types')->insert([
+                              'name' => 'Wife',
+                              'description' => 'Spouse',
+                              'company_id' => 1,
+                              'created_at' =>now(),
+                              'updated_at' =>now(),
+                          ]);
                   
-    //                   DB::table('kin_types')->insert([
-    //                           'name' => 'Husband',
-    //                           'description' => 'Spouse',
-    //                           'company_id' => 1,
-    //                           'created_at' =>now(),
-    //                           'updated_at' =>now(),
-    //                       ]);
+                      DB::table('kin_types')->insert([
+                              'name' => 'Husband',
+                              'description' => 'Spouse',
+                              'company_id' => 1,
+                              'created_at' =>now(),
+                              'updated_at' =>now(),
+                          ]);
 
-    //                       DB::table('employment_types')->truncate();
+                          DB::table('employment_types')->truncate();
 
-    //                       DB::table('employment_types')->insert([
-    //                               'name' => 'Contract',
-    //                               'description' => 'Contract',
-    //                               'company_id' => 1,
-    //                               'created_at' =>now(),
-    //                               'updated_at' =>now(),
-    //                           ]);
+                          DB::table('employment_types')->insert([
+                                  'name' => 'Contract',
+                                  'description' => 'Contract',
+                                  'company_id' => 1,
+                                  'created_at' =>now(),
+                                  'updated_at' =>now(),
+                              ]);
                     
-    //                      DB::table('employment_types')->insert([
-    //                               'name' => 'Permanent',
-    //                               'description' => 'Permanent',
-    //                               'company_id' => 1,
-    //                               'created_at' =>now(),
-    //                               'updated_at' =>now(),
-    //                           ]);
+                         DB::table('employment_types')->insert([
+                                  'name' => 'Permanent',
+                                  'description' => 'Permanent',
+                                  'company_id' => 1,
+                                  'created_at' =>now(),
+                                  'updated_at' =>now(),
+                              ]);
                     
                         
-    //                      DB::table('employment_types')->insert([
-    //                               'name' => 'Casual',
-    //                               'description' => 'Casual',
-    //                               'company_id' => 1,
-    //                               'created_at' =>now(),
-    //                               'updated_at' =>now(),
-    //                           ]);
+                         DB::table('employment_types')->insert([
+                                  'name' => 'Casual',
+                                  'description' => 'Casual',
+                                  'company_id' => 1,
+                                  'created_at' =>now(),
+                                  'updated_at' =>now(),
+                              ]);
 
-    //                           DB::table('pay_bases')->truncate();
+                              DB::table('pay_bases')->truncate();
 
-    //   DB::table('pay_bases')->insert([
-    //           'name' => 'monthly',
-    //           'description' => 'Monthly',
-    //           'company_id' => 1,
-    //           'created_at' =>now(),
-    //           'updated_at' =>now(),
-    //       ]);
+      DB::table('pay_bases')->insert([
+              'name' => 'monthly',
+              'description' => 'Monthly',
+              'company_id' => 1,
+              'created_at' =>now(),
+              'updated_at' =>now(),
+          ]);
 
-    //  DB::table('pay_bases')->insert([
-    //           'name' => 'fortynight',
-    //           'description' => 'Permanent',
-    //           'company_id' => 1,
-    //           'created_at' =>now(),
-    //           'updated_at' =>now(),
-    //       ]);
+     DB::table('pay_bases')->insert([
+              'name' => 'fortynight',
+              'description' => 'Permanent',
+              'company_id' => 1,
+              'created_at' =>now(),
+              'updated_at' =>now(),
+          ]);
 
     
-    //  DB::table('pay_bases')->insert([
-    //           'name' => 'Weekly',
-    //           'description' => 'Weekly',
-    //           'company_id' => 1,
-    //           'created_at' =>now(),
-    //           'updated_at' =>now(),
-    //       ]);
+     DB::table('pay_bases')->insert([
+              'name' => 'Weekly',
+              'description' => 'Weekly',
+              'company_id' => 1,
+              'created_at' =>now(),
+              'updated_at' =>now(),
+          ]);
     
-    //  DB::table('pay_bases')->insert([
-    //           'name' => 'Daily',
-    //           'description' => 'Daily',
-    //           'company_id' => 1,
-    //           'created_at' =>now(),
-    //           'updated_at' =>now(),
-    //       ]);
+     DB::table('pay_bases')->insert([
+              'name' => 'Daily',
+              'description' => 'Daily',
+              'company_id' => 1,
+              'created_at' =>now(),
+              'updated_at' =>now(),
+          ]);
     
-    //  DB::table('pay_bases')->insert([
-    //           'name' => 'Hourly',
-    //           'description' => 'Hourly',
-    //           'company_id' => 1,
-    //           'created_at' =>now(),
-    //           'updated_at' =>now(),
-    //       ]);
+     DB::table('pay_bases')->insert([
+              'name' => 'Hourly',
+              'description' => 'Hourly',
+              'company_id' => 1,
+              'created_at' =>now(),
+              'updated_at' =>now(),
+          ]);
      
-    //  DB::table('pay_bases')->insert([
-    //           'name' => 'Pages',
-    //           'description' => 'Pages',
-    //           'company_id' => 1,
-    //           'created_at' =>now(),
-    //           'updated_at' =>now(),
-    //       ]);
+     DB::table('pay_bases')->insert([
+              'name' => 'Pages',
+              'description' => 'Pages',
+              'company_id' => 1,
+              'created_at' =>now(),
+              'updated_at' =>now(),
+          ]);
 
-    //       DB::table('roles')->truncate();
+          Schema::disableForeignKeyConstraints();
 
-    //       DB::table('roles')->insert([    
-    //         ['name' => 'admin',
-    //         'company_id' => 1,
-    //         'created_at' =>now(),
-    //         'updated_at' =>now()],
-    //         ['name' => 'operator','company_id' => 1, 'created_at' =>now(),
-    //         'updated_at' =>now()],
-    //         ['name' => 'employee', 'company_id' => 1,'created_at' =>now(),
-    //         'updated_at' =>now()],
-    //         ['name' => 'employer','company_id' => 1, 'created_at' =>now(),
-    //         'updated_at' =>now()],
-    //         ['name' => 'user', 'company_id' => 1,'created_at' =>now(),
-    //         'updated_at' =>now()],  
-    //         ]);
+          DB::table('roles')->truncate();
 
-    //         DB::table('roles')->truncate();
+          DB::table('roles')->insert([    
+            ['name' => 'admin',
+            'company_id' => 1,
+            'created_at' =>now(),
+            'updated_at' =>now()],
+            ['name' => 'operator','company_id' => 1, 'created_at' =>now(),
+            'updated_at' =>now()],
+            ['name' => 'employee', 'company_id' => 1,'created_at' =>now(),
+            'updated_at' =>now()],
+            ['name' => 'employer','company_id' => 1, 'created_at' =>now(),
+            'updated_at' =>now()],
+            ['name' => 'user', 'company_id' => 1,'created_at' =>now(),
+            'updated_at' =>now()],  
+            ]);
 
-    //         $permission_ids = []; // an empty array of stored permission IDs
-    //     // iterate though all routes
+            DB::table('roles')->truncate();
 
-    //     $routeCollection = Route::getRoutes(); 
+            $permission_ids = []; // an empty array of stored permission IDs
+        // iterate though all routes
+
+        $routeCollection = Route::getRoutes(); 
         
-    //     foreach (Route::getRoutes()->getRoutes() as $key => $route)
-    //     {
-    //         // get route action
+        foreach (Route::getRoutes()->getRoutes() as $key => $route)
+        {
+            // get route action
 
-    //         $action = $route->getActionname();
+            $action = $route->getActionname();
 
-    //         // separating controller and method
+            // separating controller and method
 
-    //         $_action = explode('@',$action);
+            $_action = explode('@',$action);
             
-    //         $controller = $_action[0];            
+            $controller = $_action[0];            
 
-    //         $controller_name = substr(substr($controller, 28), 0, -10);
+            $controller_name = substr(substr($controller, 28), 0, -10);
 
-    //         $method = end($_action);
+            $method = end($_action);
             
-    //         // check if this permission is already exists
+            // check if this permission is already exists
 
-    //         $permission_check = Permission::where(
-    //                 ['controller'=>$controller,'method'=>$method]
-    //             )->first();
+            $permission_check = Permission::where(
+                    ['controller'=>$controller,'method'=>$method]
+                )->first();
 
-    //         if(!$permission_check){
-    //             $permission = new Permission;
-    //             $permission->name = $controller_name. ' ' .$method ;
-    //             $permission->controller = $controller;
-    //             $permission->method = $method;
-    //             $permission->save();
-    //             // add stored permission id in array
-    //             $permission_ids[] = $permission->id;
-    //         }
-    //     }
-    //     // find admin role.
-    //     $admin_role = Role::where('name','admin')->first();
-    //     // atache all permissions to admin role
-    //     $admin_role->permissions()->attach($permission_ids);
+            if(!$permission_check){
+                $permission = new Permission;
+                $permission->name = $controller_name. ' ' .$method ;
+                $permission->controller = $controller;
+                $permission->method = $method;
+                $permission->save();
+                // add stored permission id in array
+                $permission_ids[] = $permission->id;
+            }
+        }
+        // find admin role.
+        $admin_role = Role::where('name','admin')->first();
+        // atache all permissions to admin role
+        $admin_role->permissions()->attach($permission_ids);
 
-    //     //find Operator role
-    //             // find admin role.
-    //             $operator_role = Role::where('name','operator')->first();
-    //             // atache all permissions to admin role
-    //             $operator_role->permissions()->attach($permission_ids);
+        //find Operator role
+                // find admin role.
+                $operator_role = Role::where('name','operator')->first();
+                // atache all permissions to admin role
+                $operator_role->permissions()->attach($permission_ids);
 
 
-    //             $employee_role = Role::where('name','employee')->first();
-    //             // atache all permissions to admin role
-    //             $employee_role->permissions()->attach([11, 246, 250, 88, 224, 261, 262]);
+                $employee_role = Role::where('name','employee')->first();
+                // atache all permissions to admin role
+                $employee_role->permissions()->attach([11, 246, 250, 88, 224, 261, 262]);
         
-    //    //delete unwanted roles
+       //delete unwanted roles
        
 
       
-    //    DB::table('permission_role')
-    //             ->where('role_id', 2)
-    //             ->where('permission_id', '>=', 43)
-    //            ->where('permission_id', '<=', 56)->delete();
+       DB::table('permission_role')
+                ->where('role_id', 2)
+                ->where('permission_id', '>=', 43)
+               ->where('permission_id', '<=', 56)->delete();
 
-    //       DB::table('basic_settings')->truncate();
+          DB::table('basic_settings')->truncate();
 
-    //       foreach ($this->settings as $index => $setting)
-    //       {
-    //           $result = DB::table('basic_settings')->insert($setting);
-    //           //$result = BasicSetting::create($setting);
-    //           if (!$result) {
-    //               $this->command->info("Insert failed at record $index.");
-    //               return;
-    //           }
-    //       }
-    //       $this->command->info('Inserted '.count($this->settings). ' records');
+          foreach ($this->settings as $index => $setting)
+          {
+              $result = DB::table('basic_settings')->insert($setting);
+              //$result = BasicSetting::create($setting);
+              if (!$result) {
+                  $this->command->info("Insert failed at record $index.");
+                  return;
+              }
+          }
+          $this->command->info('Inserted '.count($this->settings). ' records');
     }
 }

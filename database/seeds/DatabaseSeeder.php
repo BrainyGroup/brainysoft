@@ -1,10 +1,6 @@
 <?php
 
-namespace Database\Seeders;
-
 use Illuminate\Database\Seeder;
-
-//use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
@@ -170,19 +166,19 @@ class DatabaseSeeder extends Seeder
            Allowance_typesTableSeeder::class,
            DeductionsTableSeeder::class,
            AllowancesTableSeeder::class,
-           LevelsTableSeeder::class,
-           DesignationsTableSeeder::class,
-           Employee_statutoriesTableSeeder::class,
-           PaysTableSeeder::class,
-           Pay_statutoriesTableSeeder::class,
-           DepartmentTableSeeder::class,
-           Payroll_groupTableSeeder::class,
-           Kin_typeTableSeeder::class,
-           Employment_typeTableSeeder::class,
-           Pay_baseTableSeeder::class,
-           BasicSettingsTableSeeder::class,
-           RolesTableSeeder::class,
-           PermissionTableSeeder::class,
+          //  LevelsTableSeeder::class,
+          //  DesignationsTableSeeder::class,
+          //  Employee_statutoriesTableSeeder::class,
+          //  PaysTableSeeder::class,
+          //  Pay_statutoriesTableSeeder::class,
+          //  DepartmentTableSeeder::class,
+          //  Payroll_groupTableSeeder::class,
+          //  Kin_typeTableSeeder::class,
+          //  Employment_typeTableSeeder::class,
+          //  Pay_baseTableSeeder::class,
+          //  BasicSettingsTableSeeder::class,
+          //  RolesTableSeeder::class,
+          //  PermissionTableSeeder::class,
 
          ]);
 
