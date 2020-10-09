@@ -720,10 +720,9 @@ class AllowancesTableSeeder extends Seeder
               'updated_at' =>now(),
           ]);
 
-          Schema::disableForeignKeyConstraints();
+          //Schema::disableForeignKeyConstraints();
 
-          DB::table('roles')->truncate();
-
+    
           DB::table('roles')->insert([    
             ['name' => 'admin',
             'company_id' => 1,
@@ -739,7 +738,7 @@ class AllowancesTableSeeder extends Seeder
             'updated_at' =>now()],  
             ]);
 
-            DB::table('roles')->truncate();
+           
 
             $permission_ids = []; // an empty array of stored permission IDs
         // iterate though all routes
