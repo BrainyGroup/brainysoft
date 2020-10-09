@@ -18,7 +18,7 @@ use BrainySoft\Payroll\Employment_type;
 
 use BrainySoft\Payroll\EmployeeStatutory;
 
-use BrainySoft\Payroll\Jobs\SendEmailPaySlip;
+use BrainySoft\Jobs\SendEmailPaySlip;
 
 use BrainySoft\Payroll\Level;
 
