@@ -12,7 +12,7 @@
                 </div>
             @endif
 
-            <img class="user_avatar" src="{{ asset('/storage/user_profile_photos/'.$user->photo)}}">
+            <img class="avatar avatar-16 img-circle"  src="{{ asset('/storage/user_profile_photos/'.$user->photo)}}">
 
 
             {!! Form::open([ 'action' => array('Payroll\UserController@update', $user->id),'files' => true,'method' => 'PUT']) !!}

@@ -46,7 +46,7 @@
 
                       <td>{{ $employee->title.'. '.$employee->firstname.' '.$employee->middlename.' '.$employee->lastname }}</td>
 
-                      <td><a href="/employees/{employee}">{{ $employee->identity }}  </a></td>
+                      <td><a href="/employees/{{ $employee->id}}">{{ $employee->identity }}  </a></td>
 
                       <td>{{ $employee->tin }}</td>
 

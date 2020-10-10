@@ -26,7 +26,7 @@ Auth::routes();
 
 //Route::resource('centers', 'CenterController');
 
-Route::get('/centers', 'Payroll\CenterController@index')->name('centers');
+//Route::get('/centers', 'Payroll\CenterController@index')->name('centers');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/reports', 'ReportController@index')->name('reports');
@@ -64,7 +64,7 @@ Route::resource('allowance_types', 'Payroll\AllowanceTypeController');
 Route::resource('banks', 'Payroll\BankController');
 
 //center routes
-//Route::resource('centers', 'Payroll\CenterController');
+Route::resource('centers', 'Payroll\CenterController');
 
 //company routes
 Route::resource('companies', 'Payroll\CompanyController');
