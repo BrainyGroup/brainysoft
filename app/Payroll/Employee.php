@@ -8,7 +8,7 @@ use Carbon\Carbon;
 class Employee extends Model
 {
     protected $fillable = [
-      'designation', 'identity', 'startdate', 'enddate',
+      'designation', 'identity', 'tin','startdate', 'enddate',
     ];
 
 
