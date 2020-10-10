@@ -294,6 +294,9 @@ class EmployeeController extends Controller
 
                     'user_id' => request('user_id'),
 
+                    'tin' => 23,
+
+
                     'bank_id' => request('bank_id'),
 
                     'account_number' => request('account_number'),
