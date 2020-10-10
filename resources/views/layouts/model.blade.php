@@ -15,7 +15,7 @@
                 </div>
             @endif
 
-            {!! Form::open(['action' => 'LevelController@store','method' => 'POST']) !!}
+            {!! Form::open(['action' => 'Payroll\LevelController@store','method' => 'POST']) !!}
       <div class="modal-body">         
 
             {{ Form::bsText('name','',['placeholder' => 'Enter level name']) }}
@@ -53,7 +53,7 @@
                 </div>
             @endif
 
-            {!! Form::open(['action' => 'CenterController@store','method' => 'POST']) !!}
+            {!! Form::open(['action' => 'Payroll\CenterController@store','method' => 'POST']) !!}
 
       <div class="modal-body">
 
@@ -95,7 +95,7 @@
                 </div>
             @endif
 
-            {!! Form::open(['action' => 'ScaleController@store','method' => 'POST']) !!}
+            {!! Form::open(['action' => 'Payroll\ScaleController@store','method' => 'POST']) !!}
       <div class="modal-body">
 
 
@@ -138,7 +138,7 @@
                 </div>
             @endif
 
-            {!! Form::open(['action' => 'DepartmentController@store','method' => 'POST']) !!}
+            {!! Form::open(['action' => 'Payroll\DepartmentController@store','method' => 'POST']) !!}
       <div class="modal-body">
 
 
@@ -177,7 +177,7 @@
                 </div>
             @endif
 
-            {!! Form::open(['action' => 'DesignationController@store','method' => 'POST']) !!}
+            {!! Form::open(['action' => 'Payroll\DesignationController@store','method' => 'POST']) !!}
 
       <div class="modal-body">
 
@@ -266,7 +266,7 @@
                 </div>
             @endif
 
-            {!! Form::open(['action' => 'BankController@store','method' => 'POST']) !!}
+            {!! Form::open(['action' => 'Payroll\BankController@store','method' => 'POST']) !!}
       <div class="modal-body">
 
 
@@ -306,7 +306,7 @@
                 </div>
             @endif
 
-            {!! Form::open(['action' => 'PayrollGroupController@store','method' => 'POST']) !!}
+            {!! Form::open(['action' => 'Payroll\PayrollGroupController@store','method' => 'POST']) !!}
 
       <div class="modal-body">
 
@@ -349,7 +349,7 @@
                 </div>
             @endif
 
-            {!! Form::open(['action' => 'EmploymentTypeController@store','method' => 'POST']) !!}
+            {!! Form::open(['action' => 'Payroll\EmploymentTypeController@store','method' => 'POST']) !!}
 
       <div class="modal-body">
 
@@ -392,7 +392,7 @@
                 </div>
             @endif
 
-            {!! Form::open(['action' => 'PayBaseController@store','method' => 'POST']) !!}
+            {!! Form::open(['action' => 'Payroll\PayBaseController@store','method' => 'POST']) !!}
 
       <div class="modal-body">
 

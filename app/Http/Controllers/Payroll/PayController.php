@@ -1228,7 +1228,7 @@ private function deductionSum($employee_id = null,$company_id = null){
         foreach ($pays as $pay) {
 
             $fromPaySlipEmail = 'payroll@datahousetza.com';
-            $fromPaySlipName = 'Payroll Datahouse';
+            $fromPaySlipName = 'Payroll '. $company->name;
             $paySlipSubject = 'Pay Slip';
 
             $employee = Employee::findOrFail($pay->employee_id);

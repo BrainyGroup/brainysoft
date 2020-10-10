@@ -41,7 +41,8 @@ class RolesAuth
             }
         }
         // none authorized request
-        return response('Unauthorized Action', 403);
+        //return response('Unauthorized Action', 403);
+        return back()->with('error','Unauthorized Action');
         
     }
 }
