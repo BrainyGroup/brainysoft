@@ -1237,7 +1237,7 @@ private function deductionSum($employee_id = null,$company_id = null){
 
             dispatch(new SendEmailPaySlip($pay, $company, $user))->delay(now()->addMinutes(60));
 
-            // $this->sendSalarySlipEmail($employee->user_id,$pay->company_id,$fromPaySlipEmail,$fromPaySlipName,$paySlipSubject,$pay->pay_number);
+            $this->sendSalarySlipEmail($employee->user_id,$pay->company_id,$fromPaySlipEmail,$fromPaySlipName,$paySlipSubject,$pay->pay_number);
 
         }
 
