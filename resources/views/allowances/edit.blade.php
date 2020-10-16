@@ -8,7 +8,7 @@
         <div class="card-body">
                 {!! Form::open(['action' => array('Payroll\AllowanceController@update', $allowance->id),'method' => 'PUT']) !!}
 
-                {{ Form::bsText('allowance_amount',$allowance->amount,['placeholder' => 'Enter Allowance Amount']) }} 
+                {{ Form::bsText(__('messages.allowance_amount'), $allowance->amount, ['placeholder' => __('messages.allowance amount')]) }} 
 
 
                 {{ Form::bsHidden('user_id', request('user_id')) }}
@@ -17,7 +17,7 @@
 
                     <div class="form-group">
 
-                    <label for="allowance_name" class="control-label">Allowance Name</label>
+                    <label for="allowance_name" class="control-label">{{__('messages.name')}}</label>
 
                      <select class="form-control" id="allowance_name" name="allowance_type_id">
 
@@ -35,11 +35,11 @@
 
 
 
-                    {{ Form::bsDate('start_date', $allowance->start_date) }}
+                    {{ Form::bsDate(__('messages.start_date'), $allowance->start_date) }}
 
-                    {{ Form::bsDate('end_date', $allowance->end_date) }}
+                    {{ Form::bsDate(__('messages.end_date'), $allowance->end_date) }}
 
-                    {{ Form::bsSubmit('Submit',['class' => 'btn btn-primary']) }}
+                    {{ Form::bsSubmit(__('messages.save'),['class' => 'btn btn-primary']) }}
 
                     {!! Form::close() !!}
 

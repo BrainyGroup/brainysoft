@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">Deductions</div>
+        <div class="card-header">{{ __('messages.deduction') }}</div>
 
         <div class="card-body">
             @if (session('status'))
@@ -22,11 +22,11 @@
                   <thead>
                     <tr>
                       <th scope="col">#</th>
-                      <th scope="col">Name</th>
-                      <th scope="col">Deduction name</th>
-                      <th scope="col">Amount</th>
-                      <th scope="col">Edit</th>
-                      <th scope="col">Delete</th>
+                      <th scope="col">{{ __('messages.name') }}</th>
+                      <th scope="col">{{ __('messages.description') }}</th>                  
+                      <th scope="col">{{ __('messages.amount') }}</th>
+                      <th scope="col">{{ __('messages.edit') }}</th>
+                      <th scope="col">{{ __('messages.delete') }}</th>
 
                     </tr>
                   </thead>
@@ -93,7 +93,7 @@
                           if (result){
                               event.preventDefault();
                               document.getElementById({{$deduction->id}}).submit();
-                            }">Delete
+                            }">{{ __('messages.delete') }}
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\DeductionController@destroy',$deduction->id],'method' => 'DELETE','id' => $deduction->id]) !!}

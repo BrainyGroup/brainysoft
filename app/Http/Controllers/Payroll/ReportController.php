@@ -1143,11 +1143,17 @@ $month_paye_paid = $month_paye_amount - $month_paye_balance;
 
     ->get();
 
+
+
     $title = 'All Paye from to';
 
     $months = ['January','February','March','April','May','June','July','August','September','Octobar','November','December'];
 
     //dd( $paye_yearly);
+
+
+
+
 
     return view('reports.paye_all', compact('paye_all','months','year','title'));
 
@@ -1161,9 +1167,11 @@ $month_paye_paid = $month_paye_amount - $month_paye_balance;
 
       $year = request('year');
 
-      $paye_yearly =  DB::table('statutory_payments')
+      $paye_yearly=  DB::table('statutory_payments')
 
       ->select(
+
+        
 
     
 
@@ -1188,7 +1196,9 @@ $month_paye_paid = $month_paye_amount - $month_paye_balance;
 
     //dd( $paye_yearly);
 
-    return view('reports.paye_all', compact('paye_yearly','months','year','title'));
+    //dd($paye_all);
+
+    return view('reports.paye_yearly', compact('paye_yearly','months','year','title'));
 
 
 

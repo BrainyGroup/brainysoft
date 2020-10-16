@@ -50,8 +50,8 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
-        //$this->middleware('role');
+       // $this->middleware('auth');
+        $this->middleware('role');
     }
 
     private function company()
@@ -550,6 +550,113 @@ class HomeController extends Controller
 
         //   ->groupBy('month')->get();
 
+        $year = Carbon::now()->year;       
+    
+
+        $january_gloss = Pay::where('company_id', $company->id)
+
+        ->where('pay_number', $year.'01' )
+
+       ->sum('gloss');
+       
+       $february_gloss = Pay::where('company_id', $company->id)
+
+       ->where('pay_number', $year.'02' )
+
+      ->sum('gloss');
+
+      $march_gloss = Pay::where('company_id', $company->id)
+
+      ->where('pay_number', $year.'03' )
+
+     ->sum('gloss');
+
+     $april_gloss = Pay::where('company_id', $company->id)
+
+     ->where('pay_number', $year.'04' )
+
+    ->sum('gloss');
+
+    $may_gloss = Pay::where('company_id', $company->id)
+
+    ->where('pay_number', $year.'05' )
+
+   ->sum('gloss');
+
+   $june_gloss = Pay::where('company_id', $company->id)
+
+   ->where('pay_number', $year.'06' )
+
+  ->sum('gloss');
+
+  $july_gloss = Pay::where('company_id', $company->id)
+
+  ->where('pay_number', $year.'07' )
+
+ ->sum('gloss');
+
+ $august_gloss = Pay::where('company_id', $company->id)
+
+ ->where('pay_number', $year.'08' )
+
+->sum('gloss');
+
+$semptember_gloss = Pay::where('company_id', $company->id)
+
+->where('pay_number', $year.'09' )
+
+->sum('gloss');
+
+$october_gloss = Pay::where('company_id', $company->id)
+
+->where('pay_number', $year.'10' )
+
+->sum('gloss');
+
+$november_gloss = Pay::where('company_id', $company->id)
+
+->where('pay_number', $year.'11' )
+
+->sum('gloss');
+
+$december_gloss = Pay::where('company_id', $company->id)
+
+->where('pay_number', $year.'12' )
+
+->sum('gloss');
+
+
+$yearly_pay_4 = Pay::where('company_id', $company->id)
+
+->where('year', $year-4 )
+
+->sum('gloss');
+
+$yearly_pay_3 = Pay::where('company_id', $company->id)
+
+->where('year', $year-3 )
+
+->sum('gloss');
+
+
+$yearly_pay_2 = Pay::where('company_id', $company->id)
+
+->where('year', $year-2 )
+
+->sum('gloss');
+
+$yearly_pay_1 = Pay::where('company_id', $company->id)
+
+->where('year', $year-1)
+
+->sum('gloss');
+
+$yearly_pay_0 = Pay::where('company_id', $company->id)
+
+->where('year', $year)
+
+->sum('gloss');
+
         $max_pay_number = Pay::where('company_id', $company->id)
         ->where('posted', true)
         ->max('pay_number');
@@ -642,7 +749,10 @@ class HomeController extends Controller
 
        
 
-        $value = [0, 10, 5, 2, 20, 30, 60];
+        $value = [$january_gloss, $february_gloss,$march_gloss, $april_gloss, $may_gloss, $june_gloss, $july_gloss,
+                  $august_gloss,$semptember_gloss,$october_gloss,$november_gloss,$december_gloss];
+
+        $yearly_pay = [$yearly_pay_4, $yearly_pay_3,$yearly_pay_2,$yearly_pay_1,$yearly_pay_0];
 
         //dd(implode(',', $value));
 
@@ -663,7 +773,8 @@ class HomeController extends Controller
           'monthly_statutory',
           'monthly_deduction',
           'monthly_total',
-
+          'year',
+          'yearly_pay',
           'monthly_gloss')
         );
         // Mail::send('emails.mailtrap', [], function($m){

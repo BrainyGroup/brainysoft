@@ -34,8 +34,8 @@ class AllowanceController extends Controller
     public function __construct()
     {
 
-        $this->middleware('auth');
-        //$this->middleware('role');
+       // $this->middleware('auth');
+        $this->middleware('role');
 
     }
       /**
@@ -264,6 +264,8 @@ class AllowanceController extends Controller
      */
     public function update(Request $request, Allowance $allowance)
     {
+
+      //dd( $request->input('start_date'));
 
               //Validation
               $this->validate(request(),[

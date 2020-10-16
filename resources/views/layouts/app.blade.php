@@ -55,6 +55,17 @@
             <link href="{{ asset('datatable/assets/css/darkblue.min.css') }}" rel="stylesheet" type="text/css" id="style_color" />
             <link href="{{ asset('datatable/assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
             <!-- END THEME LAYOUT STYLES -->
+
+            <!-- summernote css/js -->
+            <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+           
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+            <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+
+
+
             <link rel="shortcut icon" href="favicon.ico" /> </head>
     
 
@@ -135,5 +146,30 @@
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
 
         <!-- END THEME LAYOUT SCRIPTS -->
+
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+
+        @if(isset($documentation->description))
+
+        <script>            
+            $(document).ready(function() {
+                //$('.summernote').summernote();
+                $(".summernote").summernote('code', '{!! json_encode($documentation->description) !!}');
+            });
+        </script>
+
+        @else 
+
+        <script>            
+            $(document).ready(function() {
+                $('.summernote').summernote();
+              
+            });
+        </script>
+
+        @endif
+        
+
 </body>
 </html>

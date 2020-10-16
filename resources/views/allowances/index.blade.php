@@ -9,20 +9,20 @@
             @if( count($employees_allowances) > 0)
       <div class="table-responsive">
 
-              <table class="table table-hover table-striped table-bordered table-sm">
+              <table class="table table-hover table-striped table-bordered table-sm" id="sample_1">
                 <caption></caption>
 
 
                   <thead>
                     <tr>
                       <th scope="col">#</th>
-                      <th scope="col">Employee Name</th>
-                      <th scope="col">Allowance name</th>
-                      <th scope="col">Amount</th>
-                      <th scope="col">Start date</th>
-                      <th scope="col">End date</th>
-                      <th scope="col">Edit</th>
-                      <th scope="col">Delete</th>
+                      <th scope="col">{{ __('messages.employee name') }}</th>
+                      <th scope="col">{{ __('messages.allowance name') }}</th>
+                      <th scope="col">{{ __('messages.amount') }}</th>
+                      <th scope="col">{{ __('messages.start date') }}</th>
+                      <th scope="col">{{ __('messages.end date') }}</th>
+                      <th scope="col">{{ __('messages.edit') }}</th>
+                      <th scope="col">{{ __('messages.delete') }}</th>
 
 
                     </tr>
@@ -44,7 +44,7 @@
 
                       <td class = "text-right">{{ $allowance->end_date }}  </td>
 
-                      <td><a href="/allowances/{{$allowance->id}}/edit?user_id={{$allowance->user_id}}">{{ __('messages.edit') }}</a></td>
+                      <td><a href="/allowances/{{$allowance->id}}/edit?user_id={{$allowance->user_id}}"><i class="fa fa-paint-brush text-secondary" aria-hidden="true"></i></a></td>
 
                       <td><a href=""
                           onclick="
@@ -52,7 +52,7 @@
                           if (result){
                               event.preventDefault();
                               document.getElementById({{$allowance->id}}).submit();
-                            }">{{ __('messages.delete') }}
+                            }"><i class="fa fa-trash text-secondary" aria-hidden="true"></i>
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\AllowanceController@destroy',$allowance->id],'method' => 'DELETE','id' => $allowance->id]) !!}

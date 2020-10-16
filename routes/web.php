@@ -87,6 +87,10 @@ Route::resource('departments', 'Payroll\DepartmentController');
 //designation routes
 Route::resource('designations', 'Payroll\DesignationController');
 
+Route::resource('documentations', 'Payroll\DocumentationController');
+
+
+
 //employees routes
 Route::resource('employees', 'Payroll\EmployeeController');
 
@@ -160,6 +164,34 @@ Route::resource('employee_statutories', 'Payroll\EmployeeStatutoryController');
 
 //  Route::get('/users', 'UserController@getUsers');
 // Route::delete('/users/{user}/delete', 'UserController@deleteUser');
+
+//documentations
+
+// Route::get('/documentations', 'Payroll\DocumentationController@index');
+
+// Route::get('/documentations/login', 'Payroll\DocumentationController@login');
+
+// Route::get('/documentations/home', 'Payroll\DocumentationController@home');
+
+// Route::get('/documentations/user', 'Payroll\DocumentationController@user');
+
+// Route::get('/documentations/employee', 'Payroll\DocumentationController@employee');
+
+// Route::get('/documentations/earning', 'Payroll\DocumentationController@earning');
+
+// Route::get('/documentations/report', 'Payroll\DocumentationController@report');
+
+// Route::get('/documentations/setting', 'Payroll\DocumentationController@setting');
+
+// Route::get('/documentations/user_profile', 'Payroll\DocumentationController@user_profile');
+
+// //Route::get('/article','ArticleController@index')->name('article.form');
+
+// Route::get('/documentations/create','Payroll\DocumentationController@create');
+ 
+// Route::post('/documentations','Payroll\DocumentationController@store')->name('documentations');
+ 
+// Route::get('/documentation/{id}','Payroll\DocumentationController@show');
 
 
 

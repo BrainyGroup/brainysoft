@@ -14,11 +14,10 @@
 
 
                   <thead>
-                    <tr>
-
-                      <th scope="col">Name</th>
-                      <th scope="col">Description</th>
-                      <th scope="col">Edit</th>
+                    <tr>            
+                      <th scope="col">{{ __('messages.name') }}</th>
+                      <th scope="col">{{ __('messages.description') }}</th>
+                      <th scope="col">{{ __('messages.edit') }}</th>        
                      
 
                     </tr>

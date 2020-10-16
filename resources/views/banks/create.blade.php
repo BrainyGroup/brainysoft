@@ -9,11 +9,11 @@
             {!! Form::open(['action' => 'Payroll\BankController@store','method' => 'POST']) !!}
 
 
-            {{ Form::bsText('name','',['placeholder' => __('messages.enter name')]) }}
+            {{ Form::bsText( __('messages.name'),'',['placeholder' => __('messages.bank name')]) }}
 
-            {{ Form::bsText('description','',['placeholder' => __('messages.enter description')]) }}
+            {{ Form::bsText( __('messages.description'),'',['placeholder' => __('messages.bank description')]) }}
 
-            {{ Form::bsSubmit(__('messages.add'),['class' => 'btn btn-primary']) }}
+            {{ Form::bsSubmit(__('messages.submit'),['class' => 'btn btn-primary']) }}
 
             {!! Form::close() !!}
 

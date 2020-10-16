@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-6">
     <div class="card">
-        <div class="card-header">{{ __('messages.employee_payment') }} <span class="pull-right"> <a href="/employee_payments/create">{{ __('messages.add') }}</a></span></div>
+        <div class="card-header">{{ __('messages.employee_payment') }} <span class="pull-right"> <a  class="btn btn-secondary btn-sm"  href="/employee_payments/create">{{ __('messages.add') }}</a></span></div>
 
         <div class="card-body">
             @if( count($employee_payments) > 0 )

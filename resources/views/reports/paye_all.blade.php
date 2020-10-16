@@ -36,7 +36,9 @@
           
                      <tr>                   
                       <td>{{ $key+1 }}</td>
+                 
                       <td>{{ $paye_monthly->year }}</td>
+                   
                        <td>{{ $months[$paye_monthly->month - 1] }}</td>
                        <td>{{ number_format($paye_monthly->paye_amount,2) }}</td>
                        <td>{{ number_format($paye_monthly->paye_balance,2) }}</td>

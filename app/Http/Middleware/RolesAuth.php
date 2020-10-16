@@ -17,6 +17,10 @@ class RolesAuth
     public function handle($request, Closure $next)
     {
         // get user role permissions
+        if(!isset(auth()->user()->role_id)){
+            return redirect('/login');
+        }
+        
         $role = Role::findOrFail(auth()->user()->role_id);
 
         

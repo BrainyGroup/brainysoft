@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-12">
     <div class="card">
-        <div class="card-header"><h1>{{ __('messages.country') }}</h1> <span class="pull-right"> <a href="/countries/create">{{ __('messages.add') }}</a></span></div>
+        <div class="card-header"><h2>{{ __('messages.country') }}</h2> <span class="pull-right"> <a class="btn btn-secondary btn-sm"  href="/countries/create">{{ __('messages.add') }}</a></span></div>
 
         <div class="card-body">
            @if($countries)
@@ -16,19 +16,20 @@
                   <thead>
                     <tr>
 
-                      <th scope="col">Name</th>
-                      <th scope="col">Description</th>
-                      <th scope="col">Country code</th>
-                      <th scope="col">Currency code</th>
-                      <th scope="col">Currency name</th>
-                      <th scope="col">Language code</th>
-                      <th scope="col">Language name</th>
-                      <th scope="col">Capital</th>
-                      <th scope="col">System users</th>
-                      <th scope="col">Employees</th>            
-                      <th scope="col">Details</th>
-                      <th scope="col">Edit</th>
-                      <th scope="col">Delete</th>
+
+                      <th scope="col">{{ __('messages.name') }}</th>
+                      <th scope="col">{{ __('messages.description') }}</th>
+                      <th scope="col">{{ __('messages.country code') }}</th>
+                      <th scope="col">{{ __('messages.currency code') }}</th>
+                      <th scope="col">{{ __('messages.currency name') }}</th>
+                      <th scope="col">{{ __('messages.language code') }}</th>
+                      <th scope="col">{{ __('messages.language name') }}</th>
+                      <th scope="col">{{ __('messages.capital city') }}</th>
+                      <th scope="col">{{ __('messages.system users') }}</th>
+                      <th scope="col">{{ __('messages.employees') }}</th>            
+                      <th scope="col">{{ __('messages.details') }}</th>
+                      <th scope="col">{{ __('messages.edit') }}</th>
+                      <th scope="col">{{ __('messages.delete') }}</th>
 
 
                     </tr>
@@ -48,8 +49,8 @@
                       <td>{{ $country->capital }}</td>
                       <td>{{ $country->system_users }}</td>
                       <td>{{ $country->employees }}</td>                     
-                      <td><a href="/countries/{{$country->id}}">Details</a></td>
-                      <td><a href="/countries/{{$country->id}}/edit">Edit</a></td>
+                      <td><a href="/countries/{{$country->id}}">{{ __('messages.details') }}</a></td>
+                      <td><a href="/countries/{{$country->id}}/edit">{{ __('messages.edit') }}</a></td>
 
 
                       <td><a href=""
@@ -58,7 +59,7 @@
                           if (result){
                               event.preventDefault();
                               document.getElementById({{$country->id}}).submit();
-                            }">Delete
+                            }">{{ __('messages.delete') }}
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\CountryController@destroy',$country->id],'method' => 'DELETE','id' => $country->id]) !!}

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('/home') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -52,7 +52,7 @@
                               </li>
 
                           <li class="nav-item">
-                              <a class="nav-link" href="#">{{ __('Documentation') }}</a>
+                              <a class="nav-link" href="/documentations">{{ __('Documentation') }}</a>
                           </li>
 
                             <li class="nav-item dropdown">

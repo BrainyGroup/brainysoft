@@ -3,27 +3,22 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">Add Allowance for {{ $user->title.'. '.$user->firstname.' '.$user->lastname }}</div>
+        <div class="card-header">{{ __('messages.add allowance for') }} {{ $user->title.'. '.$user->firstname.' '.$user->lastname }}</div>
 
         <div class="card-body">
             {!! Form::open(['action' => 'Payroll\AllowanceController@store','method' => 'POST']) !!}
 
-                    {{ Form::bsText('allowance_amount','',['placeholder' => 'Enter Allowance Amount']) }}  
+                    {{ Form::bsText(__('messages.allowance_amount'),'',['placeholder' => __('messages.allowance amount')]) }} 
 
-
-                    {{ Form::bsHidden('user_id', request('user_id')) }}
-
-                    <input class="typeahead form-control" type="text">
-
-
+                    {{ Form::bsHidden('user_id', request('user_id')) }}   
 
                     <div class="form-group">
 
-                    <label for="allowance_name" class="control-label">Allowance Name</label>
+                    <label for="allowance_name" class="control-label">{{__('messages.name')}}</label>
 
                      <select class="form-control" id="allowance_name" name="allowance_type_id">
 
-                       <option value="">Select allowance type</option>
+                     <option value="">{{__('messages.select allowance type')}}</option>
 
                        @foreach($allowance_types as $allowance_type)
 
@@ -37,11 +32,11 @@
 
 
 
-                    {{ Form::bsDate('start_date') }}
+                    {{ Form::bsDate(__('messages.start_date')) }}
 
-                    {{ Form::bsDate('end_date') }}
+                    {{ Form::bsDate(__('messages.end_date')) }}
 
-                    {{ Form::bsSubmit('Submit',['class' => 'btn btn-primary']) }}
+                    {{ Form::bsSubmit(__('messages.submit'),['class' => 'btn btn-primary']) }}
 
                     {!! Form::close() !!}
 

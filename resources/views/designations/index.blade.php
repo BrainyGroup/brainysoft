@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">{{ __('messages.designation') }}<span class="pull-right"> <a href="/designations/create">{{ __('messages.add') }}</a></span></div>
+        <div class="card-header">{{ __('messages.designation') }}<span class="pull-right"> <a class="btn btn-secondary btn-sm"  href="/designations/create">{{ __('messages.add') }}</a></span></div>
 
         <div class="card-body">
             @if (session('status'))
@@ -21,11 +21,10 @@
 
                   <thead>
                     <tr>
-
-                      <th scope="col">Name</th>
-                      <th scope="col">Description</th>
-                      <th scope="col">Edit</th>
-                      <th scope="col">Delete</th>
+                      <th scope="col">{{ __('messages.name') }}</th>
+                      <th scope="col">{{ __('messages.description') }}</th>
+                      <th scope="col">{{ __('messages.edit') }}</th>
+                      <th scope="col">{{ __('messages.delete') }}</th>>
 
                     </tr>
                   </thead>
@@ -38,7 +37,7 @@
 
                       <td>{{ $designation->description }}</td>
 
-                      <td><a href="/designations/{{$designation->id}}/edit">Edit</a></td>
+                      <td><a href="/designations/{{$designation->id}}/edit">{{ __('messages.edit') }}</a></td>
 
                       <td><a href=""
                           onclick="
@@ -46,7 +45,7 @@
                           if (result){
                               event.preventDefault();
                               document.getElementById({{$designation->id}}).submit();
-                            }">Delete
+                            }">{{ __('messages.edit') }}
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\DesignationController@destroy',$designation->id],'method' => 'DELETE','id' => $designation->id]) !!}

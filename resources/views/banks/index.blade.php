@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-6">
     <div class="card">
-        <div class="card-header">{{ __('messages.bank') }} <span class="pull-right"> <a href="/banks/create">{{ __('messages.add') }}</a></span></div>
+        <div class="card-header">{{ __('messages.bank') }} <span class="pull-right"> <a href="/banks/create"  class="btn btn-secondary btn-sm">{{ __('messages.add') }}</a></span></div>
 
         <div class="card-body">
             @if( count($banks) > 0 )
@@ -37,7 +37,7 @@
 
                       <td><a href="/banks/{{$bank->id}}">{{ $bank->description}}</a></td>
 
-                      <td><a href="/banks/{{$bank->id}}/edit">{{ __('messages.edit') }}</a></td>
+                      <td><a href="/banks/{{$bank->id}}/edit"><i class="fa fa-paint-brush text-secondary" aria-hidden="true"></i></a></td>
 
 
 
@@ -47,7 +47,7 @@
                         if (result){
                             event.preventDefault();
                             document.getElementById({{$bank->id}}).submit();
-                          }">{{ __('messages.delete') }}
+                          }"><i class="fa fa-trash text-secondary" aria-hidden="true"></i>
                         </a>
 
                         {!! Form::open(['action' => ['Payroll\BankController@destroy',$bank->id],'method' => 'DELETE','id' => $bank->id]) !!}

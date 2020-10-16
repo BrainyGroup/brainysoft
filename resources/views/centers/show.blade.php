@@ -39,7 +39,7 @@
                        </tr>
 
                        <tr>
-                          <td><a href="/centers/{{$center->id}}/edit">{{ __('messages.edit') }}</a></td>
+                          <td><a href="/centers/{{$center->id}}/edit"><i class="fa fa-paint-brush text-secondary" aria-hidden="true"></i></a></td>
 
                           <td><a href=""
                               onclick="
@@ -47,7 +47,7 @@
                               if (result){
                                   event.preventDefault();
                                   document.getElementById({{$center->id}}).submit();
-                                }">{{ __('messages.delete') }}
+                                }"><i class="fa fa-trash text-secondary" aria-hidden="true"></i>
                               </a>
 
                               {!! Form::open(['action' => ['Payroll\CenterController@destroy',$center->id],'method' => 'DELETE','id' => $center->id]) !!}

@@ -62,6 +62,8 @@
                  
                 </div>
 
+
+
                 <div class="form-group">
                     <label for="password-confirm" class="control-label">{{ __('Confirm Password') }}</label>
 
@@ -115,6 +117,29 @@
                      </select>
 
                   </div>
+
+                  <div class="form-group">
+
+                    <label for="role" class="control-label">Role</label>
+
+                    <div class="input-group mb-3">
+
+                     <select class="form-control" id="role" name="role_id">
+
+                       <option value="3">Employee</option>
+
+                       @foreach($roles as $role)
+
+                       <option value="{{ $role->id }}">{{ $role->name }}</option>
+
+                       @endforeach
+
+                     </select>
+
+                      
+                    </div>
+
+                    </div>
 
 
 

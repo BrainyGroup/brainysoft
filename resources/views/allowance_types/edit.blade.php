@@ -3,17 +3,17 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">Edit allowance type</div>
+    <div class="card-header">{{ __('messages.edit')}} {{ __('messages.allowance type')}}</div>
 
         <div class="card-body">
 
             {!! Form::open(['action' => array('Payroll\AllowanceTypeController@update', $allowance_type->id),'method' => 'PUT']) !!}
 
-            {{ Form::bsText('name',$allowance_type->name,['placeholder' => __('messages.enter name')]) }}         
+            {{ Form::bsText( __('messages.name'),$allowance_type->name,['placeholder' => __('messages.allowance type name')]) }}         
 
-            {{ Form::bsText('description',$allowance_type->description,['placeholder' => __('messages.enter description')]) }}
+            {{ Form::bsText( __('messages.description'),$allowance_type->description,['placeholder' => __('messages.allowance type description')]) }}
             
-            {{ Form::bsSubmit(__('messages.edit'),['class' => 'btn btn-primary']) }}
+            {{ Form::bsSubmit(__('messages.save'),['class' => 'btn btn-primary']) }}
 
             {!! Form::close() !!} 
                       

@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">{{ __('messages.kin') }} <span class="pull-right"> <a href="/kins/create?employee_id={{ request('employee_id')}}">{{ __('messages.add') }}</a></span></div>
+        <div class="card-header">{{ __('messages.kin') }} <span class="pull-right"> <a class="btn btn-secondary btn-sm"  href="/kins/create?employee_id={{ request('employee_id')}}">{{ __('messages.add') }}</a></span></div>
 
         <div class="card-body">
             @if (session('status'))

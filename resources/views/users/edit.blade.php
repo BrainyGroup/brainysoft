@@ -112,6 +112,29 @@
 
             {{ Form::bsFile('photo',['placeholder'=>'change photo']) }}
 
+            <div class="form-group">
+
+              <label for="role" class="control-label">Role</label>
+
+              <div class="input-group mb-3">
+
+               <select class="form-control" id="role" name="role_id">
+
+                 <option value="{{ $user->role_id }}">{{ $role_name }}</option>
+
+                 @foreach($roles as $role)
+
+                 <option value="{{ $role->id }}">{{ $role->name }}</option>
+
+                 @endforeach
+
+               </select>
+
+                
+              </div>
+
+              </div>
+
 
             {{ Form::bsDate('dob', $user->dob,['placeholder' => 'Enter your birth date']) }}
 

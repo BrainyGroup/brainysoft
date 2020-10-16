@@ -13,7 +13,7 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Earnings (Monthly)</div>
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">{{ __('messages.earning monthly') }}</div>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">TZS <count-up :to="{{ $monthly_net }}"></count-up></div>
                     </div>
                     <div class="col-auto">
@@ -30,7 +30,7 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Earnings (Annual)</div>
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">{{ __('messages.earning annually') }}</div>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">TZS <count-up :to="{{$annual_net}}"></div>
                     </div>
                     <div class="col-auto">
@@ -47,7 +47,7 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks</div>
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">{{ __('messages.tasks') }}</div>
                       <div class="row no-gutters align-items-center">
                         <div class="col-auto">
                           <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">80%</div>
@@ -73,7 +73,7 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending Requests</div>
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">{{ __('messages.pending request') }}</div>
                       <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
                     </div>
                     <div class="col-auto">
@@ -87,7 +87,7 @@
 
           <!-- Content Row -->
     <div class="card">
-        <div class="card-header font-weight-bold text-primary">Monthly Pay</div>
+        <div class="card-header font-weight-bold text-primary">{{ __('messages.monthly pay') }}</div>
 
         <div class="card-body">
             @if (session('status'))
@@ -109,7 +109,7 @@
                                         <div class="number">
                                           <span class="h5 mb-0 font-weight-bold text-gray-800"> <count-up :to="{{ $monthly_total }}"></count-up></span>
                                         </div>
-                                        <div class="desc"> Salary </div>
+                                        <div class="desc">{{ __('messages.salary') }}</div>
                                     </div>
                                 </a>
                             </div>
@@ -125,7 +125,7 @@
                                         <div class="number">
                                             <span class="h5 mb-0 font-weight-bold text-gray-800"> <count-up :to="{{ $monthly_statutory }}"></count-up> </span> 
                                         </div>
-                                        <div class="desc"> Statutory </div>
+                                        <div class="desc"> {{ __('messages.statutory') }} </div>
                                     </div>
                                 </a>
                             </div>
@@ -140,7 +140,7 @@
                                         <div class="number">
                                             <span class="h5 mb-0 font-weight-bold text-gray-800" > <count-up :to="{{ $monthly_paye }}"></count-up></span>
                                         </div>
-                                        <div class="desc"> Paye </div>
+                                        <div class="desc"> {{ __('messages.paye') }} </div>
                                     </div>
                                 </a>
                             </div>
@@ -155,7 +155,7 @@
                                             {{-- <span data-counter="counterup" data-value="89"></span>% </div> --}}
                                             <span class="h5 mb-0 font-weight-bold text-gray-800"> <count-up :to="{{ $monthly_deduction }}"></count-up></span>
                                          </div>
-                                        <div class="desc"> Deduction </div>
+                                        <div class="desc"> {{ __('messages.deduction') }} </div>
                                     </div>
                                 </a>
                             </div>
@@ -163,39 +163,61 @@
                         <div class="clearfix"></div>
                         <!-- END DASHBOARD STATS 1-->
 
+
+                        <div class="row">
+
+                                  {{-- <canvas id="graph"></canvas> --}}
+       
+           
+               <graph-line :labels="['{{ __('messages.january') }}', '{{ __('messages.february') }}', '{{ __('messages.march') }}', '{{ __('messages.april') }}', '{{ __('messages.may') }}', '{{ __('messages.june') }}', '{{ __('messages.july') }}', '{{ __('messages.august') }}','{{ __('messages.september') }}','{{ __('messages.october') }}','{{ __('messages.november') }}','{{ __('messages.december') }}']"
+                         
+               :values="[{{implode(',', $value)}}]"
+               :color="'#5DADE2'"
+               :type="'line'"
+               :legend="'{{ __('messages.monthly gloss') }}'"
+               ></graph-line>
+
+                        </div>
+
 <!-- BEGIN DASHBOARD STATS 1-->
 
-<div class="row">
-
-   {{--  <span class="counter">1,234,567.00</span> --}}
-
-    {{-- <canvas id="graph"></canvas> --}}
-
     
-        <graph-line :labels="['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August','September','October','November','December']"
-                  
-                    :values="[{{implode(',', $value)}}]"
-                    :color="'#5DADE2'"
-                    :type="'line'"
-                    :legend="'This legend red'"
-                    ></graph-line>
-
-        <graph-line :labels="['January', 'February', 'March']"
-                    :values="[0, 10, 5]"
-                   
-                    :borderColor="'red'"
-                    :borderWidth="2"
-                    :type="'bar'"
-                    :legend="'This legend green'"
-        ></graph-line>
-
-{{--         <data-table
-			fetch-url="{{ route('users.table') }}"
-			:columns="['company id','title','name','gender','married','email','firstname','middlename','lastname','photo','dod','employee','created','updated']"
-		></data-table>   --}}
-</div>     
            
         </div>
+
+        <div class="card">
+          <div class="card-header font-weight-bold text-primary">Monthly Pay</div>
+  
+          <div class="card-body">
+              @if (session('status'))
+                  <div class="alert alert-success" role="alert">
+                      {{ session('status') }}
+                  </div>
+              @endif
+
+
+        <div class="row">
+
+          {{--  <span class="counter">1,234,567.00</span> --}}
+       
+   
+       
+               <graph-line :labels="[{{ $year - 4}}, {{ $year - 3}}, {{ $year - 2}},{{ $year - 1}},{{ $year}}]"
+                           :values="[{{implode(',', $yearly_pay)}}]"
+                           :color="'#5DADE2'"                          
+                           :borderColor="'red'"
+                           :borderWidth="2"
+                           :type="'bar'"
+                           :legend="'{{ __('messages.yearly pay') }}'"
+               ></graph-line>
+       
+       {{--         <data-table
+             fetch-url="{{ route('users.table') }}"
+             :columns="['company id','title','name','gender','married','email','firstname','middlename','lastname','photo','dod','employee','created','updated']"
+           ></data-table>   --}}
+        </div>
+          </div>
+       </div> 
     </div>
 </div>  
 

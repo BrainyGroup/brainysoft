@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">{{ __('messages.kin_type') }}<span class="pull-right"> <a href="/kin_types/create">{{ __('messages.add') }}</a></span></div>
+        <div class="card-header">{{ __('messages.kin_type') }}<span class="pull-right"> <a class="btn btn-secondary btn-sm"  href="/kin_types/create">{{ __('messages.add') }}</a></span></div>
 
         <div class="card-body">
             @if (session('status'))

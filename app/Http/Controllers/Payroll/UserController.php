@@ -33,7 +33,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 use BrainySoft\Http\Controllers\Controller;
-
+use BrainySoft\Payroll\Role;
 
 class UserController extends Controller
 {   
@@ -148,7 +148,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+      $roles = Role::all();
+        return view('users.create',compact('roles'));
     }
 
     /**
@@ -226,6 +227,8 @@ class UserController extends Controller
 
           $user->employee = false;
 
+          $user->role_id = request('role_id');
+
           $user->save();  
      
 
@@ -255,7 +258,11 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit',compact('user'));
+
+      $role_name = Role::where('id',$user->role_id)->value('name');    
+   
+      $roles = Role::all();
+      return view('users.edit',compact('user','roles','role_name'));
     }
 
     /**
@@ -285,6 +292,8 @@ class UserController extends Controller
         'lastname' =>'required|string',
 
         'photo' => 'file|image|mimes:jpeg,png,gif,webp|nullable|max:1999',
+
+        
         
 
         // 'photo' => 'required|string',
@@ -360,6 +369,9 @@ class UserController extends Controller
           'photo' => $filename,
 
           'dob'            =>$request->input('dob'),
+
+          'role_id' =>$request->input('role_id'),
+
 
           'mobile' =>$request->input('mobile'),
 

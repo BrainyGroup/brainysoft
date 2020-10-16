@@ -3,8 +3,8 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">{{ __('messages.allowance_type') }}
-          <span class="pull-right"> <a href="/allowance_types/create">{{ __('messages.add') }}</a></span>
+        <div class="card-header">{{ __('messages.allowance type') }}
+          <span class="pull-right"> <a class="btn btn-secondary btn-sm" href="/allowance_types/create">{{ __('messages.add') }}</a></span>
         </div>
 
         <div class="card-body">
@@ -31,7 +31,7 @@
 
                     <td>{{  $allowance_type->description }}</td>
 
-                    <td><a href="/allowance_types/{{$allowance_type->id}}/edit">{{ __('messages.edit') }}</a></td>
+                    <td><a href="/allowance_types/{{$allowance_type->id}}/edit"><i class="fa fa-paint-brush text-secondary" aria-hidden="true"></i></a></td>
 
                     <td><a href=""
                         onclick="
@@ -39,7 +39,7 @@
                         if (result){
                             event.preventDefault();
                             document.getElementById({{$allowance_type->id}}).submit();
-                          }">{{ __('messages.delete') }}
+                          }"><i class="fa fa-trash text-secondary" aria-hidden="true"></i>
                         </a>
 
                         {!! Form::open(['action' => ['Payroll\AllowanceTypeController@destroy',$allowance_type->id],'method' => 'DELETE','id' => $allowance_type->id]) !!}

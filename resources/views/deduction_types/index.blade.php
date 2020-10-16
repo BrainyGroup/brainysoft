@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">{{ __('messages.deduction_type') }}<span class="pull-right"> <a href="/deduction_types/create">{{ __('messages.add') }}</a></span></div>
+        <div class="card-header">{{ __('messages.deduction_type') }}<span class="pull-right"> <a class="btn btn-secondary btn-sm"  href="/deduction_types/create">{{ __('messages.add') }}</a></span></div>
 
         <div class="card-body">
             @if($deduction_types)
@@ -34,7 +34,7 @@
 
                       <td>{{ $deduction_type->description }}</td>
 
-                      <td><a href="/deduction_types/{{$deduction_type->id}}/edit">Edit</a></td>
+                      <td><a href="/deduction_types/{{$deduction_type->id}}/edit">{{ __('messages.edit') }}</a></td>
 
                       <td><a href=""
                           onclick="
@@ -42,7 +42,7 @@
                           if (result){
                               event.preventDefault();
                               document.getElementById({{$deduction_type->id}}).submit();
-                            }">Delete
+                            }">{{ __('messages.delete') }}
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\DeductionTypeController@destroy',$deduction_type->id],'method' => 'DELETE','id' => $deduction_type->id]) !!}

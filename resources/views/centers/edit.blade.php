@@ -15,7 +15,7 @@
 
             {{ Form::bsText(__('messages.description'),$center->description,['placeholder' => __('messages.enter description')]) }}
 
-            {{ Form::bsSubmit(__('messages.update'),['class' => 'btn btn-primary']) }}
+            {{ Form::bsSubmit(__('messages.save'),['class' => 'btn btn-primary']) }}
 
             {!! Form::close() !!}
         </div>

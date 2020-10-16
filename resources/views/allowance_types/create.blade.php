@@ -5,16 +5,16 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Add allowance type</div>
+                <div class="card-header">{{ __('messages.add') }} {{ __('messages.allowance type') }}</div>
                 <div class="card-body">
 
                     {!! Form::open(['action' => 'Payroll\AllowanceTypeController@store','method' => 'POST']) !!}
 
-                    {{ Form::bsText('name','',['placeholder' => 'Enter Allowance name']) }}                  
+                    {{ Form::bsText( __('messages.name') ,'',['placeholder' => __('messages.allowance type name')]) }}                  
 
-                    {{ Form::bsText('description','',['placeholder' => 'Enter Allowance description']) }}
+                    {{ Form::bsText(__('messages.description'),'',['placeholder' =>  __('messages.allowance type description')]) }}
                    
-                    {{ Form::bsSubmit('Submit',['class' => 'btn btn-primary']) }}
+                    {{ Form::bsSubmit(__('messages.submit'),['class' => 'btn btn-primary']) }}
 
                     {!! Form::close() !!}
                     
