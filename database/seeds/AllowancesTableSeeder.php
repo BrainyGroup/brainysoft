@@ -738,6 +738,20 @@ class AllowancesTableSeeder extends Seeder
             'updated_at' =>now()],  
             ]);
 
+
+            DB::table('basic_settings')->truncate();
+
+          foreach ($this->settings as $index => $setting)
+          {
+              $result = DB::table('basic_settings')->insert($setting);
+              //$result = BasicSetting::create($setting);
+              if (!$result) {
+                  $this->command->info("Insert failed at record $index.");
+                  return;
+              }
+          }
+          $this->command->info('Inserted '.count($this->settings). ' records');
+
            
 
             $permission_ids = []; // an empty array of stored permission IDs
@@ -811,17 +825,6 @@ class AllowancesTableSeeder extends Seeder
     //             ->where('permission_id', '>=', 43)
     //            ->where('permission_id', '<=', 56)->delete();
 
-          DB::table('basic_settings')->truncate();
-
-          foreach ($this->settings as $index => $setting)
-          {
-              $result = DB::table('basic_settings')->insert($setting);
-              //$result = BasicSetting::create($setting);
-              if (!$result) {
-                  $this->command->info("Insert failed at record $index.");
-                  return;
-              }
-          }
-          $this->command->info('Inserted '.count($this->settings). ' records');
+          
     }
 }
