@@ -17,8 +17,9 @@
             <p></p>
             @foreach($documentations as $documentation)
             {!! $documentation->description !!}
-            @endforeach
             <a href="/documentations/{{$documentation->id}}/edit">{{ __('messages.edit') }}</a>
+            @endforeach
+           
             
           </div>
 
