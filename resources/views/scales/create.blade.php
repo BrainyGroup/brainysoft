@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">Add Scale</div>
+        <div class="card-header">{{__('messages.add')}} {{__('messages.scale')}}</div>
 
         <div class="card-body">
             @if (session('status'))
@@ -14,23 +14,23 @@
 
         {!! Form::open(['action' => 'Payroll\ScaleController@store','method' => 'POST']) !!}
 
-        {{ Form::bsText('name','',['placeholder' => 'Enter scale name']) }}
+        {{ Form::bsText('name','',['placeholder' => __('messages.scale name'), 'label' => __('messages.name')]) }}
 
-        {{ Form::bsText('description','',['placeholder' => 'Enter scale description']) }}
+        {{ Form::bsText('description','',['placeholder' => __('messages.scale description'), 'label' => __('messages.description')]) }}
 
-        {{ Form::bsText('minimum','',['placeholder' => 'Enter minimum salary']) }}
+        {{ Form::bsText('minimum','',['placeholder' => __('messages.minimum salary'), 'label' => __('messages.minimum salary')]) }}
 
-        {{ Form::bsText('maximum','',['placeholder' => 'Enter maximum salary']) }}
+        {{ Form::bsText('maximum','',['placeholder' => __('messages.maximum salary'), 'label' => __('messages.maximum salary')]) }}
 
-                            <div class="form-group">
+                  <div class="form-group">
 
-                    <label for="payroll_group_id" class="control-label">Payroll group</label>
+                    <label for="payroll_group_id" class="control-label">{{__('messages.payroll group')}}</label>
 
                     <div class="input-group mb-3">
 
                      <select class="form-control" id="payroll_group_id" name="payroll_group_id">
 
-                       <option value="">Select payroll group</option>
+                       <option value="">{{__('messages.select payroll group')}}</option>
 
                        @foreach($payroll_groups as $payroll_group)
 
@@ -41,7 +41,7 @@
                      </select>
 
                       <div class="input-group-append">
-                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addPayrollGroup">Add</button>
+                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addPayrollGroup">{{__('messages.add')}}</button>
                       </div>
 
                     </div>
@@ -52,13 +52,13 @@
 
                     <div class="form-group">
 
-                    <label for="pay_type_id" class="control-label">Pay type</label>
+                    <label for="pay_type_id" class="control-label">{{__('messages.pay type')}}</label>
 
                     <div class="input-group mb-3">
 
                      <select class="form-control" id="pay_type_id" name="pay_base_id">
 
-                       <option value="">Select pay type</option>
+                       <option value="">{{__('messages.select pay type')}}</option>
 
                        @foreach($pay_types as $pay_type)
 
@@ -69,7 +69,7 @@
                      </select>
 
                       <div class="input-group-append">
-                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addPayType">Add</button>
+                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addPayType">{{__('messages.add')}}</button>
                       </div>
 
                     </div>
@@ -80,13 +80,13 @@
 
                     <div class="form-group">
 
-                    <label for="employment_type_id" class="control-label">Employement type</label>
+                    <label for="employment_type_id" class="control-label">{{__('messages.employment type')}}</label>
 
                     <div class="input-group mb-3">
 
                      <select class="form-control" id="employment_type_id" name="employment_type_id">
 
-                       <option value="">Select employement type</option>
+                       <option value="">{{__('messages.select employment type')}}</option>
 
                        @foreach($employment_types as $employment_type)
 
@@ -97,7 +97,7 @@
                      </select>
 
                       <div class="input-group-append">
-                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addEmploymentType">Add</button>
+                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addEmploymentType">{{__('messages.add')}}</button>
                       </div>
 
                     </div>

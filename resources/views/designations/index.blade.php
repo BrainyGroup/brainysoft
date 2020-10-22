@@ -24,7 +24,7 @@
                       <th scope="col">{{ __('messages.name') }}</th>
                       <th scope="col">{{ __('messages.description') }}</th>
                       <th scope="col">{{ __('messages.edit') }}</th>
-                      <th scope="col">{{ __('messages.delete') }}</th>>
+                      <th scope="col">{{ __('messages.delete') }}</th>
 
                     </tr>
                   </thead>
@@ -45,7 +45,7 @@
                           if (result){
                               event.preventDefault();
                               document.getElementById({{$designation->id}}).submit();
-                            }">{{ __('messages.edit') }}
+                            }">{{ __('messages.delete') }}
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\DesignationController@destroy',$designation->id],'method' => 'DELETE','id' => $designation->id]) !!}

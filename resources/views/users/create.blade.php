@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">Edit Users</div>
+        <div class="card-header">{{__('messages.add')}} {{__('messages.user')}}</div>
 
         <div class="card-body">
             @if (session('status'))
@@ -20,34 +20,34 @@
 
             <div class="form-group">
 
-                    <label for="title" class="control-label">Title</label>
+                    <label for="title" class="control-label">{{__('messages.title')}} </label>
 
                      <select class="form-control" id="title" name="title">
 
-                       <option value="">Please choose title</option>
+                       <option value="">{{__('messages.select title')}} </option>
 
-                       <option value="Mr.">Mr</option>
-                       <option value="Mrs.">Mrs</option>
-                       <option value="Miss">Miss</option>                      
+                       <option value="Mr.">{{__('messages.mr')}} </option>
+                       <option value="Mrs.">{{__('messages.mrs')}} </option>
+                       <option value="Miss">{{__('messages.miss')}} </option>                      
 
                      </select>
 
                     </div>
 
 
-            {{ Form::bsText('firstname', '',['placeholder' => 'Enter your first name']) }}
+            {{ Form::bsText('firstname', '',['placeholder' => __('messages.first name'), 'label' => __('messages.first name')]) }}
 
-            {{ Form::bsText('middlename', '',['placeholder' => 'Enter your middle name']) }}
+            {{ Form::bsText('middlename', '',['placeholder' => __('messages.middle name'), 'label' => __('messages.middle name')]) }}
 
-            {{ Form::bsText('lastname', '',['placeholder' => 'Enter your last name']) }}
-
-
-               {{ Form::bsText('name', '',['placeholder' => 'Enter name']) }}
+            {{ Form::bsText('lastname', '',['placeholder' => __('messages.last name'), 'label' => __('messages.last name')]) }}
 
 
+               {{ Form::bsText('name', '',['placeholder' => __('messages.name'), 'label' => __('messages.name')]) }}
 
 
-            {{ Form::bsText('email', '',['placeholder' => 'Enter email']) }}
+
+
+            {{ Form::bsText('email', '',['placeholder' => __('messages.email'), 'label' => __('messages.email')]) }}
 
                             <div class="form-group">
                     <label for="password" class="control-label">{{ __('Password') }}</label>
@@ -77,16 +77,16 @@
 
                 <div class="form-group">
 
-                    <label for="sex" class="control-label">Gender</label>
+                    <label for="sex" class="control-label">{{__('messages.gender')}} </label>
 
                      <select class="form-control" id="sex" name="sex">                  
 
-                      <option value="">Please choose gender</option>            
+                      <option value="">{{__('messages.select gender')}} </option>            
                   
 
-                       <option value="1">Male</option>
+                       <option value="1">{{__('messages.male')}} </option>
 
-                       <option value="0">Female</option>
+                       <option value="0">{{__('messages.female')}} </option>
                                          
 
                      </select>
@@ -96,22 +96,22 @@
 
                <div class="form-group">
 
-                    <label for="maritalstatus" class="control-label">Marital Status</label>
+                    <label for="maritalstatus" class="control-label">{{__('messages.marital status')}} </label>
 
                      <select class="form-control" id="maritalstatus" name="maritalstatus">
 
                      
 
-                      <option value=""> Choose marital status
+                      <option value=""> {{__('messages.select marital status')}} 
 
 
                       </option>	
 
                       
 
-                       <option value="1">Married</option>
+                       <option value="1">{{__('messages.married')}} </option>
 
-                       <option value="0">Not Married</option>
+                       <option value="0">{{__('messages.single')}} </option>
                                          
 
                      </select>
@@ -120,13 +120,13 @@
 
                   <div class="form-group">
 
-                    <label for="role" class="control-label">Role</label>
+                    <label for="role" class="control-label">{{__('messages.role')}} </label>
 
                     <div class="input-group mb-3">
 
                      <select class="form-control" id="role" name="role_id">
 
-                       <option value="3">Employee</option>
+                       <option value="3">{{__('messages.employee')}} </option>
 
                        @foreach($roles as $role)
 
@@ -147,9 +147,9 @@
 
             
 
-            {{ Form::bsDate('dob', '',['placeholder' => 'Enter your birth date']) }}
+            {{ Form::bsDate('dob', '',['placeholder' => __('messages.date of birth'), 'label' => __('messages.date of birth')]) }}
 
-            {{ Form::bsText('mobile', '',['placeholder' => 'Enter your mobile']) }}
+            {{ Form::bsText('mobile', '',['placeholder' => __('messages.mobile'), 'label' => __('messages.mobile')]) }}
 
             
 

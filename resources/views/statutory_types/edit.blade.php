@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">Edit statutory type</div>
+        <div class="card-header">{{__('messages.edit')}} {{__('messages.statutory type')}}</div>
 
         <div class="card-body">
             @if (session('status'))
@@ -15,11 +15,11 @@
 
            {!! Form::open(['action' => array('Payroll\StatutoryTypeController@update', $statutory_type->id),'method' => 'PUT']) !!}
 
-            {{ Form::bsText('name', $statutory_type->name,['placeholder' => 'Enter Kin name']) }}
+            {{ Form::bsText('name', $statutory_type->name,['placeholder' => __('messages.statutory type name'), 'label' => __('messages.name')]) }}
 
-            {{ Form::bsText('description',$statutory_type->description,['placeholder' => 'Enter Kin description']) }}
+            {{ Form::bsText('description',$statutory_type->description,['placeholder' => __('messages.statutory type description'), 'label' => __('messages.description')]) }}
 
-            {{ Form::bsSubmit(__('messages.edit'),['class' => 'btn btn-primary']) }}
+            {{ Form::bsSubmit(__('messages.save'),['class' => 'btn btn-primary']) }}
 
             {!! Form::close() !!}
 

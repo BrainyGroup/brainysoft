@@ -5,44 +5,27 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
-
-   
-
      <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <style type="text/css">
 
-    h1 {
-    text-align: center;
-    }  
-       
-    .company {
-    font-size: 16px;
-    } 
+        h1 {
+        text-align: center;
+        }  
+          
+        .company {
+        font-size: 16px;
+        } 
 
-    .amount{
-      text-align:right
-    }
-
+        .amount{
+          text-align:right
+        }
 
     </style>
-        
-    
-
- 
-
-    
-
-   
-
-
-
   </head>
-  <body>
-
-  
+  <body> 
 
     <div class="container">
     <div class="row justify-content-center">
@@ -56,75 +39,67 @@
 
                     <tr>
                       <td colspan="2">***************************************</td>
-                      <td></td>
-                     
+                      <td></td>                     
                     </tr>
    
                     <tr>
                       <td colspan="2" class="company"><strong><h1>{{ $pay->company->name }}</h1></strong></td> 
-                      <td></td>   
-                      
-                    </tr>
-                    <tr>
-                      <td colspan="2">***************************************</td>
-                      <td></td>
-                     
-                    </tr>
-                    <tr>
-                      <td>P.O.Box</td>
-                      <td>{{ $pay->company->pobox }}</td>
+                      <td></td>                       
                     </tr>
 
+                    <tr>
+                      <td colspan="2">***************************************</td>
+                      <td></td>                     
+                    </tr>
+
+                    <tr>
+                      <td>{{ __('messages.p. o. box')}} </td>
+                      <td>{{ $pay->company->pobox }}</td>
+                    </tr>
                      
                     <tr>
-                      <td>Region</td>
+                      <td>{{ __('messages.region')}}</td>
                       <td>{{ $pay->company->region}}</td>
                     </tr>
 
                      <tr>
-                      <td>Date</td>
+                      <td>{{ __('messages.date')}}</td>
                       <td>{{ $pay->run_date}}</td>
                     </tr>
 
-
                     <tr>
-                      <td>Pay #</td>
-                      <td>{{$pay->pay_number}}</td>
-                     
+                      <td>{{ __('messages.pay#')}}</td>
+                      <td>{{$pay->pay_number}}</td>                     
                     </tr>
 
                     <tr>
                       <td colspan="2">***************************************</td>
-                      <td></td>
-                     
+                      <td></td>                     
                     </tr>
 
                     <tr>
-                      <td>Identity #</td>
-                      <td>{{$pay->employee->identity}}</td>
-                     
+                      <td>{{ __('messages.identity#')}}</td>
+                      <td>{{$pay->employee->identity}}</td>                     
                     </tr>
 
                     <tr>
-                      <td>Name</td>
-                      <td>{{$pay->employee->getFullName() }}</td>
-                     
+                      <td>{{ __('messages.name')}}</td>
+                      <td>{{$pay->employee->getFullName() }}</td>                     
                     </tr>
 
                     <tr>
-                      <td>Level</td>
-                      <td>{{$pay->employee->designation->level->name}}</td>
-                     
+                      <td>{{ __('messages.level')}}</td>
+                      <td>{{$pay->employee->designation->level->name}}</td>                     
                     </tr>
 
                     <tr>
-                      <td>Scale</td>
+                      <td>{{ __('messages.scale')}}</td>
                       <td>{{$pay->employee->designation->scale->name}}</td>
                      
                     </tr>
 
                     <tr>
-                      <td>Designation</td>
+                      <td>{{ __('messages.designation')}}</td>
                       <td>{{$pay->employee->designation->name}}</td>
                      
                     </tr>
@@ -132,37 +107,37 @@
                     
 
                     <tr>
-                      <td>Center #</td>
+                      <td>{{ __('messages.center#')}}</td>
                       <td>{{$pay->employee->center->number}}</td>
                      
                     </tr>
 
                     <tr>
-                      <td>Center Name</td>
+                      <td>{{ __('messages.center name')}}</td>
                       <td>{{$pay->employee->center->name}}</td>
                      
                     </tr>
 
                     <tr>
-                      <td>Department</td>
+                      <td>{{ __('messages.department')}}</td>
                       <td>{{$pay->employee->department->name}}</td>
                      
                     </tr>
 
                     <tr>
-                      <td>Bank</td>
+                      <td>{{ __('messages.bank')}}</td>
                       <td>{{$pay->employee->bank->name}}</td>
                      
                     </tr>
 
                     <tr>
-                      <td>Payroll group</td>
+                      <td>{{ __('messages.payroll group')}}</td>
                       <td>{{$pay->employee->designation->scale->payroll_group->name}}</td>
                      
                     </tr>
 
                     <tr>
-                      <td>Employment type</td>
+                      <td>{{ __('messages.employment type')}}</td>
                       <td>{{$pay->employee->designation->scale->employment_type->name}}</td>
                      
                     </tr>
@@ -174,13 +149,13 @@
                     </tr>
 
                     <tr>
-                      <td>Basic salary</td>
+                      <td>{{ __('messages.basic salary')}}</td>
                       <td class="amount">{{number_format($pay->basic_salary, 2)}}</td>
                      
                     </tr>
 
                     <tr>
-                      <td><strong>Allowances</strong></td>
+                      <td><strong>{{ __('messages.allowances')}}</strong></td>
                       <td></td>
                      
                     </tr>
@@ -194,17 +169,17 @@
                     </tr>
                     @endforeach
                     <tr>
-                      <td>Gross</td>
+                      <td>{{ __('messages.gloss')}}</td>
                       <td class="amount">{{number_format($pay->gloss, 2)}}</td>
                      
                     </tr>
                     <tr>
-                      <td>Taxable pay</td>
+                      <td>{{ __('messages.taxable pay')}}</td>
                       <td class="amount">{{number_format($pay->taxable,2)}}</td>
                      
                     </tr>
                     <tr>
-                      <td><strong>Deductions</strong></td>
+                      <td><strong>{{ __('messages.deductions')}}</strong></td>
                       <td></td>
                      
                     </tr>
@@ -231,7 +206,7 @@
 
 
                     <tr>
-                      <td>Net pay</td>
+                      <td>{{ __('messages.net pay')}}</td>
                       <td class="amount">{{number_format($pay->net, 2)}}</td>
                      
                     </tr>
@@ -241,11 +216,11 @@
                      
                     </tr>
                      <tr>
-                      <td>{{$pay_statutory->statutory_name}} Month Contribution</td>
+                      <td>{{$pay_statutory->statutory_name}} {{ __('messages.monthly')}}</td>
                       <td class="amount">{{number_format($pay_statutory->total,2)}}</td>                     
                     </tr>
                     <tr>
-                      <td>{{$pay_statutory->statutory_name}} commulative</td>
+                      <td>{{$pay_statutory->statutory_name}} {{ __('messages.commulative')}}</td>
                       <td class="amount">{{number_format($pay_ssf_statutory_sum,2)}}</td>
                      
                     </tr>

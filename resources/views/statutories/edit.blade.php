@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">Edit Statutory </div>
+        <div class="card-header">{{__('messages.edit')}} {{__('messages.statutory')}} </div>
 
         <div class="card-body">
             @if (session('status'))
@@ -14,13 +14,13 @@
 
  {!! Form::open(['action' => array('Payroll\StatutoryController@update', $statutory->id),'method' => 'PUT']) !!}
 
-                    {{ Form::bsText('name', $statutory->name,['placeholder' => 'Enter statutory name']) }}
+                    {{ Form::bsText('name', $statutory->name,['placeholder' => __('messages.statutory name'), 'label' => __('messages.name')]) }}
 
-                    {{ Form::bsText('description', $statutory->description,['placeholder' => 'Enter statutory description']) }}
+                    {{ Form::bsText('description', $statutory->description,['placeholder' => __('messages.statutory description'), 'label' => __('messages.description')]) }}
 
                     <div class="form-group">
 
-                    <label for="organization" class="control-label">Organization</label>
+                    <label for="organization" class="control-label">{{__('messages.organization')}}</label>
 
                      <select class="form-control" id="organization" name="organization_id" required >
 
@@ -39,7 +39,7 @@
 
                     <div class="form-group">
 
-                    <label for="salary_base" class="control-label">Salary Base</label>
+                    <label for="salary_base" class="control-label">{{__('messages.salary base')}}</label>
 
                      <select class="form-control" id="salary_base" name="salary_base_id" required >
 
@@ -57,7 +57,7 @@
 
                     <div class="form-group">
 
-                    <label for="salary_base" class="control-label">Before paye</label>
+                    <label for="salary_base" class="control-label">{{__('messages.before paye')}}</label>
 
                      <select class="form-control" id="salary_base" name="before_paye" required >
 
@@ -77,7 +77,7 @@
 
                     <div class="form-group">
 
-                    <label for="statutory_type" class="control-label">Statutory type</label>
+                    <label for="statutory_type" class="control-label">{{__('messages.statutory type')}}</label>
 
                      <select class="form-control" id="statutory_type" name="statutory_type_id" required >
 
@@ -100,7 +100,7 @@
 
                     {{ Form::bsDate('due_date', $statutory->date_required) }}
 
-                    {{ Form::bsSubmit(__('messages.edit'),['class' => 'btn btn-primary']) }}
+                    {{ Form::bsSubmit(__('messages.save'),['class' => 'btn btn-primary']) }}
 
                     {!! Form::close() !!}
         </div>

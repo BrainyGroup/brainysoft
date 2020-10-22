@@ -8,7 +8,7 @@
 
      
 
-        <span><h1><strong>Payroll  for {{ $user->title.'. '.$user->firstname.' '.$user->middlename.' '.$user->lastname }}</strong></h1></span></div>
+        <span><h1><strong>{{ __('messages.payroll for') }} {{ $user->title.'. '.$user->firstname.' '.$user->middlename.' '.$user->lastname }}</strong></h1></span></div>
 
         <div class="card-body">
             @if (session('status'))
@@ -33,53 +33,37 @@
                   <thead>
                     <tr>
 
-                       <th scope="col">#</th>
+                       <th scope="col">#</th>                    
 
+                      <th scope="col">{{ __('messages.run date')}} </th>
 
-                    
+                      <th scope="col">{{ __('messages.pay#')}} </th>
 
-                      <th scope="col">Run Date</th>
+                      <th scope="col">{{ __('messages.year')}} </th>
 
-                      <th scope="col">Pay number</th>
+                      <th scope="col">{{ __('messages.month')}}</th>
 
-                      <th scope="col">Year</th>
+                      <th scope="col">{{ __('messages.basic salary')}}</th>
 
-                      <th scope="col">Month</th>
+                      <th scope="col">{{ __('messages.allowance')}}</th>
 
+                      <th scope="col">{{ __('messages.gloss')}}</th>
 
+                      <th scope="col">{{ __('messages.taxable pay')}}</th>
 
-                      <th scope="col">Basic Salary</th>
+                      <th scope="col">{{ __('messages.paye')}}</th>
 
-                      <th scope="col">Allowances</th>
+                      <th scope="col">{{ __('messages.earning')}}</th>
 
-                      <th scope="col">Gloss</th>
+                      <th scope="col">{{ __('messages.deduction')}}</th>
 
+                      <th scope="col">{{ __('messages.net')}}</th>
 
+                      <th scope="col">{{ __('messages.paid')}}</th>
 
-                      <th scope="col">Taxable Pay</th>
+                      <th scope="col">{{ __('messages.balance')}}</th>
 
-
-
-                      <th scope="col">paye</th>
-
-                      <th scope="col">Monthly Earn</th>
-
-
-
-                      <th scope="col">Deductions</th>
-
-                      <th scope="col">Net Earning</th>
-
-                      <th scope="col">Paid</th>
-
-                      <th scope="col">Balance</th>
-
-                      <th scope="col">Print</th>
-
-
-
-
-
+                      <th scope="col">{{ __('messages.print')}}</th>
 
                     </tr>
                   </thead>
@@ -138,9 +122,7 @@
 
         @else
 
-          No Earning, run pay now
-
-         
+        {{ __('messages.no earning run pay now')}}         
 
 
         @endif

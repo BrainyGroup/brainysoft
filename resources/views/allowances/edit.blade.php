@@ -8,7 +8,7 @@
         <div class="card-body">
                 {!! Form::open(['action' => array('Payroll\AllowanceController@update', $allowance->id),'method' => 'PUT']) !!}
 
-                {{ Form::bsText(__('messages.allowance_amount'), $allowance->amount, ['placeholder' => __('messages.allowance amount')]) }} 
+                {{ Form::bsText('allowance_amount', $allowance->amount, ['placeholder' => __('messages.allowance amount'), 'label' => __('messages.allowance amount')]) }} 
 
 
                 {{ Form::bsHidden('user_id', request('user_id')) }}
@@ -35,9 +35,9 @@
 
 
 
-                    {{ Form::bsDate(__('messages.start_date'), $allowance->start_date) }}
+                    {{ Form::bsDate('start_date', $allowance->start_date) }}
 
-                    {{ Form::bsDate(__('messages.end_date'), $allowance->end_date) }}
+                    {{ Form::bsDate('end_date', $allowance->end_date) }}
 
                     {{ Form::bsSubmit(__('messages.save'),['class' => 'btn btn-primary']) }}
 

@@ -22,11 +22,13 @@
                   <thead>
                     <tr>
 
-                      <th scope="col">Name</th>
-                      <th scope="col">Description</th>
+                      <th scope="col">{{ __('messages.name') }}</th>
 
-                      <th scope="col">Edit</th>
-                      <th scope="col">Delete</th>
+                      <th scope="col">{{ __('messages.description') }}</th>
+
+                      <th scope="col">{{ __('messages.edit') }}</th>
+
+                      <th scope="col">{{ __('messages.delete') }}</th>
 
                     </tr>
                   </thead>
@@ -39,7 +41,7 @@
 
                       <td>{{ $statutory_type->description }}</td>
 
-                      <td><a href="/statutory_types/{{$statutory_type->id}}/edit">Edit</a></td>
+                      <td><a href="/statutory_types/{{$statutory_type->id}}/edit">{{ __('messages.edit') }}</a></td>
 
                       <td><a href=""
                           onclick="
@@ -47,7 +49,7 @@
                           if (result){
                               event.preventDefault();
                               document.getElementById({{$statutory_type->id}}).submit();
-                            }">Delete
+                            }">{{ __('messages.delete') }}
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\StatutoryTypeController@destroy',$statutory_type->id],'method' => 'DELETE','id' => $statutory_type->id]) !!}
@@ -68,7 +70,7 @@
 
         @else
 
-          No Statutory type defined
+          {{ __('messages.no statutory type defined')}} 
 
           <a class="pull-right" href="/statutory_types/create">{{ __('messages.add')}}</a>
 

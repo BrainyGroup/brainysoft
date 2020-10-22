@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">Add Organization</div>
+        <div class="card-header">{{__('messages.add')}} {{__('messages.organization')}}</div>
 
         <div class="card-body">
             @if (session('status'))
@@ -14,17 +14,17 @@
 
                    {!! Form::open(['action' => 'Payroll\OrganizationController@store','method' => 'POST']) !!}
 
-                    {{ Form::bsText('name','',['placeholder' => 'Enter organization name', 'required' => 'true']) }}
+                    {{ Form::bsText('name','',['placeholder' => __('messages.organization name'), 'label' => __('messages.name'), 'required' => 'true']) }}
 
-                    {{ Form::bsText('description','',['placeholder' => 'Enter organization description']) }}
+                    {{ Form::bsText('description','',['placeholder' => __('messages.organization description'), 'label' => __('messages.description')]) }}
 
                     <div class="form-group">
 
-                    <label for="bank" class="control-label">Bank</label>
+                    <label for="bank" class="control-label">{{__('messages.bank')}}</label>
 
                      <select class="form-control" id="bank" name="bank_id">
 
-                       <option value="">Select bank</option>
+                     <option value="">{{__('messages.select bank')}}</option>
 
                        @foreach($banks as $bank)
 
@@ -37,16 +37,16 @@
                     </div>
 
 
-                      {{ Form::bsText('account_number','',['placeholder' => 'Enter account number']) }}
+                      {{ Form::bsText('account_number','',['placeholder' =>  __('messages.account number'), 'label' => __('messages.account number')]) }}
 
 
                     <div class="form-group">
 
-                    <label for="statutory_type" class="control-label">Statutory Type</label>
+                    <label for="statutory_type" class="control-label">{{__('messages.statutory type')}}</label>
 
                      <select class="form-control" id="statutory_type" name="statutory_type_id">
 
-                       <option value="">Select statutory type</option>
+                       <option value="">{{__('messages.select statutory type')}}</option>
 
                        @foreach($statutory_types as $statutory_type)
 

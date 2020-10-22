@@ -20,13 +20,12 @@
 
                   <thead>
                     <tr>
-                        <th scope="col">Employee</th>
-
-                      <th scope="col">Kin</th>
-                      <th scope="col">Description</th>
-                      <th scope="col">Mobile</th>
-                      <th scope="col">Edit</th>
-                      <th scope="col">Delete</th>
+                      <th scope="col">{{ __('messages.employee') }}</th>
+                      <th scope="col">{{ __('messages.name') }}</th>
+                      <th scope="col">{{ __('messages.description') }}</th>
+                      <th scope="col">{{ __('messages.mobile') }}</th>
+                      <th scope="col">{{ __('messages.edit') }}</th>
+                      <th scope="col">{{ __('messages.delete') }}</th>
 
                     </tr>
                   </thead>
@@ -43,7 +42,8 @@
 
                       <td>{{ $kin->mobile }}</td>
 
-                      <td><a href="/kins/{{$kin->id}}/edit">Edit</a></td>
+                      <td><a href="/kins/{{$kin->id}}/edit">{{ __('messages.edit') }}</a></td>
+                      
 
                       <td><a href=""
                           onclick="
@@ -51,7 +51,7 @@
                           if (result){
                               event.preventDefault();
                               document.getElementById({{$kin->id}}).submit();
-                            }">Delete
+                            }">{{ __('messages.delete') }}
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\KinController@destroy',$kin->id],'method' => 'DELETE','id' => $kin->id]) !!}
@@ -71,7 +71,7 @@
 
         @else
 
-          No Next of kins defined
+        {{ __('messages.no kin defined')}}  
 
           <a class="pull-right" href="/kins/create?employee_id={{ request('employee_id') }}">{{ __('messages.add')}}</a>
 

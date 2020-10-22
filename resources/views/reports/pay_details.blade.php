@@ -3,21 +3,16 @@
 @section('content')
 <div class="col-md-12">
     <div class="card">
-        <div class="card-header">
+        <div class="card-header">     
 
-
-     
-
-        <span><h1><strong>Payroll  for {{$max_pay . '        '}}</strong></h1></span></div>
+        <span><h1><strong>{{ __('messages.payroll for') }} {{$max_pay . '        '}}</strong></h1></span></div>
 
         <div class="card-body">
             @if (session('status'))
                 <div class="alert alert-success" role="alert">
                     {{ session('status') }}
                 </div>
-            @endif
-
-           
+            @endif          
 
 
         @if(count($pays) > 0)
@@ -35,43 +30,29 @@
 
                        <th scope="col">#</th>
 
+                      <th scope="col">{{ __('messages.name') }}</th>
 
-                      <th scope="col">Name</th>
+                      <th scope="col">{{ __('messages.run date') }}</th>
 
-                      <th scope="col">Run Date</th>
+                      <th scope="col">{{ __('messages.pay#') }}</th>
 
-                      <th scope="col">Pay number</th>
+                      <th scope="col">{{ __('messages.basic salary') }}</th>
 
+                      <th scope="col">{{ __('messages.allowances') }}</th>
 
+                      <th scope="col">{{ __('messages.gloss') }}</th>
 
-                      <th scope="col">Basic Salary</th>
+                      <th scope="col">{{ __('messages.taxable pay') }}</th>
 
-                      <th scope="col">Allowances</th>
+                      <th scope="col">{{ __('messages.paye') }}</th>
 
-                      <th scope="col">Gloss</th>
+                      <th scope="col">{{ __('messages.earning') }}</th>
 
+                      <th scope="col">{{ __('messages.deduction') }}</th>
 
+                      <th scope="col">{{ __('messages.net') }}</th>
 
-                      <th scope="col">Taxable Pay</th>
-
-
-
-                      <th scope="col">paye</th>
-
-                      <th scope="col">Monthly Earn</th>
-
-
-
-                      <th scope="col">Deductions</th>
-
-                      <th scope="col">Net Earning</th>
-
-                      <th scope="col">Print</th>
-
-
-
-
-
+                      <th scope="col">{{ __('messages.print') }}</th>
 
                     </tr>
                   </thead>
@@ -105,10 +86,7 @@
 
                       <td>{{  number_format($pay->net,2) }}</td>
 
-
                       <td><a href="{{action('Payroll\PayController@downloadPDF', $pay->id)}}">PDF</a></td>
-
-
 
                     </tr>
 
@@ -122,9 +100,7 @@
 
         @else
 
-          No Earning, run pay now
-
-         
+        {{ __('messages.no earning run pay now')}}          
 
 
         @endif

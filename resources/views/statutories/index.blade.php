@@ -23,25 +23,25 @@
                   <thead>
                     <tr>
 
-                      <th scope="col">Name</th>
+                      <th scope="col">{{ __('messages.name') }}</th>
 
-                      <th scope="col">Description</th>
+                      <th scope="col">{{ __('messages.description') }}</th>
 
-                      <th scope="col">Organization</th>
+                      <th scope="col">{{ __('messages.organization') }}</th>
 
-                      <th scope="col">Employee</th>
+                      <th scope="col">{{ __('messages.employee') }}</th>
 
-                      <th scope="col">Employer</th>
+                      <th scope="col">{{ __('messages.employer') }}</th>
 
-                      <th scope="col">Due date</th>
+                      <th scope="col">{{ __('messages.due date') }}</th>
 
-                      <th scope="col">Statutory type</th>
+                      <th scope="col">{{ __('messages.statutory type') }}</th>
 
-                      <th scope="col">Salary base</th>
+                      <th scope="col">{{ __('messages.salary base') }}</th>
 
-                      <th scope="col">Edit</th>
-
-                      <th scope="col">Delete</th>
+                      <th scope="col">{{ __('messages.edit') }}</th>
+                      
+                      <th scope="col">{{ __('messages.delete') }}</th>
 
 
 
@@ -97,9 +97,9 @@
 
         @else
 
-          No Statutories defined
+          {{ __('messages.no statutory defined')}}  
 
-          <a class="pull-right" href="/statutories/create">{{ __('messages.add')}}</a>
+          <a class="pull-right" class="btn btn-secondary btn-sm" href="/statutories/create">{{ __('messages.add')}}</a>
 
 
         @endif

@@ -4,7 +4,7 @@
 <div class="col-md-12">
     <div class="card">
         <div class="card-header">
-          <span><h1>Paye for Year {{$year}}</h1></span>
+          <span><h1>{{ __('messages.paye for') }} {{$year}}</h1></span>
            
          </div>
          <div class="card-body">
@@ -21,11 +21,13 @@
                    <thead>
             
                     <tr>
-                      <th scope="col" >No</th>  
+                      <th scope="col" >#</th>  
                      
-                       <th scope="col" >Month</th>                      
-                       <th scope="col">Amount</th>
-                       <th scope="col">Balance</th>                  
+                       <th scope="col" >{{ __('messages.month') }}</th>   
+
+                       <th scope="col">{{ __('messages.amount') }}</th>
+
+                       <th scope="col">{{ __('messages.balance') }}</th>                  
       
                      </tr>
                   </thead>
@@ -49,8 +51,8 @@
       </table>
   </div>
          @else
-           No Earning, run pay now
-           <a class="pull-right" href="/pays/create">{{ __('messages.add')}}</a>
+         {{ __('messages.no earning run pay now')}}
+           <a class="pull-right" class="btn btn-secondary btn-sm" href="/pays/create">{{ __('messages.add')}}</a>
          @endif
          </div>
     </div>

@@ -17,7 +17,7 @@
    
    
 
-    <title>{{ config('app.name', 'BrainySoft') }}</title>
+    <title>{{ config('app.name', 'BrainySoft') }}: @yield('title')</title>
 
     {{-- <title>{{ $title }}</title> --}}
 

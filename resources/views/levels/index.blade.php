@@ -21,10 +21,10 @@
                   <thead>
                     <tr>
 
-                      <th scope="col">Name</th>
-                      <th scope="col">Description</th>
-                      <th scope="col">Edit</th>
-                      <th scope="col">Delete</th>
+                      <th scope="col">{{ __('messages.name') }}</th>
+                      <th scope="col">{{ __('messages.description') }}</th>
+                      <th scope="col">{{ __('messages.edit') }}</th>
+                      <th scope="col">{{ __('messages.delete') }}</th>
 
                     </tr>
                   </thead>
@@ -37,7 +37,7 @@
 
                       <td>{{ $level->description }}</td>
 
-                      <td><a href="/levels/{{$level->id}}/edit">Edit</a></td>
+                      <td><a href="/levels/{{$level->id}}/edit">{{ __('messages.edit') }}</a></td>
 
                       <td><a href=""
                           onclick="
@@ -45,7 +45,7 @@
                           if (result){
                               event.preventDefault();
                               document.getElementById({{$level->id}}).submit();
-                            }">Delete
+                            }">{{ __('messages.delete') }}
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\LevelController@destroy',$level->id],'method' => 'DELETE','id' => $level->id]) !!}
@@ -66,9 +66,9 @@
 
         @else
 
-          No Levels defined
+          {{ __('messages.no level defined')}}  
 
-          <a class="pull-right" href="/levels/create">{{ __('messages.add')}}</a>
+          <a class="pull-right" class="btn btn-secondary btn-sm" href="/levels/create">{{ __('messages.add')}}</a>
 
 
         @endif

@@ -8,7 +8,7 @@
 
           
 
-        <span class="pull-right"><h1><strong>Payroll Summary for {{$max_pay . '        '}}</strong></h1></span></div>
+        <span class="pull-right"><h1><strong>{{ __('messages.payroll summary') }} {{$max_pay . '        '}}</strong></h1></span></div>
 
         <div class="card-body">
             @if (session('status'))
@@ -29,28 +29,28 @@
                       <thead>
                         <tr>
 
-                          <th scope="col">Name</th>
+                          <th scope="col">{{ __('messages.name') }}</th>
 
-                          <th scope="col">Amount</th>
+                          <th scope="col">{{ __('messages.amount') }}</th>
 
-                          <th scope="col">Details</th>
+                          <th scope="col">{{ __('messages.details') }}</th>
 
                         </tr>
                       </thead>
                       <tbody>
 
                          <tr>
-                          <td>Total</td>
+                          <td>{{ __('messages.total') }}</td>
 
                           <td>{{ number_format($total,2) }}</td>
 
-                           <td><a href="/reports/pay_details?max_pay={{$max_pay}}">Details</a></td>
+                           <td><a href="/reports/pay_details?max_pay={{$max_pay}}">{{ __('messages.details') }}</a></td>
                      </tr>
 
 
                         <tr>
 
-                          <td>Gross</td>
+                          <td>{{ __('messages.gloss') }}</td>
                           <td>{{ number_format($month_gross,2) }}</td>
                           <td></td>
 
@@ -60,12 +60,12 @@
 
                           <td>Paye</td>
                           <td>{{ number_format($month_paye,2) }}</td>
-                          <td><a href="/reports/paye?max_pay={{$max_pay}}">Details</a></td>
+                          <td><a href="/reports/paye?max_pay={{$max_pay}}">{{ __('messages.details') }}</a></td>
 
                         </tr>
 
                         <tr>
-                          <td>Deduction</td>
+                          <td>{{ __('messages.deduction') }}</td>
                           <td>{{ number_format($deduction_sum,2) }}</td>
                           <td></td>
                         </tr>
@@ -74,10 +74,10 @@
 
 
                         <tr>
-                          <td><a href="/reports/net?max_pay={{$max_pay}}">Net</a></td>
+                          <td><a href="/reports/net?max_pay={{$max_pay}}">{{ __('messages.net') }}</a></td>
 
                           <td>{{ number_format($month_net,2). ' ' }}</td>
-                          <td><a href="/reports/net_by_bank?max_pay={{$max_pay}}">Net by bank</a></td>
+                          <td><a href="/reports/net_by_bank?max_pay={{$max_pay}}">{{ __('messages.net by bank') }}</a></td>
                      </tr>
 
                         
@@ -86,7 +86,7 @@
                           <td>{{ $statutory->statutory_name }}</td>
 
                           <td>{{ number_format($statutory->total_amount,2) }}</td>
-                          <td><a href="/reports/statutory_list?max_pay={{$max_pay}}&statutory_id={{$statutory->statutory_id}}">Details</a></td>
+                          <td><a href="/reports/statutory_list?max_pay={{$max_pay}}&statutory_id={{$statutory->statutory_id}}">{{ __('messages.details') }}</a></td>
 
                      </tr>
                 @endforeach
@@ -103,7 +103,7 @@
 
         @else
 
-          No Earning, run pay now
+        {{ __('messages.no earning run pay now')}} 
 
          
 

@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">Edit Company Structure Levels</div>
+        <div class="card-header">{{__('messages.edit')}} {{__('messages.company structre level')}}</div>
 
         <div class="card-body">
             @if (session('status'))
@@ -14,9 +14,9 @@
 
         {!! Form::open(['action' => array('Payroll\LevelController@update', $level->id),'method' => 'PUT']) !!}
 
-        {{ Form::bsText('name',$level->name,['placeholder' => 'Enter Kin name']) }}
+        {{ Form::bsText('name',$level->name,['placeholder' =>  __('messages.level name'), 'label' => __('messages.name')]) }}
 
-        {{ Form::bsText('description',$level->description,['placeholder' => 'Enter Kin description']) }}
+        {{ Form::bsText('description',$level->description,['placeholder' => __('messages.level description'), 'label' => __('messages.description')]) }}
 
         {{ Form::bsSubmit(__('messages.edit'),['class' => 'btn btn-primary']) }}
 

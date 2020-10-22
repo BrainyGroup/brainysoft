@@ -7,11 +7,11 @@
 
 
           
-        <span >Payroll Summary for {{$max_pay . '        '}}</span>
+        <span >{{ __('messages.payroll summary') }} {{$max_pay . '        '}}</span>
 
-        <span class="pull-right"> <a class="btn btn-secondary btn-sm" href="/pays/create_previous">Other pay </a></span>
+        <span class="pull-right"> <a class="btn btn-secondary btn-sm" href="/pays/create_previous">{{ __('messages.other pay') }} </a></span>
         
-        <span class="pull-right"> <a class="btn btn-secondary btn-sm" href="/pays/create">{{ __('messages.add') }} new pay </a></span>
+        <span class="pull-right"> <a class="btn btn-primary btn-sm" href="/pays/create">{{ __('messages.add') }} {{ __('messages.new pay') }}</a></span>
       </div>
         <div class="card-body">
             @if (session('status'))
@@ -33,28 +33,28 @@
                       <thead>
                         @if($isPosted)
                         <tr class="table-success">
-                          <th scope="col">Name</th>
+                          <th scope="col">{{ __('messages.name') }}</th>
 
-                          <th scope="col">Amount</th>
+                          <th scope="col">{{ __('messages.amount') }}</th>
 
-                          <th scope="col">Paid</th>
+                          <th scope="col">{{ __('messages.paid') }}</th>
 
-                          <th scope="col">Balance</th>
+                          <th scope="col">{{ __('messages.balance') }}</th>
 
-                          <th scope="col">Details</th>
+                          <th scope="col">{{ __('messages.details') }}</th>
        
                        @else
                         <tr class="table-danger">
 
-                          <th scope="col">Name</th>
+                          <th scope="col">{{ __('messages.name') }}</th>
 
-                          <th scope="col">Amount</th>
+                          <th scope="col">{{ __('messages.amount') }}</th>
 
-                          <th scope="col">Paid</th>
+                          <th scope="col">{{ __('messages.paid') }}</th>
 
-                          <th scope="col">Balance</th>
+                          <th scope="col">{{ __('messages.balance') }}</th>
 
-                          <th scope="col">Details</th>
+                          <th scope="col">{{ __('messages.details') }}</th>
                         @endif         
 
                         </tr>
@@ -62,7 +62,7 @@
                       <tbody>
 
                          <tr>
-                          <td>Total</td>
+                          <td>{{ __('messages.total') }}</td>
 
                           <td>{{ number_format($total,2) }}</td>
 
@@ -70,13 +70,13 @@
 
                           <td></td>
 
-                          <td><a href="/reports/pay_details?max_pay={{$max_pay}}">Details</a></td>
+                          <td><a href="/reports/pay_details?max_pay={{$max_pay}}">{{ __('messages.details') }}</a></td>
                      </tr>
 
 
                         <tr>
 
-                          <td>Gross</td>
+                          <td>{{ __('messages.gloss') }}</td>
                           <td>{{ number_format($month_gross,2) }}</td>
                           <td></td>
 
@@ -93,12 +93,12 @@
                           <td>{{ number_format($month_paye_paid,2) }}</td>
 
                           <td><a href="/statutory_payments/create?max_pay={{$max_pay}}&statutory_id={{9999}}&statutory_balance={{$month_paye_balance}}">{{ number_format($month_paye_balance,2) }}</a></td>
-                           <td><a href="/reports/paye?max_pay={{$max_pay}}">Details</a></td>
+                           <td><a href="/reports/paye?max_pay={{$max_pay}}">{{ __('messages.details') }}</a></td>
 
                         </tr>
 
                         <tr>
-                          <td>Deduction</td>
+                          <td>{{ __('messages.deduction') }}</td>
                           <td>{{ number_format($deduction_sum,2) }}</td>
                           <td></td>
 
@@ -110,13 +110,13 @@
 
 
                         <tr>
-                          <td><a href="/reports/net?max_pay={{$max_pay}}">Net</a></td>
+                          <td><a href="/reports/net?max_pay={{$max_pay}}">{{ __('messages.net') }}</a></td>
 
                           <td>{{ number_format($month_net,2) }}</td>
                         <td>{{ number_format($month_paid,2)}}</td>
 
                         <td><a href="/reports/net_by_bank?max_pay={{$max_pay}}">{{ number_format($month_net_balance,2)}}</a></td>
-                          <td><a href="/reports/net_by_bank?max_pay={{$max_pay}}">Net by bank</a></td>
+                          <td><a href="/reports/net_by_bank?max_pay={{$max_pay}}">{{ __('messages.net by bank') }}</a></td>
                      </tr>
 
                     
@@ -136,13 +136,13 @@
                           @endif
 
                           
-                          <td><a href="/reports/statutory_list?max_pay={{$max_pay}}&statutory_id={{$statutory->statutory_id}}">Details</a></td>
+                          <td><a href="/reports/statutory_list?max_pay={{$max_pay}}&statutory_id={{$statutory->statutory_id}}">{{ __('messages.details') }}</a></td>
                      </tr>
                 @endforeach
 
                 @if($isPosted)
                  <tr class="table-success">
-                          <td>Already posted</td>
+                          <td>{{ __('messages.already posted') }}</td>
 
                           <td></td>
                           <td></td>
@@ -154,7 +154,7 @@
                 @else
 
                  <tr class="table-danger">
-                          <td class="text-danger" colspan="5">Do you want to post? 
+                          <td class="text-danger" colspan="5">{{ __('messages.do you want to post?') }}
                          
                           <span class = "pull-right">
                            
@@ -165,7 +165,7 @@
                           if (result){
                               event.preventDefault();
                               document.getElementById({{$max_pay}}).submit();
-                            }"> Yes post
+                            }"> {{ __('messages.yes post') }}
                           </a></span>
 
                           {!! Form::open(['action' => ['Payroll\PayController@post',$max_pay],'method' => 'PUT','id' => $max_pay]) !!}
@@ -189,9 +189,11 @@
 
         @else
 
-          No Earning, run pay now
+     
 
-          <a class="pull-right" href="/pays/create">{{ __('messages.add')}}</a>
+          {{ __('messages.no earning run pay now')}} 
+
+          <a class="pull-right" class="btn btn-secondary btn-sm" href="/pays/create">{{ __('messages.add')}}</a>
 
 
         @endif

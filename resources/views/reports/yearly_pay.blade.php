@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-12">
     <div class="card">
-    <div class="card-header"><h2>Pays for year {{ $year }}</h2></div>
+    <div class="card-header"><h2>{{ __('messages.pay for') }} {{ $year }}</h2></div>
 
         <div class="card-body">
             @if (session('status'))
@@ -20,16 +20,16 @@
 
                   <thead>
                     <tr>                                    
-                      <th scope="col">Pay#</th>
+                      <th scope="col">{{ __('messages.pay#') }}#</th>
                      
-                      <th scope="col">Salary</th>
-                      <th scope="col">Allowance</th>
-                      <th scope="col">Gloss</th>
-                      <th scope="col">Taxable</th>
-                      <th scope="col">Paye</th>
-                      <th scope="col">Earning</th>
-                      <th scope="col">Deduction</th>
-                      <th scope="col">net</th>
+                      <th scope="col">{{ __('messages.salary') }}</th>
+                      <th scope="col">{{ __('messages.allowance') }}</th>
+                      <th scope="col">{{ __('messages.gloss') }}</th>
+                      <th scope="col">{{ __('messages.taxable') }}</th>
+                      <th scope="col">{{ __('messages.paye') }}</th>
+                      <th scope="col">{{ __('messages.earning') }}</th>
+                      <th scope="col">{{ __('messages.deduction') }}</th>
+                      <th scope="col">{{ __('messages.net') }}</th>
 
                       
 
@@ -110,9 +110,9 @@
 
         @else
 
-          No Employee defined
+         {{ __('messages.no earning run pay now')}} 
 
-          <a class="pull-right" href="/employees/create">{{ __('messages.add')}}</a>
+          <a class="pull-right" class="btn btn-secondary btn-sm" href="/employees/create">{{ __('messages.add')}}</a>
 
 
         @endif

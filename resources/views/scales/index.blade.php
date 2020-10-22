@@ -22,13 +22,14 @@
                   <thead>
                     <tr>
 
-                      <th scope="col">Name</th>
-                      <th scope="col">Description</th>
-                      <th class="text-right" scope="col">Minimum</th>
-                      <th class="text-right" scope="col">Maximum</th>
-                      <th scope="col">Salary circle</th>
-                      <th scope="col">Edit</th>
-                      <th scope="col">Delete</th>
+
+                      <th scope="col">{{ __('messages.name') }}</th>
+                      <th scope="col">{{ __('messages.description') }}</th>
+                      <th class="text-right" scope="col">{{ __('messages.minimum') }}</th>
+                      <th class="text-right" scope="col">{{ __('messages.maximum') }}</th>
+                      <th scope="col">{{ __('messages.circle') }}</th>
+                      <th scope="col">{{ __('messages.edit') }}</th>
+                      <th scope="col">{{ __('messages.delete') }}</th>
 
 
                     </tr>
@@ -48,7 +49,7 @@
 
                       <td>{{ ucfirst($scale->schedule) }}</td>
 
-                      <td><a href="/scales/{{$scale->id}}/edit">Edit</a></td>
+                      <td><a href="/scales/{{$scale->id}}/edit">{{ __('messages.edit') }}</a></td>
 
                       <td><a href=""
                           onclick="
@@ -56,7 +57,7 @@
                           if (result){
                               event.preventDefault();
                               document.getElementById({{$scale->id}}).submit();
-                            }">Delete
+                            }">{{ __('messages.delete') }}
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\ScaleController@destroy',$scale->id],'method' => 'DELETE','id' => $scale->id]) !!}
@@ -78,9 +79,9 @@
 
         @else
 
-          No Salary scale defined
+          {{ __('messages.no scale defined')}}  
 
-          <a class="pull-right" href="/scales/create">{{ __('messages.add')}}</a>
+          <a class="pull-right" class="btn btn-secondary btn-sm" href="/scales/create">{{ __('messages.add')}}</a>
 
 
         @endif

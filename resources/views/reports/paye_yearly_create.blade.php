@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">Select Pay</div>
+        <div class="card-header">{{ __('messages.select pay') }}</div>
 
         <div class="card-body">
             @if (session('status'))
@@ -16,13 +16,13 @@
 
                     <div class="form-group">
 
-                    <label for="Year" class="control-label">Year</label>
+                    <label for="Year" class="control-label">{{ __('messages.year') }}</label>
 
                      <select class="form-control" id="year" name="year" required >
 
 
 
-                       <option value="">Select year</option>
+                       <option value="">{{ __('messages.select year') }}</option>
 
                       @foreach($years as $year)
 
@@ -32,9 +32,7 @@
 
                      </select>
 
-                    </div>
-
-                    
+                    </div>                
 
 
                     {{ Form::bsSubmit('Submit',['class' => 'btn btn-primary']) }}

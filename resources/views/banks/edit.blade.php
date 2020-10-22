@@ -8,9 +8,9 @@
         <div class="card-body">
             {!! Form::open(['action' => array('Payroll\BankController@update', $bank->id),'method' => 'PUT']) !!}
 
-            {{ Form::bsText( __('messages.name'), $bank->name,['placeholder' => __('messages.bank name')]) }}
+            {{ Form::bsText( 'name', $bank->name,['placeholder' => __('messages.bank name')]) }}
 
-            {{ Form::bsText( __('messages.description'), $bank->description ,['placeholder' => __('messages.bank description')]) }}
+            {{ Form::bsText( 'description', $bank->description ,['placeholder' => __('messages.bank description')]) }}
 
             {{ Form::bsSubmit(__('messages.save'),['class' => 'btn btn-primary']) }}
 

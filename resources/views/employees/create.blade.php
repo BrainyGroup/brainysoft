@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">New Employee {{ $user->title.'. '.$user->firstname.' '.$user->middlename.' '.$user->lastname }}</div>
+        <div class="card-header">{{__('messages.add')}} {{__('messages.employee')}} {{ $user->title.'. '.$user->firstname.' '.$user->middlename.' '.$user->lastname }}</div>
 
         <div class="card-body">
             @if (session('status'))
@@ -19,13 +19,13 @@
 
                     <div class="form-group">
 
-                    <label for="center" class="control-label">Center</label>
+                    <label for="center" class="control-label">{{__('messages.center')}}</label>
 
                     <div class="input-group mb-3">
 
                      <select class="form-control" id="center" name="center_id">
 
-                       <option value="">Select center</option>
+                       <option value="">{{__('messages.sekect center')}}</option>
 
                        @foreach($centers as $center)
 
@@ -36,7 +36,7 @@
                      </select>
 
                       <div class="input-group-append">
-                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addCenter">Add</button>
+                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addCenter">{{__('messages.add')}}</button>
                       </div>
                     </div>
 
@@ -46,13 +46,13 @@
 
                     <div class="form-group">
 
-                    <label for="department" class="control-label">Department</label>
+                    <label for="department" class="control-label">{{__('messages.department')}}</label>
 
                     <div class="input-group mb-3">
 
                      <select class="form-control" id="department" name="department_id">
 
-                       <option value="">Select department</option>
+                       <option value="">{{__('messages.select department')}}</option>
 
                        @foreach($departments as $department)
 
@@ -63,7 +63,7 @@
                      </select>
 
                       <div class="input-group-append">
-                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addDepartment">Add</button>
+                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addDepartment">{{__('messages.add')}}</button>
                       </div>
 
                     </div>
@@ -72,13 +72,13 @@
 
                     <div class="form-group">
 
-                    <label for="designation" class="control-label">Designation</label>
+                    <label for="designation" class="control-label">{{__('messages.designation')}}</label>
 
                     <div class="input-group mb-3">
 
                      <select class="form-control" id="designation" name="designation_id">
 
-                       <option value="">Select designation</option>
+                       <option value="">{{__('messages.select designation')}}</option>
 
                        @foreach($designations as $designation)
 
@@ -89,7 +89,7 @@
                      </select>
 
                       <div class="input-group-append">
-                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addDesignation">Add</button>
+                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addDesignation">{{__('messages.add')}}</button>
                       </div>
 
                     </div>
@@ -99,13 +99,13 @@
 
                     <div class="form-group">
 
-                    <label for="bank" class="control-label">Bank</label>
+                    <label for="bank" class="control-label">{{__('messages.bank')}}</label>
 
                     <div class="input-group mb-3">
 
                      <select class="form-control" id="bank" name="bank_id">
 
-                       <option value="">Select bank </option>
+                       <option value="">{{__('messages.select bank')}} </option>
 
                        @foreach($banks as $bank)
 
@@ -116,7 +116,7 @@
                      </select>
 
                       <div class="input-group-append">
-                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addBank">Add</button>
+                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addBank">{{__('messages.add')}}</button>
                       </div>
 
                     </div>
@@ -125,11 +125,11 @@
 
                   
 
-                    {{ Form::bsText('account_number','',['placeholder' => 'Enter account number']) }}
+                    {{ Form::bsText('account_number','',['placeholder' => __('messages.account number'), 'label' => __('messages.account number')]) }}
 
-                    {{ Form::bsText('tin','',['placeholder' => 'Enter tin number']) }}
+                    {{ Form::bsText('tin','',['placeholder' => __('messages.tin number'), 'label' => __('messages.tin number')]) }}
 
-                  {{ Form::bsNumber('salary','',['placeholder' => 'Enter Salary Amount']) }}
+                  {{ Form::bsNumber('salary','',['placeholder' => __('messages.salary amount'), 'label' => __('messages.salary amount')]) }}
 
                     {{ Form::bsDate('start_date') }}
 

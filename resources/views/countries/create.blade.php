@@ -3,39 +3,39 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">Dashboard</div>
+        <div class="card-header">{{ __('messages.country') }}</div>
 
         <div class="card-body">
 
              {!! Form::open(['action' => 'Payroll\CountryController@store','method' => 'POST']) !!}
 
-             {{ Form::bsText('name','',['placeholder' => 'Enter country name']) }}
+             {{ Form::bsText( 'name','',['placeholder' => __('messages.country name'), 'label' => __('messages.name')]) }}
+             
+             {{ Form::bsText( 'description','',['placeholder' => __('messages.country description'), 'label' => __('messages.description')]) }}
 
-             {{ Form::bsText('description','',['placeholder' => 'Enter country description']) }}
+             {{ Form::bsText('country_code','',['placeholder' => __('messages.country code'), 'label' => __('messages.country code')]) }}
 
-             {{ Form::bsText('country_code','',['placeholder' => 'Enter country code']) }}
+             {{ Form::bsText('flag','',['placeholder' => __('messages.flag'),'label' => __('messages.flag')]) }}
 
-             {{ Form::bsText('flag','',['placeholder' => 'Enter country flag']) }}
+             {{ Form::bsText('currency_code','',['placeholder' => __('messages.currency code'),'label' => __('messages.currency code')]) }}
 
-             {{ Form::bsText('currency_code','',['placeholder' => 'Enter currency code']) }}
+             {{ Form::bsText('currency_name','',['placeholder' => __('messages.currency name'),'label' => __('messages.currency name')]) }}
 
-             {{ Form::bsText('currency_name','',['placeholder' => 'Enter currency name']) }}
+             {{ Form::bsText('capital','',['placeholder' => __('messages.capital city'),'label' => __('messages.capital city')]) }}
 
-             {{ Form::bsText('capital','',['placeholder' => 'Enter capital']) }}
+             {{ Form::bsText('language_code','',['placeholder' => __('messages.language code'),'label' => __('messages.language code')]) }}
 
-             {{ Form::bsText('language_code','',['placeholder' => 'Enter language code']) }}
+             {{ Form::bsText('language','',['placeholder' => __('messages.language'),'label' => __('messages.language')]) }}
 
-             {{ Form::bsText('language','',['placeholder' => 'Enter language']) }}
+             {{ Form::bsNumber('employees','',['placeholder' => __('messages.number of employees'),'label' => __('messages.employees')]) }}
 
-             {{ Form::bsNumber('employees','',['placeholder' => 'Enter number of employee']) }}
+             {{ Form::bsText('map','',['placeholder' => __('messages.country map'),'label' => __('messages.country map')]) }}
 
-             {{ Form::bsText('map','',['placeholder' => 'Enter country map']) }}
+             {{ Form::bsNumber('system_users','',['placeholder' => __('messages.number of users'),'label' => __('messages.system users')]) }}
 
-             {{ Form::bsNumber('system_users','',['placeholder' => 'Enter number of users']) }}
+             {{ Form::bsText('google_cordinate','',['placeholder' => __('messages.google cordinate'),'label' => __('messages.google cordinate')]) }}
 
-             {{ Form::bsText('google_cordinate','',['placeholder' => 'Enter google cordinate']) }}
-
-             {{ Form::bsSubmit( __('messages.add'),['class' => 'btn btn-primary']) }}
+             {{ Form::bsSubmit( 'add',['class' => 'btn btn-primary']) }}
 
              {!! Form::close() !!}
         </div>

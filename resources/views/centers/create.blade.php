@@ -8,11 +8,11 @@
         <div class="card-body">
             {!! Form::open(['action' => 'Payroll\CenterController@store','method' => 'POST']) !!}
 
-            {{ Form::bsText(__('messages.number'),'',['placeholder' => __('messages.enter number')]) }}
+            {{ Form::bsText('number','',['placeholder' => __('messages.enter number'), 'label' => __('messages.number')]) }}
 
-            {{ Form::bsText(__('messages.name'),'',['placeholder' => __('messages.enter name')]) }}
+            {{ Form::bsText('name','',['placeholder' => __('messages.enter name'), 'label' => __('messages.name')]) }}
 
-            {{ Form::bsText(__('messages.description'),'',['placeholder' => __('messages.enter description')]) }}
+            {{ Form::bsText('description','',['placeholder' => __('messages.enter description'), 'label' => __('messages.description')]) }}
 
             {{ Form::bsSubmit(__('messages.add'),['class' => 'btn btn-primary']) }}
 

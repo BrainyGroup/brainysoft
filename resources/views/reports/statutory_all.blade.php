@@ -4,7 +4,7 @@
 <div class="col-md-12">
     <div class="card">
         <div class="card-header">
-          <span><h1>All {{ $statutory_name}} Records </h1></span>
+          <span><h1>{{ $statutory_name}} {{ __('messages.records') }} </h1></span>
            
          </div>
          <div class="card-body">
@@ -21,11 +21,11 @@
                    <thead>
             
                     <tr>
-                      <th scope="col" >No</th>  
-                      <th scope="col" >Year</th>                     
-                       <th scope="col" >Month</th>                      
-                       <th scope="col">Amount</th>
-                       <th scope="col">Balance</th>                  
+                      <th scope="col" >#</th>  
+                      <th scope="col" >{{ __('messages.year') }}</th>                     
+                       <th scope="col" >{{ __('messages.month') }}</th>                      
+                       <th scope="col">{{ __('messages.amount') }}</th>
+                       <th scope="col">{{ __('messages.balance') }}</th>                  
       
                      </tr>
                   </thead>
@@ -39,9 +39,7 @@
                       <td>{{ $statutory_monthly->year }}</td>
                        <td>{{ $months[$statutory_monthly->month - 1] }}</td>                    
                        <td>{{ number_format($statutory_monthly->paye_amount,2) }}</td>
-                       <td>{{ number_format($statutory_monthly->paye_balance,2) }}</td>
-
-                       
+                       <td>{{ number_format($statutory_monthly->paye_balance,2) }}</td>                       
                      </tr>
                 
            @endforeach
@@ -49,8 +47,8 @@
       </table>
   </div>
          @else
-           No Earning, run pay now
-           <a class="pull-right" href="/pays/create">{{ __('messages.add')}}</a>
+           {{ __('messages.no earning run pay now')}} 
+           <a class="pull-right" class="btn btn-secondary btn-sm" href="/pays/create">{{ __('messages.add')}}</a>
          @endif
          </div>
     </div>

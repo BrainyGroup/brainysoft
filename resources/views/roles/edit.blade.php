@@ -8,11 +8,11 @@
         <div class="card-body">
             {!! Form::open(['action' => array('Payroll\RoleController@update', $role->id),'method' => 'PUT']) !!}
 
-            {{ Form::bsText('name', $role->name,['placeholder' => __('messages.enter name')]) }}
+            {{ Form::bsText('name', $role->name,['placeholder' => __('messages.role name'), 'label' => __('messages.name')]) }}
 
-            {{ Form::bsText('description', $role->description ,['placeholder' => __('messages.enter description')]) }}
+            {{ Form::bsText('description', $role->description ,['placeholder' => __('messages.role description'), 'label' => __('messages.description')]) }}
 
-            {{ Form::bsSubmit(__('messages.edit'),['class' => 'btn btn-primary']) }}
+            {{ Form::bsSubmit(__('messages.save'),['class' => 'btn btn-primary']) }}
 
             {!! Form::close() !!}
         </div>

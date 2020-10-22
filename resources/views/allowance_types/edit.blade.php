@@ -9,9 +9,9 @@
 
             {!! Form::open(['action' => array('Payroll\AllowanceTypeController@update', $allowance_type->id),'method' => 'PUT']) !!}
 
-            {{ Form::bsText( __('messages.name'),$allowance_type->name,['placeholder' => __('messages.allowance type name')]) }}         
+            {{ Form::bsText( 'name',$allowance_type->name,['placeholder' => __('messages.allowance type name'), 'label' => __('messages.name')]) }}         
 
-            {{ Form::bsText( __('messages.description'),$allowance_type->description,['placeholder' => __('messages.allowance type description')]) }}
+            {{ Form::bsText( 'description',$allowance_type->description,['placeholder' => __('messages.allowance type description'), 'label' => __('messages.description')]) }}
             
             {{ Form::bsSubmit(__('messages.save'),['class' => 'btn btn-primary']) }}
 

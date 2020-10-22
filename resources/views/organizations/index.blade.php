@@ -21,13 +21,13 @@
                   <thead>
                     <tr>
 
-                      <th scope="col">Name</th>
-                      <th scope="col">Description</th>
-                      <th scope="col">Statutory Type</th>
-                      <th scope="col">Organization</th>
-                      <th scope="col">Account #</th>
-                      <th scope="col">Edit</th>
-                      <th scope="col">Delete</th>
+                      <th scope="col">{{ __('messages.name') }}</th>
+                      <th scope="col">{{ __('messages.description') }}</th>                
+                      <th scope="col">{{ __('messages.statutory type') }}</th>
+                      <th scope="col">{{ __('messages.bank') }}</th>
+                      <th scope="col">{{ __('messages.account#') }}</th>
+                      <th scope="col">{{ __('messages.edit') }}</th>
+                      <th scope="col">{{ __('messages.delete') }}</th>
 
                     </tr>
                   </thead>
@@ -46,7 +46,7 @@
 
                       <td>{{ $organization->account_number }}</td>
 
-                      <td><a href="/organizations/{{$organization->id}}/edit">Edit</a></td>
+                      <td><a href="/organizations/{{$organization->id}}/edit">{{ __('messages.edit') }}</a></td>
 
                       <td><a href=""
                           onclick="
@@ -54,7 +54,7 @@
                           if (result){
                               event.preventDefault();
                               document.getElementById({{$organization->id}}).submit();
-                            }">Delete
+                            }">{{ __('messages.delete') }}
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\OrganizationController@destroy',$organization->id],'method' => 'DELETE','id' => $organization->id]) !!}
@@ -76,9 +76,9 @@
 
         @else
 
-          No Organization defined
+          {{ __('messages.no organization defined')}} 
 
-          <a class="pull-right" href="/organizations/create">{{ __('messages.add')}}</a>
+          <a class="pull-right" class="btn btn-secondary btn-sm" href="/organizations/create">{{ __('messages.add')}}</a>
 
 
         @endif

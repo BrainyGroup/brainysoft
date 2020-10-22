@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">Edit Designation</div>
+        <div class="card-header">{{__('messages.edit')}} {{__('messages.designation')}}</div>
 
         <div class="card-body">
             @if (session('status'))
@@ -15,11 +15,11 @@
 
                     {!! Form::open(['action' => array('Payroll\DesignationController@update', $designation->id),'method' => 'PUT']) !!}
 
-                    {{ Form::bsText('name', $designation->name,['placeholder' => 'Enter Deduction name']) }}
+                    {{ Form::bsText('name', $designation->name,['placeholder' => __('messages.designation name'), 'label' => __('messages.name')]) }}
 
-                    {{ Form::bsText('description', $designation->description,['placeholder' => 'Enter Deduction description']) }}
+                    {{ Form::bsText('description', $designation->description,['placeholder' => __('messages.designation description'), 'label' => __('messages.description')]) }}
 
-                    {{ Form::bsSubmit(__('messages.edit'),['class' => 'btn btn-primary']) }}
+                    {{ Form::bsSubmit(__('messages.save'),['class' => 'btn btn-primary']) }}
 
                     {!! Form::close() !!}
 

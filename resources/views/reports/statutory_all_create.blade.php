@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">Select Statutory</div>
+        <div class="card-header">{{ __('messages.select statutory') }}</div>
 
         <div class="card-body">
             @if (session('status'))
@@ -18,13 +18,13 @@
 
                     <div class="form-group">
 
-                        <label for="Year" class="control-label">Statutory</label>
+                        <label for="Year" class="control-label">{{ __('messages.statutory') }}</label>
     
                          <select class="form-control" id="statutory" name="statutory" required >
     
     
     
-                           <option value="">Select statutory</option>
+                           <option value="">{{ __('messages.select statutory') }}</option>
     
                           @foreach($statutories as $statutory)
     

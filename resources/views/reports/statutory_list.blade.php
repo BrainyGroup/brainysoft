@@ -4,7 +4,7 @@
     <div class="card">
         <div class="card-header">
            
-         <span><h1><strong>{{ $statutory_name }} - Details of Payment for {{ $max_pay}}</strong></h1></div>
+         <span><h1><strong>{{ $statutory_name }} - {{ __('messages.details of payment') }} {{ $max_pay}}</strong></h1></div>
          <div class="card-body">
             @if (session('status'))
                 <div class="alert alert-success" role="alert">
@@ -19,10 +19,10 @@
                    <thead>
                     <tr>
                        <th scope="col">#</th>
-                       <th scope="col">Name of Employee</th>               
-                       <th scope="col">Pay#</th>     
-                       <th scope="col">{{ $statutory_name }} Number</th>       
-                       <th scope="col"><span class="pull-right">Amount</span></th>
+                       <th scope="col">{{ __('messages.name') }}</th>               
+                       <th scope="col">{{ __('messages.pay#') }}</th>     
+                       <th scope="col">{{ $statutory_name }} {{ __('messages.number') }}</th>       
+                       <th scope="col"><span class="pull-right">{{ __('messages.amount') }}</span></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -51,7 +51,7 @@
             <th></th>
             <th></th>
             <th></th>
-            <th>Total (Tsh.)</th>
+            <th>{{ __('messages.total') }} </th>
             <th style="text-align:left"><span class="pull-right">{{ number_format( $total_statutory,2) }}</span></th>
           
           </tr>
@@ -59,8 +59,8 @@
       </table>
   </div>
          @else
-           No Earning, run pay now
-           <a class="pull-right" href="/pays/create">{{ __('messages.add')}}</a>
+         {{ __('messages.no earning run pay now')}} 
+           <a class="pull-right" class="btn btn-secondary btn-sm" href="/pays/create">{{ __('messages.add')}}</a>
          @endif
          </div>
     </div>

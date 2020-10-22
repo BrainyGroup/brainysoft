@@ -10,11 +10,11 @@
 
                     {!! Form::open(['action' => 'Payroll\AllowanceTypeController@store','method' => 'POST']) !!}
 
-                    {{ Form::bsText( __('messages.name') ,'',['placeholder' => __('messages.allowance type name')]) }}                  
+                    {{ Form::bsText( 'name' ,'',['placeholder' => __('messages.allowance type name'), 'label' => __('messages.name')]) }}                  
 
-                    {{ Form::bsText(__('messages.description'),'',['placeholder' =>  __('messages.allowance type description')]) }}
+                    {{ Form::bsText('description','',['placeholder' =>  __('messages.allowance type description'), 'label' => __('messages.description')]) }}
                    
-                    {{ Form::bsSubmit(__('messages.submit'),['class' => 'btn btn-primary']) }}
+                    {{ Form::bsSubmit('messages.submit',['class' => 'btn btn-primary']) }}
 
                     {!! Form::close() !!}
                     

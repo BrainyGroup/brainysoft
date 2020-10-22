@@ -20,12 +20,10 @@
 
                   <thead>
                     <tr>
-
-                      <th scope="col">Name</th>
-                      <th scope="col">Description</th>
-                      <th scope="col">Edit</th>
-                      <th scope="col">Delete</th>
-
+                      <th scope="col">{{ __('messages.name') }}</th>
+                      <th scope="col">{{ __('messages.description') }}</th>
+                      <th scope="col">{{ __('messages.edit') }}</th>
+                      <th scope="col">{{ __('messages.delete') }}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -37,7 +35,7 @@
 
                       <td>{{ $kin_type->description }}</td>
 
-                      <td><a href="/kin_types/{{$kin_type->id}}/edit">Edit</a></td>
+                      <td><a href="/kin_types/{{$kin_type->id}}/edit">{{ __('messages.edit') }}</a></td>
 
                       <td><a href=""
                           onclick="
@@ -45,7 +43,7 @@
                           if (result){
                               event.preventDefault();
                               document.getElementById({{$kin_type->id}}).submit();
-                            }">Delete
+                            }">{{ __('messages.delete') }}
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\KinTypeController@destroy',$kin_type->id],'method' => 'DELETE','id' => $kin_type->id]) !!}
@@ -66,9 +64,9 @@
 
         @else
 
-          No Kin types defined
+        {{ __('messages.no kin type defined')}}  
 
-          <a class="pull-right" href="/kin_types/create">{{ __('messages.add')}}</a>
+          <a class="pull-right" class="btn btn-secondary btn-sm" href="/kin_types/create">{{ __('messages.add')}}</a>
 
         @endif
 

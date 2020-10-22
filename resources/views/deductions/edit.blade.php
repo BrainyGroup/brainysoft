@@ -15,9 +15,9 @@
 
                   {!! Form::open(['action' => array('Payroll\DeductionController@update', $deduction->id),'method' => 'PUT']) !!}
 
-                    {{ Form::bsText('amount',$deduction->amount,['placeholder' => 'Enter Deduction Amount']) }}
+                    {{ Form::bsText('amount',$deduction->amount,['placeholder' => __('messages.deduction amount'), 'label' => __('messages.amount')]) }}
 
-                    {{ Form::bsText('interest', $deduction->interest,['placeholder' => 'Enter Interest in percent']) }}    
+                    {{ Form::bsText('interest', $deduction->interest,['placeholder' => __('messages.deduction interest'), 'label' => __('messages.interest')]) }}    
 
                     {{ Form::bsHidden('employee_id', request('employee_id')) }}
 
@@ -43,7 +43,7 @@
 
                     {{ Form::bsDate('date_taken',$deduction->date_taken) }}
 
-                    {{ Form::bsText('period',$deduction->period,['placeholder' => 'Enter Period']) }}
+                    {{ Form::bsText('period',$deduction->period,['placeholder' => __('messages.period'), 'label' => __('messages.period')]) }}
 
 
                     {{ Form::bsDate('start_date', $deduction->start_date) }}

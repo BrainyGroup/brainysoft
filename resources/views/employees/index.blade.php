@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-12">
     <div class="card">
-        <div class="card-header"><h2>All Employee</h2></div>
+        <div class="card-header"><h2>{{ __('messages.employees') }}</h2></div>
 
         <div class="card-body">
             @if (session('status'))
@@ -20,21 +20,34 @@
 
                   <thead>
                     <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Name</th>
-                      <th scope="col">Id</th>
-                      <th scope="col">TIN Number</th>
-                      <th scope="col">Designation</th>
-                      <th scope="col">Mobile</th>
-                      <th scope="col">salary</th>
-                      <th scope="col">Allowance</th>
-                      <th scope="col">Deduction</th>
-                      <th scope="col">Kin</th>
-                      <th scope="col">Statutory</th>
-                      <th scope="col">Details</th>
 
-                      <th scope="col">Edit</th>
-                      <th scope="col">Delete</th>
+                      <th scope="col">#</th>
+
+                      <th scope="col">{{ __('messages.name') }}</th>
+
+                      <th scope="col">{{ __('messages.id') }}</th>
+
+                      <th scope="col">{{ __('messages.tin') }}</th>
+
+                      <th scope="col">{{ __('messages.designation') }}</th>
+
+                      <th scope="col">{{ __('messages.mobile') }}</th>
+
+                      <th scope="col">{{ __('messages.salary') }}</th>
+
+                      <th scope="col">{{ __('messages.allowance') }}</th>
+
+                      <th scope="col">{{ __('messages.deduction') }}</th>
+
+                      <th scope="col">{{ __('messages.kin') }}</th>
+
+                      <th scope="col">{{ __('messages.statutory') }}</th>
+
+                      <th scope="col">{{ __('messages.details') }}</th>
+
+                      <th scope="col">{{ __('messages.edit') }}</th>
+
+                      <th scope="col">{{ __('messages.delete') }}</th>
 
                     </tr>
                   </thead>
@@ -60,16 +73,16 @@
 
                     <td><a href="/deductions">{{  number_format($employee->deduction_amount, 2) }}</a></td>
 
-                    <td><a href="/kins?employee_id={{ $employee->id }}">Kins</a></td>
+                    <td><a href="/kins?employee_id={{ $employee->id }}">{{ __('messages.kins') }}</a></td>
 
-                    <td><a href="/employee_statutories?employee_id={{ $employee->id }}">Statutories</a></td>
+                    <td><a href="/employee_statutories?employee_id={{ $employee->id }}">{{ __('messages.statutory') }}</a></td>
 
-                    <td><a href="/employees/{{ $employee->id}}">Details</a></td>
-
-
+                    <td><a href="/employees/{{ $employee->id}}">{{ __('messages.details') }}</a></td>
 
 
-                    <td><a href="/employees/{{$employee->id}}/edit">Edit</a></td>
+
+
+                    <td><a href="/employees/{{$employee->id}}/edit">{{ __('messages.edit') }}</a></td>
 
                     <td><a href=""
                         onclick="
@@ -77,7 +90,7 @@
                         if (result){
                             event.preventDefault();
                             document.getElementById({{$employee->id}}).submit();
-                          }">Delete
+                          }">{{ __('messages.delete') }}
                         </a>
 
                         {!! Form::open(['action' => ['Payroll\EmployeeController@destroy',$employee->id],'method' => 'DELETE','id' => $employee->id]) !!}
@@ -98,10 +111,9 @@
 
         @else
 
-          No Employee defined
+        {{ __('messages.no employee defined')}}          
 
-          <a class="pull-right" href="/employees/create">{{ __('messages.add')}}</a>
-
+          <a class="pull-right" class="btn btn-secondary btn-sm" href="/users">{{ __('messages.add')}}</a>
 
         @endif
 

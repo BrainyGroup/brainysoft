@@ -16,9 +16,9 @@
           <div class="col-md-10">
             <p></p>
             @foreach($documentations as $documentation)
-            {!! $documentation->description !!}}
+            {!! $documentation->description !!}
             @endforeach
-            <a href="/documentations/{{$documentation->id}}/edit">Edit</a>
+            <a href="/documentations/{{$documentation->id}}/edit">{{ __('messages.edit') }}</a>
             
           </div>
 

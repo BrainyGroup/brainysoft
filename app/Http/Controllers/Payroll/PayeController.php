@@ -177,7 +177,7 @@ class PayeController extends Controller
 
         'maximum' => 'required|numeric',
 
-        'ratio' =>'required|numeric|between:0.001,0.999',
+        'ratio' =>'required|numeric|between:0.000,0.999',
 
         'offset' => 'required|numeric',
 

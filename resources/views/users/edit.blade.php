@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">Edit Users</div>
+        <div class="card-header">{{__('messages.edit')}} {{__('messages.user')}}</div>
 
         <div class="card-body">
             @if (session('status'))
@@ -21,44 +21,44 @@
             
                    <div class="form-group">
 
-                    <label for="title" class="control-label">Title</label>
+                    <label for="title" class="control-label">{{__('messages.title')}}</label>
 
                      <select class="form-control" id="title" name="title">
 
                        <option value="{{ $user->title }}">{{ $user->title }}</option>
 
-                       <option value="Mr.">Mr</option>
-                       <option value="Mrs.">Mrs</option>
-                       <option value="Miss">Miss</option>                      
+                       <option value="Mr.">{{__('messages.mr')}}</option>
+                       <option value="Mrs.">{{__('messages.mrs')}}</option>
+                       <option value="Miss">{{__('messages.miss')}}</option>                      
 
                      </select>
 
                     </div>
 
-            {{ Form::bsText('name', $user->name,['placeholder' => 'Enter your gender']) }}
+            {{ Form::bsText('name', $user->name,['placeholder' => __('messages.name'), 'label' => __('messages.name')]) }}
 
                 <div class="form-group">
 
-                    <label for="sex" class="control-label">Gender</label>
+                    <label for="sex" class="control-label">{{__('messages.gender')}}</label>
 
                      <select class="form-control" id="sex" name="sex">
 
                     @if($user->sex == null)
 
-                      <option value="{{ $user->sex }}">Please choose gender</option>                    
+                      <option value="{{ $user->sex }}">{{__('messages.select gender')}}</option>                    
                     @elseif($user->sex)
 
-                      <option value="{{ $user->sex }}">Male</option>	
+                      <option value="{{ $user->sex }}">{{__('messages.male')}}</option>	
                     @else
 
-                    <option value="{{ $user->sex }}">Female</option>
+                    <option value="{{ $user->sex }}">{{__('messages.female')}}</option>
 
 
                     @endif
 
-                       <option value="1">Male</option>
+                       <option value="1">{{__('messages.male')}}</option>
 
-                       <option value="0">Female</option>
+                       <option value="0">{{__('messages.female')}}</option>
                                          
 
                      </select>
@@ -68,35 +68,35 @@
 
                <div class="form-group">
 
-                    <label for="maritalstatus" class="control-label">Marital Status</label>
+                    <label for="maritalstatus" class="control-label">{{__('messages.marital status')}}</label>
 
                      <select class="form-control" id="maritalstatus" name="maritalstatus">
 
                      	@if($user->maritalstatus == null)
 
-                      <option value="{{ $user->maritalstatus }}"> Choose marital status
+                      <option value="{{ $user->maritalstatus }}"> {{__('messages.select marital status')}}
 
 
                       </option>	
 
                       @elseif($user->maritalstatus)
 
-                      <option value="{{ $user->maritalstatus }}"> Single
+                      <option value="{{ $user->maritalstatus }}"> {{__('messages.single')}}
 
 
                       </option> 
 
 
-                      @else<option value="{{ $user->maritalstatus }}"> Married
+                      @else<option value="{{ $user->maritalstatus }}"> {{__('messages.married')}}
 
 
                       </option>	
 
                       @endif
 
-                       <option value="1">Married</option>
+                       <option value="1">{{__('messages.married')}}</option>
 
-                       <option value="0">Not Married</option>
+                       <option value="0">{{__('messages.single')}}</option>
                                          
 
                      </select>
@@ -104,17 +104,17 @@
                   </div>
 
 
-            {{ Form::bsText('firstname', $user->firstname,['placeholder' => 'Enter your first name']) }}
+            {{ Form::bsText('firstname', $user->firstname,['placeholder' => __('messages.first name'), 'label' => __('messages.first name')]) }}
 
-            {{ Form::bsText('middlename', $user->middlename,['placeholder' => 'Enter your middle name']) }}
+            {{ Form::bsText('middlename', $user->middlename,['placeholder' => __('messages.middle name'), 'label' => __('messages.middle name')]) }}
 
-            {{ Form::bsText('lastname', $user->lastname,['placeholder' => 'Enter your lastname']) }}
+            {{ Form::bsText('lastname', $user->lastname,['placeholder' => __('messages.last name'), 'label' => __('messages.last name')]) }}
 
-            {{ Form::bsFile('photo',['placeholder'=>'change photo']) }}
+            {{ Form::bsFile('photo',['placeholder'=>__('messages.change photo'), 'label' => __('messages.change photo')]) }}
 
             <div class="form-group">
 
-              <label for="role" class="control-label">Role</label>
+              <label for="role" class="control-label">{{__('messages.role')}}</label>
 
               <div class="input-group mb-3">
 
@@ -136,13 +136,13 @@
               </div>
 
 
-            {{ Form::bsDate('dob', $user->dob,['placeholder' => 'Enter your birth date']) }}
+            {{ Form::bsDate('dob', $user->dob,['placeholder' => __('messages.date of birth'), 'label' => __('messages.date of birth')]) }}
 
-            {{ Form::bsText('mobile', $user->mobile,['placeholder' => 'Enter your lastname']) }}
+            {{ Form::bsText('mobile', $user->mobile,['placeholder' => __('messages.mobile'), 'label' => __('messages.mobile')]) }}
 
             
 
-            {{ Form::bsSubmit(__('messages.edit'),['class' => 'btn btn-primary']) }}
+            {{ Form::bsSubmit(__('messages.save'),['class' => 'btn btn-primary']) }}
 
             {!! Form::close() !!}
         </div>

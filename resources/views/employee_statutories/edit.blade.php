@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">Edit Statutories </div>
+        <div class="card-header">{{__('messages.edit')}} {{__('messages.statutory')}}</div>
 
         <div class="card-body">
             @if (session('status'))
@@ -23,12 +23,12 @@
 
                
 
-                    {{ Form::bsText('employee_statutory_no',$employee_statutory_no,['placeholder' => 'Enter Employee NSF Number']) }}
+                    {{ Form::bsText('employee_statutory_no',$employee_statutory_no,['placeholder' => __('messages.employee nfs number'), 'label' => __('messages.nfs number')]) }}
 
 
           
 
-            {{ Form::bsSubmit('Submit',['class' => 'btn btn-primary']) }}
+            {{ Form::bsSubmit({{__('messages.save')}},['class' => 'btn btn-primary']) }}
 
             {!! Form::close() !!}
 

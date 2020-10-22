@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">Edit Employee {{ $user->title.'. '.$user->firstname.' '.$user->lastname }}</div>
+        <div class="card-header">{{__('messages.edit')}} {{__('messages.employee')}} {{ $user->title.'. '.$user->firstname.' '.$user->lastname }}</div>
 
         <div class="card-body">
             @if (session('status'))
@@ -19,7 +19,7 @@
 
                     <div class="form-group">
 
-                    <label for="center" class="control-label">Center</label>
+                    <label for="center" class="control-label">{{__('messages.center')}}</label>
 
                      <select class="form-control" id="center" name="center_id">
 
@@ -39,7 +39,7 @@
 
                     <div class="form-group">
 
-                    <label for="department" class="control-label">Department</label>
+                    <label for="department" class="control-label">{{__('messages.department')}}</label>
 
                      <select class="form-control" id="department" name="department_id">
 
@@ -57,7 +57,7 @@
 
                     <div class="form-group">
 
-                    <label for="designation" class="control-label">Designation</label>
+                    <label for="designation" class="control-label">{{__('messages.designation')}}</label>
 
                      <select class="form-control" id="designation" name="designation_id">
 
@@ -92,11 +92,11 @@
 
                     </div>
 
-                    {{ Form::bsText('account_number', $employee->account_number,['placeholder' => 'Enter account number']) }}
+                    {{ Form::bsText('account_number', $employee->account_number,['placeholder' => __('messages.account number'), 'label' => __('messages.account number')]) }}
 
-                    {{ Form::bsText('tin', $employee->tin,['placeholder' => 'Enter tin number']) }}
+                    {{ Form::bsText('tin', $employee->tin,['placeholder' => __('messages.tin number'), 'label' => __('messages.tin number')]) }}
 
-                  {{ Form::bsNumber('salary', $employee_salary->amount ,['placeholder' => 'Enter Salary Amount']) }}
+                  {{ Form::bsNumber('salary', $employee_salary->amount ,['placeholder' => __('messages.salary amount'), 'label' => __('messages.salary amount')]) }}
 
 
 
@@ -110,7 +110,7 @@
 
                     {{ Form::bsHidden('employee_id', $employee->id) }}
 
-                    {{ Form::bsSubmit( __('messages.edit'),['class' => 'btn btn-primary']) }}
+                    {{ Form::bsSubmit( __('messages.save'),['class' => 'btn btn-primary']) }}
 
 
 

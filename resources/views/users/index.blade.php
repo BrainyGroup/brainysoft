@@ -4,8 +4,8 @@
 <div class="col-md-12">
     <div class="card">
       
-        <div class="card-header"> Users
-          <span class="pull-right"> <a class="btn btn-secondary btn-sm"href="/users/create">{{ __('messages.add') }} new user </a></span>
+        <div class="card-header"> {{ __('messages.users')}} 
+          <span class="pull-right"> <a class="btn btn-secondary btn-sm"href="/users/create">{{ __('messages.add') }} </a></span>
 
         </div>
 
@@ -30,15 +30,15 @@
                   <thead>
                     <tr>
                       <th scope="col">#</th>
-                      <th scope="col">Name</th>
-                      <th scope="col">Gender</th>
-                      <th scope="col">Marital status</th>
+                      <th scope="col">{{ __('messages.name') }}</th>
+                      <th scope="col">{{ __('messages.gender') }}</th>
+                      <th scope="col">{{ __('messages.marital status') }}</th>
 
-                      <th scope="col">Email</th>
-                      <th scope="col">Mobile</th>
-                      <th scope="col"></th>
-                      <th scope="col"></th>
-                      <th scope="col"></th>
+                      <th scope="col">{{ __('messages.email') }}</th>
+                      <th scope="col">{{ __('messages.mobile') }}</th>
+                      <th scope="col">{{ __('messages.add') }}</th>
+                      <th scope="col">{{ __('messages.edit') }}</th>
+                      <th scope="col">{{ __('messages.delete') }}</th>
                     </tr>
                   </thead>
                   <tbody>

@@ -20,11 +20,10 @@
 
                   <thead>
                     <tr>
-
-                      <th scope="col">Name</th>
-                      <th scope="col">Description</th>
-                      <th scope="col">Edit</th>
-                      <th scope="col">Delete</th>
+                      <th scope="col">{{ __('messages.name') }}</th>
+                      <th scope="col">{{ __('messages.description') }}</th>
+                      <th scope="col">{{ __('messages.edit') }}</th>
+                      <th scope="col">{{ __('messages.delete') }}</th>
 
                     </tr>
                   </thead>
@@ -37,7 +36,7 @@
 
                       <td>{{ $salary_base->description }}</td>
 
-                      <td><a href="/salary_bases/{{$salary_base->id}}/edit">Edit</a></td>
+                      <td><a href="/salary_bases/{{$salary_base->id}}/edit">{{ __('messages.edit') }}</a></td>
 
                       <td><a href=""
                           onclick="
@@ -45,7 +44,7 @@
                           if (result){
                               event.preventDefault();
                               document.getElementById({{$salary_base->id}}).submit();
-                            }">Delete
+                            }">{{ __('messages.delete') }}
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\SalaryBaseController@destroy',$salary_base->id],'method' => 'DELETE','id' => $salary_base->id]) !!}

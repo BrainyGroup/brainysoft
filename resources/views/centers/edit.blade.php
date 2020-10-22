@@ -9,11 +9,11 @@
 
             {!! Form::open(['action' => array('Payroll\CenterController@update', $center->id),'method' => 'PUT']) !!}
 
-            {{ Form::bsText(__('messages.number'),$center->number,['placeholder' => __('messages.enter number')]) }}
+            {{ Form::bsText('number',$center->number,['placeholder' => __('messages.enter number'), 'label' => __('messages.number')]) }}
 
-            {{ Form::bsText(__('messages.name'),$center->name,['placeholder' => __('messages.enter name')]) }}
+            {{ Form::bsText('name',$center->name,['placeholder' => __('messages.enter name'), 'label' => __('messages.name')]) }}
 
-            {{ Form::bsText(__('messages.description'),$center->description,['placeholder' => __('messages.enter description')]) }}
+            {{ Form::bsText('description',$center->description,['placeholder' => __('messages.enter description'), 'label' => __('messages.description')]) }}
 
             {{ Form::bsSubmit(__('messages.save'),['class' => 'btn btn-primary']) }}
 

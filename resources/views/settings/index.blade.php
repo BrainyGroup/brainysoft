@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">Settings</div>
+        <div class="card-header">{{ __('messages.settings') }}</div>
 
         <div class="card-body">
             @if (session('status'))
@@ -24,48 +24,48 @@
                   <tbody>
 
                     <tr>
-                      <td><a href="/allowance_types">Allowance types</a></td>
-                      <td><a href="/banks">Banks</a></td>
-                      <td><a href="/centers">Centers</a></td>
+                      <td><a href="/allowance_types">{{ __('messages.allowance types') }}</a></td>
+                      <td><a href="/banks">{{ __('messages.banks') }}</a></td>
+                      <td><a href="/centers">{{ __('messages.centers') }}</a></td>
                     </tr>
 
                     <tr>
-                      <td><a href="/deduction_types">Deduction types</a></td>
-                      <td><a href="/departments">Departments</a></td>
-                      <td><a href="/designations">Designations</a></td>
+                      <td><a href="/deduction_types">{{ __('messages.deduction types') }}</a></td>
+                      <td><a href="/departments">{{ __('messages.departments') }}</a></td>
+                      <td><a href="/designations">{{ __('messages.designations') }}</a></td>
                     </tr>
 
                     <tr>
-                      <td><a href="/kin_types">Kin types</a></td>
-                      <td><a href="/levels">Levels</a></td>
-                      <td><a href="/organizations">Organizations</a></td>
+                      <td><a href="/kin_types">{{ __('messages.kin types') }}</a></td>
+                      <td><a href="/levels">{{ __('messages.levels') }}</a></td>
+                      <td><a href="/organizations">{{ __('messages.organizations') }}</a></td>
                     </tr>
 
                     <tr>
-                      <td><a href="/payes">Payes</a></td>
-                      <td><a href="/salary_bases">Salary types</a></td>
-                      <td><a href="/scales">Scales</a></td>
+                      <td><a href="/payes">{{ __('messages.paye') }}</a></td>
+                      <td><a href="/salary_bases">{{ __('messages.salary types') }}</a></td>
+                      <td><a href="/scales">{{ __('messages.scales') }}</a></td>
 
                     </tr>
 
                     <tr>
-                      <td><a href="/employment_types">Employment types</a></td>
-                      <td><a href="/pay_types">Pay types</a></td>
-                      <td><a href="/payroll_groups">Payroll Groups</a></td>
+                      <td><a href="/employment_types">{{ __('messages.employment types') }}</a></td>
+                      <td><a href="/pay_types">{{ __('messages.pay types') }}</a></td>
+                      <td><a href="/payroll_groups">{{ __('messages.payroll groups') }}</a></td>
                     </tr>
 
                     
 
                     <tr>
-                      <td><a href="/statutory_types">Statutory types</a></td>
-                      <td><a href="/statutories">Statutories</a></td>
-                      <td><a href="/roles">Roles</a></td>
+                      <td><a href="/statutory_types">{{ __('messages.statutory types') }}</a></td>
+                      <td><a href="/statutories">{{ __('messages.statutory') }}</a></td>
+                      <td><a href="/roles">{{ __('messages.roles') }}</a></td>
                     </tr>
 
                     <tr>
-                      <td><a href="/basic_settings">Basic settings</a></td>
-                      <td><a href="/companies">Companies</a></td>
-                      <td><a href="/countries">Countries</a></td>
+                      <td><a href="/basic_settings">{{ __('messages.basic settings') }}</a></td>
+                      <td><a href="/companies">{{ __('messages.companies') }}</a></td>
+                      <td><a href="/countries">{{ __('messages.countries') }}</a></td>
                     </tr>
         </tbody>
       </table>

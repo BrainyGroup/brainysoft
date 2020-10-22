@@ -5,7 +5,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">Employee Details</div>
+        <div class="card-header">{{__('messages.employee')}} {{__('messages.details')}}</div>
 
         <div class="card-body">
             @if (session('status'))
@@ -35,7 +35,7 @@
 
                     <tr>
 
-                     <td>Full Name</td>
+                     <td>{{__('messages.full name')}}</td>
                       
 
                       <td>{{ $employee->title.'. '.$employee->firstname.' '.$employee->middlename.' '.$employee->lastname }}</td>
@@ -46,103 +46,104 @@
                     </tr>
 
                     <tr>
-                        <td>Identity</td>
+                        <td>{{__('messages.identity')}}</td>
                         <td>{{ $employee->identity }}  </td>
                         <td></td>
                     </tr>
 
                     <tr>
-                        <td>TIN Number</td>
+                        <td>{{__('messages.tin number')}}</td>
                         <td>{{ $employee->tin }}  </td>
                         <td></td>
                     </tr>
 
 
                      <tr>
-                        <td>Age</td>
+                        <td>{{__('messages.age')}}</td>
                         <td>{{ \Carbon\Carbon::parse($employee->dob)->diffInYears(\Carbon\Carbon::now()) . ' years' }}</td>
                         <td></td>
                     </tr>
 
                     <tr>
-                    <td>Employment Type</td>
+                    <td>{{__('messages.employment type')}}</td>
                           <td>{{ $employee->employment_type_name}}</td>
                           <td></td>
                     </tr>
 
                     <tr>
-                        <td>Start Date</td>
+                        <td>{{__('messages.start date')}}</td>
                         <td>{{ $employee->start_date}}</td>
                         <td></td>
                     </tr>
 
                     <tr>
-                        <td>Expected Retire Date</td>
+                        <td>{{__('messages.expected retire date')}}</td>
                         <td>{{ $employee->end_date}}</td>
                         <td></td>
                     </tr>
                     <tr>
-                        <td>Payroll group</td>
+                        <td>{{__('messages.payroll group')}}</td>
                           <td>{{ $employee->payroll_group_name }}</td> 
                           <td></td>
                     </tr>
 
                     <tr>
-                    <td>Schedule</td>
+                    <td>{{__('messages.schedule')}}</td>
                           <td>{{ $employee->pay_base_name}}</td>
                           <td></td>
                     </tr>
 
                      <tr>
-                        <td>Pay Center</td>
+                        <td>{{__('messages.pay center')}}</td>
                           <td>{{ $employee->center_name}}</td>
                           <td></td>
                     </tr>
 
                     <tr>
 
-                        <td>Structure level</td>
+                        <td>{{__('messages.structure level')}}</td>
                           <td>{{ $employee->level_description }}</td>
                           <td></td>
                     </tr>
-                <td>Salary Scale</td>
+                    <tr>
+                <td>{{__('messages.salary scale')}}</td>
                           <td>{{ $employee->scale_description.' ('.$employee->scale_name.')' }}</td>
                           <td></td>
                     </tr>
 
                     <tr>
-                        <td>Designation</td>
+                        <td>{{__('messages.designation')}}</td>
                           <td>{{ $employee->designation_description.' ('.$employee->designation_name.')' }}</td>
                           <td></td>
                     </tr>
 
                     <tr>
-                        <td>Department</td>
+                        <td>{{__('messages.department')}}</td>
                           <td>{{ $employee->department_name}}</td>
                           <td></td>
                     </tr>
 
                                        <tr>
-                        <td>Bank</td>
+                        <td>{{__('messages.bank')}}</td>
                           <td>{{ $employee->bank_name}}</td>
                           <td>{{ $employee->account_number}}</td>
                     </tr>
 
                     <tr>
-                        <td>Mobile</td>
+                        <td>{{__('messages.mobile')}}</td>
                         <td>{{ $employee->mobile }}</td>
                         <td></td>
                     </tr>
 
                    <tr>
-                    <td>Salary</td>
+                    <td>{{__('messages.salary')}}</td>
                      <td>{{ number_format($employee->salary, 2 )}}</td>
                      <td></td>
                     </tr>
 
                    <tr>
-                    <td>Allowance</td>
-                    <td></td>
+                    <td>{{__('messages.allowance')}}</td>
+                    <td></td><td></td>
                     </tr>
                 @foreach($allowance_types as $allowance_type)
                     <tr>
@@ -154,7 +155,7 @@
                 @endforeach
                    <tr>
                     
-                    <td>Deduction</td><td></td>
+                    <td>{{__('messages.deduction')}}</td><td></td><td></td>
                     </tr>
                 @foreach($deduction_types as $deduction_type)
                     <tr>
@@ -166,7 +167,7 @@
                 @endforeach
                  <tr>
                     
-                    <td>Next of kin</td><td></td><td></td>
+                    <td>{{__('messages.next of kin')}}</td><td></td><td></td>
                     </tr>
                 @if(count($kins)>0)
 
@@ -180,7 +181,7 @@
                 @else
                  <tr>
                     
-                    <td>No next of kins</td><td></td>
+                    <td>{{__('messages.no next of kin')}}</td><td></td><td></td>
                     </tr>
                 @endif
 
@@ -188,7 +189,7 @@
                
 
                    <tr>
-                    <td>Statutories</td><td></td>
+                    <td>{{__('messages.statutory')}}</td><td></td>
 
                   <td></td>
 
@@ -206,7 +207,7 @@
                 @else
                  <tr>
                     
-                    <td>No statutories defined</td><td></td>
+                    <td>{{__('messages.no statutory defined')}}</td><td></td>
                     </tr>
                 @endif
                      
@@ -225,13 +226,13 @@
 
                    
                     <tr>
-                        <td>Created at</td>
+                        <td>{{__('messages.created at')}}</td>
                           <td>{{ $employee->created_at}}</td>
                           <td></td>
                     </tr>
 
                      <tr>
-                        <td>Updated at</td>
+                        <td>{{__('messages.updated at')}}</td>
                           <td>{{ $employee->updated_at}}</td>
                           <td></td>
                     </tr>

@@ -8,11 +8,11 @@
         <div class="card-body">
           	{!! Form::open(['action' => array('Payroll\DeductionTypeController@update', $deduction_type->id),'method' => 'PUT']) !!}
 
-	        {{ Form::bsText('name', $deduction_type->name,['placeholder' => 'Enter Deduction name']) }}
+	        {{ Form::bsText('name', $deduction_type->name,['placeholder' => __('messages.deduction name'), 'label' => __('messages.name')]) }}
 
-	        {{ Form::bsText('description', $deduction_type->description,['placeholder' => 'Enter Deduction description']) }}
+	        {{ Form::bsText('description', $deduction_type->description,['placeholder' => __('messages.deduction name'), 'label' => __('messages.name')]) }}
 
-	        {{ Form::bsSubmit( __('messages.edit'),['class' => 'btn btn-primary']) }}
+	        {{ Form::bsSubmit( __('messages.save'),['class' => 'btn btn-primary']) }}
 
 	        {!! Form::close() !!}
 

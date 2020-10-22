@@ -8,7 +8,7 @@
         <div class="card-body">
             {!! Form::open(['action' => 'Payroll\AllowanceController@store','method' => 'POST']) !!}
 
-                    {{ Form::bsText(__('messages.allowance_amount'),'',['placeholder' => __('messages.allowance amount')]) }} 
+                    {{ Form::bsText('allowance_amount','',['placeholder' => __('messages.allowance amount'), 'label' => __('messages.allowance amount')]) }} 
 
                     {{ Form::bsHidden('user_id', request('user_id')) }}   
 

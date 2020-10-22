@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">Add Statutories </div>
+        <div class="card-header">{{__('messages.add')}} {{__('messages.statutory')}}</div>
 
         <div class="card-body">
             @if (session('status'))
@@ -18,13 +18,13 @@
 
                 <div class="form-group">
 
-                    <label for="statutory_id" class="control-label">Statutory</label>
+                    <label for="statutory_id" class="control-label">{{__('messages.statutory')}}</label>
 
                     <div class="input-group mb-3">
 
                      <select class="form-control" id="statutory_id" name="statutory_id">
 
-                       <option value="">Select statutories</option>
+                       <option value="">{{__('messages.select statutory')}}</option>
 
                        @foreach($statutories as $statutory)
 
@@ -38,7 +38,7 @@
 
                     </div>
 
-                    {{ Form::bsText('employee_statutory_no','',['placeholder' => 'Enter Employee NSF Number']) }}
+                    {{ Form::bsText('employee_statutory_no','',['placeholder' => __('messages.employee nfs number'), 'label' => __('messages.nfs number')]) }}
 
 
           

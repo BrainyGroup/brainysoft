@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">Edit Organization</div>
+        <div class="card-header">{{__('messages.edit')}} {{__('messages.organization')}}</div>
 
         <div class="card-body">
             @if (session('status'))
@@ -14,13 +14,13 @@
 
  {!! Form::open(['action' => array('Payroll\OrganizationController@update', $organization->id),'method' => 'PUT']) !!}
 
-                    {{ Form::bsText('name', $organization->name ,['placeholder' => 'Enter organization name', 'required' => 'true']) }}
+                    {{ Form::bsText('name', $organization->name ,['placeholder' => __('messages.organization name'), 'label' => __('messages.name'), 'required' => 'true']) }}
 
-                    {{ Form::bsText('description', $organization->description,['placeholder' => 'Enter organization description']) }}
+                    {{ Form::bsText('description', $organization->description,['placeholder' => __('messages.organization description'), 'label' => __('messages.description')]) }}
 
                     <div class="form-group">
 
-                    <label for="bank" class="control-label">Bank</label>
+                    <label for="bank" class="control-label">{{__('messages.name')}}</label>
 
                      <select class="form-control" id="bank" name="bank_id">
 
@@ -42,7 +42,7 @@
 
                     <div class="form-group">
 
-                    <label for="statutory_type" class="control-label">Statutory Type</label>
+                    <label for="statutory_type" class="control-label">{{__('messages.statutory type')}}</label>
 
                      <select class="form-control" id="statutory_type" name="statutory_type_id">
 
@@ -59,7 +59,7 @@
                     </div>
 
 
-                    {{ Form::bsSubmit( __('messages.edit'),['class' => 'btn btn-primary']) }}
+                    {{ Form::bsSubmit( __('messages.save'),['class' => 'btn btn-primary']) }}
 
                     {!! Form::close() !!}
 

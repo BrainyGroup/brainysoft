@@ -9,9 +9,9 @@
             {!! Form::open(['action' => 'Payroll\RoleController@store','method' => 'POST']) !!}
 
 
-            {{ Form::bsText('name','',['placeholder' => __('messages.enter name')]) }}
+            {{ Form::bsText('name','',['placeholder' => __('messages.role name'), 'label' => __('messages.name')]) }}
 
-            {{ Form::bsText('description','',['placeholder' => __('messages.enter description')]) }}
+            {{ Form::bsText('description','',['placeholder' => __('messages.role description'), 'label' => __('messages.description')]) }}
 
             {{ Form::bsSubmit(__('messages.add'),['class' => 'btn btn-primary']) }}
 

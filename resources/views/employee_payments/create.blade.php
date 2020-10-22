@@ -13,9 +13,9 @@
             {{ Form::bsHidden('pay_number', $pay_number) }}
 
 
-            {{ Form::bsText('balance',$employee_balance,['placeholder' => __('messages.enter name')]) }}
+            {{ Form::bsText('balance',$employee_balance,['placeholder' => __('messages.balance'), 'label' => __('messages.balance')]) }}
 
-            {{ Form::bsText('paid',$employee_balance,['placeholder' => __('messages.enter description')]) }}
+            {{ Form::bsText('paid',$employee_balance,['placeholder' => __('messages.paid'), 'label' => __('messages.paid'))]) }}
 
             {{ Form::bsSubmit(__('messages.add'),['class' => 'btn btn-primary']) }}
 

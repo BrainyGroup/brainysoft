@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">Settings</div>
+        <div class="card-header">{{ __('messages.settings')}}</div>
 
         <div class="card-body">
             @if (session('status'))
@@ -24,27 +24,27 @@
                   <tbody>
 
                     <tr>
-                      <td><a href="/reports/pay_details?max_pay={{$max_pay}}">Current Month</a></td>
-                      <td><a href="/reports/pay_details">This year</a></td>
-                      <td><a href="/reports/employee_pay">Employee pay</a></td>
+                      <td><a href="/reports/pay_details?max_pay={{$max_pay}}">{{ __('messages.current month')}}</a></td>
+                      <td><a href="/reports/pay_details">{{ __('messages.this year')}}</a></td>
+                      <td><a href="/reports/employee_pay">{{ __('messages.employee pay')}}</a></td>
                     </tr>
 
                     <tr>
-                      <td><a href="/reports/monthly_create">Monthly</a></td>
-                      <td><a href="/reports/yearly_create">Yearly</a></td>
-                      <td><a href="/employees/{{ $employee_id}}">Employee Details</a></td>
+                      <td><a href="/reports/monthly_create">{{ __('messages.monthly')}}</a></td>
+                      <td><a href="/reports/yearly_create">{{ __('messages.yearly')}}</a></td>
+                      <td><a href="/employees/{{ $employee_id}}">{{ __('messages.employee details')}}</a></td>
                     </tr>
 
                     <tr>
-                      <td><a href="/reports/paye_yearly_create">Paye yearly</a></td>
+                      <td><a href="/reports/paye_yearly_create">{{ __('messages.paye yearly')}}</a></td>
                       <td><a href="/levels">Levels</a></td>
-                      <td><a href="/reports/statutory_employee_all_create">Statutory employee</a></td>
+                      <td><a href="/reports/statutory_employee_all_create">{{ __('messages.employee statutory')}}</a></td>
                     </tr>
 
                     <tr>
-                      <td><a href="/reports/paye_all">Paye all</a></td>
-                      <td><a href="/reports/statutory_yearly_create">Statutory yearly</a></td>
-                      <td><a href="/reports/statutory_all_create">Statutory all</a></td>
+                      <td><a href="/reports/paye_all">{{ __('messages.paye all')}}</a></td>
+                      <td><a href="/reports/statutory_yearly_create">{{ __('messages.statutory yearly')}}</a></td>
+                      <td><a href="/reports/statutory_all_create">{{ __('messages.all statutory')}}</a></td>
 
                     </tr>
 

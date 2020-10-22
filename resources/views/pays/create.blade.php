@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">Add pays</div>
+        <div class="card-header">{{__('messages.add')}} {{__('messages.pay')}}</div>
 
         <div class="card-body">
             @if (session('status'))
@@ -16,7 +16,7 @@
 
                     <div class="form-group">
 
-                    <label for="Year" class="control-label">Year</label>
+                    <label for="Year" class="control-label">{{__('messages.year')}}</label>
 
                      <select class="form-control" id="year" name="year" required >
 
@@ -43,7 +43,7 @@
 
                     <div class="form-group">
 
-                    <label for="month" class="control-label">Month</label>
+                    <label for="month" class="control-label">{{__('messages.month')}}</label>
 
                      <select class="form-control" id="month" name="month" required >
 
@@ -78,7 +78,7 @@
                     
                     <div class="form-group">
 
-                        <label for="net_pay" class="control-label">Net Paid</label>
+                        <label for="net_pay" class="control-label">{{__('messages.net paid')}}</label>
     
                          <select class="form-control" id="net_pay" name="net_pay" required >
     

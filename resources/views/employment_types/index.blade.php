@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+{{ __('messages.employment type') }}
+@endsection 
+
 @section('content')
 <div class="col-md-8">
     <div class="card">
@@ -22,10 +26,10 @@
                   <thead>
                     <tr>
 
-                      <th scope="col">Name</th>
-                      <th scope="col">Description</th>
-                      <th scope="col">Edit</th>
-                      <th scope="col">Delete</th>
+                      <th scope="col">{{ __('messages.name') }}</th>
+                      <th scope="col">{{ __('messages.description') }}</th>
+                      <th scope="col">{{ __('messages.edit') }}</th>
+                      <th scope="col">{{ __('messages.delete') }}</th>
 
                     </tr>
                   </thead>
@@ -38,15 +42,15 @@
 
                       <td>{{ $employment_type->description }}</td>
 
-                      <td><a href="/employment_types/{{$employment_type->id}}/edit">Edit</a></td>
+                      <td><a href="/employment_types/{{$employment_type->id}}/edit">{{ __('messages.edit') }}</a></td>
 
                       <td><a href=""
                           onclick="
-                          var result = confirm('Are you sure yo want to delete this kin type?');
+                          var result = confirm('Are you sure yo want to delete this employee type?');
                           if (result){
                               event.preventDefault();
                               document.getElementById({{$employment_type->id}}).submit();
-                            }">Delete
+                            }">{{ __('messages.delete') }}
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\EmploymentTypeController@destroy',$employment_type->id],'method' => 'DELETE','id' => $employment_type->id]) !!}
@@ -67,9 +71,9 @@
 
         @else
 
-          No Kin types defined
+        {{ __('messages.no level defined')}}  
 
-          <a class="pull-right" href="/employment_types/create">{{ __('messages.add')}}</a>
+          <a class="pull-right" class="btn btn-secondary btn-sm" href="/employment_types/create">{{ __('messages.add')}}</a>
 
         @endif
 

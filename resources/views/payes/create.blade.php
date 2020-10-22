@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">Dashboard</div>
+        <div class="card-header">{{__('messages.add')}} {{__('messages.paye')}}</div>
 
         <div class="card-body">
             @if (session('status'))
@@ -17,11 +17,11 @@
 
                     <div class="form-group">
 
-                    <label for="country" class="control-label">Country</label>
+                    <label for="country" class="control-label">{{__('messages.country')}}</label>
 
                      <select class="form-control" id="country" name="country_id" required >
 
-                       <option value="">Select country</option>
+                       <option value="">{{__('messages.select country')}}</option>
 
                        @foreach($countries as $country)
 
@@ -33,11 +33,11 @@
 
                     </div>
 
-                    {{ Form::bsNumber('minimum','',['placeholder' => 'Enter minimum salary','required' => 'true','step' => '0.01','min' => '0.00']) }}
+                    {{ Form::bsNumber('minimum','',['placeholder' => __('messages.minimum'), 'label' => __('messages.minimum'),'required' => 'true','step' => '0.01','min' => '0.00']) }}
 
-                    {{ Form::bsNumber('maximum','',['placeholder' => 'Enter maximum salary','required' => 'true','step' => '0.01','min' => '0.00']) }}
+                    {{ Form::bsNumber('maximum','',['placeholder' => __('messages.maximum'), 'label' => __('messages.maximum'),'required' => 'true','step' => '0.01','min' => '0.00']) }}
 
-                    {{ Form::bsNumber('ratio','',['placeholder' => 'Enter ratio', 'required' => 'true','step' => '0.000','max' => '0.999']) }}
+                    {{ Form::bsNumber('ratio','',['placeholder' => __('messages.ratio'), 'label' => __('messages.ratio'), 'required' => 'true','step' => '0.001', 'min' => '0.000','max' => '0.999']) }}
 
                     @if($errors->has('ratio'))
 
@@ -45,7 +45,7 @@
 
                     @endif
 
-                    {{ Form::bsNumber('offset','',['placeholder' => 'Enter offset', 'required' => 'true','step' => '0.01','min' => '0.00']) }}
+                    {{ Form::bsNumber('offset','',['placeholder' => __('messages.offset'), 'label' => __('messages.offset'), 'required' => 'true','step' => '0.01','min' => '0.00']) }}
 
                     {{ Form::bsSubmit('Submit',['class' => 'btn btn-primary']) }}
 

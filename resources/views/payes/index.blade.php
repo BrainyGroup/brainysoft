@@ -20,12 +20,12 @@
                   <thead>
                     <tr>
 
-                      <th class = "text-right" scope="col">Minimum</th>
-                      <th class = "text-right" scope="col">Maximum</th>
-                      <th class = "text-right" scope="col">Ratio</th>
-                      <th class = "text-right" scope="col">Offset</th>
-                      <th scope="col">Edit</th>
-                      <th scope="col">Delete</th>
+                      <th scope="col">{{ __('messages.minimum') }}</th>
+                      <th scope="col">{{ __('messages.maximum') }}</th>
+                      <th scope="col">{{ __('messages.ratio') }}</th>
+                      <th scope="col">{{ __('messages.offset') }}</th>
+                      <th scope="col">{{ __('messages.edit') }}</th>
+                      <th scope="col">{{ __('messages.delete') }}</th>
 
                     </tr>
                   </thead>
@@ -42,7 +42,7 @@
 
                       <td class = "text-right">{{ number_format($paye->offset, 2) }}</td>
 
-                      <td><a href="/payes/{{$paye->id}}/edit">Edit</a></td>
+                      <td><a href="/payes/{{$paye->id}}/edit">{{ __('messages.edit') }}</a></td>
 
                       <td><a href=""
                           onclick="
@@ -50,7 +50,7 @@
                           if (result){
                               event.preventDefault();
                               document.getElementById({{$paye->id}}).submit();
-                            }">Delete
+                            }">{{ __('messages.delete') }}
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\PayeController@destroy',$paye->id],'method' => 'DELETE','id' => $paye->id]) !!}
@@ -71,9 +71,9 @@
 
         @else
 
-          No Department defined
+        {{ __('messages.no paye defined')}} 
 
-          <a class="pull-right" href="/payes/create">{{ __('messages.add')}}</a>
+          <a class="pull-right" class="btn btn-secondary btn-sm" href="/payes/create">{{ __('messages.add')}}</a>
 
 
         @endif

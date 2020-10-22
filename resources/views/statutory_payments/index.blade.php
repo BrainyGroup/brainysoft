@@ -66,9 +66,9 @@
 
         @else
 
-          No statutury_payment defined
+        {{ __('messages.no statutory payment defined')}}  
 
-          <a class="pull-right" href="/statutury_payments/create">{{ __('messages.add')}}</a>
+          <a class="pull-right" class="btn btn-secondary btn-sm" href="/statutury_payments/create">{{ __('messages.add')}}</a>
 
 
         @endif

@@ -30,16 +30,11 @@
 
                     <tr>
 
-
-
-
                       <td><a href="/roles/{{$role->id}}">{{ $role->name }}</a></td>
 
                       <td><a href="/roles/{{$role->id}}">{{ $role->description}}</a></td>
 
                       <td><a href="/roles/{{$role->id}}/edit">{{ __('messages.edit') }}</a></td>
-
-
 
                     <td><a href=""
                         onclick="
@@ -66,9 +61,9 @@
 
         @else
 
-          No role defined
+          {{ __('messages.no role defined')}}
 
-          <a class="pull-right" href="/roles/create">{{ __('messages.add')}}</a>
+          <a class="pull-right" class="btn btn-secondary btn-sm" href="/roles/create">{{ __('messages.add')}}</a>
 
 
         @endif
