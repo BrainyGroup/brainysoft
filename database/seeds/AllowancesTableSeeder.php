@@ -806,10 +806,10 @@ class AllowancesTableSeeder extends Seeder
        
 
       
-       DB::table('permission_role')
-                ->where('role_id', 2)
-                ->where('permission_id', '>=', 43)
-               ->where('permission_id', '<=', 56)->delete();
+    //    DB::table('permission_role')
+    //             ->where('role_id', 2)
+    //             ->where('permission_id', '>=', 43)
+    //            ->where('permission_id', '<=', 56)->delete();
 
           DB::table('basic_settings')->truncate();
 
