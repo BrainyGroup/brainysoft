@@ -324,7 +324,9 @@ return [
   
   'salary amount' => 'Salary amount',  
 
-  'center number' => 'Center description', 
+  'center number' => 'Center number', 
+
+  'center description' => 'Center description',
   
   'designation description' => 'Designation description',  
 
@@ -333,6 +335,8 @@ return [
   'salary base description' => 'Salary base description',
 
   'statutory type' => 'Statutory type', 
+
+  'select employee scale' => 'Select employee scale',
 
   'tin' => 'TIN',
 

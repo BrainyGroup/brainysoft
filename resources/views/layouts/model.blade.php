@@ -184,7 +184,7 @@
 
             {{ Form::bsText('name','',['placeholder' => __('messages.designation name'), 'label' => __('messages.name')]) }}
 
-            {{ Form::bsText('description','',['placeholder' => __('messages.desiganation description'), 'label' => __('messages.description')]) }}
+            {{ Form::bsText('description','',['placeholder' => __('messages.designation description'), 'label' => __('messages.description')]) }}
 
                               <div class="form-group">
 
