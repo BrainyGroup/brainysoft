@@ -290,9 +290,9 @@ return [
   //Department
   'department' => 'Departement',
 
-  'department name' => 'Departement name',
+  'department name' => 'Department name',
 
-  'department description' => 'Departement description',
+  'department description' => 'Department description',
 
   //Designation
   'designation' => 'Designation',
@@ -323,6 +323,10 @@ return [
   'select department' => 'Select department', 
   
   'salary amount' => 'Salary amount',  
+
+  'center number' => 'Center description', 
+  
+  'designation description' => 'Designation description',  
 
   'salary base name' => 'Salary base name',
 
