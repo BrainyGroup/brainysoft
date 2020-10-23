@@ -25,7 +25,7 @@
 
                      <select class="form-control" id="center" name="center_id">
 
-                       <option value="">{{__('messages.sekect center')}}</option>
+                       <option value="">{{__('messages.select center')}}</option>
 
                        @foreach($centers as $center)
 

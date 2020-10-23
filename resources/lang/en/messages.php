@@ -316,6 +316,14 @@ return [
 
   'salary base' => 'Salary Base',
 
+  'select center' => 'Select center', 
+  
+  'select designation' => 'Select designation',  
+
+  'select department' => 'Select department', 
+  
+  'salary amount' => 'Salary amount',  
+
   'salary base name' => 'Salary base name',
 
   'salary base description' => 'Salary base description',

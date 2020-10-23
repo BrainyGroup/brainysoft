@@ -16,8 +16,8 @@
           <div class="col-md-10">
               <p></p>
             @if(isset($documentation->description))
-            {!! $documentation->description !!}}
             
+            {!! $documentation->description !!}}            
 
             <a href="/documentations/{{$documentation->id}}/edit">Edit</a>
 
