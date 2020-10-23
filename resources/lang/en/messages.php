@@ -340,6 +340,8 @@ return [
 
   'tin' => 'TIN',
 
+  'id' => 'Id',
+
   'mobile' => 'Mobile',
 
   'kins' => 'Kins',
