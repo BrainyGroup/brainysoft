@@ -122,6 +122,8 @@ return [
 
   'reports' => 'Reports',
 
+  'details of payment' => 'Details of payment',
+
   'current month' => 'Current month',
 
   'this year' => 'This year',
@@ -141,6 +143,7 @@ return [
   'yearly' => 'Yearly',
 
   'setting' => 'Settings',
+  
 
   'documentation' => 'Documentation',
 
