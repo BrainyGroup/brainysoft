@@ -840,8 +840,7 @@ private function deductionSum($employee_id = null,$company_id = null){
                   
 
                  
-
-               
+   
 
                     $lastPayId = DB::table('pays')->insertGetId([
 

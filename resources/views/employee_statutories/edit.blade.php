@@ -23,12 +23,12 @@
 
                
 
-                    {{ Form::bsText('employee_statutory_no',$employee_statutory_no,['placeholder' => __('messages.employee nfs number'), 'label' => __('messages.nfs number')]) }}
+     {{ Form::bsText('employee_statutory_no',$employee_statutory_no,['placeholder' => __('messages.employee nsf number'), 'label' => __('messages.nsf number')]) }}
 
 
           
 
-            {{ Form::bsSubmit({{__('messages.save')}},['class' => 'btn btn-primary']) }}
+            {{ Form::bsSubmit(__('messages.save'),['class' => 'btn btn-primary']) }}
 
             {!! Form::close() !!}
 

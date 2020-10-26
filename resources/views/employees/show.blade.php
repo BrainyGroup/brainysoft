@@ -14,22 +14,18 @@
                 </div>
             @endif
 
-            
+            <div class="img"><img src="{{ asset('/storage/user_profile_photos/'.$employee->photo)}}" alt="user passport" class="img-thumbnail"></div>
             
       <div class="table-responsive">
+
+       <br />
+
+       
 
               <table class="table table-hover table-striped table-bordered table-sm">
                   <caption></caption>
 
-                  <thead>
-                    <tr>
-                      <th scope="col"> <img class="user_avatar" src="{{ asset('/storage/user_profile_photos/'.$employee->photo)}}">
-</th>
-                     
-                      
 
-                    </tr>
-                  </thead>
                   <tbody>
     
 
@@ -43,6 +39,12 @@
                       
 <td></td>
                     
+                    </tr>
+
+                    <tr>
+                        <td>{{__('messages.national id')}}</td>
+                        <td>{{ $employee->national_id }}  </td>
+                        <td></td>
                     </tr>
 
                     <tr>

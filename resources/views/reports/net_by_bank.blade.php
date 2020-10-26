@@ -33,7 +33,7 @@
                    <th>{{ __('messages.total')}} </th>
                  <th><span class = "pull-right">{{ number_format($net_total,2)}}</span></th>
                  <th><span class = "pull-right">{{ number_format($net_paid,2) }}</span></th> 
-                 <th><span class = "pull-right">{{ number_format($net_balance,2) }}</span></th>
+                 <th><span class = "pull-right">{{ number_format($net_total - $net_paid,2) }}</span></th>
                  <th></th>
                     </tr> 
                   </tfoot>
@@ -50,7 +50,7 @@
 
                        <td><span class = "pull-right">{{ number_format($net->bank_amount - $net->net_balance,2) }}</span></td>
 
-                       <td><span class = "pull-right">{{ number_format($net->bank_amount,2) }}</span></td>
+                       <td><span class = "pull-right">{{ number_format($net->net_balance,2) }}</span></td>
 
                         <td><a href="/reports/net_list_by_bank?max_pay={{$max_pay}}&bank_id={{$net->bank_id}}">{{ __('messages.bank list')}} </a></td>                
                      </tr>

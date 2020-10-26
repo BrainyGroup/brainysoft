@@ -126,7 +126,7 @@ return [
 
   'this year' => 'This year',
 
-  'employee pay' => 'Reports',
+  'employee pay' => 'My pay',
 
   'paye yearly' => 'Paye yearly',
 
@@ -138,7 +138,7 @@ return [
 
   'all statutory' => 'All statutury',
 
-  'yearly' => 'yearly',
+  'yearly' => 'Yearly',
 
   'setting' => 'Settings',
 
@@ -440,6 +440,8 @@ return [
 
   'balance' => 'Balance',
 
+  'net paid' => 'Net paid',
+
   'yes post' => 'Yes post',
 
   'net by bank' => 'Net by bank',
@@ -580,7 +582,11 @@ return [
   
   'select salary base' => 'Select salary base',
   
-  'before paye' => 'Before paye',  
+  'before paye' => 'Before paye',
+  
+  'nsf number' =>'NSF number',
+
+  'employee nsf number' =>'Employee NSF number',
   
   'true' => 'True',
   
@@ -604,7 +610,11 @@ return [
 
   'user' => 'User',
 
+  'national identification number' => 'National identification number',
+
   'title' => 'Title',
+
+  'national id' => 'National Id',
 
   'select title' => 'Select title',
 

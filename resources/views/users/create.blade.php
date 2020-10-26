@@ -45,6 +45,9 @@
                {{ Form::bsText('name', '',['placeholder' => __('messages.name'), 'label' => __('messages.name')]) }}
 
 
+               {{ Form::bsText('national_id', '',['placeholder' => __('messages.national identification number'), 'label' => __('messages.national identification number')]) }}
+
+
 
 
             {{ Form::bsText('email', '',['placeholder' => __('messages.email'), 'label' => __('messages.email')]) }}

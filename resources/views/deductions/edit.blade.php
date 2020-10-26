@@ -49,7 +49,7 @@
                     {{ Form::bsDate('start_date', $deduction->start_date) }}
                 
 
-                    {{ Form::bsSubmit(__('messages.edit'),['class' => 'btn btn-primary']) }}
+                    {{ Form::bsSubmit(__('messages.save'),['class' => 'btn btn-primary']) }}
 
                     {!! Form::close() !!}
 

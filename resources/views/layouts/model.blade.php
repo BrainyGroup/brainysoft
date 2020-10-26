@@ -57,7 +57,7 @@
 
       <div class="modal-body">
 
-          {{ Form::bsText(__('messages.number'),'',['placeholder' =>  __('messages.center number'), 'label' => __('messages.number')]) }}
+          {{ Form::bsText(__('number'),'',['placeholder' =>  __('messages.center number'), 'label' => __('messages.number')]) }}
 
             {{ Form::bsText('name','',['placeholder' =>  __('messages.center name'), 'label' => __('messages.name')]) }}
 
@@ -145,7 +145,7 @@
 
             {{ Form::bsText('name','',['placeholder' => __('messages.department name'), 'label' => __('messages.name')]) }}
 
-            {{ Form::bsText('description','',['placeholder' => __('messages.department description'), 'label' => __('messages.decription')]) }}
+            {{ Form::bsText('description','',['placeholder' => __('messages.department description'), 'label' => __('messages.description')]) }}
 
         
       </div>

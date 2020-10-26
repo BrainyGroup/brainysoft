@@ -972,6 +972,7 @@ $month_paye_paid = $month_paye_amount - $month_paye_balance;
 
             $max_pay = request('max_pay');
 
+
             $net_total = DB::table('pays')
 
             ->where('pays.company_id', $company->id)
@@ -980,15 +981,23 @@ $month_paye_paid = $month_paye_amount - $month_paye_balance;
 
             ->sum('net');
 
+
             $net_balance = DB::table('pays')
 
-            ->where('pays.company_id', $company->id)
+            ->where('company_id', $company->id)
 
             ->where('pay_number', $max_pay)
 
-            ->sum('pays.net_balance');
+            ->sum('net_balance');
+
+            
+
+           
 
             $net_paid = $net_total - $net_balance;
+
+            
+           
 
             
 
@@ -1050,7 +1059,7 @@ $month_paye_paid = $month_paye_amount - $month_paye_balance;
 
             ->join('banks', 'banks.id','employees.bank_id')
 
-            ->sum('pays.net_balance');
+            ->sum('net');
 
             $net_balance = DB::table('pays')
 
@@ -1064,9 +1073,11 @@ $month_paye_paid = $month_paye_amount - $month_paye_balance;
 
             ->join('banks', 'banks.id','employees.bank_id')
 
-            ->sum('pays.net_balance');
+            ->sum('net_balance');
 
             $net_paid = $net_total - $net_balance;
+
+           
 
 
 

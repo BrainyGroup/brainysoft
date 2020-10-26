@@ -37,7 +37,7 @@
 
                     <tr>
                       <td><a href="/reports/paye_yearly_create">{{ __('messages.paye yearly')}}</a></td>
-                      <td><a href="/levels">Levels</a></td>
+                      <td><a href="#"></a></td>
                       <td><a href="/reports/statutory_employee_all_create">{{ __('messages.employee statutory')}}</a></td>
                     </tr>
 

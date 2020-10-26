@@ -11,8 +11,10 @@
                     {{ session('status') }}
                 </div>
             @endif
+            
+            <div class="img"><img src="{{ asset('/storage/user_profile_photos/'.$user->photo)}}" alt="user passport" class="img-thumbnail"></div>
 
-            <img class="avatar avatar-16 img-circle"  src="{{ asset('/storage/user_profile_photos/'.$user->photo)}}">
+            {{-- <img class="avatar avatar-16 img-circle"  src="{{ asset('/storage/user_profile_photos/'.$user->photo)}}"> --}}
 
 
             {!! Form::open([ 'action' => array('Payroll\UserController@update', $user->id),'files' => true,'method' => 'PUT']) !!}
@@ -109,6 +111,8 @@
             {{ Form::bsText('middlename', $user->middlename,['placeholder' => __('messages.middle name'), 'label' => __('messages.middle name')]) }}
 
             {{ Form::bsText('lastname', $user->lastname,['placeholder' => __('messages.last name'), 'label' => __('messages.last name')]) }}
+
+            {{ Form::bsText('national_id', $user->national_id,['placeholder' => __('messages.national identification number'), 'label' => __('messages.national identification number')]) }}
 
             {{ Form::bsFile('photo',['placeholder'=>__('messages.change photo'), 'label' => __('messages.change photo')]) }}
 

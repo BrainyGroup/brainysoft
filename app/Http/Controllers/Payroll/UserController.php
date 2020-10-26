@@ -6,12 +6,9 @@ use BrainySoft\DataTables\UsersDataTable;
 
 use Exception;
 
-
-
 use App\ImageModel;
 
-
-use Image;
+use Intervention\Image\Facades\Image;
 
 use Illuminate\Support\Facades\Storage;
 
@@ -229,12 +226,14 @@ class UserController extends Controller
 
           $user->role_id = request('role_id');
 
+          $user->photo = 'blank_profile_100_115.png';
+
           $user->save();  
      
 
         return redirect('users')
 
-        ->with('success','User updated successfully');
+        ->with('success','User created successfully');
         //redirect
     }
     
@@ -381,7 +380,7 @@ class UserController extends Controller
 
         return redirect('users')
 
-        ->with('success','User updated successfully');
+        ->with('success','User updated successfully1');
         //redirect
     }
 
@@ -398,20 +397,29 @@ class UserController extends Controller
       
 
       $employee_exist = Employee::where('user_id',$user->id)->exists();
+     
 
-      $user = User::find(auth()->user()->id);
+     // $user = User::find(auth()->user()->id);
 
-      $loginUser = User::where('id', auth()->user()->id)->exists();
+     // $loginUser = User::where('id', auth()->user()->id)->exists();
 
-      if (!$loginUser && !$employee_exist && $user->delete()){
+     $loginUser = false;
 
-          return redirect('users.index')
+     if (auth()->user()->id == $user->id){
+      $loginUser = true;
+     }else{
+      $loginUser = false;
+     }
 
-          ->with('success','User deleted successfully');
+      
+
+      if (!$loginUser && !$employee_exist && $user->delete()){      
+
+          return back()->with('success','User deleted successfully');
 
         }else{
 
-          return back()->withInput()->with('error','User could not be deleted');
+          return back()->withInput()->with('error','User could not be delete1d');
 
         }
     }

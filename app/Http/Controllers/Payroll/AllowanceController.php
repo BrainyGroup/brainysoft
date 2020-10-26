@@ -191,9 +191,9 @@ class AllowanceController extends Controller
 
           'allowance_amount' =>'required|numeric',
 
-          'start_date' => 'required|date',
+          // 'start_date' => 'required|date',
 
-          'end_date' => 'required|date',
+          // 'end_date' => 'required|date',
 
         ]);
 
@@ -274,9 +274,9 @@ class AllowanceController extends Controller
 
                 'allowance_amount' =>'required|numeric',
 
-                'start_date' => 'required|date',
+                // 'start_date' => 'required|date',
 
-                'end_date' => 'required|date',
+                // 'end_date' => 'required|date',
 
               ]);
 
