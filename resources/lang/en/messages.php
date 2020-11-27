@@ -603,7 +603,15 @@ return [
 
   'no statutory defined' => 'No statutory defined',
 
+  '.is more than one for this type?' => 'Is more than one for this type?',
+
+  'mandatory' => 'mandatory',
+
   //statutory type
+
+  'statutory type name' => 'Statutory type name',
+
+  'statutory type description' => 'Statutory type description',
 
   'statutory_type' => 'Statutory type',
 

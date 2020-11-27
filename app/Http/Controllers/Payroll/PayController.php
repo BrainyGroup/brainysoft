@@ -60,6 +60,7 @@ class PayController extends Controller
 
         $this->middleware('role');
         //$this->middleware('auth');
+        
      
 
     }
@@ -692,6 +693,7 @@ private function deductionSum($employee_id = null,$company_id = null){
             $fromPaySlipName = 'Payroll Datahouse';
             $paySlipSubject = 'Pay Slip';
             $paye_sum = 0;
+            $paye = 0;
 
             
 
@@ -782,6 +784,8 @@ private function deductionSum($employee_id = null,$company_id = null){
 
                 foreach ($salaries as $salary) {
 
+                    $paye = 0;
+
                     $employee_id = $salary->employee_id;
 
                     $employee = Employee::select('user_id')
@@ -837,12 +841,14 @@ private function deductionSum($employee_id = null,$company_id = null){
 
 
 
-                  
+                    //dd($paye);
 
                  
    
 
                     $lastPayId = DB::table('pays')->insertGetId([
+
+                       
 
                         'company_id' => $company->id,
 
