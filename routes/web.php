@@ -216,7 +216,7 @@ Route::get('/reports/index_user', 'Payroll\ReportController@indexUser');
 
 //Route::resource('/reports/users', 'Payroll\UsersController');
 
-Route::resource('/reports/pays', 'Payroll\PaysController');
+//Route::resource('/reports/pays', 'Payroll\PaysController');
 
 Route::get('/reports/employee_pay', 'Payroll\ReportController@pay_by_employee');
 
