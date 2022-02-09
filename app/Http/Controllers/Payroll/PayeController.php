@@ -28,8 +28,10 @@ class PayeController extends Controller
   public function __construct()
   {
 
-      //$this->middleware('auth');
-      $this->middleware('role');
+         $this->middleware('permission:paye-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:paye-create', ['only' => ['create','store']]);
+         $this->middleware('permission:paye-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:paye-delete', ['only' => ['destroy']]);
 
   }
 

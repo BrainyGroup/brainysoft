@@ -49,9 +49,13 @@
             
 
                       
-                      <td><a href="/deductions/{{$deduction->id}}/edit?user_id={{$deduction->user_id}}">{{ __('messages.edit') }}</a></td>
-
-                      <td><a href=""
+                      <td>
+                         @can('deduction-edit')
+                        <a href="/deductions/{{$deduction->id}}/edit?user_id={{$deduction->user_id}}">{{ __('messages.edit') }}</a></td>
+                        @endcan
+                      <td>
+                         @can('deduction-delete')
+                        <a href=""
                           onclick="
                           var result = confirm('Are you sure yo want to delete this deduction?');
                           if (result){
@@ -61,7 +65,7 @@
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\DeductionController@destroy',$deduction->id],'method' => 'DELETE','id' => $deduction->id]) !!}
-
+                        @endcan
                           {!! Form::close() !!}
                       </td>
 

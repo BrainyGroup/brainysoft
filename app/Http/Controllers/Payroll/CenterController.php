@@ -23,10 +23,10 @@ class CenterController extends Controller
     public function __construct()
     {
 
-     
-
-        $this->middleware('auth');
-       // $this->middleware('role');
+         $this->middleware('permission:center-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:center-create', ['only' => ['create','store']]);
+         $this->middleware('permission:center-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:center-delete', ['only' => ['destroy']]);
 
     }
 

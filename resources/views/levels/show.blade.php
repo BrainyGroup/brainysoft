@@ -49,9 +49,15 @@
                     </tr>
 
                     <tr>
-                          <td><a href="/levels/{{$level->id}}/edit">{{ __('messages.edit') }}</a></td>
-
-                          <td><a href=""
+                          <td>
+                          @can('level-edit')
+                            <a href="/levels/{{$level->id}}/edit">{{ __('messages.edit') }}</a>
+                          @endcan
+                          </td>
+                          
+                          <td>
+                            @can('level-delete')
+                            <a href=""
                               onclick="
                               var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.level')}}');
                               if (result){
@@ -63,6 +69,7 @@
                               {!! Form::open(['action' => ['Payroll\LevelController@destroy',$level->id],'method' => 'DELETE','id' => $level->id]) !!}
 
                               {!! Form::close() !!}
+                            @endcan
                           </td>
 
                       </tr>

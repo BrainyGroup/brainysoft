@@ -116,7 +116,7 @@
 
             {{ Form::bsFile('photo',['placeholder'=>__('messages.change photo'), 'label' => __('messages.change photo')]) }}
 
-            <div class="form-group">
+            {{-- <div class="form-group">
 
               <label for="role" class="control-label">{{__('messages.role')}}</label>
 
@@ -137,6 +137,13 @@
                 
               </div>
 
+              </div> --}}
+
+              <div class="col-xs-12 col-sm-12 col-md-12">
+                  <div class="form-group">
+                      <strong>Role:</strong>
+                      {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control','multiple')) !!}
+                  </div>
               </div>
 
 

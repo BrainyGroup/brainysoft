@@ -30,8 +30,10 @@ class KinTypeController extends Controller
     public function __construct()
     {
 
-        //$this->middleware('auth');
-        $this->middleware('role');
+         $this->middleware('permission:kin_type-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:kin_type-create', ['only' => ['create','store']]);
+         $this->middleware('permission:kin_type-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:kin_type-delete', ['only' => ['destroy']]);
 
     }
 

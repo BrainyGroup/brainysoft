@@ -3,7 +3,11 @@
 @section('content')
 <div class="col-md-12">
     <div class="card">
-        <div class="card-header"><h2>{{ __('messages.country') }}</h2> <span class="pull-right"> <a class="btn btn-secondary btn-sm"  href="/countries/create">{{ __('messages.add') }}</a></span></div>
+        <div class="card-header"><h2>{{ __('messages.country') }}</h2> <span class="pull-right"> 
+          @can('country-create')
+          <a class="btn btn-secondary btn-sm"  href="/countries/create">{{ __('messages.add') }}</a>
+          @endcan
+        </span></div>
 
         <div class="card-body">
            @if($countries)
@@ -50,10 +54,16 @@
                       <td>{{ $country->system_users }}</td>
                       <td>{{ $country->employees }}</td>                     
                       <td><a href="/countries/{{$country->id}}">{{ __('messages.details') }}</a></td>
-                      <td><a href="/countries/{{$country->id}}/edit">{{ __('messages.edit') }}</a></td>
+                      <td>
+                        @can('country-edit')
+                        <a href="/countries/{{$country->id}}/edit">{{ __('messages.edit') }}</a>
+                      @endcan
+                      </td>
 
 
-                      <td><a href=""
+                      <td>
+                        @can('country-delete')
+                        <a href=""
                           onclick="
                           var result = confirm('Are you sure yo want to delete this country?');
                           if (result){
@@ -63,7 +73,7 @@
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\CountryController@destroy',$country->id],'method' => 'DELETE','id' => $country->id]) !!}
-
+                        @endcan
                           {!! Form::close() !!}
                       </td>
 

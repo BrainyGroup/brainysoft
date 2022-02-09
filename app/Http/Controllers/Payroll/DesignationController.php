@@ -31,8 +31,10 @@ class DesignationController extends Controller
     public function __construct()
     {
 
-        //$this->middleware('auth');
-        $this->middleware('role');
+         $this->middleware('permission:designation-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:designation-create', ['only' => ['create','store']]);
+         $this->middleware('permission:designation-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:designation-delete', ['only' => ['destroy']]);
 
     }
 

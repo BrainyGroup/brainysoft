@@ -44,9 +44,13 @@
                     </tr>
 
                     <tr>
-                          <td><a href="/banks/{{$bank->id}}/edit"><i class="fa fa-paint-brush text-secondary" aria-hidden="true"></i></a></td>
-
-                          <td><a href=""
+                          <td>
+                          @can('bank-edit') 
+                            <a href="/banks/{{$bank->id}}/edit"><i class="fa fa-paint-brush text-secondary" aria-hidden="true"></i></a></td>
+                          @endcan
+                          <td>
+                           @can('bank-delete') 
+                            <a href=""
                               onclick="
                               var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.bank')}}');
                               if (result){
@@ -56,7 +60,7 @@
                               </a>
 
                               {!! Form::open(['action' => ['Payroll\BankController@destroy',$bank->id],'method' => 'DELETE','id' => $bank->id]) !!}
-
+                            @endcan
                               {!! Form::close() !!}
                           </td>
 

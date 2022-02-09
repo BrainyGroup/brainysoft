@@ -4,7 +4,13 @@
 <div class="col-md-8">
     <div class="card">
         <div class="card-header">{{ __('messages.allowance type') }}
-          <span class="pull-right"> <a class="btn btn-secondary btn-sm" href="/allowance_types/create">{{ __('messages.add') }}</a></span>
+          <span class="pull-right"> 
+            @can('allowance_type-create')
+              
+            <a class="btn btn-secondary btn-sm" href="/allowance_types/create">{{ __('messages.add') }}</a>
+          
+            @endcan
+          </span>
         </div>
 
         <div class="card-body">
@@ -31,9 +37,13 @@
 
                     <td>{{  $allowance_type->description }}</td>
 
-                    <td><a href="/allowance_types/{{$allowance_type->id}}/edit"><i class="fa fa-paint-brush text-secondary" aria-hidden="true"></i></a></td>
-
-                    <td><a href=""
+                    <td>
+                      @can('allowance_type-edit')                      
+                         <a href="/allowance_types/{{$allowance_type->id}}/edit"><i class="fa fa-paint-brush text-secondary" aria-hidden="true"></i></a></td>
+                      @endcan
+                    <td>
+                       @can('allowance_type-delete')
+                      <a href=""
                         onclick="
                         var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.allowance_type')}}');
                         if (result){
@@ -43,6 +53,7 @@
                         </a>
 
                         {!! Form::open(['action' => ['Payroll\AllowanceTypeController@destroy',$allowance_type->id],'method' => 'DELETE','id' => $allowance_type->id]) !!}
+                        @endcan
 
                         {!! Form::close() !!}
                     </td>

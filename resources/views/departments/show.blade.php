@@ -49,9 +49,15 @@
                     </tr>
 
                     <tr>
-                          <td><a href="/departments/{{$department->id}}/edit">{{ __('messages.edit') }}</a></td>
+                          <td>
+                            @can('department-edit')
+                              <a href="/departments/{{$department->id}}/edit">{{ __('messages.edit') }}</a>
+                            @endcan
+                          </td>
 
-                          <td><a href=""
+                          <td>
+                            @can('department-delete')
+                            <a href=""
                               onclick="
                               var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.department')}}');
                               if (result){
@@ -61,7 +67,7 @@
                               </a>
 
                               {!! Form::open(['action' => ['Payroll\DepartmentController@destroy',$department->id],'method' => 'DELETE','id' => $department->id]) !!}
-
+                             @endcan
                               {!! Form::close() !!}
                           </td>
 

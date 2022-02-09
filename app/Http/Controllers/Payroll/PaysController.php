@@ -14,8 +14,10 @@ class PaysController extends Controller
     public function __construct()
     {
 
-        //$this->middleware('auth');
-        $this->middleware('role');
+         $this->middleware('permission:pays-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:pays-create', ['only' => ['create','store']]);
+         $this->middleware('permission:pays-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:pays-delete', ['only' => ['destroy']]);
 
     }
     

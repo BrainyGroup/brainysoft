@@ -9,9 +9,18 @@
           
         <span >{{ __('messages.payroll summary') }} {{$max_pay . '        '}}</span>
 
-        <span class="pull-right"> <a class="btn btn-secondary btn-sm" href="/pays/create_previous">{{ __('messages.other pay') }} </a></span>
+        <span class="pull-right"> 
+          @can('pay-create') 
+          <a class="btn btn-secondary btn-sm" href="/pays/create_previous">{{ __('messages.other pay') }} </a>
+          @endcan
         
-        <span class="pull-right"> <a class="btn btn-primary btn-sm" href="/pays/create">{{ __('messages.add') }} {{ __('messages.new pay') }}</a></span>
+        </span>
+        
+        <span class="pull-right"> 
+          @can('pay-create') 
+          <a class="btn btn-primary btn-sm" href="/pays/create">{{ __('messages.add') }} {{ __('messages.new pay') }}</a>
+          @endcan
+        </span>
       </div>
         <div class="card-body">
             @if (session('status'))

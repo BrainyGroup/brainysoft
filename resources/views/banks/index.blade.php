@@ -3,8 +3,12 @@
 @section('content')
 <div class="col-md-6">
     <div class="card">
-        <div class="card-header">{{ __('messages.bank') }} <span class="pull-right"> <a href="/banks/create"  class="btn btn-secondary btn-sm">{{ __('messages.add') }}</a></span></div>
+        <div class="card-header">{{ __('messages.bank') }} <span class="pull-right"> 
+          @can('bank-create')  
+     
+             <a href="/banks/create"  class="btn btn-secondary btn-sm">{{ __('messages.add') }}</a></span></div>
 
+          @endcan
         <div class="card-body">
             @if( count($banks) > 0 )
       <div class="table-responsive">
@@ -37,11 +41,17 @@
 
                       <td><a href="/banks/{{$bank->id}}">{{ $bank->description}}</a></td>
 
-                      <td><a href="/banks/{{$bank->id}}/edit"><i class="fa fa-paint-brush text-secondary" aria-hidden="true"></i></a></td>
+                      <td>
+                      @can('bank-edit') 
+                        <a href="/banks/{{$bank->id}}/edit"><i class="fa fa-paint-brush text-secondary" aria-hidden="true"></i></a>
+                      @endcan
+                      </td>
 
 
 
-                    <td><a href=""
+                    <td>
+                      @can('bank-delete') 
+                      <a href=""
                         onclick="
                         var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.bank')}}');
                         if (result){
@@ -51,7 +61,7 @@
                         </a>
 
                         {!! Form::open(['action' => ['Payroll\BankController@destroy',$bank->id],'method' => 'DELETE','id' => $bank->id]) !!}
-
+                      @endcan
                         {!! Form::close() !!}
                     </td>
 
@@ -68,7 +78,11 @@
 
           No bank defined
 
-          <a class="pull-right" href="/banks/create">{{ __('messages.add')}}</a>
+          @can('bank-create')     
+
+            <a class="pull-right" href="/banks/create">{{ __('messages.add')}}</a>
+
+          @endcan
 
 
         @endif

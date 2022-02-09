@@ -30,8 +30,10 @@ class DeductionController extends Controller
     public function __construct()
     {
 
-       //$this->middleware('auth');
-       $this->middleware('role');
+         $this->middleware('permission:deduction-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:deduction-create', ['only' => ['create','store']]);
+         $this->middleware('permission:deduction-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:deduction-delete', ['only' => ['destroy']]);
 
     }
 

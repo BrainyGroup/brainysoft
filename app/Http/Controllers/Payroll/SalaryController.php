@@ -28,8 +28,10 @@ class SalaryController extends Controller
   public function __construct()
   {
 
-     // $this->middleware('auth');
-      $this->middleware('role');
+         $this->middleware('permission:salary-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:salary-create', ['only' => ['create','store']]);
+         $this->middleware('permission:salary-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:salary-delete', ['only' => ['destroy']]);
 
   }
 

@@ -58,8 +58,10 @@ class PayController extends Controller
     public function __construct()
     {
 
-        $this->middleware('role');
-        //$this->middleware('auth');
+         $this->middleware('permission:pay-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:pay-create', ['only' => ['create','store']]);
+         $this->middleware('permission:pay-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:pay-delete', ['only' => ['destroy']]);
         
      
 
@@ -201,7 +203,7 @@ class PayController extends Controller
 
         } else {
 
-            $user = User::findOrFail(2);
+            $user = User::findOrFail($id);
 
             $employee = Employee::where('user_id', $user->id)->first();
 

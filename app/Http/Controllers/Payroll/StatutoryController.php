@@ -35,8 +35,10 @@ class StatutoryController extends Controller
   public function __construct()
   {
 
-     // $this->middleware('auth');
-      $this->middleware('role');
+         $this->middleware('permission:statutory-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:statutory-create', ['only' => ['create','store']]);
+         $this->middleware('permission:statutory-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:statutory-delete', ['only' => ['destroy']]);
 
   }
 

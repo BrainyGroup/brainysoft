@@ -17,9 +17,13 @@
               <p></p>
             @if(isset($documentation->description))
             
-            {!! $documentation->description !!}}            
+            {!! $documentation->description !!}} 
+            
+             @can('documentation-edit') 
 
-            <a href="/documentations/{{$documentation->id}}/edit">Edit</a>
+               <a href="/documentations/{{$documentation->id}}/edit">Edit</a>
+
+            @endcan
 
             @endif
             

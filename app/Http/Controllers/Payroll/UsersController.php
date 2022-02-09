@@ -15,8 +15,10 @@ class UsersController extends Controller
     public function __construct()
     {
   
-        //$this->middleware('auth');
-        $this->middleware('role');
+         $this->middleware('permission:user-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:user-create', ['only' => ['create','store']]);
+         $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:user-delete', ['only' => ['destroy']]); 
   
     }
     public function index(UsersDataTable $dataTable)

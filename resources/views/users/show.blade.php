@@ -40,6 +40,20 @@
 
                         </tr>
 
+                        <tr>
+
+                          <td>Roles</td>
+
+                          <td>
+                            @if(!empty($user->getRoleNames()))
+                                @foreach($user->getRoleNames() as $v)
+                                    <label class="badge badge-success">{{ $v }}</label>
+                                @endforeach
+                            @endif
+                          </td>
+
+                        </tr>
+
                           <tr>
 
                           <td>{{ __('messages.description') }}</td>
@@ -49,9 +63,15 @@
                     </tr>
 
                     <tr>
-                          <td><a href="/users/{{$user->id}}/edit">{{ __('messages.edit') }}</a></td>
+                          <td>
+                             @can('user-edit')
+                            <a href="/users/{{$user->id}}/edit">{{ __('messages.edit') }}</a></td>
+                            @endcan
+                          <td>
 
-                          <td><a href=""
+                             @can('user-delete')
+                            
+                            <a href=""
                               onclick="
                               var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.user')}}');
                               if (result){
@@ -61,7 +81,7 @@
                               </a>
 
                               {!! Form::open(['action' => ['Payroll\UserController@destroy',$user->id],'method' => 'DELETE','id' => $user->id]) !!}
-
+                            @endcan
                               {!! Form::close() !!}
                           </td>
 

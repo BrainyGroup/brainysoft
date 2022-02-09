@@ -19,8 +19,10 @@ class PayrollGroupController extends Controller
     public function __construct()
     {
 
-       // $this->middleware('auth');
-        $this->middleware('role');
+         $this->middleware('permission:payroll_group-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:payroll_group-create', ['only' => ['create','store']]);
+         $this->middleware('permission:payroll_group-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:payroll_group-delete', ['only' => ['destroy']]);
 
     }
 

@@ -12,12 +12,9 @@ use Intervention\Image\Facades\Image;
 
 use Illuminate\Support\Facades\Storage;
 
-
 use Illuminate\Support\Facades\Hash;
 
 use BrainySoft\Http\Resources\UserResource;
-
-
 
 use BrainySoft\Payroll\User;
 
@@ -27,10 +24,16 @@ use BrainySoft\Payroll\Employee;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Facades\Log;
 
 use BrainySoft\Http\Controllers\Controller;
-use BrainySoft\Payroll\Role;
+
+use Spatie\Permission\Models\Role;
+
+
+
 
 class UserController extends Controller
 {   
@@ -38,8 +41,10 @@ class UserController extends Controller
   public function __construct()
   {
 
-      // $this->middleware('auth');
-      $this->middleware('role');
+         $this->middleware('permission:user-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:user-create', ['only' => ['create','store']]);
+         $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:user-delete', ['only' => ['destroy']]); 
 
   }
     private function company()
@@ -53,38 +58,42 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
 
-      try{
+        $users = User::orderBy('id','DESC')->paginate(5);
+        return view('users.index',compact('users'))
+            ->with('i', ($request->input('page', 1) - 1) * 5);
 
-        $company = $this->company();
+      // try{
 
-        Log::debug($company->name.': Start user index');
+      //   $company = $this->company();
 
-        // $user = User::find(auth()->user()->id); 
+      //   Log::debug($company->name.': Start user index');
+
+      //   // $user = User::find(auth()->user()->id); 
 
    
 
-        // $users = User::where('company_id',$company->id)
-        // ->where('employee',false)
-        // ->get();  
+      //   // $users = User::where('company_id',$company->id)
+      //   // ->where('employee',false)
+      //   // ->get();  
         
-        $users = User::where('company_id',$company->id)->get();   
+      //   $users = User::where('company_id',$company->id)->get();   
         
        
 
-        return view('users.index', compact('users','company'));
+      //   return view('users.index', compact('users','company'));
 
-      }catch(Exception $e){
+      // }catch(Exception $e){
 
-        $company = $this->company();
+      //   $company = $this->company();
 
-        Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
+      //   Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
 
-        Log::debug($company->name.': End user index');
+      //   Log::debug($company->name.': End user index');
 
-      }
+      // }
 
 
     }
@@ -145,7 +154,10 @@ class UserController extends Controller
      */
     public function create()
     {
-      $roles = Role::all();
+      // $roles = Role::all();
+      //   return view('users.create',compact('roles'));
+
+        $roles = Role::pluck('name','name')->all();
         return view('users.create',compact('roles'));
     }
 
@@ -163,6 +175,9 @@ class UserController extends Controller
         'name' => 'required|string|max:255',
         'email' => 'required|string|email|max:255|unique:users',
         'password' => 'required|string|min:6|confirmed',
+        //'password' => 'required|same:confirm-password',
+        'roles' => 'required',
+        
 
 
         'title' =>'required|string',
@@ -228,7 +243,9 @@ class UserController extends Controller
 
           $user->photo = 'blank_profile_100_115.png';
 
-          $user->save();  
+          $user->save(); 
+          
+          $user->assignRole($request->input('roles'));
      
 
         return redirect('users')
@@ -256,12 +273,17 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
-    {
+    {      
 
-      $role_name = Role::where('id',$user->role_id)->value('name');    
-   
-      $roles = Role::all();
-      return view('users.edit',compact('user','roles','role_name'));
+      // $role_name = Role::where('id',$user->role_id)->value('name');    
+      // $roles = Role::all();
+      // return view('users.edit',compact('user','roles','role_name'));
+
+              //$user = User::find($id);
+        $roles = Role::pluck('name','name')->all();
+        $userRole = $user->roles->pluck('name','name')->all();
+
+        return view('users.edit',compact('user','roles','userRole'));
     }
 
     /**
@@ -293,7 +315,10 @@ class UserController extends Controller
         'photo' => 'file|image|mimes:jpeg,png,gif,webp|nullable|max:1999',
 
         
-        
+            //         'name' => 'required',
+            // 'email' => 'required|email|unique:users,email,'.$id,
+            // 'password' => 'same:confirm-password',
+            'roles' => 'required',
 
         // 'photo' => 'required|string',
 
@@ -369,12 +394,27 @@ class UserController extends Controller
 
           'dob'            =>$request->input('dob'),
 
-          'role_id' =>$request->input('role_id'),
+         
 
 
           'mobile' =>$request->input('mobile'),
 
       ]);
+
+      // $input = $request->all();
+      //   if(!empty($input['password'])){ 
+      //       $input['password'] = Hash::make($input['password']);
+      //   }else{
+      //       $input = array_except($input,array('password'));    
+      //   }
+
+
+        
+       
+        DB::table('model_has_roles')->where('model_id',$user->id)->delete();
+
+
+        $user->assignRole($request->input('roles'));
 
       if($userUpdate)
 

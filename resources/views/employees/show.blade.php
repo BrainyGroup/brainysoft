@@ -151,7 +151,11 @@
                     <tr>
                         <td></td>
                     <td>{{  $allowance_type->allowance_name }}</td>
-            <td><a href="/allowances">{{  number_format($allowance_type->allowance_amount, 2) }}</a></td>
+            <td>
+              @can('allowance-list') 
+                <a href="/allowances">{{  number_format($allowance_type->allowance_amount, 2) }}</a>
+               @endcan
+            </td>
             
                     </tr>
                 @endforeach
@@ -163,8 +167,10 @@
                     <tr>
                         <td></td>
                     <td>{{  $deduction_type->deduction_name }}</td>
-            <td><a href="/allowances">{{  number_format($deduction_type->deduction_amount, 2) }}</a></td>
-            
+            <td>
+             @can('deduction-list') 
+                <a href="/deductions">{{  number_format($deduction_type->deduction_amount, 2) }}</a></td>
+             @endcan
                     </tr>
                 @endforeach
                  <tr>

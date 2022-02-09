@@ -18,8 +18,10 @@ class PayBaseController extends Controller
     public function __construct()
     {
 
-        //$this->middleware('auth');
-        $this->middleware('role');
+         $this->middleware('permission:nnn-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:nnn-create', ['only' => ['create','store']]);
+         $this->middleware('permission:nnn-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:nnn-delete', ['only' => ['destroy']]);
 
     }
 

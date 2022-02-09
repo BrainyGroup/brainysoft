@@ -24,8 +24,10 @@ class DocumentationController extends Controller
     public function __construct()
     {
 
-        $this->middleware('auth');
-        //$this->middleware('role');
+         $this->middleware('permission:documentation-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:documentation-create', ['only' => ['create','store']]);
+         $this->middleware('permission:documentation-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:documentation-delete', ['only' => ['destroy']]);
 
     }
       /**

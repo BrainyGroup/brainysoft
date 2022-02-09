@@ -34,8 +34,10 @@ class AllowanceController extends Controller
     public function __construct()
     {
 
-       // $this->middleware('auth');
-        $this->middleware('role');
+         $this->middleware('permission:allowance-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:allowance-create', ['only' => ['create','store']]);
+         $this->middleware('permission:allowance-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:allowance-delete', ['only' => ['destroy']]);
 
     }
       /**

@@ -57,6 +57,11 @@ public function renderForConsole($output, Throwable $exception){
     //public function render($request, Exception $exception)
     public function render($request, Throwable $exception)
     {
+        if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
+          return response()->json(['User do not have permission for this page access.']);
+        }
         return parent::render($request, $exception);
     }
+
+    
 }

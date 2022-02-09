@@ -55,8 +55,10 @@ class ReportController extends Controller
   public function __construct()
   {
 
-      //$this->middleware('auth');
-      $this->middleware('role');
+         $this->middleware('permission:report-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:report-create', ['only' => ['create','store']]);
+         $this->middleware('permission:report-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:report-delete', ['only' => ['destroy']]);
 
   }
 

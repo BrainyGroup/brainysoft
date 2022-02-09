@@ -39,9 +39,13 @@
                        </tr>
 
                        <tr>
-                          <td><a href="/centers/{{$center->id}}/edit"><i class="fa fa-paint-brush text-secondary" aria-hidden="true"></i></a></td>
-
-                          <td><a href=""
+                          <td>
+                            @can('center-edit')                             
+                            <a href="/centers/{{$center->id}}/edit"><i class="fa fa-paint-brush text-secondary" aria-hidden="true"></i></a></td>
+                            @endcan
+                          <td>
+                            @can('center-delete') 
+                            <a href=""
                               onclick="
                               var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.center')}}');
                               if (result){
@@ -51,7 +55,8 @@
                               </a>
 
                               {!! Form::open(['action' => ['Payroll\CenterController@destroy',$center->id],'method' => 'DELETE','id' => $center->id]) !!}
-
+                              @endcan
+                              
                               {!! Form::close() !!}
                           </td>
                        </tr>                              

@@ -2,15 +2,14 @@
 
 namespace BrainySoft\Http\Controllers\Auth;
 
-use DB;
-use Carbon\Carbon;
+use BrainySoft\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
 use BrainySoft\Payroll\User;
 use BrainySoft\Payroll\Country;
 use BrainySoft\Payroll\Company;
-use BrainySoft\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -32,6 +31,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
+    //protected $redirectTo = RouteServiceProvider::HOME;
     protected $redirectTo = '/home';
 
     /**
@@ -50,16 +50,12 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-            // 'company_name' => 'required|string|unique:companies',
-            // 'company_description' => 'required|string',
-           
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
 
@@ -67,60 +63,11 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \BrainySoft\User
+     * @return \App\Models\User
      */
     protected function create(array $data)
     {
-
-        
-
-         
-  //       DB::transaction( function() use($data){
-
-       
-
-
-
-  //     $lastCompanyId = DB::table('companies')->insertGetId([
-
-        
-
-  //       'name' => $data['company_name'],
-
-  //       'description' => $data['company_description'],
-
-  //       'country_id' => $data['country_id'],      
-        
-
-  //         ]);
-
-  //     $lastUserId = DB::table('users')->insertGetId([
-  //             'name' => $data['name'],
-  //             'email' => $data['email'],
-  //             'password' => Hash::make($data['password']),             
-  //             'company_id' => $lastCompanyId,
-              
-  //       ]);
-
-  //     $user = User::select('name','email','password')->where('id',$lastUserId)->first();
-
-
-  //   return compact('user');
-
-
-    
-
-  // });
-
-
-    
-
-
-
-
-
-
-        $company = Company::create([
+           $company = Company::create([
             'name' => $data['company_name'],
             'description' => $data['company_description'],
             'country_id' => $data['country_id'],
@@ -134,22 +81,17 @@ class RegisterController extends Controller
              'usage_count' => 0,         
             
         ]);
-
         return User::create([
             'title' => $data['title'],
             'firstname' => $data['firstname'], 
             'middlename' => $data['middlename'],
             'lastname' => $data['lastname'], 
-            'employee' => false, 
-            'role_id' => 1,
+            'employee' => false,
             'name' => $data['name'],
             'email' => $data['email'], 
             'password' => Hash::make($data['password']),
             'company_id' => $company->id,
 
         ]);
-
-         
-     }
-    
+    }
 }

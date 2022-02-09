@@ -180,6 +180,10 @@ return [
         BrainySoft\Providers\EventServiceProvider::class,
         BrainySoft\Providers\RouteServiceProvider::class,
 
+        //User Roles and Permission
+        Spatie\Permission\PermissionServiceProvider::class,
+	 
+
     ],
 
     /*
@@ -247,6 +251,8 @@ return [
         'BasicSetting' => BrainySoft\Providers\BasicSettingServiceProvider::class,
 
         'Carbon' => 'Carbon\Carbon',
+
+
 
     ],
 

@@ -82,9 +82,18 @@
 
 
 
-                    <td><a href="/employees/{{$employee->id}}/edit">{{ __('messages.edit') }}</a></td>
+                    <td>
 
-                    <td><a href=""
+                     @can('employee-edit') 
+                      
+                      <a href="/employees/{{$employee->id}}/edit">{{ __('messages.edit') }}</a>
+                      
+                    @endcan
+                    </td>
+                     
+                    <td>
+                      @can('employee-delete') 
+                      <a href=""
                         onclick="
                         var result = confirm('Are you sure yo want to delete this employee?');
                         if (result){
@@ -94,7 +103,7 @@
                         </a>
 
                         {!! Form::open(['action' => ['Payroll\EmployeeController@destroy',$employee->id],'method' => 'DELETE','id' => $employee->id]) !!}
-
+                      @endcan
                         {!! Form::close() !!}
                     </td>
 
@@ -111,9 +120,12 @@
 
         @else
 
-        {{ __('messages.no employee defined')}}          
+        {{ __('messages.no employee defined')}}    
+        
+         @can('employee-create') 
 
           <a class="pull-right" class="btn btn-secondary btn-sm" href="/users">{{ __('messages.add')}}</a>
+        @endcan
 
         @endif
 

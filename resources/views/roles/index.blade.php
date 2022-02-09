@@ -3,7 +3,18 @@
 @section('content')
 <div class="col-md-6">
     <div class="card">
-        <div class="card-header">{{ __('messages.role') }} <span class="pull-right"> <a class="btn btn-secondary btn-sm" href="/roles/create">{{ __('messages.add') }}</a></span></div>
+        <div class="card-header">{{ __('messages.role') }} <span class="pull-right"> 
+          @can('role-create')
+             <a class="btn btn-secondary btn-sm" href="/roles/create">{{ __('messages.add') }}</a>
+          @endcan
+
+        </span></div>
+
+        @if ($message = Session::get('success'))
+            <div class="alert alert-success">
+                <p>{{ $message }}</p>
+            </div>
+        @endif
 
         <div class="card-body">
             @if( count($roles) > 0 )
@@ -34,9 +45,15 @@
 
                       <td><a href="/roles/{{$role->id}}">{{ $role->description}}</a></td>
 
-                      <td><a href="/roles/{{$role->id}}/edit">{{ __('messages.edit') }}</a></td>
+                      <td>
+                        @can('role-delete')
+                        <a href="/roles/{{$role->id}}/edit">{{ __('messages.edit') }}</a>
+                       @endcan
+                      </td>
 
-                    <td><a href=""
+                    <td>
+                      @can('role-delete')
+                      <a href=""
                         onclick="
                         var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.role')}}');
                         if (result){
@@ -45,8 +62,13 @@
                           }">{{ __('messages.delete') }}
                         </a>
 
-                        {!! Form::open(['action' => ['Payroll\RoleController@destroy',$role->id],'method' => 'DELETE','id' => $role->id]) !!}
+                    {{-- {!! Form::open(['method' => 'DELETE','route' => ['roles.destroy', $role->id],'style'=>'display:inline']) !!}
+                    {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                    {!! Form::close() !!} --}}
+                        
 
+                        {!! Form::open(['action' => ['Payroll\RoleController@destroy',$role->id],'method' => 'DELETE','id' => $role->id]) !!}
+                      @endcan
                         {!! Form::close() !!}
                     </td>
 

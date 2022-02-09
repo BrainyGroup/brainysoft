@@ -60,8 +60,10 @@ class EmployeeControllerCopy extends Controller
     public function __construct()
     {
 
-        //$this->middleware('auth');
-        $this->middleware('role');
+         $this->middleware('permission:employee-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:employee-create', ['only' => ['create','store']]);
+         $this->middleware('permission:employee-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:employee-delete', ['only' => ['destroy']]);
 
     }
 

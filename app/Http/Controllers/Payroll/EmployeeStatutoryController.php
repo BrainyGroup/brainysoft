@@ -41,8 +41,10 @@ class EmployeeStatutoryController extends Controller
     public function __construct()
     {
 
-       //$this->middleware('auth');
-       $this->middleware('role');
+         $this->middleware('permission:employee_statutory-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:employee_statutory-create', ['only' => ['create','store']]);
+         $this->middleware('permission:employee_statutory-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:employee_statutory-delete', ['only' => ['destroy']]);
 
     }
 

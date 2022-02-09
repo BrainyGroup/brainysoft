@@ -5,6 +5,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\Payroll\RoleController;
+use BrainySoft\Http\Controllers\HomeController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -24,21 +30,22 @@ use Illuminate\Support\Facades\Session;
 
 Auth::routes();
 
-//Route::resource('centers', 'CenterController');
+Route::get('/home', [\BrainySoft\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-//Route::get('/centers', 'Payroll\CenterController@index')->name('centers');
 
-Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/reports', 'ReportController@index')->name('reports');
 
-Route::resource('/users', 'Payroll\UserController');
 
 
-// Auth::routes();
+Route::group(['middleware' => ['auth']], function() {
+    Route::resource('roles','Payroll\RoleController');
+    //Route::resource('users','UserController');
+	Route::resource('/users', 'Payroll\UserController');
+    Route::resource('products','ProductController');
+});
 
-// Route::get('/contacts', function () {
-//     return view('contacts');
-// });
+
+
 
 
 
@@ -127,8 +134,7 @@ Route::resource('payroll_groups', 'Payroll\PayrollGroupController');
 //pay base routes
 Route::resource('pay_types', 'Payroll\PayBaseController');
 
-//role routes
-Route::resource('roles', 'Payroll\RoleController');
+
 
 
 
@@ -284,3 +290,6 @@ Route::get('/logout', function()
 	  Session::flush();
 		return Redirect('login');
 	});
+
+
+

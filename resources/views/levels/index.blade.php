@@ -3,7 +3,11 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">{{ __('messages.level') }}<span class="pull-right"> <a class="btn btn-secondary btn-sm" href="/levels/create">{{ __('messages.add') }}</a></span></div>
+        <div class="card-header">{{ __('messages.level') }}<span class="pull-right"> 
+          @can('level-create')
+          <a class="btn btn-secondary btn-sm" href="/levels/create">{{ __('messages.add') }}</a>
+        @endcan
+        </span></div>
 
         <div class="card-body">
             @if (session('status'))
@@ -37,9 +41,16 @@
 
                       <td>{{ $level->description }}</td>
 
-                      <td><a href="/levels/{{$level->id}}/edit">{{ __('messages.edit') }}</a></td>
+                      <td>
+                        @can('level-edit')
+                        <a href="/levels/{{$level->id}}/edit">{{ __('messages.edit') }}</a>
+                        @endcan
+                      
+                      </td>
 
-                      <td><a href=""
+                      <td>
+                        @can('level-delete')
+                        <a href=""
                           onclick="
                           var result = confirm('Are you sure yo want to delete this level?');
                           if (result){
@@ -51,6 +62,7 @@
                           {!! Form::open(['action' => ['Payroll\LevelController@destroy',$level->id],'method' => 'DELETE','id' => $level->id]) !!}
 
                           {!! Form::close() !!}
+                          @endcan
                       </td>
 
 
@@ -68,8 +80,10 @@
 
           {{ __('messages.no level defined')}}  
 
-          <a class="pull-right" class="btn btn-secondary btn-sm" href="/levels/create">{{ __('messages.add')}}</a>
+          @can('level-create')
 
+          <a class="pull-right" class="btn btn-secondary btn-sm" href="/levels/create">{{ __('messages.add')}}</a>
+@endcan
 
         @endif
 

@@ -30,8 +30,10 @@ class Bank2Controller extends BaseController
      */
     public function __construct(BankContract $bankRepository)
     {
-        //$this->middleware('auth');
-        $this->middleware('role');
+         $this->middleware('permission:bank-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:bank-create', ['only' => ['create','store']]);
+         $this->middleware('permission:bank-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:bank-delete', ['only' => ['destroy']]);
         $this->bankRepository = $bankRepository;
 
     }

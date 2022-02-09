@@ -3,7 +3,11 @@
 @section('content')
 <div class="col-md-6">
     <div class="card">
-        <div class="card-header">{{ __('messages.employee_payment') }} <span class="pull-right"> <a  class="btn btn-secondary btn-sm"  href="/employee_payments/create">{{ __('messages.add') }}</a></span></div>
+        <div class="card-header">{{ __('messages.employee_payment') }} <span class="pull-right"> 
+           @can('employee_payment-create') 
+             <a  class="btn btn-secondary btn-sm"  href="/employee_payments/create">{{ __('messages.add') }}</a>
+           @endcan
+            </span></div>
 
         <div class="card-body">
             @if( count($employee_payments) > 0 )
@@ -37,11 +41,15 @@
 
                       <td><a href="/employee_payments/{{$employee_payment->id}}">{{ $employee_payment->description}}</a></td>
 
-                      <td><a href="/employee_payments/{{$employee_payment->id}}/edit">{{ __('messages.edit') }}</a></td>
+                      <td>
+                        @can('employee_payment-edit') 
+                        <a href="/employee_payments/{{$employee_payment->id}}/edit">{{ __('messages.edit') }}</a></td>
+                        @endcan
 
 
-
-                    <td><a href=""
+                    <td>
+                      @can('employee_payment-delete') 
+                      <a href=""
                         onclick="
                         var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.employee_payment')}}');
                         if (result){
@@ -51,7 +59,7 @@
                         </a>
 
                         {!! Form::open(['action' => ['Payroll\EmployeePaymentController@destroy',$employee_payment->id],'method' => 'DELETE','id' => $employee_payment->id]) !!}
-
+                      @endcan
                         {!! Form::close() !!}
                     </td>
 
@@ -68,9 +76,11 @@
 
           No employee_payment defined
 
+        @can('employee_payment-create') 
+
           <a class="pull-right" href="/employee_payments/create">{{ __('messages.add')}}</a>
 
-
+        @endcan
         @endif
         </div>
     </div>

@@ -28,8 +28,10 @@ class DeductionTypeController extends Controller
     public function __construct()
     {
 
-        //$this->middleware('auth');
-        $this->middleware('role');
+         $this->middleware('permission:deduction_type-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:deduction_type-create', ['only' => ['create','store']]);
+         $this->middleware('permission:deduction_type-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:deduction_type-delete', ['only' => ['destroy']]);
 
     }
 

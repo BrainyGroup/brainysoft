@@ -26,9 +26,10 @@ class DepartmentController extends Controller
 {
     public function __construct()
     {
-
-        //$this->middleware('auth');
-        $this->middleware('role');
+         $this->middleware('permission:department-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:department-create', ['only' => ['create','store']]);
+         $this->middleware('permission:department-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:department-delete', ['only' => ['destroy']]);
 
     }
 

@@ -3,7 +3,11 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">{{ __('messages.organization') }} <span class="pull-right"> <a class="btn btn-secondary btn-sm"  href="/organizations/create">{{ __('messages.add') }}</a></span></div>
+        <div class="card-header">{{ __('messages.organization') }} <span class="pull-right"> 
+         @can('organization-create')  
+          <a class="btn btn-secondary btn-sm"  href="/organizations/create">{{ __('messages.add') }}</a>
+        @endcan
+        </span></div>
 
         <div class="card-body">
             @if (session('status'))
@@ -46,9 +50,15 @@
 
                       <td>{{ $organization->account_number }}</td>
 
-                      <td><a href="/organizations/{{$organization->id}}/edit">{{ __('messages.edit') }}</a></td>
+                      <td>
+                        @can('organization-edit')
+                        <a href="/organizations/{{$organization->id}}/edit">{{ __('messages.edit') }}</a>
+                      @endcan
+                      </td>
 
-                      <td><a href=""
+                      <td>
+                        @can('organization-delete')
+                        <a href=""
                           onclick="
                           var result = confirm('Are you sure yo want to delete this organization?');
                           if (result){
@@ -60,6 +70,7 @@
                           {!! Form::open(['action' => ['Payroll\OrganizationController@destroy',$organization->id],'method' => 'DELETE','id' => $organization->id]) !!}
 
                           {!! Form::close() !!}
+                          @endcan
                       </td>
 
 
@@ -77,10 +88,11 @@
         @else
 
           {{ __('messages.no organization defined')}} 
+          @can('organization-create')
 
           <a class="pull-right" class="btn btn-secondary btn-sm" href="/organizations/create">{{ __('messages.add')}}</a>
 
-
+@endcan
         @endif
         </div>
     </div>

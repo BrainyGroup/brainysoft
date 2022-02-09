@@ -14,7 +14,8 @@
         "laravel/framework": "^8.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
-        "laravelcollective/html": "^6.2"
+        "laravelcollective/html": "^6.2",
+        "spatie/laravel-permission": "^4.2"
     },
     "require-dev": {
         "filp/whoops": "^2.0",

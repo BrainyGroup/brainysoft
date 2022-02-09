@@ -36,6 +36,18 @@
                               </li>
 
                               <li class="nav-item">
+                                  <a class="nav-link" href="{{ route('users.index') }}">Manage Users</a>
+                              </li>
+
+                              <li class="nav-item">
+                                  <a class="nav-link" href="{{ route('roles.index') }}">Manage Role</a>
+                              </li>
+
+                             <li class="nav-item">
+                                 <a class="nav-link" href="{{ route('products.index') }}">Manage Product</a>
+                            </li>
+
+                              <li class="nav-item">
                                   <a class="nav-link" href="/employees">{{ __('Employees') }}</a>
                               </li>
 

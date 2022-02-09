@@ -19,6 +19,8 @@ class Kernel extends HttpKernel
         \BrainySoft\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \BrainySoft\Http\Middleware\TrustProxies::class,
+
+        
     ];
 
     /**
@@ -59,6 +61,9 @@ class Kernel extends HttpKernel
         'guest' => \BrainySoft\Http\Middleware\RedirectIfAuthenticated::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'role' => \BrainySoft\Http\Middleware\RolesAuth::class,
+        //'role' => \BrainySoft\Http\Middleware\RolesAuth::class,
+
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+	    'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
     ];
 }

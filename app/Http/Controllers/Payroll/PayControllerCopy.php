@@ -74,8 +74,10 @@ class PayControllerCopy extends Controller
     public function __construct()
     {
 
-       // $this->middleware('auth');
-        $this->middleware('role');
+         $this->middleware('permission:pay-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:pay-create', ['only' => ['create','store']]);
+         $this->middleware('permission:pay-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:pay-delete', ['only' => ['destroy']]);
 
     }
 

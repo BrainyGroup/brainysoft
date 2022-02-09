@@ -49,9 +49,15 @@
                     </tr>
 
                     <tr>
-                          <td><a href="/payes/{{$paye->id}}/edit">{{ __('messages.edit') }}</a></td>
+                          <td>
+                            @can('paye-edit') 
+                            <a href="/payes/{{$paye->id}}/edit">{{ __('messages.edit') }}</a>
+                            @endcan
+                          </td>
 
-                          <td><a href=""
+                          <td>
+                            @can('paye-delete') 
+                            <a href=""
                               onclick="
                               var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.paye')}}');
                               if (result){
@@ -63,6 +69,7 @@
                               {!! Form::open(['action' => ['Payroll\PayeController@destroy',$paye->id],'method' => 'DELETE','id' => $paye->id]) !!}
 
                               {!! Form::close() !!}
+                            @endcan
                           </td>
 
                       </tr>

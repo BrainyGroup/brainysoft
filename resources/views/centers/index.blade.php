@@ -3,7 +3,11 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">{{ __('messages.center') }} <span class="pull-right"> <a href="/centers/create">{{ __('messages.add') }}</a></span></div>
+        <div class="card-header">{{ __('messages.center') }} <span class="pull-right">
+          @can('center-create')  
+          <a href="/centers/create">{{ __('messages.add') }}</a>
+          @endcan
+        </span></div>
 
         <div class="card-body">
              @if( count($centers) > 0 )
@@ -35,9 +39,13 @@
 
                       <td><a href="/centers/{{$center->id}}">{{ $center->description}}</a></td>
 
-                      <td><a href="/centers/{{$center->id}}/edit"><i class="fa fa-paint-brush text-secondary" aria-hidden="true"></i></a></td>
-
-                      <td><a href=""
+                      <td>
+                        @can('center-edit') 
+                        <a href="/centers/{{$center->id}}/edit"><i class="fa fa-paint-brush text-secondary" aria-hidden="true"></i></a></td>
+                        @endcan
+                      <td>
+                        @can('center-delete') 
+                        <a href=""
                           onclick="
                           var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.center')}}');
                           if (result){
@@ -47,7 +55,7 @@
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\CenterController@destroy',$center->id],'method' => 'DELETE','id' => $center->id]) !!}
-
+                        @endcan
                           {!! Form::close() !!}
                       </td>
 
@@ -65,8 +73,11 @@
         @else
 
           No center defined
+          @can('center-create') 
 
           <a class="pull-right" href="/centers/create">{{ __('messages.add')}}</a>
+
+          @endcan
 
 
         @endif

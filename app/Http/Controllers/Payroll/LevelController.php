@@ -25,8 +25,10 @@ class LevelController extends Controller
     public function __construct()
     {
 
-        //$this->middleware('auth');
-        $this->middleware('role');
+         $this->middleware('permission:level-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:level-create', ['only' => ['create','store']]);
+         $this->middleware('permission:level-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:level-delete', ['only' => ['destroy']]);
 
     }
 

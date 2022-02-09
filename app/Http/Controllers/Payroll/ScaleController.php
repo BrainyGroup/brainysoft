@@ -34,8 +34,10 @@ class ScaleController extends Controller
   public function __construct()
   {
 
-     // $this->middleware('auth');
-      $this->middleware('role');
+         $this->middleware('permission:scale-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:scale-create', ['only' => ['create','store']]);
+         $this->middleware('permission:scale-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:scale-delete', ['only' => ['destroy']]);
 
   }
 

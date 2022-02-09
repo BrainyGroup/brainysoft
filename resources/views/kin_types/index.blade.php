@@ -3,7 +3,11 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">{{ __('messages.kin_type') }}<span class="pull-right"> <a class="btn btn-secondary btn-sm"  href="/kin_types/create">{{ __('messages.add') }}</a></span></div>
+        <div class="card-header">{{ __('messages.kin_type') }}<span class="pull-right"> 
+          @can('kin_type-create')
+            <a class="btn btn-secondary btn-sm"  href="/kin_types/create">{{ __('messages.add') }}</a>
+        @endcan
+          </span></div>
 
         <div class="card-body">
             @if (session('status'))
@@ -35,9 +39,15 @@
 
                       <td>{{ $kin_type->description }}</td>
 
-                      <td><a href="/kin_types/{{$kin_type->id}}/edit">{{ __('messages.edit') }}</a></td>
+                      <td>
+                        @can('kin_type-edit')
+                          <a href="/kin_types/{{$kin_type->id}}/edit">{{ __('messages.edit') }}</a>
+                        @endcan
+                      </td>
 
-                      <td><a href=""
+                      <td>
+                        @can('kin_type-delete')
+                        <a href=""
                           onclick="
                           var result = confirm('Are you sure yo want to delete this kin type?');
                           if (result){
@@ -47,7 +57,7 @@
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\KinTypeController@destroy',$kin_type->id],'method' => 'DELETE','id' => $kin_type->id]) !!}
-
+                        @endcan
                           {!! Form::close() !!}
                       </td>
 
@@ -64,9 +74,13 @@
 
         @else
 
-        {{ __('messages.no kin type defined')}}  
+        {{ __('messages.no kin type defined')}}
+        
+         @can('kin_type-create')
 
           <a class="pull-right" class="btn btn-secondary btn-sm" href="/kin_types/create">{{ __('messages.add')}}</a>
+
+        @endcan
 
         @endif
 

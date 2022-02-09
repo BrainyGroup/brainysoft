@@ -49,9 +49,13 @@
                     </tr>
 
                     <tr>
-                          <td><a href="/kin_types/{{$kin_type->id}}/edit">{{ __('messages.edit') }}</a></td>
-
-                          <td><a href=""
+                          <td>
+                          @can('kin_type-edit')
+                            <a href="/kin_types/{{$kin_type->id}}/edit">{{ __('messages.edit') }}</a></td>
+                          @endcan
+                          <td>
+                          @can('kin_type-delete')
+                            <a href=""
                               onclick="
                               var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.kin_type')}}');
                               if (result){
@@ -61,7 +65,7 @@
                               </a>
 
                               {!! Form::open(['action' => ['Payroll\KinTypeController@destroy',$kin_type->id],'method' => 'DELETE','id' => $kin_type->id]) !!}
-
+                          @endcan
                               {!! Form::close() !!}
                           </td>
 

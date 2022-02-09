@@ -2,76 +2,34 @@
 
 namespace BrainySoft\Http\Controllers\Payroll;
 
-use Exception;
-
-use BrainySoft\Payroll\User;
-
-use BrainySoft\Payroll\Role;
-
-use BrainySoft\Payroll\Company;
-
-use BrainySoft\Payroll\Employee;
-
-use BrainySoft\Payroll\Organization;
 
 use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Log;
-
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\DB;
 use BrainySoft\Http\Controllers\Controller;
 
 class RoleController extends Controller
 {
-    public function __construct()
+    
+    function __construct()
     {
-
-        //$this->middleware('auth');
-        $this->middleware('role');
-
+         $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:role-create', ['only' => ['create','store']]);
+         $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
     }
-
-
-    private function company()
-    {
-      $user = User::find(auth()->user()->id);
-
-      return Company::find($user->company_id);
-    }
+    
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-
-    try{
-
-          $company = $this->company();
-
-          Log::debug($company->name.': Start role index');
-
-          // $employee = Employee::find(auth()->user()->id);
-
-          $roles = Role::all();
-
-          return view('roles.index', compact('roles'));
-
-         
-
-        }catch(Exception $e){
-
-          $company = $this->company();
-
-          Log::error($company->name.' '.$e->getFile().' '.$e->getMessage().' '.$e->getLine());
-
-          Log::debug($company->name.': End role index');
-
-          //return false;
-        }
-
-
-
+         $roles = Role::orderBy('id','DESC')->paginate(5);
+        return view('roles.index',compact('roles'))
+            ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -81,9 +39,8 @@ class RoleController extends Controller
      */
     public function create()
     {
-
-        return view('roles.create');
-
+        $permission = Permission::get();
+        return view('roles.create',compact('permission'));
     }
 
     /**
@@ -94,116 +51,89 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'name' => 'required|unique:roles,name',
+            'permission' => 'required',
+        ]);
 
-      //Validation
-      $this->validate(request(),[
 
-        'name' =>'required|string',
+        $role = Role::create(['name' => $request->input('name')]);
+        $role->syncPermissions($request->input('permission'));
 
-        'description' => 'required|string',
 
-      ]);
-
-      //get user id
-
-      $company = $this->company();
-
-      $role = new Role;
-
-      $role->name = request('name');
-
-      $role->description = request('description');     
-
-      $role->company_id = $company->id;
-
-      $role->save();
-
-      return back()->with('success','Role added successfully');
+        return redirect()->route('roles.index')
+                        ->with('success','Role created successfully');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \BrainySoft\Role  $role
      * @return \Illuminate\Http\Response
      */
     public function show(Role $role)
     {
-        return view('roles.show',compact('role'));
+             $rolePermissions = Permission::join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
+            ->where("role_has_permissions.role_id",$role->id)
+            ->get();
+
+
+        return view('roles.show',compact('role','rolePermissions'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \BrainySoft\Role  $role
      * @return \Illuminate\Http\Response
      */
     public function edit(Role $role)
     {
-        return view('roles.edit',compact('role'));
+        $permission = Permission::get();
+        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$role->id)
+            ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
+            ->all();
+
+
+        return view('roles.edit',compact('role','permission','rolePermissions'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \BrainySoft\Role  $role
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Role $role)
     {
-      //Validation
-      
-      $this->validate(request(),[
+        $this->validate($request, [
+            'name' => 'required',
+            'permission' => 'required',
+        ]);
 
-        'name' =>'required|string',
 
-        'description' => 'required|string',
+        $role->name = $request->input('name');
+        $role->save();
 
-      ]);
 
-      $roleUpdate = Role::where('id', $role->id)
+        $role->syncPermissions($request->input('permission'));
 
-      ->update([
 
-          'name'			=>$request->input('name'),
-
-          'description'	=>$request->input('description'),
-
-      ]);
-
-      if($roleUpdate)
-
-        return redirect('roles')
-
-        ->with('success','Role updated successfully');
-        //redirect
+        return redirect()->route('roles.index')
+                        ->with('success','Role updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \BrainySoft\Role  $role
      * @return \Illuminate\Http\Response
      */
     public function destroy(Role $role)
     {
-      $role_employee_exist = Employee::where('role_id',$role->id)->exists();
-
-      $role_organization_exist = Organization::where('role_id',$role->id)->exists();
-
-      $role = Role::find($role->id);
-
-      if (!$role_employee_exist && !$role_employee_exist && $role->delete()){
-
-        return redirect('roles')
-
-        ->with('success','Role deleted successfully');
-
-      }else{
-
-        return back()->with('error','Role could not be deleted');
-
-      }
+        DB::table("roles")->where('id',$role->id)->delete();
+        return redirect()->route('roles.index')
+                        ->with('success','Role deleted successfully');
     }
 }

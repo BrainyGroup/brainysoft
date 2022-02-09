@@ -49,9 +49,15 @@
                     </tr>
 
                     <tr>
-                          <td><a href="/organizations/{{$organization->id}}/edit">{{ __('messages.edit') }}</a></td>
+                          <td>
+                            @can('organization-edit')
+                            <a href="/organizations/{{$organization->id}}/edit">{{ __('messages.edit') }}</a>
+                           @endcan
+                          </td>
 
-                          <td><a href=""
+                          <td>
+                            @can('organization-delete')
+                            <a href=""
                               onclick="
                               var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.organization')}}');
                               if (result){
@@ -63,6 +69,7 @@
                               {!! Form::open(['action' => ['Payroll\OrganizationController@destroy',$organization->id],'method' => 'DELETE','id' => $organization->id]) !!}
 
                               {!! Form::close() !!}
+                              @endcan
                           </td>
 
                       </tr>

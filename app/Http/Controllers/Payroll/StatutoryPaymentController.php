@@ -24,8 +24,10 @@ class StatutoryPaymentController extends Controller
     public function __construct()
     {
   
-        //$this->middleware('auth');
-        $this->middleware('role');
+         $this->middleware('permission:statutory_payment-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:statutory_payment-create', ['only' => ['create','store']]);
+         $this->middleware('permission:statutory_payment-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:statutory_payment-delete', ['only' => ['destroy']]);
   
     }
      private function company()

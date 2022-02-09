@@ -3,8 +3,10 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">{{ __('messages.kin') }} <span class="pull-right"> <a class="btn btn-secondary btn-sm"  href="/kins/create?employee_id={{ request('employee_id')}}">{{ __('messages.add') }}</a></span></div>
-
+        <div class="card-header">{{ __('messages.kin') }} <span class="pull-right"> 
+           @can('kin-create')
+              <a class="btn btn-secondary btn-sm"  href="/kins/create?employee_id={{ request('employee_id')}}">{{ __('messages.add') }}</a></span></div>
+           @endcan
         <div class="card-body">
             @if (session('status'))
                 <div class="alert alert-success" role="alert">
@@ -42,10 +44,18 @@
 
                       <td>{{ $kin->mobile }}</td>
 
-                      <td><a href="/kins/{{$kin->id}}/edit">{{ __('messages.edit') }}</a></td>
+                      <td>
+
+                        @can('kin-edit')                        
+                           <a href="/kins/{{$kin->id}}/edit">{{ __('messages.edit') }}</a>
+                        @endcan
+                          
+                          </td>
                       
 
-                      <td><a href=""
+                      <td>
+                        @can('kin-delete')
+                        <a href=""
                           onclick="
                           var result = confirm('Are you sure yo want to delete this kin?');
                           if (result){
@@ -57,6 +67,8 @@
                           {!! Form::open(['action' => ['Payroll\KinController@destroy',$kin->id],'method' => 'DELETE','id' => $kin->id]) !!}
 
                           {!! Form::close() !!}
+
+                          @endcan
 
 
 
@@ -73,8 +85,11 @@
 
         {{ __('messages.no kin defined')}}  
 
+        @can('kin-create')
+
           <a class="pull-right" href="/kins/create?employee_id={{ request('employee_id') }}">{{ __('messages.add')}}</a>
 
+        @endcan
 
         @endif
 

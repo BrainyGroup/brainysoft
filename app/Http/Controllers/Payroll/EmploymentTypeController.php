@@ -27,8 +27,10 @@ class EmploymentTypeController extends Controller
     public function __construct()
     {
 
-        //$this->middleware('auth');
-        $this->middleware('role');
+         $this->middleware('permission:employee_type-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:employee_type-create', ['only' => ['create','store']]);
+         $this->middleware('permission:employee_type-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:employee_type-delete', ['only' => ['destroy']]);
 
     }
 

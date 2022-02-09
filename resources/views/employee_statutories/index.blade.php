@@ -3,7 +3,11 @@
 @section('content')
 <div class="col-md-12">
     <div class="card">
-        <div class="card-header">{{ __('messages.statutory') }}<span class="pull-right"> <a class="pull-right"> <a class="btn btn-secondary btn-sm" href="/employee_statutories/create?employee_id={{ $employee->id }}">{{ __('messages.add') }}</a></span></div>
+        <div class="card-header">{{ __('messages.statutory') }}<span class="pull-right"> 
+          @can('employee_statutory-create') 
+              <a class="btn btn-secondary btn-sm" href="/employee_statutories/create?employee_id={{ $employee->id }}">{{ __('messages.add') }}</a>
+          @endcan
+            </span></div>
 
         <div class="card-body">
             @if (session('status'))
@@ -72,9 +76,15 @@
 
               @if($statutory->selection == 1)
 
-              <td><a href="/employee_statutories/{{$statutory->employee_statutory_id}}/edit">{{ __('messages.edit') }}</a></td>
-
-                      <td><a href=""
+              <td>
+                @can('employee_statutory-edit') 
+                <a href="/employee_statutories/{{$statutory->employee_statutory_id}}/edit">{{ __('messages.edit') }}</a>
+              @endcan
+              </td>
+                
+                      <td>
+                         @can('employee_statutory-delete') 
+                        <a href=""
                           onclick="
                           var result = confirm('Are you sure yo want to delete this statutory?');
                           if (result){
@@ -84,7 +94,7 @@
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\EmployeeStatutoryController@destroy',$statutory->employee_statutory_id],'method' => 'DELETE','id' => $statutory->employee_statutory_id]) !!}
-
+                          @endcan
                           {!! Form::close() !!}
                       </td>
               @else
@@ -111,7 +121,11 @@
 
           No Statutories defined
 
+           @can('employee_statutory-create') 
+
           <a class="pull-right" href="/statutories/create">{{ __('messages.add')}}</a>
+
+          @endcan
 
 
         @endif

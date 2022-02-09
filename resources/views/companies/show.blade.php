@@ -43,9 +43,15 @@
                     </tr>
 
                     <tr>
-                          <td><a href="/companys/{{$company->id}}/edit">{{ __('messages.edit') }}</a></td>
+                          <td>
+                            @can('company-edit') 
+                            <a href="/companys/{{$company->id}}/edit">{{ __('messages.edit') }}</a>
+                            @endcan
+                          </td>
 
-                          <td><a href=""
+                          <td>
+                            @can('company-delete')
+                            <a href=""
                               onclick="
                               var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.company')}}');
                               if (result){
@@ -55,7 +61,7 @@
                               </a>
 
                               {!! Form::open(['action' => ['Payroll\CompanyController@destroy',$company->id],'method' => 'DELETE','id' => $company->id]) !!}
-
+                            @endcan
                               {!! Form::close() !!}
                           </td>
 

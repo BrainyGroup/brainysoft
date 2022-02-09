@@ -20,8 +20,10 @@ class BasicSettingController extends BaseController
     public function __construct()
     {
 
-        //$this->middleware('auth');
-        $this->middleware('role');
+         $this->middleware('permission:basic_setting-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:basic_setting-create', ['only' => ['create','store']]);
+         $this->middleware('permission:basic_setting-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:basic_setting-delete', ['only' => ['destroy']]);
 
     }
     

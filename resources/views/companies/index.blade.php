@@ -31,7 +31,12 @@
 
                       <td>{{ $company->description }}</td>
 
-                      <td><a href="/companies/{{$company->id}}/edit">Edit</a></td>
+                      <td>
+                        @can('company-edit')                         
+                        <a href="/companies/{{$company->id}}/edit">Edit</a>
+                        @endcan
+                      
+                      </td>
 
                       
                     </tr>

@@ -25,8 +25,10 @@ class EmployeePaymentController extends Controller
     public function __construct()
     {
 
-        //$this->middleware('auth');
-        $this->middleware('role');
+         $this->middleware('permission:employee_payment-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:employee_payment-create', ['only' => ['create','store']]);
+         $this->middleware('permission:employee_payment-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:employee_payment-delete', ['only' => ['destroy']]);
 
     }
     private function company()

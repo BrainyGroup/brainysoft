@@ -7,7 +7,11 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">{{ __('messages.employment type') }}<span class="pull-right"> <a class="btn btn-secondary btn-sm"  href="/employment_types/create">{{ __('messages.add') }}</a></span></div>
+        <div class="card-header">{{ __('messages.employment type') }}<span class="pull-right"> 
+         @can('employee_type-create') 
+          <a class="btn btn-secondary btn-sm"  href="/employment_types/create">{{ __('messages.add') }}</a>
+        @endcan
+        </span></div>
 
         <div class="card-body">
             @if (session('status'))
@@ -42,9 +46,13 @@
 
                       <td>{{ $employment_type->description }}</td>
 
-                      <td><a href="/employment_types/{{$employment_type->id}}/edit">{{ __('messages.edit') }}</a></td>
-
-                      <td><a href=""
+                      <td>
+                        @can('employee_type-edit')
+                          <a href="/employment_types/{{$employment_type->id}}/edit">{{ __('messages.edit') }}</a></td>
+                        @endcan
+                      <td>
+                        @can('employee_type-delete')
+                        <a href=""
                           onclick="
                           var result = confirm('Are you sure yo want to delete this employee type?');
                           if (result){
@@ -54,7 +62,7 @@
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\EmploymentTypeController@destroy',$employment_type->id],'method' => 'DELETE','id' => $employment_type->id]) !!}
-
+                        @endcan
                           {!! Form::close() !!}
                       </td>
 
@@ -71,10 +79,12 @@
 
         @else
 
-        {{ __('messages.no level defined')}}  
+        {{ __('messages.no level defined')}} 
+        
+        @can('employee_type-create')
 
           <a class="pull-right" class="btn btn-secondary btn-sm" href="/employment_types/create">{{ __('messages.add')}}</a>
-
+        @endcan
         @endif
 
 

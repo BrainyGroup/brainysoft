@@ -168,6 +168,8 @@ class DatabaseSeeder extends Seeder
            Deduction_typesTableSeeder::class,
            Allowance_typesTableSeeder::class,
            DeductionsTableSeeder::class,
+           PermissionTableSeeder::class,
+           CreateAdminUserSeeder::class,
            AllowancesTableSeeder::class,
            //LevelsTableSeeder::class,
           //  DesignationsTableSeeder::class,

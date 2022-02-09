@@ -3,7 +3,11 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">{{ __('messages.designation') }}<span class="pull-right"> <a class="btn btn-secondary btn-sm"  href="/designations/create">{{ __('messages.add') }}</a></span></div>
+        <div class="card-header">{{ __('messages.designation') }}<span class="pull-right">
+            @can('designation-create') 
+              <a class="btn btn-secondary btn-sm"  href="/designations/create">{{ __('messages.add') }}</a>
+            @endcan
+            </span></div>
 
         <div class="card-body">
             @if (session('status'))
@@ -37,9 +41,13 @@
 
                       <td>{{ $designation->description }}</td>
 
-                      <td><a href="/designations/{{$designation->id}}/edit">{{ __('messages.edit') }}</a></td>
-
-                      <td><a href=""
+                      <td>
+                      @can('designation-edit') 
+                        <a href="/designations/{{$designation->id}}/edit">{{ __('messages.edit') }}</a></td>
+                      @endcan
+                      <td>
+                         @can('designation-delete') 
+                        <a href=""
                           onclick="
                           var result = confirm('Are you sure yo want to delete this designation?');
                           if (result){
@@ -49,7 +57,7 @@
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\DesignationController@destroy',$designation->id],'method' => 'DELETE','id' => $designation->id]) !!}
-
+                        @endcan
                           {!! Form::close() !!}
                       </td>
 
@@ -68,9 +76,11 @@
 
           No Designation defined
 
+        @can('designation-create') 
+
           <a class="pull-right" href="/designations/create">{{ __('messages.add')}}</a>
 
-
+        @endcan
         @endif
 
 

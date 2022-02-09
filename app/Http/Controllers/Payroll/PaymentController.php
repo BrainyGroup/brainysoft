@@ -18,8 +18,10 @@ class PaymentController extends Controller
     public function __construct()
     {
 
-        //$this->middleware('auth');
-        $this->middleware('role');
+         $this->middleware('permission:payment-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:payment-create', ['only' => ['create','store']]);
+         $this->middleware('permission:payment-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:payment-delete', ['only' => ['destroy']]);
 
     }
     public function index()

@@ -3,7 +3,11 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">{{ __('messages.deduction_type') }}<span class="pull-right"> <a class="btn btn-secondary btn-sm"  href="/deduction_types/create">{{ __('messages.add') }}</a></span></div>
+        <div class="card-header">{{ __('messages.deduction_type') }}<span class="pull-right"> 
+          @can('deduction_type-create')
+          <a class="btn btn-secondary btn-sm"  href="/deduction_types/create">{{ __('messages.add') }}</a>
+          @endcan
+        </span></div>
 
         <div class="card-body">
             @if($deduction_types)
@@ -34,9 +38,15 @@
 
                       <td>{{ $deduction_type->description }}</td>
 
-                      <td><a href="/deduction_types/{{$deduction_type->id}}/edit">{{ __('messages.edit') }}</a></td>
+                      <td>
+                         @can('deduction_type-edit')
+                        <a href="/deduction_types/{{$deduction_type->id}}/edit">{{ __('messages.edit') }}</a>
+                        @endcan
+                      </td>
 
-                      <td><a href=""
+                      <td>
+                        @can('deduction_type-delete')
+                        <a href=""
                           onclick="
                           var result = confirm('Are you sure yo want to delete this deduction type?');
                           if (result){
@@ -46,7 +56,7 @@
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\DeductionTypeController@destroy',$deduction_type->id],'method' => 'DELETE','id' => $deduction_type->id]) !!}
-
+                          @endcan
                           {!! Form::close() !!}
                       </td>
 
@@ -65,7 +75,11 @@
 
           No Deduction type defined
 
+           @can('deduction_type-create')
+
           <a class="pull-right" href="/deduction_types/create">{{ __('messages.add')}}</a>
+
+          @endcan
 
 
         @endif

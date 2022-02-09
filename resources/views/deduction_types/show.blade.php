@@ -43,9 +43,13 @@
                     </tr>
 
                     <tr>
-                          <td><a href="/deduction_types/{{$deduction_type->id}}/edit">{{ __('messages.edit') }}</a></td>
-
-                          <td><a href=""
+                          <td>
+                          @can('deduction_type-edit')
+                            <a href="/deduction_types/{{$deduction_type->id}}/edit">{{ __('messages.edit') }}</a></td>
+                          @endcan
+                          <td>
+                             @can('deduction_type-delete')
+                            <a href=""
                               onclick="
                               var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.deduction_type')}}');
                               if (result){
@@ -54,8 +58,8 @@
                                 }">{{ __('messages.delete') }}
                               </a>
 
-                              {!! Form::open(['action' => ['Payroll\DeductionTypeController@destroy',$deduction_type->id],'method' => 'DELETE','id' => $deduction_type->id]) !!}
-
+                              {!! Form::open(['action' => ['Payroll\DeductionTypeController@destroy',$deduction_type->id],'method' => 'DELETE','id' => $deduction_type->id]) !!} 
+                            @endcan   
                               {!! Form::close() !!}
                           </td>
 

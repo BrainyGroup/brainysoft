@@ -34,7 +34,16 @@
 
                       <th scope="row">{{ $allowance->employee_id }}</th>
 
-                      <td><a href="/allowances/create?user_id={{$allowance->user_id}}">{{ $allowance->title.'. '.$allowance->firstname.' '.$allowance->middlename.' '.$allowance->lastname }}</a></td>
+                      <td>
+                        @can('allowance-create')                          
+                        
+                        <a href="/allowances/create?user_id={{$allowance->user_id}}">
+                      @endcan
+                          {{ $allowance->title.'. '.$allowance->firstname.' '.$allowance->middlename.' '.$allowance->lastname }}
+                        @can('allowance-create') 
+                        </a>
+                        @endcan
+                      </td>
 
                       <td>{{ $allowance->allowance_name }}  </td>
 
@@ -44,9 +53,15 @@
 
                       <td class = "text-right">{{ $allowance->end_date }}  </td>
 
-                      <td><a href="/allowances/{{$allowance->id}}/edit?user_id={{$allowance->user_id}}"><i class="fa fa-paint-brush text-secondary" aria-hidden="true"></i></a></td>
+                      <td>
+                        @can('allowance-edit') 
+                        <a href="/allowances/{{$allowance->id}}/edit?user_id={{$allowance->user_id}}"><i class="fa fa-paint-brush text-secondary" aria-hidden="true"></i></a>
+                        @endcan
+                      </td>
 
-                      <td><a href=""
+                      <td>
+                        @can('allowance-delete') 
+                        <a href=""
                           onclick="
                           var result = confirm('{{ __('messages.delete confirmation')}} {{ __('messages.allowance')}}');
                           if (result){
@@ -56,7 +71,7 @@
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\AllowanceController@destroy',$allowance->id],'method' => 'DELETE','id' => $allowance->id]) !!}
-
+                          @endcan
                           {!! Form::close() !!}
                       </td>
 

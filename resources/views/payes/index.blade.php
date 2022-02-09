@@ -3,7 +3,11 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">{{ __('messages.paye') }}<span class="pull-right"> <a class="btn btn-secondary btn-sm" href="/payes/create">{{ __('messages.add') }}</a></span></div>
+        <div class="card-header">{{ __('messages.paye') }}<span class="pull-right">
+          @can('paye-create') 
+          <a class="btn btn-secondary btn-sm" href="/payes/create">{{ __('messages.add') }}</a>
+        @endcan
+        </span></div>
 
         <div class="card-body">
             @if (session('status'))
@@ -42,9 +46,13 @@
 
                       <td class = "text-right">{{ number_format($paye->offset, 2) }}</td>
 
-                      <td><a href="/payes/{{$paye->id}}/edit">{{ __('messages.edit') }}</a></td>
-
-                      <td><a href=""
+                      <td>
+                        @can('paye-edit') 
+                          <a href="/payes/{{$paye->id}}/edit">{{ __('messages.edit') }}</a></td>
+                        @endcan
+                      <td>
+                        @can('paye-delete') 
+                        <a href=""
                           onclick="
                           var result = confirm('Are you sure yo want to delete this paye?');
                           if (result){
@@ -56,6 +64,7 @@
                           {!! Form::open(['action' => ['Payroll\PayeController@destroy',$paye->id],'method' => 'DELETE','id' => $paye->id]) !!}
 
                           {!! Form::close() !!}
+                        @endcan
                       </td>
 
 
@@ -73,8 +82,10 @@
 
         {{ __('messages.no paye defined')}} 
 
-          <a class="pull-right" class="btn btn-secondary btn-sm" href="/payes/create">{{ __('messages.add')}}</a>
+        @can('paye-create') 
 
+          <a class="pull-right" class="btn btn-secondary btn-sm" href="/payes/create">{{ __('messages.add')}}</a>
+@endcan
 
         @endif
 

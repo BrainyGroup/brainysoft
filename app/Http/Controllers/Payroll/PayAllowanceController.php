@@ -18,8 +18,10 @@ class PayAllowanceController extends Controller
     public function __construct()
     {
 
-        //$this->middleware('auth');
-        $this->middleware('role');
+         $this->middleware('permission:pay_allowance-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:pay_allowance-create', ['only' => ['create','store']]);
+         $this->middleware('permission:pay_allowance-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:pay_allowance-delete', ['only' => ['destroy']]);
 
     }
     

@@ -5,7 +5,7 @@ namespace BrainySoft\Http\Controllers\Payroll;
 
 use Exception;
 
-use Storage;
+use Illuminate\Support\Facades\Storage;
 
 use App\ImageModel;
 
@@ -31,9 +31,10 @@ class CompanyController extends Controller
     public function __construct()
     {
 
-       // $this->middleware('auth');
-        $this->middleware('role');
-
+         $this->middleware('permission:company-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:company-create', ['only' => ['create','store']]);
+         $this->middleware('permission:company-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:company-delete', ['only' => ['destroy']]);
     }
 
     private function company()

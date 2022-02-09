@@ -17,7 +17,9 @@
             <p></p>
             @foreach($documentations as $documentation)
             {!! $documentation->description !!}
-            <a href="/documentations/{{$documentation->id}}/edit">{{ __('messages.edit') }}</a>
+            @can('documentation-edit') 
+                    <a href="/documentations/{{$documentation->id}}/edit">{{ __('messages.edit') }}</a>
+            @endcan
             @endforeach
            
             

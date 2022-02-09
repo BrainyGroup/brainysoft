@@ -1,14 +1,13 @@
 <?php
 
-namespace BrainySoft\Payroll;
+namespace BrainySoft;
 
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
-    public function permissions()
-    {
-        return $this->belongsToMany(Permission::class)->withTimestamps();
-    }
+    use HasFactory;
+
+    protected $fillable = ['name','permission'];
 }

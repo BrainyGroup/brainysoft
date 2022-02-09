@@ -3,7 +3,11 @@
 @section('content')
 <div class="col-md-8">
     <div class="card">
-        <div class="card-header">{{ __('messages.department') }} <span class="pull-right"> <a class="btn btn-secondary btn-sm"  href="/departments/create">{{ __('messages.add') }}</a></span></div>
+        <div class="card-header">{{ __('messages.department') }} <span class="pull-right"> 
+           @can('department-create')
+              <a class="btn btn-secondary btn-sm"  href="/departments/create">{{ __('messages.add') }}</a>
+           @endcan
+        </span></div>
 
         <div class="card-body">
             @if (session('status'))
@@ -37,19 +41,23 @@
 
                       <td>{{ $department->description }}</td>
 
-                      <td><a href="/departments/{{$department->id}}/edit">{{ __('messages.edit') }}</a></td>
+                      <td>
+                        @can('department-edit')                        
+                           <a href="/departments/{{$department->id}}/edit">{{ __('messages.edit') }}</a></td>
+                        @endcan
+                      <td>
+                        @can('department-delete')
+                          <a href=""
+                            onclick="
+                            var result = confirm('Are you sure yo want to delete this department?');
+                            if (result){
+                                event.preventDefault();
+                                document.getElementById({{$department->id}}).submit();
+                              }">{{ __('messages.delete') }}
+                            </a>
 
-                      <td><a href=""
-                          onclick="
-                          var result = confirm('Are you sure yo want to delete this department?');
-                          if (result){
-                              event.preventDefault();
-                              document.getElementById({{$department->id}}).submit();
-                            }">{{ __('messages.delete') }}
-                          </a>
-
-                          {!! Form::open(['action' => ['Payroll\DepartmentController@destroy',$department->id],'method' => 'DELETE','id' => $department->id]) !!}
-
+                            {!! Form::open(['action' => ['Payroll\DepartmentController@destroy',$department->id],'method' => 'DELETE','id' => $department->id]) !!}
+                        @endcan
                           {!! Form::close() !!}
                       </td>
 
@@ -67,10 +75,9 @@
         @else
 
           No Department defined
-
+        @can('department-create') 
           <a class="pull-right" href="/departments/create">{{ __('messages.add')}}</a>
-
-
+        @endcan
         @endif
 
 

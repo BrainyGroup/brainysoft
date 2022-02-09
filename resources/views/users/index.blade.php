@@ -33,7 +33,7 @@
                       <th scope="col">{{ __('messages.name') }}</th>
                       <th scope="col">{{ __('messages.gender') }}</th>
                       <th scope="col">{{ __('messages.marital status') }}</th>
-
+                      <th scope="col">Roles</th>  
                       <th scope="col">{{ __('messages.email') }}</th>
                       <th scope="col">{{ __('messages.mobile') }}</th>
                       <th scope="col">{{ __('messages.add') }}</th>
@@ -62,6 +62,14 @@
                       @else
                       <td>Not Married</td>
                       @endif
+                      
+                      <td>
+                        @if(!empty($user->getRoleNames()))
+                          @foreach($user->getRoleNames() as $v)
+                            <label class="badge badge-success">{{ $v }}</label>
+                          @endforeach
+                        @endif
+                      </td>
 
                       <td>{{ $user->email }}</td>
 
@@ -70,9 +78,15 @@
 
                       <td><a href="/employees/create?user_id={{ $user->id }}"> <i class="fa fa-paper-plane text-secondary" aria-hidden="true"></i></a></td>
 
-                      <td><a href="/users/{{$user->id}}/edit"><i class="fa fa-paint-brush text-secondary" aria-hidden="true"></i></a></td>
+                      <td>
+                         @can('user-edit')
+                        <a href="/users/{{$user->id}}/edit"><i class="fa fa-paint-brush text-secondary" aria-hidden="true"></i></a></td>
+                        @endcan
+                      <td>
 
-                      <td><a href=""
+                         @can('user-delete')
+                        
+                         <a href=""
                           onclick="
                           var result = confirm('Are you sure yo want to delete this user?');
                           if (result){
@@ -82,7 +96,7 @@
                           </a>
 
                           {!! Form::open(['action' => ['Payroll\UserController@destroy',$user->id],'method' => 'DELETE','id' => $user->id]) !!}
-
+                         @endcan
                           {!! Form::close() !!}
                       </td>
                     </tr>
@@ -98,7 +112,11 @@
 
           No Department defined
 
+          @can('user-create')
+
           <a class="pull-right" href="/users/create">{{ __('messages.add')}}</a>
+
+          @endcan
 
 
         @endif
