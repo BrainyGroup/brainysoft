@@ -1,4 +1,5 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -36,7 +37,7 @@ class PayesTableSeeder extends Seeder
 
       DB::table('payes')->insert([
               'country_id' => 1,
-              'minimum' => 5200000.00,
+              'minimum' => 520000.00,
               'maximum' => 760000.00,
               'ratio' => 0.2000,
               'offset' =>22500.00,

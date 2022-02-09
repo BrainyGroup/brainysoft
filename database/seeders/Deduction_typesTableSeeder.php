@@ -1,4 +1,5 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -39,13 +40,13 @@ class Deduction_typesTableSeeder extends Seeder
           ]);
 
 
-      DB::table('deduction_types')->insert([
-              'name' => 'HESLB',
-              'description' => 'Higher Education Loan Board',
-              'company_id' => 1,
-              'created_at' =>now(),
-              'updated_at' =>now(),
-          ]);
+    //   DB::table('deduction_types')->insert([
+    //           'name' => 'HESLB',
+    //           'description' => 'Higher Education Students Loan Board',
+    //           'company_id' => 1,
+    //           'created_at' =>now(),
+    //           'updated_at' =>now(),
+    //       ]);
 
 
       DB::table('deduction_types')->insert([

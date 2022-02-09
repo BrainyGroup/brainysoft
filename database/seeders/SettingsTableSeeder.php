@@ -1,4 +1,5 @@
 <?php
+namespace Database\Seeders;
 
 use BrainySoft\Setting;
 use Illuminate\Database\Seeder;

@@ -159,7 +159,7 @@ return [
         BrainySoft\Providers\FormServiceProvider::class,
         //End form collection
 
-        Yajra\DataTables\DataTablesServiceProvider::class,
+        //Yajra\DataTables\DataTablesServiceProvider::class,
 
         Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
 
@@ -240,7 +240,7 @@ return [
         // 'PDFS' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         //'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
 
-        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        //'DataTables' => Yajra\DataTables\Facades\DataTables::class,
 
         'Lava' => Khill\Lavacharts\Laravel\LavachartsFacade::class,
 
