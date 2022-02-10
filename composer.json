@@ -12,7 +12,7 @@
         "intervention/image": "^2.4",
         "khill/lavacharts": "3.1.*",
         "yajra/laravel-datatables": "^1.4",
-        "yajra/laravel-datatables-oracle": "~8.0",
+      
         "laravel/framework": "^8.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
