@@ -24,7 +24,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
-        "ajv": "^6.0.0",
+        "ajv": "^6.12.3",
         "chart.js": "^2.7.3",
         "imagemin": "^5.0.0",
         "in-viewport": "^3.6.0",
