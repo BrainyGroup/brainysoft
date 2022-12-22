@@ -12,9 +12,9 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @var array
      */
-    protected $policies = [
-        'BrainySoft\Model' => 'BrainySoft\Policies\ModelPolicy',
-    ];
+    // protected $policies = [
+    //     'BrainySoft\Model' => 'BrainySoft\Policies\ModelPolicy',
+    // ];
 
     /**
      * Register any authentication / authorization services.

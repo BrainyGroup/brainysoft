@@ -28,9 +28,9 @@ use BrainySoft\Http\Controllers\HomeController;
 //     return view('users.index');
 // });
 
-Auth::routes();
 
-Route::get('/home', [\BrainySoft\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/', [\BrainySoft\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
 Route::get('/reports', 'ReportController@index')->name('reports');
@@ -279,17 +279,5 @@ Route::get('/reports/statutory_employee_all', 'Payroll\ReportController@statutor
 
 Route::get('/basic_settings', 'Payroll\BasicSettingController@index')->name('basic_settings');
 Route::post('/basic_settings', 'Payroll\BasicSettingController@update')->name('basic_settings.update');
-
-Route::get('/', function () {
-    return view('auth.login');
-});
-
-Route::get('/logout', function()
-	{
-		Auth::logout();
-	  Session::flush();
-		return Redirect('login');
-	});
-
 
 
