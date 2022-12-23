@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -28,9 +29,15 @@ use BrainySoft\Http\Controllers\HomeController;
 //     return view('users.index');
 // });
 
+// Route::get('/', function () {
+//     return view('home');
+// });
+
+Route::inertia('/', 'Dashboard/Index');
 
 
-Route::get('/', [\BrainySoft\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/home1', [\BrainySoft\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
 Route::get('/reports', 'ReportController@index')->name('reports');
